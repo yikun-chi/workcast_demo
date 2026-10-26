@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hybrid and office-only groups</title>
+<link rel="stylesheet" href="/ui/theme.css">
+<style>
+  /* Uses the shell's design tokens from /ui/theme.css (--bg, --surface, --text, --text-2, --border, --accent); the var() fallbacks
+     only apply when theme.css is unavailable. Series colors are page-local. */
+  :root { --ctrl:#2a78d6; --treat:#eb6834; --ctrl-band:rgba(42,120,214,.16); --treat-band:rgba(235,104,52,.18); --actual:#52514e; --grid:#e6e6e2; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ctrl:#3987e5; --treat:#d95926; --ctrl-band:rgba(57,135,229,.22); --treat-band:rgba(217,89,38,.24); --actual:#c3c2b7; --grid:#2d3036; } }
+  :root[data-theme="dark"] { --ctrl:#3987e5; --treat:#d95926; --ctrl-band:rgba(57,135,229,.22); --treat-band:rgba(217,89,38,.24); --actual:#c3c2b7; --grid:#2d3036; }
+  body { margin:0; padding:16px; background:var(--bg, #f4f4f2); color:var(--text, #15161a); font:14px/1.45 Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  h1 { font-size:20px; margin:0 0 4px; } h2 { font-size:15px; margin:0 0 8px; font-weight:600; }
+  .muted { color:var(--text-2, #4b4d55); } .small { font-size:12px; color:var(--text-2, #4b4d55); }
+  .card { background:var(--surface, #ffffff); border:1px solid var(--border, #e1e1dd); border-radius:10px; padding:14px 16px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px; margin-top:14px; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-top:14px; }
+  .kpi .label { font-size:12px; color:var(--text-2, #4b4d55); } .kpi .value { font-size:26px; font-weight:650; letter-spacing:-.01em; }
+  .kpi .sub { font-size:12px; color:var(--text-2, #4b4d55); }
+  .chart { position:relative; height:280px; } .chart.tall { height:320px; }
+  .legend { display:flex; gap:14px; flex-wrap:wrap; font-size:12px; color:var(--text-2, #4b4d55); margin:4px 0 8px; }
+  .legend span::before { content:""; display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px; background:currentColor; }
+  .legend .c { color:var(--ctrl);} .legend .t { color:var(--treat);} .legend .a { color:var(--actual);}
+  table { width:100%; border-collapse:collapse; font-size:13px; } th, td { text-align:right; padding:6px 8px; border-bottom:1px solid var(--border, #e1e1dd); } th:first-child, td:first-child { text-align:left; }
+  th { color:var(--text-2, #4b4d55); font-weight:600; }
+  .err { color:var(--text-2, #4b4d55); padding:24px; }
+</style>
+</head>
+<body data-palette="#2a78d6,#eb6834">
+<h1>Hybrid and office-only groups</h1>
+<div class="muted" id="subtitle">Simulation prediction of the hybrid-WFH experiment versus the randomized outcome. Loading evaluation...</div>
+<div class="kpis" id="kpis"></div>
+<div class="grid">
+  <div class="card"><h2>Cumulative attrition by group (weekly)</h2>
+    <div class="legend"><span class="c">Office-only simulation prediction (90% range)</span><span class="t">Hybrid simulation prediction</span><span class="a">Actual outcome</span></div>
+    <div class="chart tall"><canvas id="cum"></canvas></div></div>
+  <div class="card"><h2>Share of eligible WFH days taken</h2>
+    <div class="legend"><span class="t">Offered hybrid work, simulated</span><span class="a">Offered hybrid work, actual (deposit group series)</span></div>
+    <div class="chart tall"><canvas id="takeup"></canvas></div></div>
+  <div class="card"><h2>End-of-period survey scales (0-10)</h2>
+    <div class="legend"><span class="c">Office-only</span><span class="t">Offered hybrid work</span><span class="a">Actual (outlined)</span></div>
+    <div class="chart"><canvas id="sat"></canvas></div></div>
+  <div class="card"><h2>Managers vs non-managers: attrition</h2>
+    <div class="legend"><span class="c">Office-only</span><span class="t">Offered hybrid work</span><span class="a">Actual (outlined)</span></div>
+    <div class="chart"><canvas id="mgr"></canvas></div></div>
+</div>
+<div class="card" style="margin-top:14px"><h2>All outcomes and policy impacts</h2><div id="table"></div>
+  <div class="small" style="margin-top:8px">Simulation prediction is the average across repeated runs. The actual impact compares hybrid and office-only employees during the same six months. Other predictions assume either no change or a retention benefit proportional to the number of home days. The main Results page explains the calculation and its sources.</div></div>
+<div class="card" style="margin-top:14px"><h2>Policy variants</h2><div class="small" style="margin-bottom:6px">Expected attrition is averaged over matching simulation runs. Both scenarios use the same starting workforce.</div><div id="scen"></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" crossorigin="anonymous"></script>
+<script>
+(async function () {
+  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const C = { ctrl: css('--ctrl'), treat: css('--treat'), cband: css('--ctrl-band'), tband: css('--treat-band'), actual: css('--actual'), grid: css('--grid'), ink: css('--text-secondary') };
+  Chart.defaults.color = C.ink; Chart.defaults.borderColor = C.grid; Chart.defaults.font.family = 'system-ui, sans-serif';
+  const fmt = (x, d = 2) => (x === null || x === undefined || Number.isNaN(x)) ? '–' : Number(x).toFixed(d);
+  const sign = (x, d = 2) => (x === null || x === undefined) ? '–' : (x > 0 ? '+' : '') + Number(x).toFixed(d);
+  let ev;
+  try { const r = await fetch('/api/instances/trip/evaluation'); if (!r.ok) throw new Error(r.status); ev = await r.json(); }
+  catch (e) { document.getElementById('subtitle').innerHTML = '<div class="err">No evaluation yet. Run <code>orgsim evaluate trip</code>.</div>'; return; }
+  const chart = (id) => ev.charts.find(c => c.id === id);
+  const metric = (id) => ev.metrics.find(m => m.id === id);
+  document.getElementById('subtitle').textContent = `Simulation prediction from ${ev.protocol.seeds} runs compared with actual outcomes. Generated ${ev.generated.slice(0, 10)}.`;
+
+  // KPIs
+  const kp = document.getElementById('kpis');
+  const kpi = (label, value, sub) => { const d = document.createElement('div'); d.className = 'card kpi'; d.innerHTML = `<div class="label">${label}</div><div class="value">${value}</div><div class="sub">${sub}</div>`; kp.appendChild(d); };
+  const a = metric('attrition_itt_pp'), s = metric('work_satisfaction_itt'), nm = metric('attrition_itt_nonmanagers_pp'), mg = metric('attrition_itt_managers_pp'), pf = metric('performance_2021H2_itt'), tk = metric('takeup_treatment');
+  if (a) kpi('Attrition impact · simulation prediction', `${sign(a.simulated)} pp`, `Actual impact ${sign(a.actual)} pp · 90% simulation range ${sign(a.interval[0])} to ${sign(a.interval[1])}`);
+  if (s) kpi('Satisfaction impact · simulation prediction', `${sign(s.simulated)} points`, `Actual impact ${sign(s.actual)} points`);
+  if (nm && mg) kpi('Non-managers / managers · simulation prediction', `${sign(nm.simulated, 1)} / ${sign(mg.simulated, 1)} pp`, `Actual impacts ${sign(nm.actual, 1)} / ${sign(mg.actual, 1)} pp`);
+  if (pf) kpi('Performance impact · simulation prediction', `${sign(pf.simulated)} points`, `Actual impact ${sign(pf.actual)} points`);
+  if (tk) kpi('Home-day use · simulation prediction', `${fmt(tk.simulated * 100, 0)}%`, `Actual outcome ${fmt(tk.actual * 100, 0)}% of offered days`);
+
+  const common = { responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
+    plugins: { legend: { display: false }, tooltip: { enabled: true } }, scales: { x: { grid: { display: false } }, y: { grid: { color: C.grid }, border: { display: false } } } };
+
+  // Cumulative attrition with bands
+  const cum = chart('cumulative_attrition');
+  if (cum) {
+    const labels = cum.x.map(d => d.slice(5));
+    const ds = [];
+    cum.series.forEach(sr => {
+      const isC = sr.name.startsWith('Office-only'), col = isC ? C.ctrl : C.treat, band = isC ? C.cband : C.tband;
+      if (sr.band) {
+        ds.push({ label: sr.name + ' 95th pct', data: sr.band[1], borderWidth: 0, pointRadius: 0, fill: '+1', backgroundColor: band, tension: .2 });
+        ds.push({ label: sr.name + ' 5th pct', data: sr.band[0], borderWidth: 0, pointRadius: 0, fill: false, tension: .2 });
+        ds.push({ label: sr.name, data: sr.y, borderColor: col, borderWidth: 2, pointRadius: 0, tension: .2 });
+      } else if (sr.point) {
+        ds.push({ label: sr.name, data: sr.y, borderColor: C.actual, backgroundColor: isC ? C.ctrl : C.treat, pointRadius: 7, pointHoverRadius: 9, pointStyle: 'rectRot', pointBorderWidth: 2, showLine: false });
+      }
+    });
+    new Chart(document.getElementById('cum'), { type: 'line', data: { labels, datasets: ds }, options: { ...common, scales: { ...common.scales, y: { ...common.scales.y, title: { display: true, text: '% who left' }, beginAtZero: true } },
+      plugins: { ...common.plugins, tooltip: { filter: (i) => !/pct$/.test(i.dataset.label), callbacks: { label: (i) => `${i.dataset.label}: ${fmt(i.parsed.y, 1)}%` } } } } });
+  }
+  // Take-up
+  const tu = chart('takeup_series');
+  if (tu) {
+    const labels = tu.x.map(d => d.slice(5)); const ds = [];
+    tu.series.forEach(sr => {
+      const isT = sr.name.startsWith('Offered hybrid work'); if (!isT) return;
+      if (sr.band) { ds.push({ label: '95th', data: sr.band[1], borderWidth: 0, pointRadius: 0, fill: '+1', backgroundColor: C.tband }); ds.push({ label: '5th', data: sr.band[0], borderWidth: 0, pointRadius: 0 });
+        ds.push({ label: sr.name, data: sr.y, borderColor: C.treat, borderWidth: 2, pointRadius: 0, tension: .15 }); }
+      else ds.push({ label: sr.name, data: sr.y, borderColor: C.actual, borderWidth: 2, borderDash: [5, 4], pointRadius: 0, tension: .15, spanGaps: true });
+    });
+    new Chart(document.getElementById('takeup'), { type: 'line', data: { labels, datasets: ds }, options: { ...common, scales: { ...common.scales, y: { ...common.scales.y, min: 0, max: 1, title: { display: true, text: 'share of eligible days' } } },
+      plugins: { ...common.plugins, tooltip: { filter: (i) => !/th$/.test(i.dataset.label), callbacks: { label: (i) => `${i.dataset.label}: ${fmt(i.parsed.y * 100, 0)}%` } } } } });
+  }
+  // Satisfaction grouped bars: sim filled, actual outlined
+  const sat = chart('satisfaction_by_arm');
+  if (sat) {
+    const scales = [...new Set(sat.x.map(l => l.split(' / ')[0]))];
+    const pick = (series, arm) => scales.map(sc => { const i = sat.x.indexOf(`${sc} / ${arm}`); return i >= 0 ? series.y[i] : null; });
+    const sim = sat.series[0], act = sat.series[1];
+    new Chart(document.getElementById('sat'), { type: 'bar', data: { labels: scales, datasets: [
+      { label: 'Office-only simulated', data: pick(sim, 'Office-only'), backgroundColor: C.ctrl, borderRadius: 4, borderSkipped: 'bottom' },
+      { label: 'Office-only actual', data: pick(act, 'Office-only'), backgroundColor: 'transparent', borderColor: C.ctrl, borderWidth: 2, borderRadius: 4, borderSkipped: 'bottom' },
+      { label: 'Offered hybrid work simulated', data: pick(sim, 'Offered hybrid work'), backgroundColor: C.treat, borderRadius: 4, borderSkipped: 'bottom' },
+      { label: 'Offered hybrid work actual', data: pick(act, 'Offered hybrid work'), backgroundColor: 'transparent', borderColor: C.treat, borderWidth: 2, borderRadius: 4, borderSkipped: 'bottom' }] },
+      options: { ...common, scales: { ...common.scales, y: { ...common.scales.y, min: 5, max: 10 } } } });
+  }
+  // Manager contrast
+  const mc = chart('manager_contrast');
+  if (mc) {
+    const groups = ['Non-managers', 'Managers'];
+    const pick = (series, arm) => groups.map(g => { const i = mc.x.indexOf(`${g} / ${arm}`); return i >= 0 ? series.y[i] : null; });
+    new Chart(document.getElementById('mgr'), { type: 'bar', data: { labels: groups, datasets: [
+      { label: 'Office-only simulated', data: pick(mc.series[0], 'Office-only'), backgroundColor: C.ctrl, borderRadius: 4, borderSkipped: 'bottom' },
+      { label: 'Office-only actual', data: pick(mc.series[1], 'Office-only'), backgroundColor: 'transparent', borderColor: C.ctrl, borderWidth: 2, borderRadius: 4, borderSkipped: 'bottom' },
+      { label: 'Offered hybrid work simulated', data: pick(mc.series[0], 'Offered hybrid work'), backgroundColor: C.treat, borderRadius: 4, borderSkipped: 'bottom' },
+      { label: 'Offered hybrid work actual', data: pick(mc.series[1], 'Offered hybrid work'), backgroundColor: 'transparent', borderColor: C.treat, borderWidth: 2, borderRadius: 4, borderSkipped: 'bottom' }] },
+      options: { ...common, scales: { ...common.scales, y: { ...common.scales.y, beginAtZero: true, title: { display: true, text: '% who left' } } },
+        plugins: { ...common.plugins, tooltip: { callbacks: { label: (i) => `${i.dataset.label}: ${fmt(i.parsed.y, 1)}%` } } } } });
+  }
+  // Metrics table
+  const rows = ev.metrics.filter(m => m.actual !== null && m.actual !== undefined);
+  const shown = (v, m) => v == null ? '–' : m.unit === 'share' ? `${fmt(v * 100, 1)}%` : `${m.unit === '%' ? fmt(v) : sign(v)} ${m.unit || ''}`;
+  document.getElementById('table').innerHTML = `<table><thead><tr><th>Outcome</th><th>Simulation prediction</th><th>90% interval</th><th>Actual outcome</th><th>No change</th><th>Simple two-day calculation</th><th>Actual outcome within simulation range</th><th>Simulation within actual estimate range</th></tr></thead><tbody>` +
+    rows.map(m => `<tr><td>${m.label}</td><td>${shown(m.simulated, m)}</td><td>${shown(m.interval[0], m)} to ${shown(m.interval[1], m)}</td><td>${shown(m.actual, m)}</td><td>${shown(m.baselines?.zero_effect ?? m.baselines?.historical_no_change, m)}</td><td>${shown(m.baselines?.proportional_days, m)}</td><td>${m.covered_90 === true ? 'yes' : (m.covered_90 === false ? 'no' : '–')}</td><td>${m.within_trial_ci95 === true ? 'yes' : (m.within_trial_ci95 === false ? 'no' : '–')}</td></tr>`).join('') + '</tbody></table>';
+  // Scenario table
+  const sc = ev.paired_comparison || ev.scenario_comparison || [];
+  document.getElementById('scen').innerHTML = `<table><thead><tr><th>Scenario</th><th>Attrition, office-only group</th><th>Attrition, hybrid group</th><th>Whole workforce</th><th>Satisfaction, office / hybrid</th><th>Home-day use, hybrid group</th><th>Performance, office / hybrid</th></tr></thead><tbody>` +
+    sc.map(r => `<tr><td>${r.title}</td><td>${fmt(r.attrition_pct_control, 1)}%</td><td>${fmt(r.attrition_pct_treatment, 1)}%</td><td>${fmt(r.attrition_pct_all, 1)}%</td><td>${fmt(r.satisfaction_control)} / ${fmt(r.satisfaction_treatment)}</td><td>${r.take_up_treatment === null ? '–' : fmt(r.take_up_treatment * 100, 0) + '%'}</td><td>${fmt(r.performance_control)} / ${fmt(r.performance_treatment)}</td></tr>`).join('') + '</tbody></table>';
+})();
+</script>
+</body>
+</html>

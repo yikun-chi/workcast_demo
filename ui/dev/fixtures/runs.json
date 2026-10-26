@@ -1,0 +1,56 @@
+[
+ {
+  "scenario": "baseline",
+  "run_id": "20261024T101500_s1",
+  "complete": true,
+  "summary": {
+   "ticks": 336,
+   "events": 1315,
+   "cases": 180,
+   "headline": {
+    "Completed within 14d": 0.712,
+    "Payment blocks": 54,
+    "Median cycle time (d)": 9.8,
+    "Labor hours": 1411.2
+   }
+  }
+ },
+ {
+  "scenario": "baseline",
+  "run_id": "20261024T101900_s2",
+  "complete": true,
+  "summary": {
+   "ticks": 336,
+   "events": 1315,
+   "cases": 180,
+   "headline": {
+    "Completed within 14d": 0.705,
+    "Payment blocks": 58,
+    "Median cycle time (d)": 10.1,
+    "Labor hours": 1388.0
+   }
+  }
+ },
+ {
+  "scenario": "auto_match",
+  "run_id": "20261024T103000_s1",
+  "complete": true,
+  "summary": {
+   "ticks": 336,
+   "events": 1315,
+   "cases": 180,
+   "headline": {
+    "Completed within 14d": 0.781,
+    "Payment blocks": 12,
+    "Median cycle time (d)": 8.1,
+    "Labor hours": 1162.4
+   }
+  }
+ },
+ {
+  "scenario": "ap_cut_20",
+  "run_id": "20261024T104000_s1",
+  "complete": false,
+  "summary": {}
+ }
+]

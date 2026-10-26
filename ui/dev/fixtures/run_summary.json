@@ -1,0 +1,11 @@
+{
+ "ticks": 336,
+ "events": 1315,
+ "cases": 180,
+ "headline": {
+  "Completed within 14d": 0.712,
+  "Payment blocks": 54,
+  "Median cycle time (d)": 9.8,
+  "Labor hours": 1411.2
+ }
+}

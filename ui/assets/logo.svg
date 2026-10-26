@@ -1,0 +1,21 @@
+<svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="warmFacet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fda4af" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#fb7185" stop-opacity="0.6" />
+    </linearGradient>
+    <linearGradient id="coolFacet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0.6" />
+    </linearGradient>
+  </defs>
+  <polygon points="50,8 50,50 25,30" fill="url(#warmFacet)" opacity="0.7" />
+  <polygon points="50,50 25,30 15,50" fill="url(#warmFacet)" opacity="0.5" />
+  <polygon points="50,50 15,50 25,75" fill="url(#warmFacet)" opacity="0.6" />
+  <polygon points="50,50 25,75 50,92" fill="url(#warmFacet)" opacity="0.8" />
+  <polygon points="50,8 75,30 50,50" fill="url(#coolFacet)" opacity="0.7" />
+  <polygon points="75,30 85,50 50,50" fill="url(#coolFacet)" opacity="0.5" />
+  <polygon points="85,50 75,75 50,50" fill="url(#coolFacet)" opacity="0.6" />
+  <polygon points="75,75 50,92 50,50" fill="url(#coolFacet)" opacity="0.8" />
+  <circle cx="50" cy="50" r="3" fill="#fff" opacity="0.8" />
+</svg>

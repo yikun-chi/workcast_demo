@@ -1,0 +1,329 @@
+{
+ "instance": "bpi19",
+ "generated": "2026-10-24T10:52:00Z",
+ "scenarios": [
+  "baseline",
+  "auto_match",
+  "ap_cut_20"
+ ],
+ "headline": {
+  "completion_14d": {
+   "label": "Share of open items completed within 14 days",
+   "simulated": 0.712,
+   "actual": 0.698,
+   "baseline": 0.551,
+   "unit": "",
+   "better": "higher"
+  },
+  "block_rate": {
+   "label": "Payment-block rate",
+   "simulated": 0.218,
+   "actual": 0.231,
+   "baseline": 0.3,
+   "unit": "",
+   "better": "lower"
+  },
+  "cycle_time_med": {
+   "label": "Median cycle time",
+   "simulated": 9.8,
+   "actual": 10.4,
+   "baseline": 14.2,
+   "unit": "days",
+   "better": "lower"
+  }
+ },
+ "metrics": [
+  {
+   "id": "completion_14d",
+   "label": "Share of open items completed within 14 days",
+   "simulated": 0.712,
+   "actual": 0.698,
+   "baseline": 0.551,
+   "unit": "",
+   "better": "higher",
+   "interval": [
+    0.684,
+    0.739
+   ]
+  },
+  {
+   "id": "block_rate",
+   "label": "Payment-block rate",
+   "simulated": 0.218,
+   "actual": 0.231,
+   "baseline": 0.3,
+   "unit": "",
+   "better": "lower",
+   "interval": [
+    0.195,
+    0.244
+   ]
+  },
+  {
+   "id": "cycle_time_med",
+   "label": "Median cycle time",
+   "simulated": 9.8,
+   "actual": 10.4,
+   "baseline": 14.2,
+   "unit": "days",
+   "better": "lower",
+   "interval": [
+    9.1,
+    10.9
+   ]
+  },
+  {
+   "id": "ap_touches",
+   "label": "AP touches per invoice",
+   "simulated": 1.42,
+   "actual": 1.39,
+   "baseline": 1.8,
+   "unit": "",
+   "better": "lower",
+   "interval": [
+    1.33,
+    1.51
+   ]
+  }
+ ],
+ "charts": [
+  {
+   "id": "completion_14d",
+   "type": "bar",
+   "title": "Completion within 14 days by weekly cutoff",
+   "x_label": "t0 (2018)",
+   "y_label": "Share completed",
+   "x": [
+    "Sep 3",
+    "Sep 10",
+    "Sep 17",
+    "Sep 24",
+    "Oct 1",
+    "Oct 8",
+    "Oct 15",
+    "Oct 22",
+    "Oct 29",
+    "Nov 5",
+    "Nov 12",
+    "Nov 19",
+    "Nov 26"
+   ],
+   "series": [
+    {
+     "name": "Simulated",
+     "y": [
+      0.71,
+      0.7,
+      0.72,
+      0.69,
+      0.73,
+      0.71,
+      0.7,
+      0.72,
+      0.71,
+      0.7,
+      0.72,
+      0.71,
+      0.7
+     ]
+    },
+    {
+     "name": "Actual",
+     "y": [
+      0.7,
+      0.68,
+      0.71,
+      0.7,
+      0.71,
+      0.69,
+      0.69,
+      0.71,
+      0.7,
+      0.68,
+      0.7,
+      0.71,
+      0.69
+     ]
+    },
+    {
+     "name": "Baseline",
+     "y": [
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55
+     ]
+    }
+   ],
+   "note": "Baseline = last-value persistence per spend area."
+  },
+  {
+   "id": "queue_ap",
+   "type": "line",
+   "title": "Accounts payable queue over the horizon",
+   "x_label": "Day",
+   "y_label": "Open invoices",
+   "x": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14"
+   ],
+   "series": [
+    {
+     "name": "Simulated",
+     "y": [
+      410,
+      432,
+      455,
+      440,
+      428,
+      470,
+      495,
+      481,
+      462,
+      450,
+      471,
+      489,
+      470,
+      455,
+      448
+     ]
+    },
+    {
+     "name": "Actual",
+     "y": [
+      410,
+      440,
+      460,
+      452,
+      430,
+      462,
+      501,
+      490,
+      471,
+      455,
+      466,
+      480,
+      476,
+      461,
+      452
+     ]
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "scatter_cycle",
+   "type": "scatter",
+   "title": "Cycle time per spend area: simulated vs actual",
+   "x_label": "Actual (days)",
+   "y_label": "Simulated (days)",
+   "x": [
+    8.2,
+    11.4,
+    6.9,
+    15.1,
+    9.8,
+    12.3,
+    7.5,
+    18.4,
+    10.2,
+    13.6
+   ],
+   "series": [
+    {
+     "name": "Spend areas",
+     "y": [
+      8.6,
+      10.9,
+      7.3,
+      14.2,
+      9.5,
+      12.9,
+      7.9,
+      17.1,
+      10.8,
+      13.1
+     ]
+    }
+   ],
+   "note": "Each point is one spend area; the diagonal is perfect agreement."
+  },
+  {
+   "id": "scenario_cycle",
+   "type": "hbar",
+   "title": "Median cycle time by scenario",
+   "x_label": "",
+   "y_label": "Days",
+   "x": [
+    "Baseline",
+    "Automated 3-way match",
+    "AP headcount -20%"
+   ],
+   "series": [
+    {
+     "name": "Median cycle time (days)",
+     "y": [
+      9.8,
+      8.1,
+      12.6
+     ]
+    }
+   ],
+   "note": ""
+  }
+ ],
+ "scenario_comparison": [
+  {
+   "scenario": "baseline",
+   "title": "Baseline",
+   "completion_14d": 0.712,
+   "block_rate": 0.218,
+   "cycle_time_med": 9.8,
+   "labor_hours": 1411.2
+  },
+  {
+   "scenario": "auto_match",
+   "title": "Automated 3-way match",
+   "completion_14d": 0.781,
+   "block_rate": 0.048,
+   "cycle_time_med": 8.1,
+   "labor_hours": 1162.4
+  },
+  {
+   "scenario": "ap_cut_20",
+   "title": "AP headcount -20%",
+   "completion_14d": 0.644,
+   "block_rate": 0.236,
+   "cycle_time_med": 12.6,
+   "labor_hours": 1195.7
+  }
+ ],
+ "comparison_better": {
+  "completion_14d": "higher",
+  "block_rate": "lower",
+  "cycle_time_med": "lower",
+  "labor_hours": "lower"
+ }
+}

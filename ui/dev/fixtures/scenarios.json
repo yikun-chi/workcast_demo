@@ -1,0 +1,23 @@
+[
+ {
+  "id": "baseline",
+  "title": "Baseline: 2018 operations as observed",
+  "description": "Replays arrivals from the training window and simulates the workforce with calibrated service times, approval rules and payment-block behavior.",
+  "extends": null,
+  "file": "baseline.yaml"
+ },
+ {
+  "id": "auto_match",
+  "title": "Automated three-way match (+2% tolerance)",
+  "description": "An agent capability clears invoice/PO/GR mismatches within a 2% tolerance without a human touch, removing most manual payment-block work.",
+  "extends": "baseline",
+  "file": "auto_match.yaml"
+ },
+ {
+  "id": "ap_cut_20",
+  "title": "Accounts payable headcount -20%",
+  "description": "Stress test: the AP team shrinks by a fifth with unchanged arrivals; measures queue growth and payment delays.",
+  "extends": "baseline",
+  "file": "ap_cut_20.yaml"
+ }
+]

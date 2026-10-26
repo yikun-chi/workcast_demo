@@ -1,0 +1,17 @@
+id: baseline
+title: Baseline, as operated in September 2018
+short_title: As operated
+description: >
+  Continue the real operation from Monday 3 September 2018 for 14 days. Every purchase-order line item that was live at
+  that moment is rebuilt from its history; the 10,000 or so items created during the two weeks arrive exactly when they
+  did in reality, but all of their subsequent steps are chosen by the simulated roles. Staffing is the workforce
+  actually active in the two weeks before the cutoff. No interventions.
+horizon_days: 14
+seeds: [1, 2, 3]
+world:
+  t0: "2018-09-03"
+  track: C-I
+  t0_timing: joint
+  calendar_mode: hazard
+  state_timing: true
+interventions: []

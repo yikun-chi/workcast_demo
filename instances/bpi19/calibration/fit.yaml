@@ -1,0 +1,9 @@
+training_start: "2018-01-01"
+training_end_exclusive: "2018-09-01"
+selection_training_end_exclusive: "2018-07-01"
+validation_cutoffs: ["2018-07-16", "2018-08-06"]
+validation_horizon_days: 14
+description: >
+  Select the timing specification using January-June fitting and July-August validation.
+  Refit the selected specification on all history available before the September policy change.
+  Neither post-policy events nor post-policy aggregate outcomes are calibration inputs.

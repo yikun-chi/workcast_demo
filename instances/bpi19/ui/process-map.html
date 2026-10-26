@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Purchase-to-pay process map</title>
+<link rel="stylesheet" href="/ui/theme.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.30.4/cytoscape.min.js"></script>
+<style>
+  /* Fallbacks with the shell's class names in case /ui/theme.css is unavailable */
+  :root { --bg: #f4f4f2; --surface: #fff; --border: #e1e1dd; --text: #15161a; --muted: #7a7c86; --accent: #2a78d6; --radius: 10px; --s1: #2a78d6; --s2: #eb6834; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #121316; --surface: #1b1d21; --border: #2d3036; --text: #eceef2; --muted: #8a8f9a; } }
+  :root[data-theme="dark"] { --bg: #121316; --surface: #1b1d21; --border: #2d3036; --text: #eceef2; --muted: #8a8f9a; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font, system-ui, sans-serif); font-size: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+  .kpi .kpi-label { font-size: 12px; color: var(--muted); }
+  .kpi .kpi-value { font-size: 24px; font-weight: 650; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .muted { color: var(--muted); }
+  .pm-wrap { padding: 16px; display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr) 320px; }
+  .pm-head { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .pm-head h2 { margin: 0; font-size: 18px; }
+  .pm-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .pm-controls label { font-size: 12px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+  .seg button { border: 0; background: transparent; color: var(--text); padding: 6px 12px; cursor: pointer; font: inherit; font-size: 13px; }
+  .seg button.on { background: var(--accent); color: #fff; }
+  #cy { height: calc(100vh - 150px); min-height: 480px; border-radius: var(--radius); }
+  .legend { display: flex; gap: 14px; align-items: center; font-size: 12px; color: var(--muted); flex-wrap: wrap; margin-top: 8px; }
+  .swatch { display: inline-block; width: 28px; height: 8px; border-radius: 4px; vertical-align: middle; margin-right: 4px; }
+  .panel h3 { margin: 0 0 8px; font-size: 15px; }
+  .panel table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .panel td { padding: 4px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .panel td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+  .kpi-row { display: grid; gap: 8px; grid-template-columns: 1fr 1fr; margin-bottom: 12px; }
+  .list { max-height: 40vh; overflow: auto; }
+  .list .row { display: flex; justify-content: space-between; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--border); cursor: pointer; font-size: 12.5px; }
+  .list .row:hover { color: var(--accent); }
+  @media (max-width: 900px) { .pm-wrap { grid-template-columns: 1fr; } #cy { height: 60vh; } }
+</style>
+</head>
+<body>
+<div class="pm-wrap">
+  <div class="pm-head">
+    <div>
+      <h2>Purchase-to-pay process map</h2>
+      <div class="muted" id="subtitle">Nodes are activities sized by volume; edges are directly-follows transitions, width by count, color by median delay.</div>
+    </div>
+    <div class="pm-controls">
+      <div class="seg" id="mode">
+        <button data-mode="actual" class="on">Actual (full log)</button>
+        <button data-mode="actual_window">Actual (14-day horizons)</button>
+        <button data-mode="simulated">Simulated (14-day horizons)</button>
+      </div>
+      <label>Min. transition count <input type="range" id="minN" min="0" max="5" step="1" value="2"><span id="minNLabel"></span></label>
+      <label><input type="checkbox" id="selfLoops"> self-loops</label>
+    </div>
+  </div>
+  <div class="card" style="padding: 8px;">
+    <div id="cy"></div>
+    <div class="legend">
+      <span>Median delay:</span>
+      <span><i class="swatch" style="background:#1baf7a"></i>&lt; 1 day</span>
+      <span><i class="swatch" style="background:#eda100"></i>1 to 7 days</span>
+      <span><i class="swatch" style="background:#eb6834"></i>7 to 30 days</span>
+      <span><i class="swatch" style="background:#d13b3a"></i>&gt; 30 days</span>
+      <span class="muted" id="status"></span>
+    </div>
+  </div>
+  <div class="card panel" id="panel">
+    <h3>Transitions</h3>
+    <div class="muted">Click an edge or a node. Listed below: the busiest transitions in the current view.</div>
+    <div class="kpi-row" id="kpis"></div>
+    <div id="detail"></div>
+    <div class="list" id="list"></div>
+  </div>
+</div>
+<script>
+(function () {
+  const INSTANCE = (location.pathname.match(/\/instances\/([^/]+)\//) || [])[1] || 'bpi19';
+  // Stage of each activity along the purchase-to-pay flow (x position); unknown activities fall back by keyword.
+  const STAGE = {
+    'SRM: Created': 0, 'SRM: Complete': 0, 'SRM: Awaiting Approval': 0, 'SRM: Document Completed': 0, 'SRM: Ordered': 0, 'SRM: In Transfer to Execution Syst.': 0,
+    'SRM: Change was Transmitted': 0, 'SRM: Deleted': 0, 'SRM: Transfer Failed (E.Sys.)': 0, 'SRM: Transaction Completed': 0, 'SRM: Held': 0, 'SRM: Incomplete': 0,
+    'Create Purchase Requisition Item': 1, 'Release Purchase Requisition': 1,
+    'Create Purchase Order Item': 2, 'Change Approval for Purchase Order': 3, 'Release Purchase Order': 3,
+    'Change Quantity': 3, 'Change Price': 3, 'Change Currency': 3, 'Change payment term': 3, 'Change Delivery Indicator': 3, 'Change Storage Location': 3,
+    'Change Final Invoice Indicator': 3, 'Change Rejection Indicator': 3, 'Delete Purchase Order Item': 3, 'Block Purchase Order Item': 3, 'Reactivate Purchase Order Item': 3,
+    'Receive Order Confirmation': 4, 'Update Order Confirmation': 4,
+    'Vendor creates invoice': 5, 'Vendor creates debit memo': 5, 'Record Goods Receipt': 5, 'Cancel Goods Receipt': 6, 'Record Service Entry Sheet': 6,
+    'Record Invoice Receipt': 7, 'Cancel Invoice Receipt': 8, 'Record Subsequent Invoice': 8, 'Cancel Subsequent Invoice': 8,
+    'Set Payment Block': 9, 'Remove Payment Block': 9, 'Clear Invoice': 10
+  };
+  const ROLE = {}; // filled from the ontology bindings (activity -> first role)
+  let data = null, cy = null, mode = 'actual';
+  const $ = (id) => document.getElementById(id);
+  const fmtH = (h) => h == null ? '-' : (h < 48 ? h.toFixed(1) + ' h' : (h / 24).toFixed(1) + ' d');
+  const fmtN = (n) => n == null ? '-' : Number(n).toLocaleString(undefined, { maximumFractionDigits: 1 });
+  const color = (h) => h == null ? '#9aa0a6' : h < 24 ? '#1baf7a' : h < 168 ? '#eda100' : h < 720 ? '#eb6834' : '#d13b3a';
+
+  async function getJSON(url) { const r = await fetch(url); if (!r.ok) throw new Error(url + ' ' + r.status); return r.json(); }
+
+  async function load() {
+    $('status').textContent = 'loading...';
+    try {
+      const b = await getJSON(`/api/instances/${INSTANCE}/ontology/bindings`);
+      (b.activities || []).forEach(a => { ROLE[a.id] = (a.roles || [])[0] || ''; });
+    } catch (e) { /* bindings optional */ }
+    let pm = null;
+    try { const ev = await getJSON(`/api/instances/${INSTANCE}/evaluation`); pm = ev.process_map || null; } catch (e) { /* not evaluated yet */ }
+    if (!pm || !pm.actual) {
+      // fall back to the company summary: activity frequencies only
+      const s = await getJSON(`/api/instances/${INSTANCE}/summary`);
+      const ch = (s.charts || []).find(c => c.id === 'activity_frequencies');
+      pm = { actual: { nodes: ch ? ch.x.map((a, i) => ({ id: a, events: ch.series[0].y[i] })) : [], edges: [] }, simulated: null, actual_window: null };
+      $('status').textContent = 'Run `orgsim evaluate bpi19` to add transitions and the simulated view.';
+    } else { $('status').textContent = ''; }
+    data = pm;
+    for (const btn of $('mode').querySelectorAll('button')) { if (!pm[btn.dataset.mode]) btn.disabled = true; }
+    render();
+  }
+
+  function view() {
+    const v = data[mode] || data.actual;
+    const maxAll = Math.max(1, ...(v.edges || []).filter(e => e.from !== e.to).map(e => e.n));
+    const share = [0, 0.002, 0.005, 0.01, 0.02, 0.05][Number($('minN').value)];
+    const minN = share * maxAll;
+    const self = $('selfLoops').checked;
+    const edges = (v.edges || []).filter(e => e.n >= minN && (self || e.from !== e.to));
+    const nodeMap = {}; (v.nodes || []).forEach(n => nodeMap[n.id] = n);
+    const inGraph = new Set(); edges.forEach(e => { inGraph.add(e.from); inGraph.add(e.to); });
+    const nodes = (v.nodes || []).filter(n => inGraph.has(n.id) || edges.length === 0);
+    return { v, edges, nodes, nodeMap, minN };
+  }
+
+  function render() {
+    const { v, edges, nodes, minN } = view();
+    $('minNLabel').textContent = '>= ' + Math.round(minN).toLocaleString();
+    $('subtitle').textContent = (v.note ? v.note + '. ' : 'Whole cleaned log, 2018-01 .. 2019-01. ') + 'Nodes sized by event volume; edge width by transition count; edge color by median delay.';
+    const maxEv = Math.max(1, ...nodes.map(n => n.events));
+    const maxN = Math.max(1, ...edges.map(e => e.n));
+    // layered layout: x by stage, y spread within stage ordered by volume
+    const byStage = {}; nodes.forEach(n => { const s = STAGE[n.id] ?? 3; (byStage[s] = byStage[s] || []).push(n); });
+    const pos = {};
+    Object.entries(byStage).forEach(([s, arr]) => {
+      arr.sort((a, b) => b.events - a.events);
+      const H = 620, step = Math.min(90, H / Math.max(1, arr.length));
+      arr.forEach((n, i) => { pos[n.id] = { x: 60 + Number(s) * 150, y: 60 + i * step + (Number(s) % 2) * 20 }; });
+    });
+    const elements = [
+      ...nodes.map(n => ({ data: { id: n.id, label: n.id.replace('Purchase Order', 'PO').replace('Purchase Requisition', 'PR'), events: n.events, role: ROLE[n.id] || '', size: 18 + 60 * Math.sqrt(n.events / maxEv) }, position: pos[n.id] })),
+      ...edges.map(e => ({ data: { id: e.from + '->' + e.to, source: e.from, target: e.to, n: e.n, p50: e.p50_h, p90: e.p90_h, width: 1 + 9 * Math.sqrt(e.n / maxN), color: color(e.p50_h) } }))
+    ];
+    if (cy) cy.destroy();
+    cy = cytoscape({
+      container: $('cy'), elements, layout: { name: 'preset' }, wheelSensitivity: 0.2,
+      style: [
+        { selector: 'node', style: { 'background-color': getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#2a78d6', 'label': 'data(label)', 'width': 'data(size)', 'height': 'data(size)', 'font-size': 10, 'color': getComputedStyle(document.documentElement).getPropertyValue('--text') || '#15161a', 'text-valign': 'bottom', 'text-margin-y': 4, 'text-wrap': 'wrap', 'text-max-width': 110, 'border-width': 1, 'border-color': '#ffffff55' } },
+        { selector: 'edge', style: { 'width': 'data(width)', 'line-color': 'data(color)', 'target-arrow-color': 'data(color)', 'target-arrow-shape': 'triangle', 'curve-style': 'bezier', 'opacity': 0.8, 'arrow-scale': 0.8 } },
+        { selector: 'edge[source = target]', style: { 'curve-style': 'bezier', 'loop-direction': '-45deg', 'loop-sweep': '40deg' } },
+        { selector: ':selected', style: { 'opacity': 1, 'border-width': 3, 'border-color': '#eb6834', 'line-color': '#eb6834', 'target-arrow-color': '#eb6834' } }
+      ]
+    });
+    cy.fit(undefined, 30);
+    cy.on('tap', 'edge', (ev) => showEdge(ev.target.data()));
+    cy.on('tap', 'node', (ev) => showNode(ev.target.data()));
+    renderPanel(v, edges, nodes);
+  }
+
+  function renderPanel(v, edges, nodes) {
+    const totalEv = nodes.reduce((a, n) => a + n.events, 0);
+    const slow = edges.filter(e => e.from !== e.to).slice().sort((a, b) => (b.p50_h || 0) - (a.p50_h || 0))[0];
+    $('kpis').innerHTML = `
+      <div class="kpi"><div class="kpi-label">Events in view</div><div class="kpi-value">${fmtN(totalEv)}</div></div>
+      <div class="kpi"><div class="kpi-label">Transitions shown</div><div class="kpi-value">${edges.length}</div></div>
+      <div class="kpi" style="grid-column: 1 / -1"><div class="kpi-label">Slowest busy transition (median)</div><div class="kpi-value" style="font-size:16px">${slow ? slow.from + ' -> ' + slow.to + ': ' + fmtH(slow.p50_h) : '-'}</div></div>`;
+    $('detail').innerHTML = '';
+    const top = edges.filter(e => e.from !== e.to).slice().sort((a, b) => b.n - a.n).slice(0, 25);
+    $('list').innerHTML = top.map(e => `<div class="row" data-id="${e.from}->${e.to}"><span>${e.from} -> ${e.to}</span><span class="muted">${fmtN(e.n)} | p50 ${fmtH(e.p50_h)}</span></div>`).join('');
+    $('list').querySelectorAll('.row').forEach(r => r.addEventListener('click', () => { const el = cy.getElementById(r.dataset.id); cy.elements().unselect(); el.select(); showEdge(el.data()); }));
+  }
+
+  function showEdge(d) {
+    const other = ['actual', 'actual_window', 'simulated'].filter(m => m !== mode && data[m]).map(m => {
+      const e = (data[m].edges || []).find(x => x.from === d.source && x.to === d.target);
+      return `<tr><td class="muted">${m.replace('_', ' ')} p50</td><td>${e ? fmtH(e.p50_h) : '-'}</td></tr><tr><td class="muted">${m.replace('_', ' ')} count</td><td>${e ? fmtN(e.n) : '-'}</td></tr>`;
+    }).join('');
+    $('detail').innerHTML = `<h3 style="margin-top:12px">${d.source} -> ${d.target}</h3><table>
+      <tr><td class="muted">count (${mode.replace('_', ' ')})</td><td>${fmtN(d.n)}</td></tr>
+      <tr><td class="muted">median delay</td><td>${fmtH(d.p50)}</td></tr>
+      ${d.p90 != null ? `<tr><td class="muted">p90 delay</td><td>${fmtH(d.p90)}</td></tr>` : ''}
+      <tr><td class="muted">hand-off</td><td>${ROLE[d.source] || '?'} -> ${ROLE[d.target] || '?'}</td></tr>${other}</table>`;
+  }
+
+  function showNode(d) {
+    const { edges } = view();
+    const outs = edges.filter(e => e.from === d.id).sort((a, b) => b.n - a.n).slice(0, 6);
+    const ins = edges.filter(e => e.to === d.id).sort((a, b) => b.n - a.n).slice(0, 6);
+    const rows = (arr, dir) => arr.map(e => `<tr><td class="muted">${dir === 'out' ? '-> ' + e.to : e.from + ' ->'}</td><td>${fmtN(e.n)} | ${fmtH(e.p50_h)}</td></tr>`).join('');
+    $('detail').innerHTML = `<h3 style="margin-top:12px">${d.id}</h3><table>
+      <tr><td class="muted">events (${mode.replace('_', ' ')})</td><td>${fmtN(d.events)}</td></tr>
+      <tr><td class="muted">executing role</td><td>${d.role || '-'}</td></tr>
+      <tr><td colspan="2" class="muted" style="padding-top:8px">Outgoing</td></tr>${rows(outs, 'out')}
+      <tr><td colspan="2" class="muted" style="padding-top:8px">Incoming</td></tr>${rows(ins, 'in')}</table>`;
+  }
+
+  $('mode').addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b || b.disabled) return;
+    $('mode').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+    mode = b.dataset.mode; render();
+  });
+  $('minN').addEventListener('input', render);
+  $('selfLoops').addEventListener('change', render);
+  load().catch(err => { $('status').textContent = 'Could not load: ' + err.message; });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,579 @@
+organization:
+  id: org:bpi19
+  label: Multinational coatings and paints group (anonymized), purchase-to-pay
+  properties:
+    company_ids: 4
+    dominant_company_share: 0.9958
+    period: 2018-01-01 .. 2019-01-31
+    source: BPI Challenge 2019 (CC BY 4.0)
+org_units:
+- id: ou:procurement
+  label: Procurement
+  properties:
+    description: Requisitioners, buyers and purchasing clerks who create and maintain purchase orders
+- id: ou:warehouse
+  label: Warehouse and goods receipt
+  properties:
+    description: Receiving staff who record goods receipts and service entry sheets
+- id: ou:accounts_payable
+  label: Accounts payable
+  properties:
+    description: Invoice verification and the weekly payment run (Thursday)
+- id: ou:shared_services
+  label: Shared services and IT batch
+  properties:
+    description: ERP batch jobs and interfaces (batch_ users, SRM transfer, service entry uploads)
+roles:
+- id: buyer
+  label: Buyer / requisitioner
+  onet_code: 13-1023.00
+  org_unit: ou:procurement
+  headcount: 25
+  properties:
+    inference: users whose train-window events are mostly requisition, approval and release steps
+    headcount_basis: distinct users active in the training window (Jan-Jun 2018)
+- id: purchasing_clerk
+  label: Purchasing clerk
+  onet_code: 43-3061.00
+  org_unit: ou:procurement
+  headcount: 142
+  properties:
+    inference: users whose events are mostly PO item creation and PO changes
+    headcount_basis: distinct users active in the training window (Jan-Jun 2018)
+- id: goods_receipt
+  label: Goods receipt clerk
+  onet_code: 43-5071.00
+  org_unit: ou:warehouse
+  headcount: 176
+  properties:
+    inference: users whose events are mostly Record / Cancel Goods Receipt
+    headcount_basis: distinct users active in the training window (Jan-Jun 2018)
+- id: ap_invoice
+  label: AP invoice clerk
+  onet_code: 43-3031.00
+  org_unit: ou:accounts_payable
+  headcount: 26
+  properties:
+    inference: users whose events are mostly Record / Cancel Invoice Receipt
+    headcount_basis: distinct users active in the training window (Jan-Jun 2018)
+- id: ap_payment
+  label: AP payment specialist
+  onet_code: 43-3031.00
+  org_unit: ou:accounts_payable
+  headcount: 12
+  properties:
+    inference: users whose events are mostly Clear Invoice and payment-block handling
+    headcount_basis: distinct users active in the training window (Jan-Jun 2018)
+- id: batch
+  label: ERP batch job
+  onet_code: 15-1244.00
+  org_unit: ou:shared_services
+  headcount: 14
+  properties:
+    inference: the 20 batch_ user ids; automated executors
+    headcount_basis: distinct users active in the training window (Jan-Jun 2018)
+- id: vendor
+  label: Vendor (external)
+  org_unit: ou:procurement
+  headcount: 1
+  properties:
+    external: true
+    inference: resource NONE on vendor-side activities; 1,975 vendor ids
+systems:
+- id: sys:erp
+  label: ERP procurement and finance module
+  properties:
+    kind: ERP (SAP MM/FI style)
+  capabilities:
+  - id: cap:create_po
+    label: Create or change purchase order item
+  - id: cap:record_goods_receipt
+    label: Record goods receipt / service entry
+  - id: cap:record_invoice
+    label: Record invoice receipt
+  - id: cap:set_payment_block
+    label: Set payment block
+  - id: cap:remove_payment_block
+    label: Remove payment block
+  - id: cap:clear_invoice
+    label: Clear invoice (payment run)
+  - id: cap:batch_post
+    label: Scheduled batch posting
+- id: sys:srm
+  label: Supplier relationship management (self-service requisitions)
+  capabilities:
+  - id: cap:srm_request
+    label: Create and approve shopping-cart requisition
+  - id: cap:srm_transfer
+    label: Transfer requisition to ERP
+- id: sys:vendor_portal
+  label: Vendor invoicing channel
+  capabilities:
+  - id: cap:vendor_invoice
+    label: Submit invoice or debit memo
+artifacts:
+- id: art:purchase_requisition
+  label: Purchase requisition
+- id: art:purchase_order
+  label: Purchase order line item
+- id: art:goods_receipt
+  label: Goods receipt document
+- id: art:service_entry_sheet
+  label: Service entry sheet
+- id: art:invoice
+  label: Vendor invoice
+- id: art:payment
+  label: Payment (cleared invoice)
+activities:
+- id: Create Purchase Requisition Item
+  label: Create purchase requisition item
+  roles:
+  - buyer
+  - batch
+  dwa_ids:
+  - 4.A.4.c.3.e.1
+  capability: cap:srm_request
+  produces: art:purchase_requisition
+- id: Release Purchase Requisition
+  label: Release purchase requisition
+  roles:
+  - buyer
+  - batch
+  dwa_ids:
+  - 4.A.2.b.1.c.4
+  capability: cap:srm_request
+- id: Change Approval for Purchase Order
+  label: Change approval for purchase order
+  roles:
+  - buyer
+  dwa_ids:
+  - 4.A.2.b.1.c.4
+  capability: cap:create_po
+- id: Release Purchase Order
+  label: Release purchase order
+  roles:
+  - buyer
+  dwa_ids:
+  - 4.A.2.b.1.c.2
+  capability: cap:create_po
+- id: Create Purchase Order Item
+  label: Create purchase order item
+  roles:
+  - purchasing_clerk
+  - batch
+  dwa_ids:
+  - 4.A.4.c.3.e.6
+  - 4.A.3.b.6.m.2
+  capability: cap:create_po
+  produces: art:purchase_order
+- id: Change Quantity
+  label: Change quantity
+  roles:
+  - purchasing_clerk
+  dwa_ids:
+  - 4.A.3.b.1.f.5
+  capability: cap:create_po
+  properties:
+    exception: true
+- id: Change Price
+  label: Change price
+  roles:
+  - purchasing_clerk
+  dwa_ids:
+  - 4.A.3.b.1.f.5
+  capability: cap:create_po
+  properties:
+    exception: true
+- id: Change Currency
+  label: Change currency
+  roles:
+  - purchasing_clerk
+  dwa_ids:
+  - 4.A.3.b.1.f.5
+  capability: cap:create_po
+- id: Change payment term
+  label: Change payment term
+  roles:
+  - purchasing_clerk
+  dwa_ids:
+  - 4.A.3.b.1.f.5
+  capability: cap:create_po
+- id: Change Delivery Indicator
+  label: Change delivery indicator
+  roles:
+  - purchasing_clerk
+  dwa_ids:
+  - 4.A.3.b.1.f.5
+  capability: cap:create_po
+- id: Change Storage Location
+  label: Change storage location
+  roles:
+  - purchasing_clerk
+  dwa_ids:
+  - 4.A.3.b.1.f.5
+  capability: cap:create_po
+- id: Change Final Invoice Indicator
+  label: Change final invoice indicator
+  roles:
+  - purchasing_clerk
+  dwa_ids:
+  - 4.A.3.b.1.f.5
+  capability: cap:create_po
+- id: Change Rejection Indicator
+  label: Change rejection indicator
+  roles:
+  - purchasing_clerk
+  dwa_ids:
+  - 4.A.3.b.1.f.5
+  capability: cap:create_po
+- id: Delete Purchase Order Item
+  label: Delete purchase order item
+  roles:
+  - purchasing_clerk
+  dwa_ids:
+  - 4.A.3.b.1.f.5
+  - 4.A.3.b.6.h.5
+  capability: cap:create_po
+  properties:
+    exception: true
+    terminal: true
+- id: Block Purchase Order Item
+  label: Block purchase order item
+  roles:
+  - purchasing_clerk
+  dwa_ids:
+  - 4.A.3.b.1.f.5
+  capability: cap:create_po
+- id: Reactivate Purchase Order Item
+  label: Reactivate purchase order item
+  roles:
+  - purchasing_clerk
+  dwa_ids:
+  - 4.A.3.b.1.f.5
+  capability: cap:create_po
+- id: Receive Order Confirmation
+  label: Receive order confirmation
+  roles:
+  - purchasing_clerk
+  - batch
+  dwa_ids:
+  - 4.A.4.b.1.c.7
+  - 4.A.3.b.6.h.5
+  capability: cap:create_po
+- id: Update Order Confirmation
+  label: Update order confirmation
+  roles:
+  - purchasing_clerk
+  dwa_ids:
+  - 4.A.4.b.1.c.7
+  - 4.A.3.b.1.f.5
+  capability: cap:create_po
+- id: Record Goods Receipt
+  label: Record goods receipt
+  roles:
+  - goods_receipt
+  - batch
+  dwa_ids:
+  - 4.A.4.c.1.e.1
+  - 4.A.3.b.6.h.1
+  - 4.A.1.b.2.j.3
+  capability: cap:record_goods_receipt
+  produces: art:goods_receipt
+- id: Cancel Goods Receipt
+  label: Cancel goods receipt
+  roles:
+  - goods_receipt
+  - batch
+  dwa_ids:
+  - 4.A.3.b.6.h.1
+  - 4.A.2.a.2.a.8
+  capability: cap:record_goods_receipt
+  properties:
+    exception: true
+- id: Record Service Entry Sheet
+  label: Record service entry sheet
+  roles:
+  - goods_receipt
+  - batch
+  dwa_ids:
+  - 4.A.3.b.6.h.5
+  - 4.A.3.b.1.f.6
+  capability: cap:record_goods_receipt
+  produces: art:service_entry_sheet
+  properties:
+    system_upload: true
+- id: Record Invoice Receipt
+  label: Record invoice receipt
+  roles:
+  - ap_invoice
+  - batch
+  dwa_ids:
+  - 4.A.2.a.2.a.9
+  - 4.A.3.b.6.j.3
+  capability: cap:record_invoice
+  produces: art:invoice
+- id: Cancel Invoice Receipt
+  label: Cancel invoice receipt
+  roles:
+  - ap_invoice
+  - batch
+  dwa_ids:
+  - 4.A.2.a.2.a.8
+  - 4.A.3.b.6.j.3
+  capability: cap:record_invoice
+  properties:
+    exception: true
+- id: Record Subsequent Invoice
+  label: Record subsequent invoice
+  roles:
+  - ap_invoice
+  dwa_ids:
+  - 4.A.2.a.2.a.9
+  capability: cap:record_invoice
+- id: Cancel Subsequent Invoice
+  label: Cancel subsequent invoice
+  roles:
+  - ap_invoice
+  dwa_ids:
+  - 4.A.2.a.2.a.8
+  capability: cap:record_invoice
+- id: Set Payment Block
+  label: Set payment block
+  roles:
+  - ap_payment
+  dwa_ids:
+  - 4.A.2.a.2.a.9
+  - 4.A.1.a.2.c.1
+  capability: cap:set_payment_block
+- id: Remove Payment Block
+  label: Remove payment block
+  roles:
+  - ap_payment
+  - batch
+  dwa_ids:
+  - 4.A.2.b.1.c.2
+  - 4.A.2.a.2.d.1
+  capability: cap:remove_payment_block
+  properties:
+    exception: true
+- id: Clear Invoice
+  label: Clear invoice
+  roles:
+  - ap_payment
+  dwa_ids:
+  - 4.A.4.c.1.c.4
+  - 4.A.2.a.2.d.1
+  capability: cap:clear_invoice
+  produces: art:payment
+  properties:
+    completes_case: true
+    run_day: Thursday
+- id: Vendor creates invoice
+  label: Vendor creates invoice
+  roles:
+  - vendor
+  dwa_ids:
+  - 4.A.4.c.1.c.6
+  capability: cap:vendor_invoice
+  properties:
+    date_only: true
+- id: Vendor creates debit memo
+  label: Vendor creates debit memo
+  roles:
+  - vendor
+  dwa_ids:
+  - 4.A.4.c.1.c.6
+  capability: cap:vendor_invoice
+  properties:
+    date_only: true
+- id: 'SRM: Created'
+  label: 'SRM: shopping cart created'
+  roles:
+  - batch
+  - buyer
+  dwa_ids:
+  - 4.A.3.b.6.h.14
+  - 4.A.4.c.3.e.1
+  capability: cap:srm_request
+- id: 'SRM: Complete'
+  label: 'SRM: shopping cart complete'
+  roles:
+  - batch
+  - buyer
+  dwa_ids:
+  - 4.A.3.b.6.h.14
+  capability: cap:srm_request
+- id: 'SRM: Awaiting Approval'
+  label: 'SRM: awaiting approval'
+  roles:
+  - batch
+  - buyer
+  dwa_ids:
+  - 4.A.2.b.1.c.4
+  capability: cap:srm_request
+- id: 'SRM: Document Completed'
+  label: 'SRM: document completed'
+  roles:
+  - batch
+  - buyer
+  dwa_ids:
+  - 4.A.3.b.6.h.14
+  capability: cap:srm_request
+- id: 'SRM: In Transfer to Execution Syst.'
+  label: 'SRM: in transfer to execution system'
+  roles:
+  - batch
+  - buyer
+  dwa_ids:
+  - 4.A.3.b.6.h.14
+  capability: cap:srm_transfer
+- id: 'SRM: Ordered'
+  label: 'SRM: ordered'
+  roles:
+  - batch
+  dwa_ids:
+  - 4.A.4.c.3.e.1
+  capability: cap:srm_transfer
+- id: 'SRM: Change was Transmitted'
+  label: 'SRM: change was transmitted'
+  roles:
+  - batch
+  dwa_ids:
+  - 4.A.3.b.6.h.14
+  capability: cap:srm_transfer
+- id: 'SRM: Deleted'
+  label: 'SRM: deleted'
+  roles:
+  - batch
+  dwa_ids:
+  - 4.A.3.b.6.h.14
+  capability: cap:srm_request
+- id: 'SRM: Transfer Failed (E.Sys.)'
+  label: 'SRM: transfer failed'
+  roles:
+  - buyer
+  - batch
+  dwa_ids:
+  - 4.A.3.b.1.d.2
+  capability: cap:srm_transfer
+- id: 'SRM: Transaction Completed'
+  label: 'SRM: transaction completed'
+  roles:
+  - buyer
+  - batch
+  dwa_ids:
+  - 4.A.3.b.6.h.14
+  capability: cap:srm_transfer
+- id: 'SRM: Held'
+  label: 'SRM: held'
+  roles:
+  - batch
+  dwa_ids:
+  - 4.A.3.b.6.h.14
+  capability: cap:srm_request
+- id: 'SRM: Incomplete'
+  label: 'SRM: incomplete'
+  roles:
+  - batch
+  dwa_ids:
+  - 4.A.3.b.6.h.14
+  capability: cap:srm_request
+process_edges:
+- from: Create Purchase Requisition Item
+  to: Create Purchase Order Item
+- from: Create Purchase Order Item
+  to: Vendor creates invoice
+- from: Create Purchase Order Item
+  to: Record Goods Receipt
+- from: Create Purchase Order Item
+  to: Receive Order Confirmation
+- from: Create Purchase Order Item
+  to: Delete Purchase Order Item
+- from: Create Purchase Order Item
+  to: Change Quantity
+- from: Create Purchase Order Item
+  to: Change Price
+- from: Receive Order Confirmation
+  to: Record Goods Receipt
+- from: Vendor creates invoice
+  to: Record Goods Receipt
+- from: Vendor creates invoice
+  to: Record Invoice Receipt
+- from: Record Goods Receipt
+  to: Vendor creates invoice
+- from: Record Goods Receipt
+  to: Record Invoice Receipt
+- from: Record Goods Receipt
+  to: Record Service Entry Sheet
+- from: Record Goods Receipt
+  to: Record Goods Receipt
+- from: Record Invoice Receipt
+  to: Clear Invoice
+- from: Record Invoice Receipt
+  to: Remove Payment Block
+- from: Record Invoice Receipt
+  to: Cancel Invoice Receipt
+- from: Remove Payment Block
+  to: Clear Invoice
+- from: Set Payment Block
+  to: Remove Payment Block
+- from: Cancel Invoice Receipt
+  to: Record Invoice Receipt
+- from: Cancel Goods Receipt
+  to: Record Goods Receipt
+- from: 'SRM: Created'
+  to: 'SRM: Complete'
+- from: 'SRM: Complete'
+  to: 'SRM: Awaiting Approval'
+- from: 'SRM: Awaiting Approval'
+  to: 'SRM: Document Completed'
+- from: 'SRM: Document Completed'
+  to: 'SRM: Ordered'
+- from: 'SRM: Ordered'
+  to: 'SRM: In Transfer to Execution Syst.'
+- from: 'SRM: In Transfer to Execution Syst.'
+  to: Create Purchase Order Item
+external_actors:
+- id: ext:vendor
+  label: Vendor
+  interacts_with:
+  - Vendor creates invoice
+  - Vendor creates debit memo
+  - Receive Order Confirmation
+  properties:
+    count: 1975
+    date_only_events: true
+policies:
+- id: pol:automate_payment_block
+  label: Automate payment-block removal
+  affects:
+  - Remove Payment Block
+  - ap_payment
+  - cap:remove_payment_block
+- id: pol:ap_capacity
+  label: Accounts payable capacity +30%
+  affects:
+  - ap_invoice
+  - ap_payment
+- id: pol:fast_invoice_handling
+  label: Shorter manual invoice handling
+  affects:
+  - Record Invoice Receipt
+  - Clear Invoice
+  - ap_invoice
+- id: pol:demand_surge
+  label: Order volume +30%
+  affects:
+  - Create Purchase Order Item
+  - purchasing_clerk
+  - goods_receipt
+  - ap_invoice
+  - ap_payment
+- id: pol:workforce_expansion
+  label: September 2018 workforce expansion (1.60x active staff)
+  affects:
+  - buyer
+  - purchasing_clerk
+  - goods_receipt
+  - ap_invoice
+  - ap_payment

@@ -1,0 +1,58 @@
+{
+ "rules": [
+  {
+   "id": "clear_requires_invoice_receipt",
+   "checked": 193809,
+   "violations": 410,
+   "violation_rate": 0.0021154848330056913
+  },
+  {
+   "id": "remove_block_requires_invoice_receipt",
+   "checked": 57122,
+   "violations": 49,
+   "violation_rate": 0.0008578131017821504
+  },
+  {
+   "id": "three_way_before_gr_clear_requires_gr_or_block_release",
+   "checked": 180083,
+   "violations": 441,
+   "violation_rate": 0.002448870798465152
+  },
+  {
+   "id": "three_way_after_gr_invoice_requires_gr",
+   "checked": 18887,
+   "violations": 0,
+   "violation_rate": 0.0
+  },
+  {
+   "id": "three_way_after_gr_clear_requires_gr",
+   "checked": 13419,
+   "violations": 1,
+   "violation_rate": 7.452120128176467e-05
+  },
+  {
+   "id": "payment_block_must_be_removed",
+   "checked": 193809,
+   "violations": 30,
+   "violation_rate": 0.00015479157314675788
+  },
+  {
+   "id": "consignment_never_invoices",
+   "checked": 36059,
+   "violations": 0,
+   "violation_rate": 0.0
+  },
+  {
+   "id": "two_way_has_no_goods_receipt",
+   "checked": 5879,
+   "violations": 0,
+   "violation_rate": 0.0
+  },
+  {
+   "id": "delete_ends_case",
+   "checked": 1444587,
+   "violations": 2205,
+   "violation_rate": 0.0015263878188021905
+  }
+ ]
+}

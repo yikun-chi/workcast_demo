@@ -1,0 +1,80 @@
+# Latent-state dynamics for the workforce world (orgsim/worlds/workforce.py). Expressions are evaluated
+# per agent with numpy over: population.parquet columns, sampled priors (priors.yaml), the variables the
+# world provides each week (offered, days_offered, eligible_days_week, wfh_days_week, office_days_week,
+# workdays_week, takeup_rate_cum, week, team_mean_<state>, team_size) and functions exp, log, sqrt, clip,
+# where, maximum, minimum, abs, round, tanh, mean, std, median, quantile, logistic, logit, normal(sd), uniform().
+# Weekly team variables: team_mean_<state>, team_size, team_share_offered (share of active teammates offered WFH this week).
+# Nothing in this file is fitted on Trip.com outcomes; structure is authored, magnitudes come from priors.yaml.
+# v2 (2026-10-25): trait layer (wfh_pref_z, wfh_value), immediate amenity channel, relative deprivation; see priors.yaml revision_log.
+
+covariates:                      # fill rules for simulation inputs (NaN kept in the data)
+  commute_hour: commute_hour_filled      # one-way hours; imputed from manager-status medians
+  prior_performance: mean
+  live_far: 0
+
+derived:                         # computed once per run, in order
+  commute_2way_h: "2 * commute_hour"
+  takeup_logit: "logit(takeup_base) + b_takeup_commute * (commute_hour - mean(commute_hour)) + b_takeup_children * children_ind + b_takeup_volunteer * (volunteer - mean(volunteer)) + normal(takeup_sd)"
+  takeup_propensity: "logistic(takeup_logit)"
+  # trait layer: one latent WFH-preference trait per person drives take-up AND the value of each WFH day (selection on gains)
+  wfh_pref_z: "(takeup_logit - mean(takeup_logit)) / std(takeup_logit)"
+  wfh_value_raw: "exp(pref_value_slope * wfh_pref_z)"
+  wfh_value: "wfh_value_raw / mean(wfh_value_raw[wfh_pref_z > median(wfh_pref_z)])"   # upper half (2015 volunteer-like population) has mean value 1
+  sat_base: "clip(sat_anchor + normal(sat_sd), 0, 10)"
+  wlb_base: "clip(wlb_anchor + normal(wlb_sd), 0, 10)"
+  benefit_mult: "(1 + children_value_boost * children_ind) * where(managerial > 0, manager_effect_share, 1) * wfh_value"
+  hazard_mult_raw: "exp(-tenure_slope * (tenure_years - mean(tenure_years))) * where(managerial > 0, manager_hazard_mult, 1) * exp(-beta_sat * (sat_base - sat_anchor))"
+  h0_week: "(1 - (1 - quit_rate_semiannual) ** (1 / 24)) * hazard_mult_raw / mean(hazard_mult_raw)"
+  # direct flexibility channel = 2015 total minus what the satisfaction and commute channels deliver at full exposure
+  attachment_0: "clip(0.5 + 0.03 * (tenure_years - mean(tenure_years)), 0, 1)"   # start-of-run attachment (trait); the hazard reacts to attachment - attachment_0
+  beta_wfh_direct: "maximum(-log(wfh_full_quit_hr) - beta_sat * d_sat_full - beta_commute * mean(commute_2way_h), 0)"
+
+states:                          # ordered; `weekly` is applied to active agents at the end of each week
+  value_share:                   # amenity value of the offered days relative to five-day WFH: through (0,0), (2, hybrid_value_share_2d), (5, 1)
+    weekly: "where(days_offered <= 2, hybrid_value_share_2d * days_offered / 2, hybrid_value_share_2d + (1 - hybrid_value_share_2d) * (minimum(days_offered, 5) - 2) / 3)"
+  takeup_frac:
+    weekly: "where(eligible_days_week > 0, wfh_days_week / maximum(eligible_days_week, 1), 0)"
+  exposure_target:
+    weekly: "offered * value_share * (takeup_frac + (1 - takeup_frac) * option_value_share) * benefit_mult"
+  exposure:
+    init: "0"
+    weekly: "exposure + adjust_rate * (exposure_target - exposure)"
+  commute_burden:
+    init: "commute_2way_h"
+    weekly: "commute_2way_h * office_days_week / maximum(workdays_week, 1)"
+    report: true
+  relative_deprivation:          # satisfaction points lost by employees NOT offered WFH while teammates are (equity comparison)
+    init: "0"
+    weekly: "where(offered > 0, 0, relative_deprivation_k * team_share_offered)"
+    report: true
+  job_satisfaction:
+    init: "sat_base"
+    weekly: "clip(job_satisfaction + adjust_rate * (sat_base + d_sat_full * exposure - relative_deprivation - job_satisfaction) + contagion_k * (team_mean_job_satisfaction - job_satisfaction), 0, 10)"
+    report: true
+  work_life_balance:
+    init: "wlb_base"
+    weekly: "clip(work_life_balance + adjust_rate * (wlb_base + d_wlb_full * exposure - work_life_balance), 0, 10)"
+    report: true
+  attachment:
+    init: "attachment_0"
+    weekly: "clip(attachment + attach_rate * ((job_satisfaction - sat_anchor) / 5 + exposure), 0, 1)"
+    report: true
+
+hazards:
+  quit:                          # weekly probability offered to the seat's policy as {quit: h, stay: 1-h}
+    # the direct flexibility (amenity) channel acts on the offer as experienced this week (exposure_target); satisfaction and WLB adapt via `exposure`
+    weekly: "h0_week * exp(-beta_sat * (job_satisfaction - sat_base) + beta_commute * (commute_burden - commute_2way_h) - beta_wfh_direct * exposure_target - beta_attach * (attachment - attachment_0))"
+
+takeup:
+  propensity: takeup_propensity  # per-agent probability of choosing WFH on an eligible day (policy option weight)
+
+survey:                          # recorded for sampled respondents on each survey date
+  scales:
+    work_satisfaction: "clip(round(job_satisfaction + normal(survey_noise_sd)), 0, 10)"
+    work_life_balance: "clip(round(work_life_balance + normal(survey_noise_sd)), 0, 10)"
+    life_satisfaction: "clip(round(0.6 * job_satisfaction + 0.4 * work_life_balance + normal(survey_noise_sd)), 0, 10)"
+    recommend_friends: "clip(round(job_satisfaction + normal(survey_noise_sd)), 0, 10)"
+
+review:                          # semi-annual review for employees still active on the review date
+  performance_grade: "ordinal_review(prior_performance, perf_rho, d_perf_full * exposure)"
+  promotion: "uniform() < clip(promo_rate_semiannual * exp(log(promo_hr_full) * exposure) * (1 + promo_grade_slope * (performance_grade - mean(prior_performance))), 0, 1)"

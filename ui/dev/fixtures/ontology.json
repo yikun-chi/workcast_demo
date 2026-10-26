@@ -1,0 +1,3117 @@
+{
+ "nodes": [
+  {
+   "id": "org:bpi19",
+   "type": "Organization",
+   "label": "Multinational coatings & paints company",
+   "properties": {
+    "country": "NL",
+    "fiscal_year": 2018
+   }
+  },
+  {
+   "id": "ou:procurement",
+   "type": "OrgUnit",
+   "label": "Procurement",
+   "properties": {
+    "headcount": 212
+   }
+  },
+  {
+   "id": "ou:ap",
+   "type": "OrgUnit",
+   "label": "Accounts Payable",
+   "properties": {
+    "headcount": 148
+   }
+  },
+  {
+   "id": "ou:warehouse",
+   "type": "OrgUnit",
+   "label": "Goods Receiving",
+   "properties": {
+    "headcount": 191
+   }
+  },
+  {
+   "id": "ou:it",
+   "type": "OrgUnit",
+   "label": "ERP Operations",
+   "properties": {
+    "headcount": 56
+   }
+  },
+  {
+   "id": "role:buyer",
+   "type": "Role",
+   "label": "Buyer",
+   "properties": {
+    "onet_code": "13-1023.00",
+    "org_unit": "ou:procurement",
+    "headcount": 180
+   }
+  },
+  {
+   "id": "role:purchasing_manager",
+   "type": "Role",
+   "label": "Purchasing manager",
+   "properties": {
+    "onet_code": "11-3061.00",
+    "org_unit": "ou:procurement",
+    "headcount": 32
+   }
+  },
+  {
+   "id": "role:ap_clerk",
+   "type": "Role",
+   "label": "Accounts payable clerk",
+   "properties": {
+    "onet_code": "43-3031.00",
+    "org_unit": "ou:ap",
+    "headcount": 148
+   }
+  },
+  {
+   "id": "role:gr_clerk",
+   "type": "Role",
+   "label": "Goods receipt clerk",
+   "properties": {
+    "onet_code": "43-5061.00",
+    "org_unit": "ou:warehouse",
+    "headcount": 191
+   }
+  },
+  {
+   "id": "role:batch_job",
+   "type": "Role",
+   "label": "Batch job (automated)",
+   "properties": {
+    "automated": true,
+    "onet_code": null,
+    "org_unit": "ou:it",
+    "headcount": 20
+   }
+  },
+  {
+   "id": "person:buyer_senior",
+   "type": "Person",
+   "label": "Senior buyer archetype",
+   "properties": {
+    "tenure_years": 8,
+    "share": 0.35
+   }
+  },
+  {
+   "id": "person:buyer_junior",
+   "type": "Person",
+   "label": "Junior buyer archetype",
+   "properties": {
+    "tenure_years": 2,
+    "share": 0.65
+   }
+  },
+  {
+   "id": "person:ap_specialist",
+   "type": "Person",
+   "label": "AP specialist archetype",
+   "properties": {
+    "tenure_years": 5
+   }
+  },
+  {
+   "id": "person:gr_operator",
+   "type": "Person",
+   "label": "Receiving operator archetype",
+   "properties": {
+    "tenure_years": 4
+   }
+  },
+  {
+   "id": "sys:sap",
+   "type": "System",
+   "label": "SAP ERP (MM/FI)",
+   "properties": {}
+  },
+  {
+   "id": "cap:create_po",
+   "type": "Capability",
+   "label": "Create purchase order",
+   "properties": {}
+  },
+  {
+   "id": "cap:post_gr",
+   "type": "Capability",
+   "label": "Post goods receipt",
+   "properties": {}
+  },
+  {
+   "id": "cap:post_invoice",
+   "type": "Capability",
+   "label": "Post vendor invoice",
+   "properties": {}
+  },
+  {
+   "id": "cap:three_way_match",
+   "type": "Capability",
+   "label": "Three-way match",
+   "properties": {}
+  },
+  {
+   "id": "cap:clear_invoice",
+   "type": "Capability",
+   "label": "Clear invoice / payment run",
+   "properties": {}
+  },
+  {
+   "id": "sys:edi",
+   "type": "System",
+   "label": "Vendor EDI gateway",
+   "properties": {}
+  },
+  {
+   "id": "cap:receive_edi_invoice",
+   "type": "Capability",
+   "label": "Receive EDI invoice",
+   "properties": {}
+  },
+  {
+   "id": "art:po",
+   "type": "Artifact",
+   "label": "Purchase order",
+   "properties": {}
+  },
+  {
+   "id": "art:gr_doc",
+   "type": "Artifact",
+   "label": "Goods receipt document",
+   "properties": {}
+  },
+  {
+   "id": "art:invoice",
+   "type": "Artifact",
+   "label": "Vendor invoice",
+   "properties": {}
+  },
+  {
+   "id": "art:payment",
+   "type": "Artifact",
+   "label": "Payment",
+   "properties": {}
+  },
+  {
+   "id": "act:create_po_item",
+   "type": "Activity",
+   "label": "Create Purchase Order Item",
+   "properties": {}
+  },
+  {
+   "id": "act:approve_po",
+   "type": "Activity",
+   "label": "Approve Purchase Order",
+   "properties": {}
+  },
+  {
+   "id": "act:vendor_confirm",
+   "type": "Activity",
+   "label": "Vendor creates confirmation",
+   "properties": {}
+  },
+  {
+   "id": "act:record_gr",
+   "type": "Activity",
+   "label": "Record Goods Receipt",
+   "properties": {}
+  },
+  {
+   "id": "act:record_invoice",
+   "type": "Activity",
+   "label": "Record Invoice Receipt",
+   "properties": {}
+  },
+  {
+   "id": "act:remove_block",
+   "type": "Activity",
+   "label": "Remove Payment Block",
+   "properties": {}
+  },
+  {
+   "id": "act:clear_invoice",
+   "type": "Activity",
+   "label": "Clear Invoice",
+   "properties": {}
+  },
+  {
+   "id": "act:change_price",
+   "type": "Activity",
+   "label": "Change Price",
+   "properties": {}
+  },
+  {
+   "id": "ext:vendor",
+   "type": "ExternalActor",
+   "label": "Vendor (1,965 suppliers)",
+   "properties": {}
+  },
+  {
+   "id": "pol:auto_match",
+   "type": "Policy",
+   "label": "Automated 3-way match tolerance +2%",
+   "properties": {}
+  },
+  {
+   "id": "pol:ap_headcount",
+   "type": "Policy",
+   "label": "AP headcount -20%",
+   "properties": {}
+  },
+  {
+   "id": "state:ap_workload",
+   "type": "LatentState",
+   "label": "AP queue pressure",
+   "properties": {
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "id": "onet:11-3061.00",
+   "type": "Occupation",
+   "label": "Purchasing Managers",
+   "properties": {
+    "code": "11-3061.00",
+    "description": "Plan, direct, or coordinate the activities of buyers, purchasing officers, and related workers involved in purchasing materials, products, and services. Includes wholesale or retail trade merchandising managers and procurement managers."
+   }
+  },
+  {
+   "id": "gwa:4.A.1.a.1",
+   "type": "GWA",
+   "label": "Getting Information",
+   "properties": {
+    "element_id": "4.A.1.a.1"
+   }
+  },
+  {
+   "id": "iwa:4.A.1.a.1.w",
+   "type": "IWA",
+   "label": "Interview people to obtain information.",
+   "properties": {
+    "element_id": "4.A.1.a.1.w"
+   }
+  },
+  {
+   "id": "dwa:4.A.1.a.1.w.1",
+   "type": "DWA",
+   "label": "Interview employees, customers, or others to collect information.",
+   "properties": {
+    "element_id": "4.A.1.a.1.w.1"
+   }
+  },
+  {
+   "id": "gwa:4.A.2.a.2",
+   "type": "GWA",
+   "label": "Processing Information",
+   "properties": {
+    "element_id": "4.A.2.a.2"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.a.2.a",
+   "type": "IWA",
+   "label": "Evaluate the quality or accuracy of data.",
+   "properties": {
+    "element_id": "4.A.2.a.2.a"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.a.2.a.2",
+   "type": "DWA",
+   "label": "Verify information or specifications.",
+   "properties": {
+    "element_id": "4.A.2.a.2.a.2"
+   }
+  },
+  {
+   "id": "gwa:4.A.2.a.3",
+   "type": "GWA",
+   "label": "Evaluating Information to Determine Compliance with Standards",
+   "properties": {
+    "element_id": "4.A.2.a.3"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.a.3.c",
+   "type": "IWA",
+   "label": "Examine financial activities, operations, or systems.",
+   "properties": {
+    "element_id": "4.A.2.a.3.c"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.a.3.c.5",
+   "type": "DWA",
+   "label": "Examine financial records to ensure compliance with policies or regulations.",
+   "properties": {
+    "element_id": "4.A.2.a.3.c.5"
+   }
+  },
+  {
+   "id": "gwa:4.A.2.a.4",
+   "type": "GWA",
+   "label": "Analyzing Data or Information",
+   "properties": {
+    "element_id": "4.A.2.a.4"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.a.4.g",
+   "type": "IWA",
+   "label": "Analyze data to improve operations.",
+   "properties": {
+    "element_id": "4.A.2.a.4.g"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.a.4.g.9",
+   "type": "DWA",
+   "label": "Analyze data to assess operational or project effectiveness.",
+   "properties": {
+    "element_id": "4.A.2.a.4.g.9"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.a.4.g.12",
+   "type": "DWA",
+   "label": "Analyze data to inform operational decisions or activities.",
+   "properties": {
+    "element_id": "4.A.2.a.4.g.12"
+   }
+  },
+  {
+   "id": "gwa:4.A.2.b.1",
+   "type": "GWA",
+   "label": "Making Decisions and Solving Problems",
+   "properties": {
+    "element_id": "4.A.2.b.1"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.b.1.c",
+   "type": "IWA",
+   "label": "Authorize business activities or transactions.",
+   "properties": {
+    "element_id": "4.A.2.b.1.c"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.b.1.c.4",
+   "type": "DWA",
+   "label": "Approve expenditures.",
+   "properties": {
+    "element_id": "4.A.2.b.1.c.4"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.b.1.i",
+   "type": "IWA",
+   "label": "Implement procedures or processes.",
+   "properties": {
+    "element_id": "4.A.2.b.1.i"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.b.1.i.1",
+   "type": "DWA",
+   "label": "Implement organizational process or policy changes.",
+   "properties": {
+    "element_id": "4.A.2.b.1.i.1"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.b.1.i.2",
+   "type": "DWA",
+   "label": "Implement transportation changes to reduce environmental impact.",
+   "properties": {
+    "element_id": "4.A.2.b.1.i.2"
+   }
+  },
+  {
+   "id": "gwa:4.A.2.b.4",
+   "type": "GWA",
+   "label": "Developing Objectives and Strategies",
+   "properties": {
+    "element_id": "4.A.2.b.4"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.b.4.a",
+   "type": "IWA",
+   "label": "Develop organizational policies, systems, or processes.",
+   "properties": {
+    "element_id": "4.A.2.b.4.a"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.b.4.a.1",
+   "type": "DWA",
+   "label": "Develop organizational policies or programs.",
+   "properties": {
+    "element_id": "4.A.2.b.4.a.1"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.b.4.a.2",
+   "type": "DWA",
+   "label": "Develop operating strategies, plans, or procedures.",
+   "properties": {
+    "element_id": "4.A.2.b.4.a.2"
+   }
+  },
+  {
+   "id": "gwa:4.A.2.b.5",
+   "type": "GWA",
+   "label": "Scheduling Work and Activities",
+   "properties": {
+    "element_id": "4.A.2.b.5"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.b.5.b",
+   "type": "IWA",
+   "label": "Schedule operational activities.",
+   "properties": {
+    "element_id": "4.A.2.b.5.b"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.b.5.b.1",
+   "type": "DWA",
+   "label": "Schedule product or material transportation.",
+   "properties": {
+    "element_id": "4.A.2.b.5.b.1"
+   }
+  },
+  {
+   "id": "gwa:4.A.3.b.2",
+   "type": "GWA",
+   "label": "Drafting, Laying Out, and Specifying Technical Devices, Parts, and Equipment",
+   "properties": {
+    "element_id": "4.A.3.b.2"
+   }
+  },
+  {
+   "id": "iwa:4.A.3.b.2.a",
+   "type": "IWA",
+   "label": "Develop technical specifications for products or operations.",
+   "properties": {
+    "element_id": "4.A.3.b.2.a"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.2.a.2",
+   "type": "DWA",
+   "label": "Develop specifications for new products or processes.",
+   "properties": {
+    "element_id": "4.A.3.b.2.a.2"
+   }
+  },
+  {
+   "id": "gwa:4.A.3.b.6",
+   "type": "GWA",
+   "label": "Documenting/Recording Information",
+   "properties": {
+    "element_id": "4.A.3.b.6"
+   }
+  },
+  {
+   "id": "iwa:4.A.3.b.6.a",
+   "type": "IWA",
+   "label": "Prepare financial documents, reports, or budgets.",
+   "properties": {
+    "element_id": "4.A.3.b.6.a"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.6.a.2",
+   "type": "DWA",
+   "label": "Prepare financial documents, reports, or budgets.",
+   "properties": {
+    "element_id": "4.A.3.b.6.a.2"
+   }
+  },
+  {
+   "id": "iwa:4.A.3.b.6.h",
+   "type": "IWA",
+   "label": "Maintain operational records.",
+   "properties": {
+    "element_id": "4.A.3.b.6.h"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.6.h.5",
+   "type": "DWA",
+   "label": "Maintain operational records.",
+   "properties": {
+    "element_id": "4.A.3.b.6.h.5"
+   }
+  },
+  {
+   "id": "iwa:4.A.3.b.6.m",
+   "type": "IWA",
+   "label": "Prepare documentation for contracts, applications, or permits.",
+   "properties": {
+    "element_id": "4.A.3.b.6.m"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.6.m.4",
+   "type": "DWA",
+   "label": "Prepare forms or applications.",
+   "properties": {
+    "element_id": "4.A.3.b.6.m.4"
+   }
+  },
+  {
+   "id": "gwa:4.A.4.a.7",
+   "type": "GWA",
+   "label": "Resolving Conflicts and Negotiating with Others",
+   "properties": {
+    "element_id": "4.A.4.a.7"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.a.7.b",
+   "type": "IWA",
+   "label": "Negotiate contracts or agreements.",
+   "properties": {
+    "element_id": "4.A.4.a.7.b"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.a.7.b.1",
+   "type": "DWA",
+   "label": "Negotiate sales or lease agreements for products or services.",
+   "properties": {
+    "element_id": "4.A.4.a.7.b.1"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.a.7.c",
+   "type": "IWA",
+   "label": "Resolve personnel or operational problems.",
+   "properties": {
+    "element_id": "4.A.4.a.7.c"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.a.7.c.1",
+   "type": "DWA",
+   "label": "Resolve employee or contractor problems.",
+   "properties": {
+    "element_id": "4.A.4.a.7.c.1"
+   }
+  },
+  {
+   "id": "gwa:4.A.4.b.1",
+   "type": "GWA",
+   "label": "Coordinating the Work and Activities of Others",
+   "properties": {
+    "element_id": "4.A.4.b.1"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.b.1.c",
+   "type": "IWA",
+   "label": "Coordinate activities with clients, agencies, or organizations.",
+   "properties": {
+    "element_id": "4.A.4.b.1.c"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.b.1.c.4",
+   "type": "DWA",
+   "label": "Coordinate with external parties to exchange information.",
+   "properties": {
+    "element_id": "4.A.4.b.1.c.4"
+   }
+  },
+  {
+   "id": "gwa:4.A.4.b.3",
+   "type": "GWA",
+   "label": "Training and Teaching Others",
+   "properties": {
+    "element_id": "4.A.4.b.3"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.b.3.d",
+   "type": "IWA",
+   "label": "Train others on operational or work procedures.",
+   "properties": {
+    "element_id": "4.A.4.b.3.d"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.b.3.d.16",
+   "type": "DWA",
+   "label": "Conduct employee training programs.",
+   "properties": {
+    "element_id": "4.A.4.b.3.d.16"
+   }
+  },
+  {
+   "id": "gwa:4.A.4.b.4",
+   "type": "GWA",
+   "label": "Guiding, Directing, and Motivating Subordinates",
+   "properties": {
+    "element_id": "4.A.4.b.4"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.b.4.a",
+   "type": "IWA",
+   "label": "Supervise personnel activities.",
+   "properties": {
+    "element_id": "4.A.4.b.4.a"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.b.4.a.13",
+   "type": "DWA",
+   "label": "Supervise employees.",
+   "properties": {
+    "element_id": "4.A.4.b.4.a.13"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.b.4.h",
+   "type": "IWA",
+   "label": "Manage budgets or finances.",
+   "properties": {
+    "element_id": "4.A.4.b.4.h"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.b.4.h.2",
+   "type": "DWA",
+   "label": "Direct financial operations.",
+   "properties": {
+    "element_id": "4.A.4.b.4.h.2"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.b.4.h.4",
+   "type": "DWA",
+   "label": "Prepare operational budgets.",
+   "properties": {
+    "element_id": "4.A.4.b.4.h.4"
+   }
+  },
+  {
+   "id": "gwa:4.A.4.c.2",
+   "type": "GWA",
+   "label": "Staffing Organizational Units",
+   "properties": {
+    "element_id": "4.A.4.c.2"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.c.2.a",
+   "type": "IWA",
+   "label": "Perform recruiting or hiring activities.",
+   "properties": {
+    "element_id": "4.A.4.c.2.a"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.c.2.a.3",
+   "type": "DWA",
+   "label": "Hire personnel.",
+   "properties": {
+    "element_id": "4.A.4.c.2.a.3"
+   }
+  },
+  {
+   "id": "onet:13-1023.00",
+   "type": "Occupation",
+   "label": "Purchasing Agents, Except Wholesale, Retail, and Farm Products",
+   "properties": {
+    "code": "13-1023.00",
+    "description": "Purchase machinery, equipment, tools, parts, supplies, or services necessary for the operation of an establishment. Purchase raw or semifinished materials for manufacturing. May negotiate contracts."
+   }
+  },
+  {
+   "id": "iwa:4.A.1.a.1.g",
+   "type": "IWA",
+   "label": "Obtain information about goods or services.",
+   "properties": {
+    "element_id": "4.A.1.a.1.g"
+   }
+  },
+  {
+   "id": "dwa:4.A.1.a.1.g.1",
+   "type": "DWA",
+   "label": "Obtain information about goods or services.",
+   "properties": {
+    "element_id": "4.A.1.a.1.g.1"
+   }
+  },
+  {
+   "id": "gwa:4.A.1.a.2",
+   "type": "GWA",
+   "label": "Monitoring Processes, Materials, or Surroundings",
+   "properties": {
+    "element_id": "4.A.1.a.2"
+   }
+  },
+  {
+   "id": "iwa:4.A.1.a.2.b",
+   "type": "IWA",
+   "label": "Monitor operations to ensure adequate performance.",
+   "properties": {
+    "element_id": "4.A.1.a.2.b"
+   }
+  },
+  {
+   "id": "dwa:4.A.1.a.2.b.20",
+   "type": "DWA",
+   "label": "Monitor organizational processes.",
+   "properties": {
+    "element_id": "4.A.1.a.2.b.20"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.a.4.b",
+   "type": "IWA",
+   "label": "Analyze market or industry conditions.",
+   "properties": {
+    "element_id": "4.A.2.a.4.b"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.a.4.b.1",
+   "type": "DWA",
+   "label": "Estimate demand for products or services.",
+   "properties": {
+    "element_id": "4.A.2.a.4.b.1"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.a.4.b.4",
+   "type": "DWA",
+   "label": "Analyze market conditions or trends.",
+   "properties": {
+    "element_id": "4.A.2.a.4.b.4"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.a.4.i",
+   "type": "IWA",
+   "label": "Assess characteristics or impacts of regulations or policies.",
+   "properties": {
+    "element_id": "4.A.2.a.4.i"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.a.4.i.4",
+   "type": "DWA",
+   "label": "Evaluate applicable laws and regulations to determine impact on organizational activities.",
+   "properties": {
+    "element_id": "4.A.2.a.4.i.4"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.a.4.k",
+   "type": "IWA",
+   "label": "Analyze business or financial data.",
+   "properties": {
+    "element_id": "4.A.2.a.4.k"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.a.4.k.4",
+   "type": "DWA",
+   "label": "Analyze business or financial data.",
+   "properties": {
+    "element_id": "4.A.2.a.4.k.4"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.b.4.a.3",
+   "type": "DWA",
+   "label": "Establish organizational guidelines or policies.",
+   "properties": {
+    "element_id": "4.A.2.b.4.a.3"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.2.a.4",
+   "type": "DWA",
+   "label": "Develop technical specifications for systems or equipment.",
+   "properties": {
+    "element_id": "4.A.3.b.2.a.4"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.6.h.14",
+   "type": "DWA",
+   "label": "Maintain data in information systems or databases.",
+   "properties": {
+    "element_id": "4.A.3.b.6.h.14"
+   }
+  },
+  {
+   "id": "gwa:4.A.4.a.2",
+   "type": "GWA",
+   "label": "Communicating with Supervisors, Peers, or Subordinates",
+   "properties": {
+    "element_id": "4.A.4.a.2"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.a.2.e",
+   "type": "IWA",
+   "label": "Communicate with others about business strategies.",
+   "properties": {
+    "element_id": "4.A.4.a.2.e"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.a.2.e.3",
+   "type": "DWA",
+   "label": "Confer with personnel to coordinate business operations.",
+   "properties": {
+    "element_id": "4.A.4.a.2.e.3"
+   }
+  },
+  {
+   "id": "gwa:4.A.4.a.4",
+   "type": "GWA",
+   "label": "Establishing and Maintaining Interpersonal Relationships",
+   "properties": {
+    "element_id": "4.A.4.a.4"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.a.4.a",
+   "type": "IWA",
+   "label": "Develop professional relationships or networks.",
+   "properties": {
+    "element_id": "4.A.4.a.4.a"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.a.4.a.2",
+   "type": "DWA",
+   "label": "Develop business relationships.",
+   "properties": {
+    "element_id": "4.A.4.a.4.a.2"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.a.7.b.10",
+   "type": "DWA",
+   "label": "Negotiate contracts with clients or service providers.",
+   "properties": {
+    "element_id": "4.A.4.a.7.b.10"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.b.3.d.1",
+   "type": "DWA",
+   "label": "Train personnel to enhance job skills.",
+   "properties": {
+    "element_id": "4.A.4.b.3.d.1"
+   }
+  },
+  {
+   "id": "gwa:4.A.4.c.1",
+   "type": "GWA",
+   "label": "Performing Administrative Activities",
+   "properties": {
+    "element_id": "4.A.4.c.1"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.c.1.c",
+   "type": "IWA",
+   "label": "Execute financial transactions.",
+   "properties": {
+    "element_id": "4.A.4.c.1.c"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.c.1.c.4",
+   "type": "DWA",
+   "label": "Execute sales or other financial transactions.",
+   "properties": {
+    "element_id": "4.A.4.c.1.c.4"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.c.1.c.7",
+   "type": "DWA",
+   "label": "Pay charges, fees, or taxes.",
+   "properties": {
+    "element_id": "4.A.4.c.1.c.7"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.c.2.a.2",
+   "type": "DWA",
+   "label": "Conduct eligibility or selection interviews.",
+   "properties": {
+    "element_id": "4.A.4.c.2.a.2"
+   }
+  },
+  {
+   "id": "gwa:4.A.4.c.3",
+   "type": "GWA",
+   "label": "Monitoring and Controlling Resources",
+   "properties": {
+    "element_id": "4.A.4.c.3"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.c.3.e",
+   "type": "IWA",
+   "label": "Purchase goods or services.",
+   "properties": {
+    "element_id": "4.A.4.c.3.e"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.c.3.e.6",
+   "type": "DWA",
+   "label": "Purchase products or services.",
+   "properties": {
+    "element_id": "4.A.4.c.3.e.6"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.c.3.g",
+   "type": "IWA",
+   "label": "Monitor resources or inventories.",
+   "properties": {
+    "element_id": "4.A.4.c.3.g"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.c.3.g.4",
+   "type": "DWA",
+   "label": "Monitor inventories of products or materials.",
+   "properties": {
+    "element_id": "4.A.4.c.3.g.4"
+   }
+  },
+  {
+   "id": "onet:43-3031.00",
+   "type": "Occupation",
+   "label": "Bookkeeping, Accounting, and Auditing Clerks",
+   "properties": {
+    "code": "43-3031.00",
+    "description": "Compute, classify, and record numerical data to keep financial records complete. Perform any combination of routine calculating, posting, and verifying duties to obtain primary financial data for use in maintaining accounting records. May also check the accuracy of figures, calculations, and postings pertaining to business transactions recorded by other workers."
+   }
+  },
+  {
+   "id": "iwa:4.A.1.a.1.d",
+   "type": "IWA",
+   "label": "Gather information from physical or electronic sources.",
+   "properties": {
+    "element_id": "4.A.1.a.1.d"
+   }
+  },
+  {
+   "id": "dwa:4.A.1.a.1.d.7",
+   "type": "DWA",
+   "label": "Search files, databases or reference materials to obtain needed information.",
+   "properties": {
+    "element_id": "4.A.1.a.1.d.7"
+   }
+  },
+  {
+   "id": "iwa:4.A.1.a.2.c",
+   "type": "IWA",
+   "label": "Monitor financial data or activities.",
+   "properties": {
+    "element_id": "4.A.1.a.2.c"
+   }
+  },
+  {
+   "id": "dwa:4.A.1.a.2.c.1",
+   "type": "DWA",
+   "label": "Monitor financial information.",
+   "properties": {
+    "element_id": "4.A.1.a.2.c.1"
+   }
+  },
+  {
+   "id": "iwa:4.A.1.a.2.k",
+   "type": "IWA",
+   "label": "Monitor operations to ensure compliance with regulations or standards.",
+   "properties": {
+    "element_id": "4.A.1.a.2.k"
+   }
+  },
+  {
+   "id": "dwa:4.A.1.a.2.k.4",
+   "type": "DWA",
+   "label": "Monitor organizational compliance with regulations.",
+   "properties": {
+    "element_id": "4.A.1.a.2.k.4"
+   }
+  },
+  {
+   "id": "gwa:4.A.1.b.3",
+   "type": "GWA",
+   "label": "Estimating the Quantifiable Characteristics of Products, Events, or Information",
+   "properties": {
+    "element_id": "4.A.1.b.3"
+   }
+  },
+  {
+   "id": "iwa:4.A.1.b.3.c",
+   "type": "IWA",
+   "label": "Calculate financial data.",
+   "properties": {
+    "element_id": "4.A.1.b.3.c"
+   }
+  },
+  {
+   "id": "dwa:4.A.1.b.3.c.1",
+   "type": "DWA",
+   "label": "Calculate financial data.",
+   "properties": {
+    "element_id": "4.A.1.b.3.c.1"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.a.2.a.9",
+   "type": "DWA",
+   "label": "Verify accuracy of financial or transactional data.",
+   "properties": {
+    "element_id": "4.A.2.a.2.a.9"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.a.2.c",
+   "type": "IWA",
+   "label": "Compile records, documentation, or other data.",
+   "properties": {
+    "element_id": "4.A.2.a.2.c"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.a.2.c.3",
+   "type": "DWA",
+   "label": "Compile data or documentation.",
+   "properties": {
+    "element_id": "4.A.2.a.2.c.3"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.a.2.d",
+   "type": "IWA",
+   "label": "Reconcile financial data.",
+   "properties": {
+    "element_id": "4.A.2.a.2.d"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.a.2.d.1",
+   "type": "DWA",
+   "label": "Reconcile records of sales or other financial transactions.",
+   "properties": {
+    "element_id": "4.A.2.a.2.d.1"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.a.2.d.3",
+   "type": "DWA",
+   "label": "Prepare cash for deposit or disbursement.",
+   "properties": {
+    "element_id": "4.A.2.a.2.d.3"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.b.1.a",
+   "type": "IWA",
+   "label": "Determine values or prices of goods or services.",
+   "properties": {
+    "element_id": "4.A.2.b.1.a"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.b.1.a.7",
+   "type": "DWA",
+   "label": "Calculate costs of goods or services.",
+   "properties": {
+    "element_id": "4.A.2.b.1.a.7"
+   }
+  },
+  {
+   "id": "gwa:4.A.3.a.3",
+   "type": "GWA",
+   "label": "Controlling Machines and Processes",
+   "properties": {
+    "element_id": "4.A.3.a.3"
+   }
+  },
+  {
+   "id": "iwa:4.A.3.a.3.a",
+   "type": "IWA",
+   "label": "Operate office equipment.",
+   "properties": {
+    "element_id": "4.A.3.a.3.a"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.a.3.a.1",
+   "type": "DWA",
+   "label": "Operate office equipment.",
+   "properties": {
+    "element_id": "4.A.3.a.3.a.1"
+   }
+  },
+  {
+   "id": "gwa:4.A.3.b.1",
+   "type": "GWA",
+   "label": "Working with Computers",
+   "properties": {
+    "element_id": "4.A.3.b.1"
+   }
+  },
+  {
+   "id": "iwa:4.A.3.b.1.e",
+   "type": "IWA",
+   "label": "Operate computer systems or computerized equipment.",
+   "properties": {
+    "element_id": "4.A.3.b.1.e"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.1.e.1",
+   "type": "DWA",
+   "label": "Operate computers or computerized equipment.",
+   "properties": {
+    "element_id": "4.A.3.b.1.e.1"
+   }
+  },
+  {
+   "id": "iwa:4.A.3.b.1.f",
+   "type": "IWA",
+   "label": "Process digital or online data.",
+   "properties": {
+    "element_id": "4.A.3.b.1.f"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.1.f.8",
+   "type": "DWA",
+   "label": "Code data or other information.",
+   "properties": {
+    "element_id": "4.A.3.b.1.f.8"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.1.f.11",
+   "type": "DWA",
+   "label": "Convert data among multiple digital or analog formats.",
+   "properties": {
+    "element_id": "4.A.3.b.1.f.11"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.6.h.7",
+   "type": "DWA",
+   "label": "Maintain inventory records.",
+   "properties": {
+    "element_id": "4.A.3.b.6.h.7"
+   }
+  },
+  {
+   "id": "iwa:4.A.3.b.6.j",
+   "type": "IWA",
+   "label": "Maintain sales or financial records.",
+   "properties": {
+    "element_id": "4.A.3.b.6.j"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.6.j.3",
+   "type": "DWA",
+   "label": "Maintain financial or account records.",
+   "properties": {
+    "element_id": "4.A.3.b.6.j.3"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.6.m.5",
+   "type": "DWA",
+   "label": "Prepare documentation for contracts, transactions, or regulatory compliance.",
+   "properties": {
+    "element_id": "4.A.3.b.6.m.5"
+   }
+  },
+  {
+   "id": "gwa:4.A.4.a.3",
+   "type": "GWA",
+   "label": "Communicating with People Outside the Organization",
+   "properties": {
+    "element_id": "4.A.4.a.3"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.a.3.c",
+   "type": "IWA",
+   "label": "Provide information to guests, clients, or customers.",
+   "properties": {
+    "element_id": "4.A.4.a.3.c"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.a.3.c.11",
+   "type": "DWA",
+   "label": "Answer telephones to direct calls or provide information.",
+   "properties": {
+    "element_id": "4.A.4.a.3.c.11"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.c.1.a",
+   "type": "IWA",
+   "label": "Perform administrative or clerical activities.",
+   "properties": {
+    "element_id": "4.A.4.c.1.a"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.c.1.a.2",
+   "type": "DWA",
+   "label": "File documents or records.",
+   "properties": {
+    "element_id": "4.A.4.c.1.a.2"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.c.3.d",
+   "type": "IWA",
+   "label": "Collect fares or payments.",
+   "properties": {
+    "element_id": "4.A.4.c.3.d"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.c.3.d.1",
+   "type": "DWA",
+   "label": "Collect deposits, payments or fees.",
+   "properties": {
+    "element_id": "4.A.4.c.3.d.1"
+   }
+  },
+  {
+   "id": "onet:43-5061.00",
+   "type": "Occupation",
+   "label": "Production, Planning, and Expediting Clerks",
+   "properties": {
+    "code": "43-5061.00",
+    "description": "Coordinate and expedite the flow of work and materials within or between departments of an establishment according to production schedule. Duties include reviewing and distributing production, work, and shipment schedules; conferring with department supervisors to determine progress of work and completion dates; and compiling reports on progress of work, inventory levels, costs, and production problems."
+   }
+  },
+  {
+   "id": "iwa:4.A.1.a.1.b",
+   "type": "IWA",
+   "label": "Read documents or materials to inform work processes.",
+   "properties": {
+    "element_id": "4.A.1.a.1.b"
+   }
+  },
+  {
+   "id": "dwa:4.A.1.a.1.b.16",
+   "type": "DWA",
+   "label": "Read work orders to determine material or setup requirements.",
+   "properties": {
+    "element_id": "4.A.1.a.1.b.16"
+   }
+  },
+  {
+   "id": "gwa:4.A.1.b.2",
+   "type": "GWA",
+   "label": "Inspecting Equipment, Structures, or Materials",
+   "properties": {
+    "element_id": "4.A.1.b.2"
+   }
+  },
+  {
+   "id": "iwa:4.A.1.b.2.f",
+   "type": "IWA",
+   "label": "Inspect completed work or finished products.",
+   "properties": {
+    "element_id": "4.A.1.b.2.f"
+   }
+  },
+  {
+   "id": "dwa:4.A.1.b.2.f.11",
+   "type": "DWA",
+   "label": "Inspect items for damage or defects.",
+   "properties": {
+    "element_id": "4.A.1.b.2.f.11"
+   }
+  },
+  {
+   "id": "iwa:4.A.2.a.3.a",
+   "type": "IWA",
+   "label": "Examine materials or documentation for accuracy or compliance.",
+   "properties": {
+    "element_id": "4.A.2.a.3.a"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.a.3.a.2",
+   "type": "DWA",
+   "label": "Examine documents to verify adherence to requirements.",
+   "properties": {
+    "element_id": "4.A.2.a.3.a.2"
+   }
+  },
+  {
+   "id": "dwa:4.A.2.b.5.b.7",
+   "type": "DWA",
+   "label": "Schedule operational activities.",
+   "properties": {
+    "element_id": "4.A.2.b.5.b.7"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.6.h.26",
+   "type": "DWA",
+   "label": "Record personnel information.",
+   "properties": {
+    "element_id": "4.A.3.b.6.h.26"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.6.h.31",
+   "type": "DWA",
+   "label": "Record production information.",
+   "properties": {
+    "element_id": "4.A.3.b.6.h.31"
+   }
+  },
+  {
+   "id": "iwa:4.A.3.b.6.l",
+   "type": "IWA",
+   "label": "Prepare informational or instructional materials.",
+   "properties": {
+    "element_id": "4.A.3.b.6.l"
+   }
+  },
+  {
+   "id": "dwa:4.A.3.b.6.l.7",
+   "type": "DWA",
+   "label": "Prepare informational or reference materials.",
+   "properties": {
+    "element_id": "4.A.3.b.6.l.7"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.a.2.c",
+   "type": "IWA",
+   "label": "Communicate with others about operational plans or activities.",
+   "properties": {
+    "element_id": "4.A.4.a.2.c"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.a.2.c.2",
+   "type": "DWA",
+   "label": "Provide information to coworkers.",
+   "properties": {
+    "element_id": "4.A.4.a.2.c.2"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.a.2.c.15",
+   "type": "DWA",
+   "label": "Confer with coworkers to coordinate work activities.",
+   "properties": {
+    "element_id": "4.A.4.a.2.c.15"
+   }
+  },
+  {
+   "id": "iwa:4.A.4.b.4.j",
+   "type": "IWA",
+   "label": "Direct organizational operations, activities, or procedures.",
+   "properties": {
+    "element_id": "4.A.4.b.4.j"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.b.4.j.16",
+   "type": "DWA",
+   "label": "Coordinate shipping activities with external parties.",
+   "properties": {
+    "element_id": "4.A.4.b.4.j.16"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.b.4.j.37",
+   "type": "DWA",
+   "label": "Coordinate operational activities.",
+   "properties": {
+    "element_id": "4.A.4.b.4.j.37"
+   }
+  },
+  {
+   "id": "dwa:4.A.4.c.3.e.1",
+   "type": "DWA",
+   "label": "Order materials, supplies, or equipment.",
+   "properties": {
+    "element_id": "4.A.4.c.3.e.1"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "source": "ou:procurement",
+   "target": "org:bpi19",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "ou:ap",
+   "target": "org:bpi19",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "ou:warehouse",
+   "target": "org:bpi19",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "ou:it",
+   "target": "org:bpi19",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "role:buyer",
+   "target": "ou:procurement",
+   "type": "member_of",
+   "properties": {}
+  },
+  {
+   "source": "role:buyer",
+   "target": "onet:13-1023.00",
+   "type": "bound_to",
+   "properties": {}
+  },
+  {
+   "source": "role:purchasing_manager",
+   "target": "ou:procurement",
+   "type": "member_of",
+   "properties": {}
+  },
+  {
+   "source": "role:purchasing_manager",
+   "target": "onet:11-3061.00",
+   "type": "bound_to",
+   "properties": {}
+  },
+  {
+   "source": "role:ap_clerk",
+   "target": "ou:ap",
+   "type": "member_of",
+   "properties": {}
+  },
+  {
+   "source": "role:ap_clerk",
+   "target": "onet:43-3031.00",
+   "type": "bound_to",
+   "properties": {}
+  },
+  {
+   "source": "role:gr_clerk",
+   "target": "ou:warehouse",
+   "type": "member_of",
+   "properties": {}
+  },
+  {
+   "source": "role:gr_clerk",
+   "target": "onet:43-5061.00",
+   "type": "bound_to",
+   "properties": {}
+  },
+  {
+   "source": "role:batch_job",
+   "target": "ou:it",
+   "type": "member_of",
+   "properties": {}
+  },
+  {
+   "source": "person:buyer_senior",
+   "target": "role:buyer",
+   "type": "has_role",
+   "properties": {}
+  },
+  {
+   "source": "person:buyer_senior",
+   "target": "ou:procurement",
+   "type": "member_of",
+   "properties": {}
+  },
+  {
+   "source": "person:buyer_junior",
+   "target": "role:buyer",
+   "type": "has_role",
+   "properties": {}
+  },
+  {
+   "source": "person:buyer_junior",
+   "target": "ou:procurement",
+   "type": "member_of",
+   "properties": {}
+  },
+  {
+   "source": "person:ap_specialist",
+   "target": "role:ap_clerk",
+   "type": "has_role",
+   "properties": {}
+  },
+  {
+   "source": "person:ap_specialist",
+   "target": "ou:ap",
+   "type": "member_of",
+   "properties": {}
+  },
+  {
+   "source": "person:gr_operator",
+   "target": "role:gr_clerk",
+   "type": "has_role",
+   "properties": {}
+  },
+  {
+   "source": "person:gr_operator",
+   "target": "ou:warehouse",
+   "type": "member_of",
+   "properties": {}
+  },
+  {
+   "source": "sys:sap",
+   "target": "cap:create_po",
+   "type": "provides",
+   "properties": {}
+  },
+  {
+   "source": "sys:sap",
+   "target": "cap:post_gr",
+   "type": "provides",
+   "properties": {}
+  },
+  {
+   "source": "sys:sap",
+   "target": "cap:post_invoice",
+   "type": "provides",
+   "properties": {}
+  },
+  {
+   "source": "sys:sap",
+   "target": "cap:three_way_match",
+   "type": "provides",
+   "properties": {}
+  },
+  {
+   "source": "sys:sap",
+   "target": "cap:clear_invoice",
+   "type": "provides",
+   "properties": {}
+  },
+  {
+   "source": "sys:edi",
+   "target": "cap:receive_edi_invoice",
+   "type": "provides",
+   "properties": {}
+  },
+  {
+   "source": "role:buyer",
+   "target": "act:create_po_item",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "act:create_po_item",
+   "target": "dwa:4.A.3.b.6.I07.D04",
+   "type": "maps_to",
+   "properties": {}
+  },
+  {
+   "source": "act:create_po_item",
+   "target": "cap:create_po",
+   "type": "uses",
+   "properties": {}
+  },
+  {
+   "source": "act:create_po_item",
+   "target": "art:po",
+   "type": "produces",
+   "properties": {}
+  },
+  {
+   "source": "role:purchasing_manager",
+   "target": "act:approve_po",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "act:approve_po",
+   "target": "dwa:4.A.4.b.4.I01.D01",
+   "type": "maps_to",
+   "properties": {}
+  },
+  {
+   "source": "act:approve_po",
+   "target": "sys:sap",
+   "type": "uses",
+   "properties": {}
+  },
+  {
+   "source": "act:vendor_confirm",
+   "target": "sys:edi",
+   "type": "uses",
+   "properties": {}
+  },
+  {
+   "source": "role:gr_clerk",
+   "target": "act:record_gr",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "act:record_gr",
+   "target": "dwa:4.A.3.b.6.I06.D04",
+   "type": "maps_to",
+   "properties": {}
+  },
+  {
+   "source": "act:record_gr",
+   "target": "cap:post_gr",
+   "type": "uses",
+   "properties": {}
+  },
+  {
+   "source": "act:record_gr",
+   "target": "art:gr_doc",
+   "type": "produces",
+   "properties": {}
+  },
+  {
+   "source": "role:ap_clerk",
+   "target": "act:record_invoice",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "act:record_invoice",
+   "target": "dwa:4.A.3.b.6.I07.D02",
+   "type": "maps_to",
+   "properties": {}
+  },
+  {
+   "source": "act:record_invoice",
+   "target": "cap:post_invoice",
+   "type": "uses",
+   "properties": {}
+  },
+  {
+   "source": "act:record_invoice",
+   "target": "art:invoice",
+   "type": "produces",
+   "properties": {}
+  },
+  {
+   "source": "role:ap_clerk",
+   "target": "act:remove_block",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "role:buyer",
+   "target": "act:remove_block",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "act:remove_block",
+   "target": "dwa:4.A.2.a.1.I02.D01",
+   "type": "maps_to",
+   "properties": {}
+  },
+  {
+   "source": "act:remove_block",
+   "target": "cap:three_way_match",
+   "type": "uses",
+   "properties": {}
+  },
+  {
+   "source": "role:batch_job",
+   "target": "act:clear_invoice",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "act:clear_invoice",
+   "target": "cap:clear_invoice",
+   "type": "uses",
+   "properties": {}
+  },
+  {
+   "source": "act:clear_invoice",
+   "target": "art:payment",
+   "type": "produces",
+   "properties": {}
+  },
+  {
+   "source": "role:buyer",
+   "target": "act:change_price",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "act:change_price",
+   "target": "dwa:4.A.2.b.3.I03.D01",
+   "type": "maps_to",
+   "properties": {}
+  },
+  {
+   "source": "act:change_price",
+   "target": "sys:sap",
+   "type": "uses",
+   "properties": {}
+  },
+  {
+   "source": "act:create_po_item",
+   "target": "act:approve_po",
+   "type": "precedes",
+   "properties": {}
+  },
+  {
+   "source": "act:approve_po",
+   "target": "act:vendor_confirm",
+   "type": "precedes",
+   "properties": {}
+  },
+  {
+   "source": "act:vendor_confirm",
+   "target": "act:record_gr",
+   "type": "precedes",
+   "properties": {}
+  },
+  {
+   "source": "act:record_gr",
+   "target": "act:record_invoice",
+   "type": "precedes",
+   "properties": {}
+  },
+  {
+   "source": "act:record_invoice",
+   "target": "act:remove_block",
+   "type": "precedes",
+   "properties": {}
+  },
+  {
+   "source": "act:remove_block",
+   "target": "act:clear_invoice",
+   "type": "precedes",
+   "properties": {}
+  },
+  {
+   "source": "act:record_invoice",
+   "target": "act:clear_invoice",
+   "type": "precedes",
+   "properties": {}
+  },
+  {
+   "source": "act:change_price",
+   "target": "act:remove_block",
+   "type": "precedes",
+   "properties": {}
+  },
+  {
+   "source": "ext:vendor",
+   "target": "act:vendor_confirm",
+   "type": "interacts_with",
+   "properties": {}
+  },
+  {
+   "source": "ext:vendor",
+   "target": "act:record_invoice",
+   "type": "interacts_with",
+   "properties": {}
+  },
+  {
+   "source": "person:buyer_junior",
+   "target": "person:buyer_senior",
+   "type": "reports_to",
+   "properties": {}
+  },
+  {
+   "source": "person:buyer_junior",
+   "target": "person:buyer_senior",
+   "type": "same_manager",
+   "properties": {}
+  },
+  {
+   "source": "pol:auto_match",
+   "target": "act:remove_block",
+   "type": "affects",
+   "properties": {}
+  },
+  {
+   "source": "pol:auto_match",
+   "target": "role:ap_clerk",
+   "type": "affects",
+   "properties": {}
+  },
+  {
+   "source": "pol:ap_headcount",
+   "target": "role:ap_clerk",
+   "type": "affects",
+   "properties": {}
+  },
+  {
+   "source": "person:ap_specialist",
+   "target": "state:ap_workload",
+   "type": "has_state",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.1.a.1.w",
+   "target": "gwa:4.A.1.a.1",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.1.a.1.w.1",
+   "target": "iwa:4.A.1.a.1.w",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.a.2.a",
+   "target": "gwa:4.A.2.a.2",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.a.2.a.2",
+   "target": "iwa:4.A.2.a.2.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.a.3.c",
+   "target": "gwa:4.A.2.a.3",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.a.3.c.5",
+   "target": "iwa:4.A.2.a.3.c",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.a.4.g",
+   "target": "gwa:4.A.2.a.4",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.a.4.g.9",
+   "target": "iwa:4.A.2.a.4.g",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.a.4.g.12",
+   "target": "iwa:4.A.2.a.4.g",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.b.1.c",
+   "target": "gwa:4.A.2.b.1",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.b.1.c.4",
+   "target": "iwa:4.A.2.b.1.c",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.b.1.i",
+   "target": "gwa:4.A.2.b.1",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.b.1.i.1",
+   "target": "iwa:4.A.2.b.1.i",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.b.1.i.2",
+   "target": "iwa:4.A.2.b.1.i",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.b.4.a",
+   "target": "gwa:4.A.2.b.4",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.b.4.a.1",
+   "target": "iwa:4.A.2.b.4.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.b.4.a.2",
+   "target": "iwa:4.A.2.b.4.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.b.5.b",
+   "target": "gwa:4.A.2.b.5",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.b.5.b.1",
+   "target": "iwa:4.A.2.b.5.b",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.3.b.2.a",
+   "target": "gwa:4.A.3.b.2",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.2.a.2",
+   "target": "iwa:4.A.3.b.2.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.3.b.6.a",
+   "target": "gwa:4.A.3.b.6",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.6.a.2",
+   "target": "iwa:4.A.3.b.6.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.3.b.6.h",
+   "target": "gwa:4.A.3.b.6",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.6.h.5",
+   "target": "iwa:4.A.3.b.6.h",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.3.b.6.m",
+   "target": "gwa:4.A.3.b.6",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.6.m.4",
+   "target": "iwa:4.A.3.b.6.m",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.a.7.b",
+   "target": "gwa:4.A.4.a.7",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.a.7.b.1",
+   "target": "iwa:4.A.4.a.7.b",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.a.7.c",
+   "target": "gwa:4.A.4.a.7",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.a.7.c.1",
+   "target": "iwa:4.A.4.a.7.c",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.b.1.c",
+   "target": "gwa:4.A.4.b.1",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.b.1.c.4",
+   "target": "iwa:4.A.4.b.1.c",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.b.3.d",
+   "target": "gwa:4.A.4.b.3",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.b.3.d.16",
+   "target": "iwa:4.A.4.b.3.d",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.b.4.a",
+   "target": "gwa:4.A.4.b.4",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.b.4.a.13",
+   "target": "iwa:4.A.4.b.4.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.b.4.h",
+   "target": "gwa:4.A.4.b.4",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.b.4.h.2",
+   "target": "iwa:4.A.4.b.4.h",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.b.4.h.4",
+   "target": "iwa:4.A.4.b.4.h",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.c.2.a",
+   "target": "gwa:4.A.4.c.2",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.c.2.a.3",
+   "target": "iwa:4.A.4.c.2.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.1.a.1.w.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.2.a.2.a.2",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.2.a.3.c.5",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.2.a.4.g.9",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.2.a.4.g.12",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.2.b.1.c.4",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.2.b.1.i.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.2.b.1.i.2",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.2.b.4.a.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.2.b.4.a.2",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.2.b.5.b.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.3.b.2.a.2",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.3.b.6.a.2",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.3.b.6.h.5",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.3.b.6.m.4",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.4.a.7.b.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.4.a.7.c.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.4.b.1.c.4",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.4.b.3.d.16",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.4.b.4.a.13",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.4.b.4.h.2",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.4.b.4.h.4",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:11-3061.00",
+   "target": "dwa:4.A.4.c.2.a.3",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.1.a.1.g",
+   "target": "gwa:4.A.1.a.1",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.1.a.1.g.1",
+   "target": "iwa:4.A.1.a.1.g",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.1.a.2.b",
+   "target": "gwa:4.A.1.a.2",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.1.a.2.b.20",
+   "target": "iwa:4.A.1.a.2.b",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.a.4.b",
+   "target": "gwa:4.A.2.a.4",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.a.4.b.1",
+   "target": "iwa:4.A.2.a.4.b",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.a.4.b.4",
+   "target": "iwa:4.A.2.a.4.b",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.a.4.i",
+   "target": "gwa:4.A.2.a.4",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.a.4.i.4",
+   "target": "iwa:4.A.2.a.4.i",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.a.4.k",
+   "target": "gwa:4.A.2.a.4",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.a.4.k.4",
+   "target": "iwa:4.A.2.a.4.k",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.b.4.a.3",
+   "target": "iwa:4.A.2.b.4.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.2.a.4",
+   "target": "iwa:4.A.3.b.2.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.6.h.14",
+   "target": "iwa:4.A.3.b.6.h",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.a.2.e",
+   "target": "gwa:4.A.4.a.2",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.a.2.e.3",
+   "target": "iwa:4.A.4.a.2.e",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.a.4.a",
+   "target": "gwa:4.A.4.a.4",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.a.4.a.2",
+   "target": "iwa:4.A.4.a.4.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.a.7.b.10",
+   "target": "iwa:4.A.4.a.7.b",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.b.3.d.1",
+   "target": "iwa:4.A.4.b.3.d",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.c.1.c",
+   "target": "gwa:4.A.4.c.1",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.c.1.c.4",
+   "target": "iwa:4.A.4.c.1.c",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.c.1.c.7",
+   "target": "iwa:4.A.4.c.1.c",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.c.2.a.2",
+   "target": "iwa:4.A.4.c.2.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.c.3.e",
+   "target": "gwa:4.A.4.c.3",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.c.3.e.6",
+   "target": "iwa:4.A.4.c.3.e",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.c.3.g",
+   "target": "gwa:4.A.4.c.3",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.c.3.g.4",
+   "target": "iwa:4.A.4.c.3.g",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.1.a.1.g.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.1.a.2.b.20",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.2.a.4.b.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.2.a.4.b.4",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.2.a.4.i.4",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.2.a.4.k.4",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.2.b.4.a.3",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.3.b.2.a.4",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.3.b.6.h.14",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.4.a.2.e.3",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.4.a.4.a.2",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.4.a.7.b.10",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.4.b.3.d.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.4.b.4.a.13",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.4.c.1.c.4",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.4.c.1.c.7",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.4.c.2.a.2",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.4.c.3.e.6",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:13-1023.00",
+   "target": "dwa:4.A.4.c.3.g.4",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.1.a.1.d",
+   "target": "gwa:4.A.1.a.1",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.1.a.1.d.7",
+   "target": "iwa:4.A.1.a.1.d",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.1.a.2.c",
+   "target": "gwa:4.A.1.a.2",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.1.a.2.c.1",
+   "target": "iwa:4.A.1.a.2.c",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.1.a.2.k",
+   "target": "gwa:4.A.1.a.2",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.1.a.2.k.4",
+   "target": "iwa:4.A.1.a.2.k",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.1.b.3.c",
+   "target": "gwa:4.A.1.b.3",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.1.b.3.c.1",
+   "target": "iwa:4.A.1.b.3.c",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.a.2.a.9",
+   "target": "iwa:4.A.2.a.2.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.a.2.c",
+   "target": "gwa:4.A.2.a.2",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.a.2.c.3",
+   "target": "iwa:4.A.2.a.2.c",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.a.2.d",
+   "target": "gwa:4.A.2.a.2",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.a.2.d.1",
+   "target": "iwa:4.A.2.a.2.d",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.a.2.d.3",
+   "target": "iwa:4.A.2.a.2.d",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.b.1.a",
+   "target": "gwa:4.A.2.b.1",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.b.1.a.7",
+   "target": "iwa:4.A.2.b.1.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.3.a.3.a",
+   "target": "gwa:4.A.3.a.3",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.a.3.a.1",
+   "target": "iwa:4.A.3.a.3.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.3.b.1.e",
+   "target": "gwa:4.A.3.b.1",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.1.e.1",
+   "target": "iwa:4.A.3.b.1.e",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.3.b.1.f",
+   "target": "gwa:4.A.3.b.1",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.1.f.8",
+   "target": "iwa:4.A.3.b.1.f",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.1.f.11",
+   "target": "iwa:4.A.3.b.1.f",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.6.h.7",
+   "target": "iwa:4.A.3.b.6.h",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.3.b.6.j",
+   "target": "gwa:4.A.3.b.6",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.6.j.3",
+   "target": "iwa:4.A.3.b.6.j",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.6.m.5",
+   "target": "iwa:4.A.3.b.6.m",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.a.3.c",
+   "target": "gwa:4.A.4.a.3",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.a.3.c.11",
+   "target": "iwa:4.A.4.a.3.c",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.c.1.a",
+   "target": "gwa:4.A.4.c.1",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.c.1.a.2",
+   "target": "iwa:4.A.4.c.1.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.c.3.d",
+   "target": "gwa:4.A.4.c.3",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.c.3.d.1",
+   "target": "iwa:4.A.4.c.3.d",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.1.a.1.d.7",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.1.a.2.c.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.1.a.2.k.4",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.1.b.3.c.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.2.a.2.a.9",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.2.a.2.c.3",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.2.a.2.d.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.2.a.2.d.3",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.2.b.1.a.7",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.3.a.3.a.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.3.b.1.e.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.3.b.1.f.8",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.3.b.1.f.11",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.3.b.6.h.7",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.3.b.6.j.3",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.3.b.6.m.5",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.4.a.3.c.11",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.4.c.1.a.2",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.4.c.1.c.4",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-3031.00",
+   "target": "dwa:4.A.4.c.3.d.1",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.1.a.1.b",
+   "target": "gwa:4.A.1.a.1",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.1.a.1.b.16",
+   "target": "iwa:4.A.1.a.1.b",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.1.b.2.f",
+   "target": "gwa:4.A.1.b.2",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.1.b.2.f.11",
+   "target": "iwa:4.A.1.b.2.f",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.2.a.3.a",
+   "target": "gwa:4.A.2.a.3",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.a.3.a.2",
+   "target": "iwa:4.A.2.a.3.a",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.2.b.5.b.7",
+   "target": "iwa:4.A.2.b.5.b",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.6.h.26",
+   "target": "iwa:4.A.3.b.6.h",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.6.h.31",
+   "target": "iwa:4.A.3.b.6.h",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.3.b.6.l",
+   "target": "gwa:4.A.3.b.6",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.3.b.6.l.7",
+   "target": "iwa:4.A.3.b.6.l",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.a.2.c",
+   "target": "gwa:4.A.4.a.2",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.a.2.c.2",
+   "target": "iwa:4.A.4.a.2.c",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.a.2.c.15",
+   "target": "iwa:4.A.4.a.2.c",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "iwa:4.A.4.b.4.j",
+   "target": "gwa:4.A.4.b.4",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.b.4.j.16",
+   "target": "iwa:4.A.4.b.4.j",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.b.4.j.37",
+   "target": "iwa:4.A.4.b.4.j",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "dwa:4.A.4.c.3.e.1",
+   "target": "iwa:4.A.4.c.3.e",
+   "type": "part_of",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.1.a.1.b.16",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.1.b.2.f.11",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.2.a.2.c.3",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.2.a.3.a.2",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.2.b.1.a.7",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.2.b.5.b.7",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.3.b.6.h.5",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.3.b.6.h.26",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.3.b.6.h.31",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.3.b.6.l.7",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.4.a.2.c.2",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.4.a.2.c.15",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.4.b.4.j.16",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.4.b.4.j.37",
+   "type": "performs",
+   "properties": {}
+  },
+  {
+   "source": "onet:43-5061.00",
+   "target": "dwa:4.A.4.c.3.e.1",
+   "type": "performs",
+   "properties": {}
+  }
+ ],
+ "stats": {
+  "nodes": 187,
+  "edges": 267,
+  "nodes_by_type": {
+   "Organization": 1,
+   "OrgUnit": 4,
+   "Role": 5,
+   "Person": 4,
+   "System": 2,
+   "Capability": 6,
+   "Artifact": 4,
+   "Activity": 8,
+   "ExternalActor": 1,
+   "Policy": 2,
+   "LatentState": 1,
+   "Occupation": 4,
+   "GWA": 24,
+   "IWA": 49,
+   "DWA": 72
+  },
+  "edges_by_type": {
+   "part_of": 125,
+   "member_of": 9,
+   "bound_to": 4,
+   "has_role": 4,
+   "provides": 6,
+   "performs": 85,
+   "maps_to": 6,
+   "uses": 8,
+   "produces": 4,
+   "precedes": 8,
+   "interacts_with": 2,
+   "reports_to": 1,
+   "same_manager": 1,
+   "affects": 3,
+   "has_state": 1
+  }
+ }
+}

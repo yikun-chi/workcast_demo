@@ -1,0 +1,37 @@
+{
+ "id": "ap_cut_20",
+ "title": "Accounts payable headcount -20%",
+ "description": "Stress test: the AP team shrinks by a fifth with unchanged arrivals; measures queue growth and payment delays.",
+ "horizon_days": 14,
+ "seeds": [
+  1,
+  2,
+  3
+ ],
+ "world": {
+  "arrival_rate_per_h": 28.6,
+  "work_hours": [
+   8,
+   18
+  ],
+  "match_tolerance_pct": 0.0,
+  "approval_threshold_eur": 10000,
+  "roles": {
+   "role:ap_clerk": {
+    "headcount": 118
+   },
+   "role:buyer": {
+    "headcount": 180
+   }
+  }
+ },
+ "interventions": [
+  {
+   "type": "set_headcount",
+   "role": "role:ap_clerk",
+   "value": 118,
+   "label": "AP clerks 148 -> 118"
+  }
+ ],
+ "extends": "baseline"
+}

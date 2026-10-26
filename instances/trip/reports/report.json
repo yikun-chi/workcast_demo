@@ -1,0 +1,1527 @@
+{
+ "title": "Hybrid work at Trip.com: simulation prediction and actual outcome",
+ "subtitle": "1612 employees, six months, two WFH days a week offered to half of them. Simulation from pretreatment inputs and assumptions from earlier research; compared with Bloom, Han & Liang (Nature 2024).",
+ "generated": "2026-10-26T06:13:29.428926+00:00",
+ "takeaways": [
+  "The simulation predicts a 2.39 percentage-point reduction in six-month attrition from offering two home days a week. The actual reduction was 2.40 points, comparing the hybrid and office-only groups.",
+  "Six-month attrition: the simulation predicts 8.6% for office-only employees and 6.3% for employees offered hybrid work. Actual outcomes were 7.2% and 4.8%, respectively. Both simulated rates are too high.",
+  "The simulation predicts work satisfaction increasing by +0.37 points on the 0-10 scale; the actual increase was +0.35. Work-life balance: simulation prediction +0.45, actual outcome +0.54.",
+  "The retention gain concentrates among non-managers: prediction -2.8 points for non-managers and -1.1 for managers; the experiment measured -3.3 and +0.2.",
+  "For performance grades, the simulation predicts a change of +0.02 points; the actual change was -0.06. Both estimates are small.",
+  "Simulated employees used 55% of their eligible WFH days; the experiment recorded 52%.",
+  "This is a retrospective comparison with published outcomes. Earlier model choices had already been compared with those results; the close overall impact does not establish accuracy on new companies or policies.",
+  "Extending the offer to everyone takes company-wide six-month attrition from 7.5% (the experiment as run, simulated) to 6.1%, about 24 fewer resignations among 1612 employees."
+ ],
+ "sections": [
+  {
+   "heading": "What was simulated",
+   "charts": [
+    "cumulative_attrition",
+    "takeup_series"
+   ],
+   "metrics": [
+    "attrition_control_pct",
+    "attrition_treatment_pct",
+    "takeup_treatment"
+   ],
+   "body": "1612 employees of Trip.com's Airfare and IT divisions, rebuilt one by one from the experiment's real pretreatment data (age, gender, tenure, graduate degree, children, commute time, volunteer status, prior performance grade, manager flag) and assigned to the arms exactly as the birthday lottery did: 820 / 792 office-only / offered hybrid work. Each employee works an hourly schedule from 9 Aug 2021 to 23 Jan 2022, performing O*NET-bound activities of their role, commuting on office days and, in the group offered hybrid work, deciding every Wednesday and Friday whether to work from home. Latent commute burden, work-life balance, job satisfaction and attachment update weekly; a weekly quit hazard turns those states into resignations. The endline survey (21 Jan 2022) and the 2021H2 performance review are simulated as the company recorded them. The prediction was run over 50 seeds with every behavioral parameter drawn from its prior range, so the intervals reflect prior uncertainty and simulated outcome variation. This is a retrospective evaluation, not an untouched prospective test."
+  },
+  {
+   "heading": "Before the policy and the other predictions",
+   "body": "The [published study](https://www.nature.com/articles/s41586-024-07500-2) reports 9.8% attrition in the Airfare and IT divisions during the preceding six months. This is a division-level aggregate; the downloadable data does not supply an individual departure history or the earlier denominator. It provides historical context, while policy impact compares the two groups during the same later period.\n\nNo change predicts 9.8% attrition. The [earlier Ctrip study](https://doi.org/10.1093/qje/qju032) found about a 50% relative reduction with 4 home days a week among volunteer call-center staff. The simple two-day calculation assumes a proportional benefit: 9.8% \u00d7 (1 \u2212 50% \u00d7 2/4) = 7.35%. Scaling between different jobs, periods and schedules is an assumption. No after-policy outcomes enter either calculation. The simulation still uses its existing external turnover assumptions; the historical rate has not been used to refit those predictions."
+  },
+  {
+   "heading": "What the prediction got right",
+   "charts": [
+    "itt_forecast_vs_actual",
+    "attrition_by_arm",
+    "satisfaction_by_arm"
+   ],
+   "metrics": [
+    "attrition_itt_pp",
+    "work_satisfaction_itt",
+    "work_life_balance_itt",
+    "performance_2021H2_itt"
+   ],
+   "body": "Attrition: prediction -2.39 points (90% interval -5.16 to -0.20), experiment -2.40. Work satisfaction: prediction +0.37, experiment +0.35. Work-life balance: prediction +0.45, experiment +0.54. Performance grade: prediction +0.02, experiment -0.06 (experiment 95% CI -0.14 to +0.03; the prediction sits inside it). Take-up: prediction 55% of eligible days, experiment 52%.\n\nThe no-change prediction assumes zero policy impact. The simple two-day calculation predicts -2.45 percentage points, with an error of 0.05 points. This comparison applies only to overall attrition."
+  },
+  {
+   "heading": "Where effects concentrate",
+   "charts": [
+    "manager_contrast"
+   ],
+   "metrics": [
+    "attrition_itt_nonmanagers_pp",
+    "attrition_itt_managers_pp",
+    "attrition_itt_long_commute_pp",
+    "attrition_itt_short_commute_pp",
+    "attrition_itt_female_pp",
+    "attrition_itt_male_pp"
+   ],
+   "body": "Managers versus non-managers. Non-managers: prediction -2.8 points, experiment -3.3. Managers: prediction -1.1, experiment +0.2. The model produces this split from two independent facts: managers have lower baseline quit rates (older, longer tenure, management multiplier) and schedule-control gains are smaller where baseline autonomy is already high.\n\nCommute. Employees with a two-way commute over 90 minutes: prediction -3.2 points, experiment -3.1; up to 90 minutes: prediction -1.8, experiment -2.6. Long commuters both take up WFH more and gain more from each day at home.\n\nGender. Women: prediction -2.1 points, experiment -5.0; men: prediction -2.6, experiment -1.0. Group differences arise from observed employee information from before the policy. Gender is excluded from behavior, commute imputation and synthetic role assignment."
+  },
+  {
+   "heading": "What the policy variants show",
+   "charts": [
+    "scenario_bars",
+    "scenario_satisfaction"
+   ],
+   "metrics": [],
+   "body": "Run on the same workforce with the same priors (20 matching simulation runs; attrition estimated by summing weekly hazards while employees remain at risk):\n\n- The experiment as run: 8.8% office-only, 6.2% offered hybrid work, 7.5% overall.\n- Hybrid for all: 6.1% company-wide, satisfaction 7.78, take-up 53%.\nTrip.com extended hybrid work to the whole company after the experiment; the 'hybrid for all' row is the simulation's prediction of that decision."
+  },
+  {
+   "heading": "How it works",
+   "charts": [],
+   "metrics": [],
+   "body": "- Digital twins from real people: every simulated employee carries the real pretreatment covariate vector of one experiment employee, so the workforce has the experiment's exact joint distribution of commute, children, tenure, gender, education and role.\n- O*NET-bound activities: 3 roles bound to O*NET-SOC occupations, 21 activities mapped to 35 detailed work activities, performed hour by hour and recorded in the run trace.\n- Latent states: commute burden, work-life balance, job satisfaction and attachment evolve weekly from the policy exposure each person actually experiences, with weak sentiment spillover inside teams.\n- Swappable policies: every WFH take-up and every stay-or-quit choice goes through a seat policy that picks among options the simulation supplies; a seat can be a transparent rule or a language model, by configuration.\n- Digital twins with a trait layer: each employee carries fixed traits computed once per run (baseline satisfaction, baseline quit hazard, a WFH-preference trait that drives both how often they take a WFH day and how much each day is worth to them), a text profile built from those traits, and weekly latent states with inertia. The same twin feeds every seat policy, rule or language model.\n- Team comparison: employees who are not offered WFH while their teammates are lose satisfaction in proportion to the share of teammates offered; arms were assigned within teams by birthday, so the comparison was salient.\n- Independent priors: 34 behavioral parameters, each with a central value, a range and a cited source (the 2015 Ctrip full-time WFH experiment, turnover and commuting meta-analyses, the Survey of Working Arrangements and Attitudes, willingness-to-pay studies of flexible work, peer-comparison studies, industry turnover rates). The simulation reads neither arm's experiment outcomes. The inherited prior specification has been compared with this experiment before, so the results are retrospective, not a prospective validation."
+  }
+ ],
+ "charts": [
+  {
+   "id": "attrition_by_arm",
+   "type": "bar",
+   "title": "Six-month attrition by group: simulated vs actual",
+   "x_label": "",
+   "y_label": "% of employees who left",
+   "x": [
+    "Office-only",
+    "Offered hybrid work"
+   ],
+   "series": [
+    {
+     "name": "Simulation prediction (average across runs)",
+     "y": [
+      8.934,
+      6.336
+     ],
+     "interval": [
+      [
+       6.073,
+       11.854
+      ],
+      [
+       3.914,
+       9.495
+      ]
+     ]
+    },
+    {
+     "name": "Actual outcome",
+     "y": [
+      7.195,
+      4.798
+     ]
+    }
+   ],
+   "note": "Simulation predictions are means across simulation runs with 90% predictive intervals; both employee groups are evaluation-only."
+  },
+  {
+   "id": "satisfaction_by_arm",
+   "type": "bar",
+   "title": "End-of-period survey scales by group (0-10)",
+   "x_label": "",
+   "y_label": "mean score",
+   "x": [
+    "work satisfaction / Office-only",
+    "work satisfaction / Offered hybrid work",
+    "work life balance / Office-only",
+    "work life balance / Offered hybrid work",
+    "life satisfaction / Office-only",
+    "life satisfaction / Offered hybrid work",
+    "recommend friends / Office-only",
+    "recommend friends / Offered hybrid work"
+   ],
+   "series": [
+    {
+     "name": "Simulation prediction",
+     "y": [
+      7.374,
+      7.743,
+      6.982,
+      7.433,
+      7.226,
+      7.642,
+      7.381,
+      7.746
+     ]
+    },
+    {
+     "name": "Actual outcome",
+     "y": [
+      7.835,
+      8.185,
+      6.946,
+      7.484,
+      7.462,
+      7.813,
+      7.994,
+      8.346
+     ]
+    }
+   ],
+   "note": "Offered hybrid work-minus-control gaps are the scored quantity; levels depend on the satisfaction anchor prior."
+  },
+  {
+   "id": "manager_contrast",
+   "type": "bar",
+   "title": "Attrition by role and arm: simulated vs actual",
+   "x_label": "",
+   "y_label": "% who left",
+   "x": [
+    "Non-managers / Office-only",
+    "Non-managers / Offered hybrid work",
+    "Managers / Office-only",
+    "Managers / Offered hybrid work"
+   ],
+   "series": [
+    {
+     "name": "Simulation prediction",
+     "y": [
+      10.088,
+      7.137,
+      5.429,
+      3.833
+     ],
+     "interval": [
+      [
+       6.831,
+       14.06
+      ],
+      [
+       4.575,
+       10.475
+      ],
+      [
+       2.956,
+       9.36
+      ],
+      [
+       1.562,
+       6.771
+      ]
+     ]
+    },
+    {
+     "name": "Actual outcome",
+     "y": [
+      8.59,
+      5.333,
+      2.956,
+      3.125
+     ]
+    }
+   ],
+   "note": "The effect concentrates among non-managers in both the prediction and the experiment."
+  },
+  {
+   "id": "cumulative_attrition",
+   "type": "line",
+   "title": "Cumulative attrition by group over the experiment (weekly)",
+   "x_label": "week ending",
+   "y_label": "% who left",
+   "x": [
+    "2021-08-13",
+    "2021-08-20",
+    "2021-08-27",
+    "2021-09-03",
+    "2021-09-10",
+    "2021-09-17",
+    "2021-09-24",
+    "2021-10-01",
+    "2021-10-08",
+    "2021-10-15",
+    "2021-10-22",
+    "2021-10-29",
+    "2021-11-05",
+    "2021-11-12",
+    "2021-11-19",
+    "2021-11-26",
+    "2021-12-03",
+    "2021-12-10",
+    "2021-12-17",
+    "2021-12-24",
+    "2021-12-31",
+    "2022-01-07",
+    "2022-01-14",
+    "2022-01-21"
+   ],
+   "series": [
+    {
+     "name": "Office-only (simulated mean)",
+     "y": [
+      0.346,
+      0.761,
+      1.163,
+      1.554,
+      1.922,
+      2.295,
+      2.678,
+      3.022,
+      3.415,
+      3.766,
+      4.19,
+      4.566,
+      4.932,
+      5.28,
+      5.717,
+      6.037,
+      6.422,
+      6.763,
+      7.144,
+      7.51,
+      7.841,
+      8.193,
+      8.615,
+      8.934
+     ],
+     "band": [
+      [
+       0.0,
+       0.299,
+       0.421,
+       0.787,
+       0.976,
+       1.396,
+       1.683,
+       2.128,
+       2.183,
+       2.305,
+       2.549,
+       3.104,
+       3.293,
+       3.78,
+       4.024,
+       4.201,
+       4.445,
+       4.689,
+       5.043,
+       5.366,
+       5.488,
+       5.653,
+       5.83,
+       6.073
+      ],
+      [
+       0.61,
+       1.287,
+       1.707,
+       2.329,
+       2.994,
+       3.415,
+       3.847,
+       4.457,
+       4.89,
+       5.433,
+       5.854,
+       6.366,
+       6.908,
+       7.506,
+       8.018,
+       8.33,
+       8.75,
+       9.359,
+       10.037,
+       10.415,
+       10.726,
+       11.012,
+       11.622,
+       11.853
+      ]
+     ]
+    },
+    {
+     "name": "Offered hybrid work (simulated mean)",
+     "y": [
+      0.341,
+      0.707,
+      1.083,
+      1.432,
+      1.727,
+      1.97,
+      2.245,
+      2.528,
+      2.798,
+      3.061,
+      3.321,
+      3.568,
+      3.808,
+      4.023,
+      4.288,
+      4.591,
+      4.811,
+      5.066,
+      5.283,
+      5.49,
+      5.697,
+      5.896,
+      6.106,
+      6.336
+     ],
+     "band": [
+      [
+       0.057,
+       0.253,
+       0.505,
+       0.884,
+       1.136,
+       1.263,
+       1.32,
+       1.572,
+       1.698,
+       1.881,
+       2.02,
+       2.146,
+       2.33,
+       2.444,
+       2.639,
+       2.835,
+       2.891,
+       3.087,
+       3.283,
+       3.34,
+       3.535,
+       3.719,
+       3.845,
+       3.914
+      ],
+      [
+       0.631,
+       1.332,
+       1.78,
+       2.285,
+       2.595,
+       2.86,
+       3.296,
+       3.731,
+       3.983,
+       4.293,
+       4.741,
+       5.259,
+       5.556,
+       5.695,
+       6.155,
+       6.913,
+       7.152,
+       7.588,
+       7.955,
+       8.333,
+       8.529,
+       8.864,
+       9.186,
+       9.495
+      ]
+     ]
+    },
+    {
+     "name": "Office-only actual endpoint",
+     "y": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      7.195
+     ],
+     "point": true
+    },
+    {
+     "name": "Offered hybrid work actual endpoint",
+     "y": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      4.798
+     ],
+     "point": true
+    }
+   ],
+   "note": "Bands are 5th-95th percentiles across simulation runs. Actual experiment endpoints shown at the final week."
+  },
+  {
+   "id": "takeup_series",
+   "type": "line",
+   "title": "Share of eligible WFH days taken, by group",
+   "x_label": "eligible day",
+   "y_label": "share working from home",
+   "x": [
+    "2021-08-11",
+    "2021-08-13",
+    "2021-08-18",
+    "2021-08-20",
+    "2021-08-25",
+    "2021-08-27",
+    "2021-09-01",
+    "2021-09-03",
+    "2021-09-08",
+    "2021-09-10",
+    "2021-09-15",
+    "2021-09-17",
+    "2021-09-22",
+    "2021-09-24",
+    "2021-09-29",
+    "2021-10-08",
+    "2021-10-13",
+    "2021-10-15",
+    "2021-10-20",
+    "2021-10-22",
+    "2021-10-27",
+    "2021-10-29",
+    "2021-11-03",
+    "2021-11-05",
+    "2021-11-10",
+    "2021-11-12",
+    "2021-11-17",
+    "2021-11-19",
+    "2021-11-24",
+    "2021-11-26",
+    "2021-12-01",
+    "2021-12-03",
+    "2021-12-08",
+    "2021-12-10",
+    "2021-12-15",
+    "2021-12-17",
+    "2021-12-22",
+    "2021-12-24",
+    "2021-12-29",
+    "2021-12-31",
+    "2022-01-05",
+    "2022-01-07",
+    "2022-01-12",
+    "2022-01-14",
+    "2022-01-19",
+    "2022-01-21"
+   ],
+   "series": [
+    {
+     "name": "Offered hybrid work simulated",
+     "y": [
+      0.346,
+      0.346,
+      0.349,
+      0.344,
+      0.342,
+      0.35,
+      0.349,
+      0.35,
+      0.349,
+      0.346,
+      0.555,
+      0.552,
+      0.552,
+      0.551,
+      0.551,
+      0.557,
+      0.552,
+      0.548,
+      0.552,
+      0.552,
+      0.555,
+      0.556,
+      0.558,
+      0.553,
+      0.554,
+      0.556,
+      0.554,
+      0.553,
+      0.553,
+      0.551,
+      0.552,
+      0.553,
+      0.553,
+      0.554,
+      0.558,
+      0.557,
+      0.555,
+      0.552,
+      0.554,
+      0.556,
+      0.554,
+      0.553,
+      0.552,
+      0.554,
+      0.56,
+      0.556
+     ],
+     "band": [
+      [
+       0.272,
+       0.274,
+       0.284,
+       0.268,
+       0.269,
+       0.27,
+       0.281,
+       0.291,
+       0.282,
+       0.272,
+       0.464,
+       0.456,
+       0.461,
+       0.455,
+       0.445,
+       0.447,
+       0.468,
+       0.453,
+       0.464,
+       0.457,
+       0.443,
+       0.452,
+       0.465,
+       0.457,
+       0.449,
+       0.454,
+       0.458,
+       0.46,
+       0.456,
+       0.45,
+       0.453,
+       0.46,
+       0.432,
+       0.46,
+       0.458,
+       0.459,
+       0.466,
+       0.458,
+       0.44,
+       0.468,
+       0.461,
+       0.446,
+       0.455,
+       0.453,
+       0.462,
+       0.461
+      ],
+      [
+       0.424,
+       0.416,
+       0.429,
+       0.421,
+       0.409,
+       0.429,
+       0.419,
+       0.43,
+       0.423,
+       0.419,
+       0.659,
+       0.668,
+       0.647,
+       0.658,
+       0.669,
+       0.661,
+       0.644,
+       0.639,
+       0.647,
+       0.656,
+       0.658,
+       0.652,
+       0.649,
+       0.662,
+       0.647,
+       0.666,
+       0.648,
+       0.662,
+       0.651,
+       0.659,
+       0.662,
+       0.666,
+       0.652,
+       0.649,
+       0.673,
+       0.645,
+       0.666,
+       0.642,
+       0.661,
+       0.649,
+       0.65,
+       0.662,
+       0.649,
+       0.644,
+       0.666,
+       0.656
+      ]
+     ]
+    },
+    {
+     "name": "Office-only actual",
+     "y": [
+      0.001,
+      0.003,
+      0.001,
+      0.001,
+      0.003,
+      0.001,
+      0.002,
+      0.003,
+      0.001,
+      0.002,
+      0.003,
+      0.003,
+      0.001,
+      0.005,
+      0.001,
+      0.001,
+      0.002,
+      0.001,
+      0.001,
+      0.001,
+      0.001,
+      0.001,
+      0.003,
+      0.007,
+      0.008,
+      0.011,
+      0.004,
+      0.005,
+      0.004,
+      0.009,
+      0.002,
+      0.001,
+      0.003,
+      0.001,
+      0.005,
+      0.004,
+      0.003,
+      0.004,
+      0.001,
+      0.001,
+      0.007,
+      0.001,
+      0.001,
+      0.007,
+      0.012,
+      0.102
+     ]
+    },
+    {
+     "name": "Offered hybrid work actual",
+     "y": [
+      0.319,
+      0.405,
+      0.318,
+      0.405,
+      0.323,
+      0.405,
+      0.341,
+      0.399,
+      0.351,
+      0.381,
+      0.395,
+      0.493,
+      0.421,
+      0.561,
+      0.521,
+      0.573,
+      0.47,
+      0.582,
+      0.441,
+      0.497,
+      0.466,
+      0.517,
+      0.471,
+      0.557,
+      0.482,
+      0.525,
+      0.47,
+      0.53,
+      0.473,
+      0.587,
+      0.465,
+      0.564,
+      0.487,
+      0.58,
+      0.525,
+      0.598,
+      0.55,
+      0.713,
+      0.6,
+      0.793,
+      0.448,
+      0.533,
+      0.442,
+      0.502,
+      0.477,
+      0.622
+     ]
+    }
+   ],
+   "note": "Actual series is the deposit's group-level take-up (volunteer groups weighted by their population share). Volunteers became eligible on 13 Sep 2021."
+  },
+  {
+   "id": "scenario_bars",
+   "type": "bar",
+   "title": "Policy variants: attrition by group",
+   "x_label": "",
+   "y_label": "% who left",
+   "x": [
+    "The experiment as run",
+    "Hybrid for everyone"
+   ],
+   "series": [
+    {
+     "name": "Office-only",
+     "y": [
+      8.84,
+      6.0
+     ]
+    },
+    {
+     "name": "Offered hybrid work",
+     "y": [
+      6.22,
+      6.2
+     ]
+    },
+    {
+     "name": "Whole workforce",
+     "y": [
+      7.55,
+      6.1
+     ]
+    }
+   ],
+   "note": "Expected attrition estimated from accumulated risk while employees remain active, averaged across matching simulation runs. Uncertainty remains in simulated work and exit paths. In 'hybrid for all' both arms receive the offer."
+  },
+  {
+   "id": "scenario_satisfaction",
+   "type": "bar",
+   "title": "Policy variants: endline work satisfaction and take-up",
+   "x_label": "",
+   "y_label": "score / share",
+   "x": [
+    "The experiment as run",
+    "Hybrid for everyone"
+   ],
+   "series": [
+    {
+     "name": "Satisfaction Office-only",
+     "y": [
+      7.38,
+      7.77
+     ]
+    },
+    {
+     "name": "Satisfaction Offered hybrid work",
+     "y": [
+      7.75,
+      7.78
+     ]
+    },
+    {
+     "name": "Take-up Offered hybrid work (x10)",
+     "y": [
+      5.26,
+      5.26
+     ]
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "itt_forecast_vs_actual",
+   "type": "bar",
+   "title": "Offered hybrid work effects: prediction (mean, 90% interval) vs experiment",
+   "x_label": "",
+   "y_label": "effect (pp or points)",
+   "x": [
+    "Change in six-month attrition (hybrid minus office-only)",
+    "Change in work satisfaction (0\u201310 points)",
+    "Change in attrition, non-managers",
+    "Change in attrition, managers",
+    "Change in performance grade (1\u20135 points)"
+   ],
+   "series": [
+    {
+     "name": "Simulation prediction",
+     "y": [
+      -2.3865,
+      0.3685,
+      -2.8467,
+      -1.0533,
+      0.0223
+     ],
+     "interval": [
+      [
+       -5.1556,
+       -0.1982
+      ],
+      [
+       0.2029,
+       0.5493
+      ],
+      [
+       -5.1376,
+       -0.3109
+      ],
+      [
+       -4.9275,
+       1.2858
+      ],
+      [
+       -0.051,
+       0.0822
+      ]
+     ]
+    },
+    {
+     "name": "Actual outcome",
+     "y": [
+      -2.3971,
+      0.3507,
+      -3.2567,
+      0.1693,
+      -0.0556
+     ]
+    },
+    {
+     "name": "Zero-effect baseline",
+     "y": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   ],
+   "note": "Retrospective comparison: employee information from before the policy and assumptions from earlier research drive the simulation; neither arm is used for calibration."
+  }
+ ],
+ "metrics": [
+  {
+   "id": "attrition_itt_pp",
+   "label": "Change in six-month attrition (hybrid minus office-only)",
+   "simulated": -2.3865,
+   "simulated_mean": -2.5983,
+   "actual": -2.3971,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0,
+    "proportional_days": -2.45
+   },
+   "unit": "pp",
+   "better": "lower",
+   "interval": [
+    -5.1556,
+    -0.1982
+   ],
+   "n_seeds": 50,
+   "primary": true,
+   "actual_se": 1.1801,
+   "error": 0.0106,
+   "trial_ci95": [
+    -4.7101,
+    -0.0841
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 0.0106,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {
+    "zero_effect": 2.3971,
+    "proportional_days": 0.0529
+   }
+  },
+  {
+   "id": "work_satisfaction_itt",
+   "label": "Change in work satisfaction (0\u201310 points)",
+   "simulated": 0.3685,
+   "simulated_mean": 0.3685,
+   "actual": 0.3507,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0
+   },
+   "unit": "points",
+   "better": "higher",
+   "interval": [
+    0.2029,
+    0.5493
+   ],
+   "n_seeds": 50,
+   "primary": true,
+   "actual_se": 0.0841,
+   "error": 0.0178,
+   "trial_ci95": [
+    0.1859,
+    0.5155
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 0.0178,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {
+    "zero_effect": 0.3507
+   }
+  },
+  {
+   "id": "attrition_itt_nonmanagers_pp",
+   "label": "Change in attrition, non-managers",
+   "simulated": -2.8467,
+   "simulated_mean": -2.9508,
+   "actual": -3.2567,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0
+   },
+   "unit": "pp",
+   "better": "lower",
+   "interval": [
+    -5.1376,
+    -0.3109
+   ],
+   "n_seeds": 50,
+   "primary": true,
+   "actual_se": 1.4552,
+   "error": 0.41,
+   "trial_ci95": [
+    -6.1089,
+    -0.4045
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 0.41,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {
+    "zero_effect": 3.2567
+   }
+  },
+  {
+   "id": "attrition_itt_managers_pp",
+   "label": "Change in attrition, managers",
+   "simulated": -1.0533,
+   "simulated_mean": -1.5952,
+   "actual": 0.1693,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0
+   },
+   "unit": "pp",
+   "better": "lower",
+   "interval": [
+    -4.9275,
+    1.2858
+   ],
+   "n_seeds": 50,
+   "primary": true,
+   "actual_se": 1.7335,
+   "error": -1.2226,
+   "trial_ci95": [
+    -3.2284,
+    3.567
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 1.2226,
+   "covered_90": true,
+   "sign_correct": false,
+   "baseline_errors": {
+    "zero_effect": 0.1693
+   }
+  },
+  {
+   "id": "performance_2021H2_itt",
+   "label": "Change in performance grade (1\u20135 points)",
+   "simulated": 0.0223,
+   "simulated_mean": 0.0223,
+   "actual": -0.0556,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0
+   },
+   "unit": "points",
+   "better": "higher",
+   "interval": [
+    -0.051,
+    0.0822
+   ],
+   "n_seeds": 50,
+   "primary": true,
+   "actual_se": 0.0431,
+   "error": 0.0779,
+   "trial_ci95": [
+    -0.1401,
+    0.0289
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 0.0779,
+   "covered_90": false,
+   "sign_correct": false,
+   "baseline_errors": {
+    "zero_effect": 0.0556
+   }
+  },
+  {
+   "id": "takeup_treatment",
+   "label": "Share of offered home days used",
+   "simulated": 0.5538,
+   "simulated_mean": 0.5538,
+   "actual": 0.5232,
+   "baseline": null,
+   "baselines": {},
+   "unit": "share",
+   "better": "higher",
+   "interval": [
+    0.4585,
+    0.6536
+   ],
+   "n_seeds": 50,
+   "primary": false,
+   "actual_se": null,
+   "error": 0.0306,
+   "abs_error": 0.0306,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {}
+  },
+  {
+   "id": "attrition_itt_expected_pp",
+   "label": "Change in attrition, estimated from accumulated quit risk",
+   "simulated": -2.3865,
+   "simulated_mean": -2.3865,
+   "actual": -2.3971,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0,
+    "proportional_days": -2.45
+   },
+   "unit": "pp",
+   "better": "lower",
+   "interval": [
+    -3.6931,
+    -1.3164
+   ],
+   "n_seeds": 50,
+   "primary": false,
+   "actual_se": 1.1801,
+   "error": 0.0106,
+   "trial_ci95": [
+    -4.7101,
+    -0.0841
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 0.0106,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {
+    "zero_effect": 2.3971,
+    "proportional_days": 0.0529
+   }
+  },
+  {
+   "id": "attrition_control_pct",
+   "label": "Six-month attrition, office-only group",
+   "simulated": 8.6403,
+   "simulated_mean": 8.9341,
+   "actual": 7.1951,
+   "baseline": null,
+   "baselines": {},
+   "unit": "%",
+   "better": "lower",
+   "interval": [
+    6.0732,
+    11.8537
+   ],
+   "n_seeds": 50,
+   "primary": false,
+   "actual_se": 0.9029,
+   "error": 1.4452,
+   "trial_ci95": [
+    5.4254,
+    8.9648
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 1.4452,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {}
+  },
+  {
+   "id": "attrition_treatment_pct",
+   "label": "Six-month attrition, offered hybrid work",
+   "simulated": 6.2538,
+   "simulated_mean": 6.3359,
+   "actual": 4.798,
+   "baseline": 9.8,
+   "baselines": {
+    "historical_no_change": 9.8,
+    "proportional_days": 7.35
+   },
+   "unit": "%",
+   "better": "lower",
+   "interval": [
+    3.9141,
+    9.4949
+   ],
+   "n_seeds": 50,
+   "primary": false,
+   "actual_se": 0.7599,
+   "error": 1.4558,
+   "trial_ci95": [
+    3.3086,
+    6.2874
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 1.4558,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {
+    "historical_no_change": 5.002,
+    "proportional_days": 2.552
+   }
+  },
+  {
+   "id": "work_life_balance_itt",
+   "label": "Change in work-life balance",
+   "simulated": 0.4516,
+   "simulated_mean": 0.4516,
+   "actual": 0.5379,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0
+   },
+   "unit": "points",
+   "better": "higher",
+   "interval": [
+    0.1856,
+    0.7121
+   ],
+   "n_seeds": 50,
+   "primary": false,
+   "actual_se": 0.1106,
+   "error": -0.0863,
+   "trial_ci95": [
+    0.3211,
+    0.7547
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 0.0863,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {
+    "zero_effect": 0.5379
+   }
+  },
+  {
+   "id": "life_satisfaction_itt",
+   "label": "Change in life satisfaction",
+   "simulated": 0.4155,
+   "simulated_mean": 0.4155,
+   "actual": 0.3515,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0
+   },
+   "unit": "points",
+   "better": "higher",
+   "interval": [
+    0.2564,
+    0.5847
+   ],
+   "n_seeds": 50,
+   "primary": false,
+   "actual_se": 0.0972,
+   "error": 0.064,
+   "trial_ci95": [
+    0.161,
+    0.542
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 0.064,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {
+    "zero_effect": 0.3515
+   }
+  },
+  {
+   "id": "recommend_friends_itt",
+   "label": "Change in willingness to recommend the company",
+   "simulated": 0.3652,
+   "simulated_mean": 0.3652,
+   "actual": 0.3516,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0
+   },
+   "unit": "points",
+   "better": "higher",
+   "interval": [
+    0.1896,
+    0.55
+   ],
+   "n_seeds": 50,
+   "primary": false,
+   "actual_se": 0.0988,
+   "error": 0.0136,
+   "trial_ci95": [
+    0.158,
+    0.5452
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 0.0136,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {
+    "zero_effect": 0.3516
+   }
+  },
+  {
+   "id": "attrition_itt_female_pp",
+   "label": "Change in attrition, women",
+   "simulated": -2.0535,
+   "simulated_mean": -2.3904,
+   "actual": -5.0061,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0
+   },
+   "unit": "pp",
+   "better": "lower",
+   "interval": [
+    -6.4223,
+    1.2831
+   ],
+   "n_seeds": 50,
+   "primary": false,
+   "actual_se": 2.088,
+   "error": 2.9526,
+   "trial_ci95": [
+    -9.0986,
+    -0.9136
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 2.9526,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {
+    "zero_effect": 5.0061
+   }
+  },
+  {
+   "id": "attrition_itt_male_pp",
+   "label": "Change in attrition, men",
+   "simulated": -2.558,
+   "simulated_mean": -2.6989,
+   "actual": -0.9968,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0
+   },
+   "unit": "pp",
+   "better": "lower",
+   "interval": [
+    -6.7321,
+    0.6347
+   ],
+   "n_seeds": 50,
+   "primary": false,
+   "actual_se": 1.43,
+   "error": -1.5612,
+   "trial_ci95": [
+    -3.7996,
+    1.806
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 1.5612,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {
+    "zero_effect": 0.9968
+   }
+  },
+  {
+   "id": "attrition_itt_long_commute_pp",
+   "label": "Change in attrition, commute over 90 minutes",
+   "simulated": -3.1557,
+   "simulated_mean": -3.4404,
+   "actual": -3.1061,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0
+   },
+   "unit": "pp",
+   "better": "lower",
+   "interval": [
+    -6.8435,
+    -0.3964
+   ],
+   "n_seeds": 50,
+   "primary": false,
+   "actual_se": 1.6711,
+   "error": -0.0496,
+   "trial_ci95": [
+    -6.3815,
+    0.1693
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 0.0496,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {
+    "zero_effect": 3.1061
+   }
+  },
+  {
+   "id": "attrition_itt_short_commute_pp",
+   "label": "Change in attrition, commute up to 90 minutes",
+   "simulated": -1.8327,
+   "simulated_mean": -2.2862,
+   "actual": -2.6099,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0
+   },
+   "unit": "pp",
+   "better": "lower",
+   "interval": [
+    -7.0913,
+    2.1566
+   ],
+   "n_seeds": 50,
+   "primary": false,
+   "actual_se": 1.9224,
+   "error": 0.7772,
+   "trial_ci95": [
+    -6.3778,
+    1.158
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 0.7772,
+   "covered_90": true,
+   "sign_correct": true,
+   "baseline_errors": {
+    "zero_effect": 2.6099
+   }
+  },
+  {
+   "id": "promotion_2021H2_itt_pp",
+   "label": "Change in promotion rate",
+   "simulated": -0.733,
+   "simulated_mean": -0.733,
+   "actual": 0.8851,
+   "baseline": 0.0,
+   "baselines": {
+    "zero_effect": 0.0
+   },
+   "unit": "pp",
+   "better": "higher",
+   "interval": [
+    -2.4553,
+    0.7624
+   ],
+   "n_seeds": 50,
+   "primary": false,
+   "actual_se": 1.3397,
+   "error": -1.6181,
+   "trial_ci95": [
+    -1.7407,
+    3.5109
+   ],
+   "within_trial_ci95": true,
+   "abs_error": 1.6181,
+   "covered_90": false,
+   "sign_correct": false,
+   "baseline_errors": {
+    "zero_effect": 0.8851
+   }
+  }
+ ],
+ "scenario_comparison": [
+  {
+   "scenario": "baseline",
+   "title": "The experiment as run",
+   "seeds": 20,
+   "attrition_basis": "hazard-implied expectation",
+   "attrition_pct_control": 8.84,
+   "attrition_pct_treatment": 6.22,
+   "attrition_pct_all": 7.55,
+   "attrition_itt_pp": -2.63,
+   "attrition_pct_managers_control": 5.11,
+   "attrition_pct_managers_treatment": 3.93,
+   "attrition_pct_nonmanagers_control": 10.08,
+   "attrition_pct_nonmanagers_treatment": 6.95,
+   "realized_attrition_pct_control": 9.29,
+   "realized_attrition_pct_treatment": 6.49,
+   "realized_attrition_pct_all": 7.91,
+   "satisfaction_control": 7.38,
+   "satisfaction_treatment": 7.75,
+   "work_life_balance_control": 7.02,
+   "work_life_balance_treatment": 7.48,
+   "take_up_control": 0.0,
+   "take_up_treatment": 0.526,
+   "performance_control": 3.806,
+   "performance_treatment": 3.818,
+   "quits_total": 121.8,
+   "realized_quits_total": 127.5
+  },
+  {
+   "scenario": "hybrid_for_all",
+   "title": "Hybrid for everyone",
+   "seeds": 20,
+   "attrition_basis": "hazard-implied expectation",
+   "attrition_pct_control": 6.0,
+   "attrition_pct_treatment": 6.2,
+   "attrition_pct_all": 6.1,
+   "attrition_itt_pp": 0.2,
+   "attrition_pct_managers_control": 3.72,
+   "attrition_pct_managers_treatment": 3.92,
+   "attrition_pct_nonmanagers_control": 6.75,
+   "attrition_pct_nonmanagers_treatment": 6.93,
+   "realized_attrition_pct_control": 6.22,
+   "realized_attrition_pct_treatment": 6.46,
+   "realized_attrition_pct_all": 6.34,
+   "satisfaction_control": 7.77,
+   "satisfaction_treatment": 7.78,
+   "work_life_balance_control": 7.46,
+   "work_life_balance_treatment": 7.48,
+   "take_up_control": 0.526,
+   "take_up_treatment": 0.526,
+   "performance_control": 3.8,
+   "performance_treatment": 3.818,
+   "quits_total": 98.3,
+   "realized_quits_total": 102.2
+  }
+ ],
+ "sources": {
+  "experiment": "doi:10.7910/DVN/6X4ZZL v1.1; computed by instances/trip/ingest/run.py",
+  "priors": "instances/trip/calibration/priors.yaml",
+  "evaluation": "runs/trip/evaluation.json"
+ }
+}

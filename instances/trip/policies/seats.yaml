@@ -1,0 +1,18 @@
+# Seat -> policy adapter. The world offers each agent options (wfh/office on an eligible day; quit/stay weekly)
+# with prior-driven weights; the seat's policy chooses. Swapping a seat to an LLM is a config change.
+default:
+  adapter: rule
+seats:
+  employee:
+    adapter: rule
+  manager:
+    adapter: rule
+  # Example: let managers be played by a hosted LLM (needs ANTHROPIC_API_KEY; falls back to the rule
+  # policy and records the fallback in the trace when the key or the call fails).
+  # manager:
+  #   adapter: llm
+  #   model: claude-sonnet-5-5
+  #   system_prompt: >
+  #     You are a middle manager at a large Chinese online travel company in 2021. You lead a team of
+  #     8-12 people. Decide realistically whether to work from home on an eligible day and, once a week,
+  #     whether to stay with the company, given your commute, family situation and job satisfaction.

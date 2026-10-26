@@ -1,0 +1,9 @@
+id: evaluation
+title: Evaluation runs (baseline, priors sampled per seed, 10% work-event sample)
+description: >
+  Identical to the baseline except that hourly work events are recorded for a random 10% of employees,
+  which keeps 50-seed scoring runs small. Used by `orgsim evaluate trip` (evaluation/protocol.yaml).
+extends: baseline
+seeds: [1, 2, 3, 4, 5]
+world:
+  work_events: sample

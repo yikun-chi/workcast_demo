@@ -1,0 +1,11 @@
+id: hybrid_for_all
+title: What if everyone had been offered hybrid work?
+short_title: Hybrid for everyone
+summary: "Offer the two home days to everyone instead of half, which is what Trip.com did after the experiment; the question is what it does to company-wide attrition."
+description: >
+  Offer Wednesday and Friday at home to every employee, as Trip.com later did. Compare predicted company-wide
+  outcomes with the original policy, which offered hybrid work to half of the employees.
+extends: baseline
+seeds: [1, 2, 3, 4, 5]
+interventions:
+  - {type: wfh_offer, days: [Wed, Fri], who: all}

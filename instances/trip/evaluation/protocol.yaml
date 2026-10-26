@@ -1,0 +1,208 @@
+# Comparison rules use pre-policy information only.
+reference: data/normalized/reference_outcomes.json
+t0: '2021-08-09'
+horizon_days: 168
+design: Compare the hybrid and office-only groups; average predictions across repeated runs, with a range covering 90% of simulated outcomes
+scenario: evaluation
+seeds:
+  start: 1
+  count: 50
+whatif:
+  scenarios:
+  - hybrid_for_all
+  seeds:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  overrides:
+    world:
+      work_events: sample
+arms:
+  '0': Office-only
+  '1': Offered hybrid work
+metrics:
+- id: attrition_itt_pp
+  label: Change in six-month attrition (hybrid minus office-only)
+  path: attrition_pct.all
+  point_path: expected_attrition_pct.all
+  field: itt
+  unit: pp
+  better: lower
+  primary: true
+  baselines:
+    zero_effect:
+      absolute: 0
+    proportional_days:
+      method: proportional_days_effect_pp
+- id: work_satisfaction_itt
+  label: Change in work satisfaction (0–10 points)
+  path: satisfaction.work_satisfaction
+  field: itt
+  unit: points
+  better: higher
+  primary: true
+  baselines:
+    zero_effect:
+      absolute: 0
+- id: attrition_itt_nonmanagers_pp
+  label: Change in attrition, non-managers
+  path: attrition_pct.by.managerial.0
+  point_path: expected_attrition_pct.by.managerial.0
+  field: itt
+  unit: pp
+  better: lower
+  primary: true
+  baselines:
+    zero_effect:
+      absolute: 0
+- id: attrition_itt_managers_pp
+  label: Change in attrition, managers
+  path: attrition_pct.by.managerial.1
+  point_path: expected_attrition_pct.by.managerial.1
+  field: itt
+  unit: pp
+  better: lower
+  primary: true
+  baselines:
+    zero_effect:
+      absolute: 0
+- id: performance_2021H2_itt
+  label: Change in performance grade (1–5 points)
+  path: performance.2021H2
+  field: itt
+  unit: points
+  better: higher
+  primary: true
+  baselines:
+    zero_effect:
+      absolute: 0
+- id: takeup_treatment
+  label: Share of offered home days used
+  path: takeup.window_means_by_arm
+  field: '1'
+  unit: share
+  better: higher
+- id: attrition_itt_expected_pp
+  label: Change in attrition, estimated from accumulated quit risk
+  path: expected_attrition_pct.all
+  actual_path: attrition_pct.all
+  field: itt
+  unit: pp
+  better: lower
+  baselines:
+    zero_effect:
+      absolute: 0
+    proportional_days:
+      method: proportional_days_effect_pp
+- id: attrition_control_pct
+  label: Six-month attrition, office-only group
+  path: attrition_pct.all
+  point_path: expected_attrition_pct.all
+  field: '0'
+  unit: '%'
+  better: lower
+- id: attrition_treatment_pct
+  label: Six-month attrition, offered hybrid work
+  path: attrition_pct.all
+  point_path: expected_attrition_pct.all
+  field: '1'
+  unit: '%'
+  better: lower
+  baselines:
+    historical_no_change:
+      method: no_change_pct
+    proportional_days:
+      method: proportional_days_pct
+- id: work_life_balance_itt
+  label: Change in work-life balance
+  path: satisfaction.work_life_balance
+  field: itt
+  unit: points
+  better: higher
+  baselines:
+    zero_effect:
+      absolute: 0
+- id: life_satisfaction_itt
+  label: Change in life satisfaction
+  path: satisfaction.life_satisfaction
+  field: itt
+  unit: points
+  better: higher
+  baselines:
+    zero_effect:
+      absolute: 0
+- id: recommend_friends_itt
+  label: Change in willingness to recommend the company
+  path: satisfaction.recommend_friends
+  field: itt
+  unit: points
+  better: higher
+  baselines:
+    zero_effect:
+      absolute: 0
+- id: attrition_itt_female_pp
+  label: Change in attrition, women
+  path: attrition_pct.by.female.1
+  point_path: expected_attrition_pct.by.female.1
+  field: itt
+  unit: pp
+  better: lower
+  baselines:
+    zero_effect:
+      absolute: 0
+- id: attrition_itt_male_pp
+  label: Change in attrition, men
+  path: attrition_pct.by.female.0
+  point_path: expected_attrition_pct.by.female.0
+  field: itt
+  unit: pp
+  better: lower
+  baselines:
+    zero_effect:
+      absolute: 0
+- id: attrition_itt_long_commute_pp
+  label: Change in attrition, commute over 90 minutes
+  path: attrition_pct.by.live_far.1
+  point_path: expected_attrition_pct.by.live_far.1
+  field: itt
+  unit: pp
+  better: lower
+  baselines:
+    zero_effect:
+      absolute: 0
+- id: attrition_itt_short_commute_pp
+  label: Change in attrition, commute up to 90 minutes
+  path: attrition_pct.by.live_far.0
+  point_path: expected_attrition_pct.by.live_far.0
+  field: itt
+  unit: pp
+  better: lower
+  baselines:
+    zero_effect:
+      absolute: 0
+- id: promotion_2021H2_itt_pp
+  label: Change in promotion rate
+  path: promotion_pct.2021H2
+  field: itt
+  unit: pp
+  better: higher
+  baselines:
+    zero_effect:
+      absolute: 0

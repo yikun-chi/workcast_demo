@@ -1,0 +1,12 @@
+attrition:
+  value_pct: 9.8
+  period: Six months before the August 2021 experiment
+  population: Trip.com Airfare and IT divisions
+  granularity: Division-level aggregate; individual pre-period departures and denominators are not supplied
+  source_title: Hybrid working from home improves retention without damaging performance
+  source_url: https://www.nature.com/articles/s41586-024-07500-2
+  source_section: Effects on employee retention
+  source_excerpt: "quit rates in the same Airfare and IT divisions were 9.8% in the six months before the experiment"
+  observed_before_policy: true
+  publication_date: '2024-06-12'
+  use: Historical reference and non-simulation comparisons; not a measured outcome for the later office-only group

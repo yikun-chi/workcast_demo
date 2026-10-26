@@ -1,0 +1,41 @@
+{
+ "id": "auto_match",
+ "title": "Automated three-way match (+2% tolerance)",
+ "description": "An agent capability clears invoice/PO/GR mismatches within a 2% tolerance without a human touch, removing most manual payment-block work.",
+ "horizon_days": 14,
+ "seeds": [
+  1,
+  2,
+  3
+ ],
+ "world": {
+  "arrival_rate_per_h": 28.6,
+  "work_hours": [
+   8,
+   18
+  ],
+  "match_tolerance_pct": 2.0,
+  "approval_threshold_eur": 10000,
+  "roles": {
+   "role:ap_clerk": {
+    "headcount": 148
+   },
+   "role:buyer": {
+    "headcount": 180
+   }
+  }
+ },
+ "interventions": [
+  {
+   "type": "add_capability",
+   "system": "sys:sap",
+   "capability": "cap:three_way_match",
+   "params": {
+    "tolerance_pct": 2.0,
+    "auto_release": true
+   },
+   "label": "Auto-release payment blocks within 2% tolerance"
+  }
+ ],
+ "extends": "baseline"
+}

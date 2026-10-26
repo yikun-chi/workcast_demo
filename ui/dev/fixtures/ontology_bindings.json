@@ -1,0 +1,356 @@
+{
+ "organization": {
+  "id": "org:bpi19",
+  "label": "Multinational coatings & paints company",
+  "properties": {
+   "country": "NL",
+   "fiscal_year": 2018
+  }
+ },
+ "org_units": [
+  {
+   "id": "ou:procurement",
+   "label": "Procurement",
+   "properties": {
+    "headcount": 212
+   }
+  },
+  {
+   "id": "ou:ap",
+   "label": "Accounts Payable",
+   "properties": {
+    "headcount": 148
+   }
+  },
+  {
+   "id": "ou:warehouse",
+   "label": "Goods Receiving",
+   "properties": {
+    "headcount": 191
+   }
+  },
+  {
+   "id": "ou:it",
+   "label": "ERP Operations",
+   "properties": {
+    "headcount": 56
+   }
+  }
+ ],
+ "roles": [
+  {
+   "id": "role:buyer",
+   "label": "Buyer",
+   "onet_code": "13-1023.00",
+   "org_unit": "ou:procurement",
+   "headcount": 180
+  },
+  {
+   "id": "role:purchasing_manager",
+   "label": "Purchasing manager",
+   "onet_code": "11-3061.00",
+   "org_unit": "ou:procurement",
+   "headcount": 32
+  },
+  {
+   "id": "role:ap_clerk",
+   "label": "Accounts payable clerk",
+   "onet_code": "43-3031.00",
+   "org_unit": "ou:ap",
+   "headcount": 148
+  },
+  {
+   "id": "role:gr_clerk",
+   "label": "Goods receipt clerk",
+   "onet_code": "43-5061.00",
+   "org_unit": "ou:warehouse",
+   "headcount": 191
+  },
+  {
+   "id": "role:batch_job",
+   "label": "Batch job (automated)",
+   "onet_code": null,
+   "org_unit": "ou:it",
+   "headcount": 20,
+   "properties": {
+    "automated": true
+   }
+  }
+ ],
+ "persons": [
+  {
+   "id": "person:buyer_senior",
+   "label": "Senior buyer archetype",
+   "role": "role:buyer",
+   "org_unit": "ou:procurement",
+   "properties": {
+    "tenure_years": 8,
+    "share": 0.35
+   }
+  },
+  {
+   "id": "person:buyer_junior",
+   "label": "Junior buyer archetype",
+   "role": "role:buyer",
+   "org_unit": "ou:procurement",
+   "properties": {
+    "tenure_years": 2,
+    "share": 0.65
+   }
+  },
+  {
+   "id": "person:ap_specialist",
+   "label": "AP specialist archetype",
+   "role": "role:ap_clerk",
+   "org_unit": "ou:ap",
+   "properties": {
+    "tenure_years": 5
+   }
+  },
+  {
+   "id": "person:gr_operator",
+   "label": "Receiving operator archetype",
+   "role": "role:gr_clerk",
+   "org_unit": "ou:warehouse",
+   "properties": {
+    "tenure_years": 4
+   }
+  }
+ ],
+ "systems": [
+  {
+   "id": "sys:sap",
+   "label": "SAP ERP (MM/FI)",
+   "capabilities": [
+    {
+     "id": "cap:create_po",
+     "label": "Create purchase order"
+    },
+    {
+     "id": "cap:post_gr",
+     "label": "Post goods receipt"
+    },
+    {
+     "id": "cap:post_invoice",
+     "label": "Post vendor invoice"
+    },
+    {
+     "id": "cap:three_way_match",
+     "label": "Three-way match"
+    },
+    {
+     "id": "cap:clear_invoice",
+     "label": "Clear invoice / payment run"
+    }
+   ]
+  },
+  {
+   "id": "sys:edi",
+   "label": "Vendor EDI gateway",
+   "capabilities": [
+    {
+     "id": "cap:receive_edi_invoice",
+     "label": "Receive EDI invoice"
+    }
+   ]
+  }
+ ],
+ "artifacts": [
+  {
+   "id": "art:po",
+   "label": "Purchase order"
+  },
+  {
+   "id": "art:gr_doc",
+   "label": "Goods receipt document"
+  },
+  {
+   "id": "art:invoice",
+   "label": "Vendor invoice"
+  },
+  {
+   "id": "art:payment",
+   "label": "Payment"
+  }
+ ],
+ "activities": [
+  {
+   "id": "act:create_po_item",
+   "label": "Create Purchase Order Item",
+   "roles": [
+    "role:buyer"
+   ],
+   "dwa_ids": [
+    "4.A.3.b.6.I07.D04"
+   ],
+   "system": "sys:sap",
+   "capability": "cap:create_po",
+   "produces": "art:po"
+  },
+  {
+   "id": "act:approve_po",
+   "label": "Approve Purchase Order",
+   "roles": [
+    "role:purchasing_manager"
+   ],
+   "dwa_ids": [
+    "4.A.4.b.4.I01.D01"
+   ],
+   "system": "sys:sap"
+  },
+  {
+   "id": "act:vendor_confirm",
+   "label": "Vendor creates confirmation",
+   "roles": [],
+   "dwa_ids": [],
+   "system": "sys:edi"
+  },
+  {
+   "id": "act:record_gr",
+   "label": "Record Goods Receipt",
+   "roles": [
+    "role:gr_clerk"
+   ],
+   "dwa_ids": [
+    "4.A.3.b.6.I06.D04"
+   ],
+   "system": "sys:sap",
+   "capability": "cap:post_gr",
+   "produces": "art:gr_doc"
+  },
+  {
+   "id": "act:record_invoice",
+   "label": "Record Invoice Receipt",
+   "roles": [
+    "role:ap_clerk"
+   ],
+   "dwa_ids": [
+    "4.A.3.b.6.I07.D02"
+   ],
+   "system": "sys:sap",
+   "capability": "cap:post_invoice",
+   "produces": "art:invoice"
+  },
+  {
+   "id": "act:remove_block",
+   "label": "Remove Payment Block",
+   "roles": [
+    "role:ap_clerk",
+    "role:buyer"
+   ],
+   "dwa_ids": [
+    "4.A.2.a.1.I02.D01"
+   ],
+   "system": "sys:sap",
+   "capability": "cap:three_way_match"
+  },
+  {
+   "id": "act:clear_invoice",
+   "label": "Clear Invoice",
+   "roles": [
+    "role:batch_job"
+   ],
+   "dwa_ids": [],
+   "system": "sys:sap",
+   "capability": "cap:clear_invoice",
+   "produces": "art:payment"
+  },
+  {
+   "id": "act:change_price",
+   "label": "Change Price",
+   "roles": [
+    "role:buyer"
+   ],
+   "dwa_ids": [
+    "4.A.2.b.3.I03.D01"
+   ],
+   "system": "sys:sap"
+  }
+ ],
+ "process_edges": [
+  {
+   "from": "act:create_po_item",
+   "to": "act:approve_po"
+  },
+  {
+   "from": "act:approve_po",
+   "to": "act:vendor_confirm"
+  },
+  {
+   "from": "act:vendor_confirm",
+   "to": "act:record_gr"
+  },
+  {
+   "from": "act:record_gr",
+   "to": "act:record_invoice"
+  },
+  {
+   "from": "act:record_invoice",
+   "to": "act:remove_block"
+  },
+  {
+   "from": "act:remove_block",
+   "to": "act:clear_invoice"
+  },
+  {
+   "from": "act:record_invoice",
+   "to": "act:clear_invoice"
+  },
+  {
+   "from": "act:change_price",
+   "to": "act:remove_block"
+  }
+ ],
+ "external_actors": [
+  {
+   "id": "ext:vendor",
+   "label": "Vendor (1,965 suppliers)",
+   "interacts_with": [
+    "act:vendor_confirm",
+    "act:record_invoice"
+   ]
+  }
+ ],
+ "relationships": [
+  {
+   "type": "reports_to",
+   "source": "person:buyer_junior",
+   "target": "person:buyer_senior"
+  },
+  {
+   "type": "same_manager",
+   "source": "person:buyer_junior",
+   "target": "person:buyer_senior"
+  }
+ ],
+ "policies": [
+  {
+   "id": "pol:auto_match",
+   "label": "Automated 3-way match tolerance +2%",
+   "affects": [
+    "act:remove_block",
+    "role:ap_clerk"
+   ]
+  },
+  {
+   "id": "pol:ap_headcount",
+   "label": "AP headcount -20%",
+   "affects": [
+    "role:ap_clerk"
+   ]
+  }
+ ],
+ "latent_states": [
+  {
+   "id": "state:ap_workload",
+   "label": "AP queue pressure",
+   "person": "person:ap_specialist",
+   "properties": {
+    "range": [
+     0,
+     1
+    ]
+   }
+  }
+ ]
+}

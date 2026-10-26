@@ -1,0 +1,19 @@
+# Seat -> policy adapter. A seat is a role id from ontology/bindings.yaml; the kernel offers each seat only the
+# options its constraints allow, with weights from calibration/process.json, and the seat chooses.
+default: {adapter: rule}
+seats:
+  buyer: {adapter: rule}
+  purchasing_clerk: {adapter: rule}
+  goods_receipt: {adapter: rule}
+  ap_invoice: {adapter: rule}
+  ap_payment: {adapter: rule}
+  batch: {adapter: rule}
+  vendor: {adapter: rule}
+  # Example of a hosted-LLM seat for the payment specialists (needs ANTHROPIC_API_KEY; falls back to the rule on error):
+  # ap_payment:
+  #   adapter: llm
+  #   model: claude-sonnet-5-5
+  #   system_prompt: >
+  #     You are an accounts-payable payment specialist at a multinational. You see a purchase-order line item, its
+  #     history, how long it has waited and your team's queue. Choose the next step among the options offered; prefer
+  #     clearing invoices whose goods receipt and invoice match, and release payment blocks only when prerequisites hold.

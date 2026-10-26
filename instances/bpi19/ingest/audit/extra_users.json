@@ -1,0 +1,57 @@
+{
+ "distinct_users_per_case_excl_NONE": {
+  "mean": 4.066343839131782,
+  "median": 4.0,
+  "p90": 5.0,
+  "max": 21
+ },
+ "distinct_human_users_per_case": {
+  "mean": 3.7102735427077786,
+  "median": 4.0,
+  "p90": 5.0,
+  "max": 20
+ },
+ "handoffs_per_case_excl_NONE": {
+  "mean": 3.1764243209101672,
+  "median": 3.0,
+  "p90": 4.0,
+  "share_ge1": 0.9532800495761399
+ },
+ "events_after_exact_dedup": 1463175,
+ "test_window_by_category": {
+  "2-way match": {
+   "n": 283,
+   "share_clear_invoice": 0.296819788
+  },
+  "3-way match, invoice after GR": {
+   "n": 3731,
+   "share_clear_invoice": 0.3886357545
+  },
+  "3-way match, invoice before GR": {
+   "n": 53790,
+   "share_clear_invoice": 0.5284625395
+  },
+  "Consignment": {
+   "n": 3317,
+   "share_clear_invoice": 0.0
+  }
+ },
+ "train_window_by_category": {
+  "2-way match": {
+   "n": 390,
+   "share_clear_invoice": 0.3282051282
+  },
+  "3-way match, invoice after GR": {
+   "n": 8317,
+   "share_clear_invoice": 0.7842972226
+  },
+  "3-way match, invoice before GR": {
+   "n": 118149,
+   "share_clear_invoice": 0.9400164199
+  },
+  "Consignment": {
+   "n": 7884,
+   "share_clear_invoice": 0.0
+  }
+ }
+}

@@ -1,0 +1,28 @@
+{
+ "default": {
+  "adapter": "rule"
+ },
+ "seats": {
+  "role:buyer": {
+   "adapter": "rule",
+   "params": {
+    "policy": "fifo_by_value"
+   }
+  },
+  "role:ap_clerk": {
+   "adapter": "llm",
+   "model": "claude-sonnet-5-5",
+   "system_prompt": "You are an accounts-payable specialist clearing vendor invoices against purchase orders and goods receipts."
+  },
+  "role:purchasing_manager": {
+   "adapter": "llm",
+   "model": "claude-opus-5",
+   "system_prompt": "You approve purchase orders above the threshold, weighing spend area budget and vendor history."
+  },
+  "role:gr_clerk": {
+   "adapter": "local",
+   "model": "orgsim-gr-ft-v2",
+   "base_url": "http://localhost:8000/v1/chat/completions"
+  }
+ }
+}

@@ -1,0 +1,2780 @@
+{
+ "data/beliefupdate.dta": {
+  "path": "data/beliefupdate.dta",
+  "n_rows": 1503,
+  "n_cols": 2,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 762,
+     "1.0": 741
+    }
+   },
+   {
+    "name": "change",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 346,
+    "null_rate": 0.2302,
+    "n_unique": 21,
+    "unique_ratio": 0.0182,
+    "describe": {
+     "count": 1157.0,
+     "mean": 0.0179,
+     "std": 0.1001,
+     "min": -0.425,
+     "25%": 0.0,
+     "50%": 0.0,
+     "75%": 0.0,
+     "max": 0.625
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1461
+ },
+ "data/extendedfigure1.dta": {
+  "path": "data/extendedfigure1.dta",
+  "n_rows": 95494,
+  "n_cols": 5,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0,
+    "value_counts": {
+     "0.0": 46767,
+     "1.0": 48727
+    }
+   },
+   {
+    "name": "codelines",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 4437,
+    "unique_ratio": 0.0465,
+    "describe": {
+     "count": 95494.0,
+     "mean": 285.0715,
+     "std": 1089.3439,
+     "min": 0.0,
+     "25%": 0.0,
+     "50%": 0.0,
+     "75%": 19.0,
+     "max": 39341.0
+    }
+   },
+   {
+    "name": "ln_codelines_1",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 4437,
+    "unique_ratio": 0.0465,
+    "describe": {
+     "count": 95494.0,
+     "mean": 1.5707,
+     "std": 2.6915,
+     "min": 0.0,
+     "25%": 0.0,
+     "50%": 0.0,
+     "75%": 2.9957,
+     "max": 10.58
+    }
+   },
+   {
+    "name": "log2_codelines",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 67889,
+    "null_rate": 0.7109,
+    "n_unique": 4436,
+    "unique_ratio": 0.1607,
+    "describe": {
+     "count": 27605.0,
+     "mean": 7.7826,
+     "std": 3.0171,
+     "min": 0.0,
+     "25%": 5.9069,
+     "50%": 8.1699,
+     "75%": 10.0375,
+     "max": 15.2637
+    }
+   },
+   {
+    "name": "log2_codelines_1",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 4437,
+    "unique_ratio": 0.0465,
+    "describe": {
+     "count": 95494.0,
+     "mean": 2.2661,
+     "std": 3.883,
+     "min": 0.0,
+     "25%": 0.0,
+     "50%": 0.0,
+     "75%": 4.3219,
+     "max": 15.2638
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 89019
+ },
+ "data/extendedfigure3.dta": {
+  "path": "data/extendedfigure3.dta",
+  "n_rows": 300,
+  "n_cols": 5,
+  "columns": [
+   {
+    "name": "date",
+    "dtype": "datetime64[s]",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 75,
+    "unique_ratio": 0.25,
+    "sample_values": [
+     "2021-05-07 00:00:00",
+     "2021-05-12 00:00:00",
+     "2021-05-14 00:00:00",
+     "2021-05-19 00:00:00",
+     "2021-05-21 00:00:00",
+     "2021-05-26 00:00:00",
+     "2021-05-28 00:00:00",
+     "2021-06-02 00:00:00"
+    ]
+   },
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0067,
+    "value_counts": {
+     "0.0": 150,
+     "1.0": 150
+    }
+   },
+   {
+    "name": "volunteer",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0067,
+    "value_counts": {
+     "0.0": 150,
+     "1.0": 150
+    }
+   },
+   {
+    "name": "takeuprate",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 189,
+    "unique_ratio": 0.63,
+    "describe": {
+     "count": 300.0,
+     "mean": 0.1522,
+     "std": 0.2374,
+     "min": 0.0,
+     "25%": 0.0,
+     "50%": 0.004,
+     "75%": 0.3566,
+     "max": 0.8268
+    }
+   },
+   {
+    "name": "female",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 204,
+    "null_rate": 0.68,
+    "n_unique": 2,
+    "unique_ratio": 0.0208,
+    "value_counts": {
+     "0.0": 54,
+     "1.0": 42,
+     "nan": 204
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 0
+ },
+ "data/extendedtable137_a.dta": {
+  "path": "data/extendedtable137_a.dta",
+  "n_rows": 1612,
+  "n_cols": 9,
+  "columns": [
+   {
+    "name": "age",
+    "dtype": "int8",
+    "label": "Age",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 31,
+    "unique_ratio": 0.0192,
+    "describe": {
+     "count": 1612.0,
+     "mean": 32.6104,
+     "std": 5.3995,
+     "min": 22.0,
+     "25%": 28.0,
+     "50%": 32.0,
+     "75%": 36.0,
+     "max": 52.0
+    }
+   },
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "Treated",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 820,
+     "1.0": 792
+    }
+   },
+   {
+    "name": "commute_hour",
+    "dtype": "float32",
+    "label": "Commute (hours)",
+    "n_null": 353,
+    "null_rate": 0.219,
+    "n_unique": 38,
+    "unique_ratio": 0.0302,
+    "describe": {
+     "count": 1259.0,
+     "mean": 0.8289,
+     "std": 0.4335,
+     "min": 0.0333,
+     "25%": 0.5,
+     "50%": 0.75,
+     "75%": 1.0,
+     "max": 2.0
+    }
+   },
+   {
+    "name": "volunteer",
+    "dtype": "float32",
+    "label": "Volunteer",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 1094,
+     "1.0": 518
+    }
+   },
+   {
+    "name": "children_ind",
+    "dtype": "float32",
+    "label": "Children",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 843,
+     "1.0": 769
+    }
+   },
+   {
+    "name": "grad",
+    "dtype": "float32",
+    "label": "Post Graduate Degree",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 1090,
+     "1.0": 522
+    }
+   },
+   {
+    "name": "managerial",
+    "dtype": "float32",
+    "label": "Manager",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 1217,
+     "1.0": 395
+    }
+   },
+   {
+    "name": "female",
+    "dtype": "float32",
+    "label": "Female",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 1042,
+     "1.0": 570
+    }
+   },
+   {
+    "name": "tenure_years",
+    "dtype": "float32",
+    "label": "Tenure (years)",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 220,
+    "unique_ratio": 0.1365,
+    "describe": {
+     "count": 1612.0,
+     "mean": 6.3492,
+     "std": 4.6258,
+     "min": 0.3333,
+     "25%": 2.8333,
+     "50%": 5.75,
+     "75%": 8.4167,
+     "max": 22.0
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 8
+ },
+ "data/extendedtable137_b.dta": {
+  "path": "data/extendedtable137_b.dta",
+  "n_rows": 1612,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "Treated",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 820,
+     "1.0": 792
+    }
+   },
+   {
+    "name": "prior_performance",
+    "dtype": "float32",
+    "label": "Prior Performance",
+    "n_null": 30,
+    "null_rate": 0.0186,
+    "n_unique": 5,
+    "unique_ratio": 0.0032,
+    "value_counts": {
+     "1.0": 1,
+     "2.0": 84,
+     "3.0": 379,
+     "4.0": 866,
+     "5.0": 252,
+     "nan": 30
+    }
+   },
+   {
+    "name": "volunteer",
+    "dtype": "float32",
+    "label": "Volunteer",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 1094,
+     "1.0": 518
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1591
+ },
+ "data/extendedtable2.dta": {
+  "path": "data/extendedtable2.dta",
+  "n_rows": 1346,
+  "n_cols": 6,
+  "columns": [
+   {
+    "name": "work_satisfaction",
+    "dtype": "float64",
+    "label": "Work satisfaction",
+    "n_null": 1,
+    "null_rate": 0.0007,
+    "n_unique": 11,
+    "unique_ratio": 0.0082,
+    "value_counts": {
+     "0.0": 4,
+     "1.0": 3,
+     "2.0": 2,
+     "3.0": 6,
+     "4.0": 16,
+     "5.0": 47,
+     "6.0": 112,
+     "7.0": 216,
+     "8.0": 436,
+     "9.0": 250,
+     "10.0": 253,
+     "nan": 1
+    }
+   },
+   {
+    "name": "life_satisfaction",
+    "dtype": "float64",
+    "label": "Life satisfaction",
+    "n_null": 1,
+    "null_rate": 0.0007,
+    "n_unique": 11,
+    "unique_ratio": 0.0082,
+    "value_counts": {
+     "0.0": 2,
+     "1.0": 2,
+     "2.0": 9,
+     "3.0": 22,
+     "4.0": 40,
+     "5.0": 93,
+     "6.0": 136,
+     "7.0": 240,
+     "8.0": 369,
+     "9.0": 204,
+     "10.0": 228,
+     "nan": 1
+    }
+   },
+   {
+    "name": "work_life_balance",
+    "dtype": "float64",
+    "label": "Work-life balance",
+    "n_null": 1,
+    "null_rate": 0.0007,
+    "n_unique": 11,
+    "unique_ratio": 0.0082,
+    "value_counts": {
+     "0.0": 5,
+     "1.0": 7,
+     "2.0": 22,
+     "3.0": 33,
+     "4.0": 61,
+     "5.0": 140,
+     "6.0": 180,
+     "7.0": 222,
+     "8.0": 291,
+     "9.0": 188,
+     "10.0": 196,
+     "nan": 1
+    }
+   },
+   {
+    "name": "recommend_friends",
+    "dtype": "float64",
+    "label": "Recommend to friends",
+    "n_null": 1,
+    "null_rate": 0.0007,
+    "n_unique": 11,
+    "unique_ratio": 0.0082,
+    "value_counts": {
+     "0.0": 8,
+     "1.0": 5,
+     "2.0": 6,
+     "3.0": 7,
+     "4.0": 15,
+     "5.0": 67,
+     "6.0": 100,
+     "7.0": 199,
+     "8.0": 292,
+     "9.0": 231,
+     "10.0": 415,
+     "nan": 1
+    }
+   },
+   {
+    "name": "quit_intention",
+    "dtype": "float32",
+    "label": "Intention to quit",
+    "n_null": 1,
+    "null_rate": 0.0007,
+    "n_unique": 5,
+    "unique_ratio": 0.0037,
+    "value_counts": {
+     "-0.375": 365,
+     "-0.125": 237,
+     "0.0": 699,
+     "0.125": 39,
+     "0.375": 5,
+     "nan": 1
+    }
+   },
+   {
+    "name": "control",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0015,
+    "value_counts": {
+     "0.0": 681,
+     "1.0": 665
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 585
+ },
+ "data/extendedtable5/table5_left_a.dta": {
+  "path": "data/extendedtable5/table5_left_a.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "performance",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 5,
+    "unique_ratio": 0.0033,
+    "value_counts": {
+     "1.0": 2,
+     "2.0": 95,
+     "3.0": 847,
+     "4.0": 324,
+     "5.0": 239
+    }
+   },
+   {
+    "name": "children",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 774,
+     "1.0": 733
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1489
+ },
+ "data/extendedtable5/table5_left_b.dta": {
+  "path": "data/extendedtable5/table5_left_b.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "performance",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 5,
+    "unique_ratio": 0.0033,
+    "value_counts": {
+     "1.0": 2,
+     "2.0": 95,
+     "3.0": 847,
+     "4.0": 324,
+     "5.0": 239
+    }
+   },
+   {
+    "name": "live_far",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 318,
+    "null_rate": 0.211,
+    "n_unique": 2,
+    "unique_ratio": 0.0017,
+    "value_counts": {
+     "0.0": 611,
+     "1.0": 578,
+     "nan": 318
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1481
+ },
+ "data/extendedtable5/table5_left_c.dta": {
+  "path": "data/extendedtable5/table5_left_c.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "performance",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 5,
+    "unique_ratio": 0.0033,
+    "value_counts": {
+     "1.0": 2,
+     "2.0": 95,
+     "3.0": 847,
+     "4.0": 324,
+     "5.0": 239
+    }
+   },
+   {
+    "name": "engineer",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 764,
+     "1.0": 743
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1489
+ },
+ "data/extendedtable5/table5_left_d.dta": {
+  "path": "data/extendedtable5/table5_left_d.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "performance",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 5,
+    "unique_ratio": 0.0033,
+    "value_counts": {
+     "1.0": 2,
+     "2.0": 95,
+     "3.0": 847,
+     "4.0": 324,
+     "5.0": 239
+    }
+   },
+   {
+    "name": "female",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 984,
+     "1.0": 523
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1489
+ },
+ "data/extendedtable5/table5_left_e.dta": {
+  "path": "data/extendedtable5/table5_left_e.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "performance",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 5,
+    "unique_ratio": 0.0033,
+    "value_counts": {
+     "1.0": 2,
+     "2.0": 95,
+     "3.0": 847,
+     "4.0": 324,
+     "5.0": 239
+    }
+   },
+   {
+    "name": "manager",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 1125,
+     "1.0": 382
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1489
+ },
+ "data/extendedtable5/table5_left_f.dta": {
+  "path": "data/extendedtable5/table5_left_f.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "performance",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 5,
+    "unique_ratio": 0.0033,
+    "value_counts": {
+     "1.0": 2,
+     "2.0": 95,
+     "3.0": 847,
+     "4.0": 324,
+     "5.0": 239
+    }
+   },
+   {
+    "name": "tenure_above_median",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 769,
+     "1.0": 738
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1489
+ },
+ "data/extendedtable5/table5_left_g.dta": {
+  "path": "data/extendedtable5/table5_left_g.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "performance",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 5,
+    "unique_ratio": 0.0033,
+    "value_counts": {
+     "1.0": 2,
+     "2.0": 95,
+     "3.0": 847,
+     "4.0": 324,
+     "5.0": 239
+    }
+   },
+   {
+    "name": "treat_manager",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 783,
+     "1.0": 724
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1489
+ },
+ "data/extendedtable5/table5_left_h.dta": {
+  "path": "data/extendedtable5/table5_left_h.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "performance",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 5,
+    "unique_ratio": 0.0033,
+    "value_counts": {
+     "1.0": 2,
+     "2.0": 95,
+     "3.0": 847,
+     "4.0": 324,
+     "5.0": 239
+    }
+   },
+   {
+    "name": "volunteer",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 1029,
+     "1.0": 478
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1489
+ },
+ "data/extendedtable5/table5_left_i.dta": {
+  "path": "data/extendedtable5/table5_left_i.dta",
+  "n_rows": 481,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0042,
+    "value_counts": {
+     "0.0": 237,
+     "1.0": 244
+    }
+   },
+   {
+    "name": "live_alone",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0042,
+    "value_counts": {
+     "0.0": 385,
+     "1.0": 96
+    }
+   },
+   {
+    "name": "performance",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 5,
+    "unique_ratio": 0.0104,
+    "value_counts": {
+     "1.0": 1,
+     "2.0": 41,
+     "3.0": 266,
+     "4.0": 99,
+     "5.0": 74
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 464
+ },
+ "data/extendedtable5/table5_left_j.dta": {
+  "path": "data/extendedtable5/table5_left_j.dta",
+  "n_rows": 1244,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0016,
+    "value_counts": {
+     "0.0": 621,
+     "1.0": 623
+    }
+   },
+   {
+    "name": "performance",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 4,
+    "unique_ratio": 0.0032,
+    "value_counts": {
+     "2.0": 71,
+     "3.0": 684,
+     "4.0": 279,
+     "5.0": 210
+    }
+   },
+   {
+    "name": "super_internet",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0016,
+    "value_counts": {
+     "0.0": 701,
+     "1.0": 543
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1228
+ },
+ "data/extendedtable5/table5_right_a.dta": {
+  "path": "data/extendedtable5/table5_right_a.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "children",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 774,
+     "1.0": 733
+    }
+   },
+   {
+    "name": "promotion",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 1395,
+     "1.0": 112
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1499
+ },
+ "data/extendedtable5/table5_right_b.dta": {
+  "path": "data/extendedtable5/table5_right_b.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "promotion",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 1395,
+     "1.0": 112
+    }
+   },
+   {
+    "name": "live_far",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 318,
+    "null_rate": 0.211,
+    "n_unique": 2,
+    "unique_ratio": 0.0017,
+    "value_counts": {
+     "0.0": 611,
+     "1.0": 578,
+     "nan": 318
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1495
+ },
+ "data/extendedtable5/table5_right_c.dta": {
+  "path": "data/extendedtable5/table5_right_c.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "promotion",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 1395,
+     "1.0": 112
+    }
+   },
+   {
+    "name": "engineer",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 764,
+     "1.0": 743
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1499
+ },
+ "data/extendedtable5/table5_right_d.dta": {
+  "path": "data/extendedtable5/table5_right_d.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "promotion",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 1395,
+     "1.0": 112
+    }
+   },
+   {
+    "name": "female",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 984,
+     "1.0": 523
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1499
+ },
+ "data/extendedtable5/table5_right_e.dta": {
+  "path": "data/extendedtable5/table5_right_e.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "promotion",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 1395,
+     "1.0": 112
+    }
+   },
+   {
+    "name": "manager",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 1125,
+     "1.0": 382
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1499
+ },
+ "data/extendedtable5/table5_right_f.dta": {
+  "path": "data/extendedtable5/table5_right_f.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "promotion",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 1395,
+     "1.0": 112
+    }
+   },
+   {
+    "name": "tenure_above_median",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 769,
+     "1.0": 738
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1499
+ },
+ "data/extendedtable5/table5_right_g.dta": {
+  "path": "data/extendedtable5/table5_right_g.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "treat_manager",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 783,
+     "1.0": 724
+    }
+   },
+   {
+    "name": "promotion",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 1395,
+     "1.0": 112
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1499
+ },
+ "data/extendedtable5/table5_right_h.dta": {
+  "path": "data/extendedtable5/table5_right_h.dta",
+  "n_rows": 1507,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "volunteer",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 1029,
+     "1.0": 478
+    }
+   },
+   {
+    "name": "promotion",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 1395,
+     "1.0": 112
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1499
+ },
+ "data/extendedtable5/table5_right_i.dta": {
+  "path": "data/extendedtable5/table5_right_i.dta",
+  "n_rows": 481,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0042,
+    "value_counts": {
+     "0.0": 237,
+     "1.0": 244
+    }
+   },
+   {
+    "name": "live_alone",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0042,
+    "value_counts": {
+     "0.0": 385,
+     "1.0": 96
+    }
+   },
+   {
+    "name": "promotion",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0042,
+    "value_counts": {
+     "0.0": 448,
+     "1.0": 33
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 473
+ },
+ "data/extendedtable5/table5_right_j.dta": {
+  "path": "data/extendedtable5/table5_right_j.dta",
+  "n_rows": 1244,
+  "n_cols": 3,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0016,
+    "value_counts": {
+     "0.0": 621,
+     "1.0": 623
+    }
+   },
+   {
+    "name": "promotion",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0016,
+    "value_counts": {
+     "0.0": 1143,
+     "1.0": 101
+    }
+   },
+   {
+    "name": "super_internet",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0016,
+    "value_counts": {
+     "0.0": 701,
+     "1.0": 543
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1236
+ },
+ "data/extendedtable6/Tasks2021H2.dta": {
+  "path": "data/extendedtable6/Tasks2021H2.dta",
+  "n_rows": 1612,
+  "n_cols": 10,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 820,
+     "1.0": 792
+    }
+   },
+   {
+    "name": "Leadership",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 1004,
+    "null_rate": 0.6228,
+    "n_unique": 112,
+    "unique_ratio": 0.1842,
+    "describe": {
+     "count": 608.0,
+     "mean": 3.7259,
+     "std": 0.4664,
+     "min": 2.0,
+     "25%": 3.4,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Learning",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 464,
+    "null_rate": 0.2878,
+    "n_unique": 138,
+    "unique_ratio": 0.1202,
+    "describe": {
+     "count": 1148.0,
+     "mean": 3.7158,
+     "std": 0.4951,
+     "min": 1.6,
+     "25%": 3.4,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Execution",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 204,
+    "null_rate": 0.1266,
+    "n_unique": 576,
+    "unique_ratio": 0.4091,
+    "describe": {
+     "count": 1408.0,
+     "mean": 3.7235,
+     "std": 0.4662,
+     "min": 1.96,
+     "25%": 3.4,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Risk",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 594,
+    "null_rate": 0.3685,
+    "n_unique": 254,
+    "unique_ratio": 0.2495,
+    "describe": {
+     "count": 1018.0,
+     "mean": 3.7564,
+     "std": 0.4652,
+     "min": 2.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Project",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 240,
+    "null_rate": 0.1489,
+    "n_unique": 580,
+    "unique_ratio": 0.4227,
+    "describe": {
+     "count": 1372.0,
+     "mean": 3.7206,
+     "std": 0.4677,
+     "min": 1.9333,
+     "25%": 3.4,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Efficiency",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 133,
+    "null_rate": 0.0825,
+    "n_unique": 779,
+    "unique_ratio": 0.5267,
+    "describe": {
+     "count": 1479.0,
+     "mean": 3.7345,
+     "std": 0.4615,
+     "min": 1.6,
+     "25%": 3.4236,
+     "50%": 3.8,
+     "75%": 4.025,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Development",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 519,
+    "null_rate": 0.322,
+    "n_unique": 317,
+    "unique_ratio": 0.29,
+    "describe": {
+     "count": 1093.0,
+     "mean": 3.7205,
+     "std": 0.463,
+     "min": 2.0,
+     "25%": 3.4,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Innovation",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 759,
+    "null_rate": 0.4708,
+    "n_unique": 164,
+    "unique_ratio": 0.1923,
+    "describe": {
+     "count": 853.0,
+     "mean": 3.7321,
+     "std": 0.4765,
+     "min": 2.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Communication",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 576,
+    "null_rate": 0.3573,
+    "n_unique": 197,
+    "unique_ratio": 0.1902,
+    "describe": {
+     "count": 1036.0,
+     "mean": 3.7148,
+     "std": 0.4991,
+     "min": 1.6,
+     "25%": 3.4,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 266
+ },
+ "data/extendedtable6/Tasks2022H1.dta": {
+  "path": "data/extendedtable6/Tasks2022H1.dta",
+  "n_rows": 1612,
+  "n_cols": 10,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 820,
+     "1.0": 792
+    }
+   },
+   {
+    "name": "Leadership",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 1060,
+    "null_rate": 0.6576,
+    "n_unique": 105,
+    "unique_ratio": 0.1902,
+    "describe": {
+     "count": 552.0,
+     "mean": 3.7034,
+     "std": 0.4221,
+     "min": 1.0,
+     "25%": 3.5,
+     "50%": 3.785,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Learning",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 554,
+    "null_rate": 0.3437,
+    "n_unique": 144,
+    "unique_ratio": 0.1361,
+    "describe": {
+     "count": 1058.0,
+     "mean": 3.7252,
+     "std": 0.4465,
+     "min": 1.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Execution",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 350,
+    "null_rate": 0.2171,
+    "n_unique": 482,
+    "unique_ratio": 0.3819,
+    "describe": {
+     "count": 1262.0,
+     "mean": 3.7344,
+     "std": 0.4568,
+     "min": 1.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Risk",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 664,
+    "null_rate": 0.4119,
+    "n_unique": 211,
+    "unique_ratio": 0.2226,
+    "describe": {
+     "count": 948.0,
+     "mean": 3.7413,
+     "std": 0.4471,
+     "min": 1.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Project",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 372,
+    "null_rate": 0.2308,
+    "n_unique": 484,
+    "unique_ratio": 0.3903,
+    "describe": {
+     "count": 1240.0,
+     "mean": 3.7325,
+     "std": 0.4459,
+     "min": 1.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Efficiency",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 305,
+    "null_rate": 0.1892,
+    "n_unique": 621,
+    "unique_ratio": 0.4751,
+    "describe": {
+     "count": 1307.0,
+     "mean": 3.744,
+     "std": 0.4576,
+     "min": 1.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Development",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 639,
+    "null_rate": 0.3964,
+    "n_unique": 282,
+    "unique_ratio": 0.2898,
+    "describe": {
+     "count": 973.0,
+     "mean": 3.7351,
+     "std": 0.4582,
+     "min": 1.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Innovation",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 818,
+    "null_rate": 0.5074,
+    "n_unique": 139,
+    "unique_ratio": 0.1751,
+    "describe": {
+     "count": 794.0,
+     "mean": 3.7199,
+     "std": 0.4674,
+     "min": 1.0,
+     "25%": 3.5,
+     "50%": 3.7733,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Communication",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 653,
+    "null_rate": 0.4051,
+    "n_unique": 186,
+    "unique_ratio": 0.194,
+    "describe": {
+     "count": 959.0,
+     "mean": 3.7405,
+     "std": 0.4476,
+     "min": 1.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 428
+ },
+ "data/extendedtable6/Tasks2022H2.dta": {
+  "path": "data/extendedtable6/Tasks2022H2.dta",
+  "n_rows": 1612,
+  "n_cols": 10,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 820,
+     "1.0": 792
+    }
+   },
+   {
+    "name": "Leadership",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 1091,
+    "null_rate": 0.6768,
+    "n_unique": 105,
+    "unique_ratio": 0.2015,
+    "describe": {
+     "count": 521.0,
+     "mean": 3.6953,
+     "std": 0.4529,
+     "min": 0.5,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 4.7
+    }
+   },
+   {
+    "name": "Learning",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 616,
+    "null_rate": 0.3821,
+    "n_unique": 134,
+    "unique_ratio": 0.1345,
+    "describe": {
+     "count": 996.0,
+     "mean": 3.7324,
+     "std": 0.4357,
+     "min": 1.8,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Execution",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 413,
+    "null_rate": 0.2562,
+    "n_unique": 440,
+    "unique_ratio": 0.367,
+    "describe": {
+     "count": 1199.0,
+     "mean": 3.7228,
+     "std": 0.4481,
+     "min": 1.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Risk",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 706,
+    "null_rate": 0.438,
+    "n_unique": 191,
+    "unique_ratio": 0.2108,
+    "describe": {
+     "count": 906.0,
+     "mean": 3.7304,
+     "std": 0.433,
+     "min": 1.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 4.8
+    }
+   },
+   {
+    "name": "Project",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 416,
+    "null_rate": 0.2581,
+    "n_unique": 459,
+    "unique_ratio": 0.3838,
+    "describe": {
+     "count": 1196.0,
+     "mean": 3.7212,
+     "std": 0.4531,
+     "min": 2.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Efficiency",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 355,
+    "null_rate": 0.2202,
+    "n_unique": 584,
+    "unique_ratio": 0.4646,
+    "describe": {
+     "count": 1257.0,
+     "mean": 3.7464,
+     "std": 0.4447,
+     "min": 1.78,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Development",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 677,
+    "null_rate": 0.42,
+    "n_unique": 256,
+    "unique_ratio": 0.2738,
+    "describe": {
+     "count": 935.0,
+     "mean": 3.7261,
+     "std": 0.4463,
+     "min": 1.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Innovation",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 847,
+    "null_rate": 0.5254,
+    "n_unique": 140,
+    "unique_ratio": 0.183,
+    "describe": {
+     "count": 765.0,
+     "mean": 3.7297,
+     "std": 0.4353,
+     "min": 2.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 4.8
+    }
+   },
+   {
+    "name": "Communication",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 702,
+    "null_rate": 0.4355,
+    "n_unique": 187,
+    "unique_ratio": 0.2055,
+    "describe": {
+     "count": 910.0,
+     "mean": 3.7281,
+     "std": 0.4419,
+     "min": 1.8,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 470
+ },
+ "data/extendedtable6/Tasks2023H1.dta": {
+  "path": "data/extendedtable6/Tasks2023H1.dta",
+  "n_rows": 1612,
+  "n_cols": 10,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 820,
+     "1.0": 792
+    }
+   },
+   {
+    "name": "Leadership",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 1131,
+    "null_rate": 0.7016,
+    "n_unique": 97,
+    "unique_ratio": 0.2017,
+    "describe": {
+     "count": 481.0,
+     "mean": 3.7782,
+     "std": 0.4762,
+     "min": 1.0,
+     "25%": 3.6,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Learning",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 712,
+    "null_rate": 0.4417,
+    "n_unique": 128,
+    "unique_ratio": 0.1422,
+    "describe": {
+     "count": 900.0,
+     "mean": 3.7357,
+     "std": 0.4668,
+     "min": 2.0,
+     "25%": 3.5,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Execution",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 468,
+    "null_rate": 0.2903,
+    "n_unique": 425,
+    "unique_ratio": 0.3715,
+    "describe": {
+     "count": 1144.0,
+     "mean": 3.7585,
+     "std": 0.472,
+     "min": 1.0,
+     "25%": 3.5593,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Risk",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 804,
+    "null_rate": 0.4988,
+    "n_unique": 178,
+    "unique_ratio": 0.2203,
+    "describe": {
+     "count": 808.0,
+     "mean": 3.7789,
+     "std": 0.4604,
+     "min": 1.0,
+     "25%": 3.6,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Project",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 456,
+    "null_rate": 0.2829,
+    "n_unique": 444,
+    "unique_ratio": 0.3841,
+    "describe": {
+     "count": 1156.0,
+     "mean": 3.7664,
+     "std": 0.4605,
+     "min": 0.97,
+     "25%": 3.5486,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Efficiency",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 424,
+    "null_rate": 0.263,
+    "n_unique": 547,
+    "unique_ratio": 0.4604,
+    "describe": {
+     "count": 1188.0,
+     "mean": 3.7751,
+     "std": 0.4736,
+     "min": 0.9538,
+     "25%": 3.5975,
+     "50%": 3.8,
+     "75%": 4.0239,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Development",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 740,
+    "null_rate": 0.4591,
+    "n_unique": 257,
+    "unique_ratio": 0.2947,
+    "describe": {
+     "count": 872.0,
+     "mean": 3.7622,
+     "std": 0.472,
+     "min": 1.7,
+     "25%": 3.5667,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Innovation",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 901,
+    "null_rate": 0.5589,
+    "n_unique": 125,
+    "unique_ratio": 0.1758,
+    "describe": {
+     "count": 711.0,
+     "mean": 3.7895,
+     "std": 0.4706,
+     "min": 1.7,
+     "25%": 3.6,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   },
+   {
+    "name": "Communication",
+    "dtype": "float64",
+    "label": "",
+    "n_null": 767,
+    "null_rate": 0.4758,
+    "n_unique": 172,
+    "unique_ratio": 0.2036,
+    "describe": {
+     "count": 845.0,
+     "mean": 3.7651,
+     "std": 0.4854,
+     "min": 0.8,
+     "25%": 3.5111,
+     "50%": 3.8,
+     "75%": 4.0,
+     "max": 5.0
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 514
+ },
+ "data/figure2.dta": {
+  "path": "data/figure2.dta",
+  "n_rows": 1612,
+  "n_cols": 5,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_labels": {
+     "0": "Control",
+     "1": " Treatment"
+    },
+    "value_counts": {
+     "0.0": 820,
+     "1.0": 792
+    }
+   },
+   {
+    "name": "role",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_labels": {
+     "0": "Non-manager",
+     "1": "Manager"
+    },
+    "value_counts": {
+     "0.0": 1217,
+     "1.0": 395
+    }
+   },
+   {
+    "name": "male",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_labels": {
+     "0": "Female",
+     "1": "Male"
+    },
+    "value_counts": {
+     "0.0": 570,
+     "1.0": 1042
+    }
+   },
+   {
+    "name": "live_far",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 353,
+    "null_rate": 0.219,
+    "n_unique": 2,
+    "unique_ratio": 0.0016,
+    "value_labels": {
+     "0": "Commute <= 90 mins",
+     "1": " Commute >  90 mins"
+    },
+    "value_counts": {
+     "0.0": 648,
+     "1.0": 611,
+     "nan": 353
+    }
+   },
+   {
+    "name": "attrite_perc",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 1515,
+     "100.0": 97
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1566
+ },
+ "data/figure3/figure3_2021H2.dta": {
+  "path": "data/figure3/figure3_2021H2.dta",
+  "n_rows": 1507,
+  "n_cols": 2,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 759,
+     "1.0": 748
+    }
+   },
+   {
+    "name": "perf_2021h2",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 5,
+    "unique_ratio": 0.0033,
+    "value_labels": {
+     "1": "D",
+     "2": "C",
+     "3": "B",
+     "4": "B+",
+     "5": "A"
+    },
+    "value_counts": {
+     "1.0": 2,
+     "2.0": 95,
+     "3.0": 847,
+     "4.0": 324,
+     "5.0": 239
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1497
+ },
+ "data/figure3/figure3_2022H1.dta": {
+  "path": "data/figure3/figure3_2022H1.dta",
+  "n_rows": 1355,
+  "n_cols": 2,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0015,
+    "value_counts": {
+     "0.0": 681,
+     "1.0": 674
+    }
+   },
+   {
+    "name": "perf_2022h1",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 5,
+    "unique_ratio": 0.0037,
+    "value_labels": {
+     "1": "D",
+     "2": "C",
+     "3": "B",
+     "4": "B+",
+     "5": "A"
+    },
+    "value_counts": {
+     "1.0": 4,
+     "2.0": 51,
+     "3.0": 744,
+     "4.0": 334,
+     "5.0": 222
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1346
+ },
+ "data/figure3/figure3_2022H2.dta": {
+  "path": "data/figure3/figure3_2022H2.dta",
+  "n_rows": 1301,
+  "n_cols": 2,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0015,
+    "value_counts": {
+     "0.0": 655,
+     "1.0": 646
+    }
+   },
+   {
+    "name": "perf_2022h2",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 5,
+    "unique_ratio": 0.0038,
+    "value_labels": {
+     "1": "D",
+     "2": "C",
+     "3": "B",
+     "4": "B+",
+     "5": "A"
+    },
+    "value_counts": {
+     "1.0": 2,
+     "2.0": 79,
+     "3.0": 683,
+     "4.0": 329,
+     "5.0": 208
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1291
+ },
+ "data/figure3/figure3_2023H1.dta": {
+  "path": "data/figure3/figure3_2023H1.dta",
+  "n_rows": 1254,
+  "n_cols": 2,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0016,
+    "value_counts": {
+     "0.0": 633,
+     "1.0": 621
+    }
+   },
+   {
+    "name": "perf_2023h1",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 5,
+    "unique_ratio": 0.004,
+    "value_labels": {
+     "1": "D",
+     "2": "C",
+     "3": "B",
+     "4": "B+",
+     "5": "A"
+    },
+    "value_counts": {
+     "1.0": 11,
+     "2.0": 129,
+     "3.0": 616,
+     "4.0": 301,
+     "5.0": 197
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1244
+ },
+ "data/figure4.dta": {
+  "path": "data/figure4.dta",
+  "n_rows": 1612,
+  "n_cols": 5,
+  "columns": [
+   {
+    "name": "treat",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0012,
+    "value_counts": {
+     "0.0": 820,
+     "1.0": 792
+    }
+   },
+   {
+    "name": "promo_2021h2",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 90,
+    "null_rate": 0.0558,
+    "n_unique": 2,
+    "unique_ratio": 0.0013,
+    "value_counts": {
+     "0.0": 1410,
+     "100.0": 112,
+     "nan": 90
+    }
+   },
+   {
+    "name": "promo_2022h1",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 234,
+    "null_rate": 0.1452,
+    "n_unique": 2,
+    "unique_ratio": 0.0015,
+    "value_counts": {
+     "0.0": 1343,
+     "100.0": 35,
+     "nan": 234
+    }
+   },
+   {
+    "name": "promo_2022h2",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 298,
+    "null_rate": 0.1849,
+    "n_unique": 2,
+    "unique_ratio": 0.0015,
+    "value_counts": {
+     "0.0": 1257,
+     "100.0": 57,
+     "nan": 298
+    }
+   },
+   {
+    "name": "promo_2023h1",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 329,
+    "null_rate": 0.2041,
+    "n_unique": 2,
+    "unique_ratio": 0.0016,
+    "value_counts": {
+     "0.0": 1239,
+     "100.0": 44,
+     "nan": 329
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 1588
+ },
+ "data/figure5.dta": {
+  "path": "data/figure5.dta",
+  "n_rows": 2660,
+  "n_cols": 4,
+  "columns": [
+   {
+    "name": "wave",
+    "dtype": "str",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0008,
+    "value_counts": {
+     "baseline": 1315,
+     "endline": 1345
+    }
+   },
+   {
+    "name": "productivity",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 9,
+    "unique_ratio": 0.0034,
+    "value_labels": {
+     "1": "35%+ less efficient",
+     "2": "25%-35% less efficient",
+     "3": "15%-25% less efficient",
+     "4": "5%-15% less efficient",
+     "5": "About the same",
+     "6": "5%-15% more efficient",
+     "7": "15%-25% more efficient",
+     "8": "25%-35% more efficient",
+     "9": "35%+ more efficient"
+    },
+    "value_counts": {
+     "1.0": 25,
+     "2.0": 30,
+     "3.0": 81,
+     "4.0": 211,
+     "5.0": 1830,
+     "6.0": 317,
+     "7.0": 94,
+     "8.0": 40,
+     "9.0": 32
+    }
+   },
+   {
+    "name": "role",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 2,
+    "unique_ratio": 0.0008,
+    "value_labels": {
+     "1": "Managers",
+     "2": "Non-managers"
+    },
+    "value_counts": {
+     "1.0": 638,
+     "2.0": 2022
+    }
+   },
+   {
+    "name": "prod_percent",
+    "dtype": "float32",
+    "label": "",
+    "n_null": 0,
+    "null_rate": 0.0,
+    "n_unique": 9,
+    "unique_ratio": 0.0034,
+    "value_counts": {
+     "-42.5": 25,
+     "-30.000001907348633": 30,
+     "-20.0": 81,
+     "-10.0": 211,
+     "0.0": 1830,
+     "10.0": 317,
+     "20.0": 94,
+     "30.000001907348633": 40,
+     "42.5": 32
+    }
+   }
+  ],
+  "data_label": "",
+  "n_duplicate_rows": 2625
+ },
+ "data/extendedfigure4.xlsx": {
+  "path": "data/extendedfigure4.xlsx",
+  "n_rows": 24,
+  "n_cols": 4,
+  "columns": [
+   {
+    "name": "Fiscal Year End",
+    "dtype": "datetime64[us]"
+   },
+   {
+    "name": "Revenue",
+    "dtype": "str"
+   },
+   {
+    "name": "Change",
+    "dtype": "str"
+   },
+   {
+    "name": "Growth",
+    "dtype": "object"
+   }
+  ]
+ }
+}

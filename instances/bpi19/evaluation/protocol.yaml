@@ -1,0 +1,30 @@
+# Evaluation protocol for Demo 1 (track C-I, conditional continuation).
+instance: bpi19
+track: C-I
+baseline_scenario: baseline
+cutoffs: ["2018-09-03", "2018-09-17", "2018-10-01", "2018-10-15"]   # Mondays 00:00 UTC in the test window (after the September 2018 expansion)
+before_cutoffs: ["2018-08-06", "2018-08-13"]   # observed reference windows end before the policy date; no simulated before
+change_date: "2018-09-01"
+change: {label: "September 2018 workforce expansion", description: "The active workforce expanded between the August and September-October cutoffs. The order mix also shifted towards requisition-first items, so the observed difference includes both changes."}
+horizon_days: 14
+seeds: [1, 2, 3]
+workers: 2
+top_transitions: 10
+population: >
+  Cases created on or before t0 with at least one event in the 90 days before t0, no Delete PO Item and no Clear Invoice
+  in their prefix, plus every case created in (t0, t0 + 14 d]. Held-out truth is the actual events of these cases in the
+  horizon; the engine sees arrival times and initial attributes but no subsequent events after t0.
+primary_metrics:
+  - {id: next_activity_accuracy, truth: first actual activity after t0 for open cases with a next event, baseline: prefix Markov order 1 and 2 fitted on the training window}
+  - {id: next_activity_logloss, truth: same, baseline: same}
+  - {id: completion_14d, truth: share of the population reaching Clear Invoice or Delete PO Item within 14 days, baseline: historical rate at pre-policy training-window cutoffs}
+  - {id: activity_volume_jsd, truth: per-activity event counts in the horizon}
+  - {id: exception_rate, truth: share of the population with >= 1 of six core exceptions in the horizon, baseline: historical}
+  - {id: handoffs_per_case, truth: resource changes between consecutive events in the horizon (vendor and system excluded) per active case, baseline: historical}
+  - {id: transition_p50_rank_corr, truth: median delay of the 10 busiest transitions inside the horizon}
+  - {id: events_per_week, truth: events per week in the horizon, baseline: historical}
+historical_cutoffs: ["2018-04-02", "2018-04-16", "2018-05-07", "2018-05-21", "2018-06-04", "2018-06-18", "2018-07-02", "2018-07-16", "2018-07-30", "2018-08-13"]
+leakage:
+  calibration: model selection fits through June 30; final refit uses cases and events strictly before September 1
+  workforce: users active in the 14 days before each t0 (pre-cutoff information)
+  arrivals_C-I: case creation time and trace attributes of held-out cases (the arrival itself), events hidden

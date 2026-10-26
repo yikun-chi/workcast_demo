@@ -1,0 +1,16 @@
+historical_reference: manifests/pre_policy.yaml
+earlier_study:
+  source_title: Does Working from Home Work? Evidence from a Chinese Experiment
+  source_url: https://doi.org/10.1093/qje/qju032
+  year_published: 2015
+  population: Volunteer call-center employees at Ctrip
+  duration_months: 9
+  home_days_per_week: 4
+  relative_attrition_reduction: 0.5
+  effect_note: Rounded reduction of approximately one half; not a two-day hybrid-work estimate
+method:
+  id: proportional_days
+  label: Simple two-day calculation
+  assumption: The relative retention benefit grows in direct proportion to offered home days; other conditions stay unchanged.
+  limitation: Transferring the earlier result across job types and time periods, and scaling it linearly, are assumptions.
+  applies_to: Overall attrition only; no comparable historical estimates for subgroups, satisfaction or performance

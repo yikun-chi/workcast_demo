@@ -1,0 +1,256 @@
+{
+ "title": "Purchase-to-pay, one company, 2018",
+ "period": "2018-01-01 .. 2019-01-31",
+ "facts": [
+  {
+   "label": "Purchase-order line items",
+   "value": 251734,
+   "unit": ""
+  },
+  {
+   "label": "Events",
+   "value": 1595923,
+   "unit": ""
+  },
+  {
+   "label": "Human users",
+   "value": 607,
+   "unit": ""
+  },
+  {
+   "label": "Batch jobs",
+   "value": 20,
+   "unit": ""
+  },
+  {
+   "label": "Vendors",
+   "value": 1965,
+   "unit": ""
+  },
+  {
+   "label": "Median case duration",
+   "value": 71.5,
+   "unit": "days"
+  },
+  {
+   "label": "Activity types",
+   "value": 42,
+   "unit": ""
+  },
+  {
+   "label": "Net spend",
+   "value": 2.84,
+   "unit": "bn EUR"
+  }
+ ],
+ "org": {
+  "units": [
+   {
+    "id": "ou:procurement",
+    "label": "Procurement",
+    "headcount": 212
+   },
+   {
+    "id": "ou:ap",
+    "label": "Accounts Payable",
+    "headcount": 148
+   },
+   {
+    "id": "ou:warehouse",
+    "label": "Goods Receiving",
+    "headcount": 191
+   },
+   {
+    "id": "ou:it",
+    "label": "ERP Operations",
+    "headcount": 56
+   }
+  ],
+  "roles": [
+   {
+    "id": "role:buyer",
+    "label": "Buyer",
+    "headcount": 180,
+    "onet_code": "13-1023.00"
+   },
+   {
+    "id": "role:purchasing_manager",
+    "label": "Purchasing manager",
+    "headcount": 32,
+    "onet_code": "11-3061.00"
+   },
+   {
+    "id": "role:ap_clerk",
+    "label": "Accounts payable clerk",
+    "headcount": 148,
+    "onet_code": "43-3031.00"
+   },
+   {
+    "id": "role:gr_clerk",
+    "label": "Goods receipt clerk",
+    "headcount": 191,
+    "onet_code": "43-5061.00"
+   },
+   {
+    "id": "role:batch_job",
+    "label": "Batch job (automated)",
+    "headcount": 20,
+    "onet_code": null
+   }
+  ],
+  "systems": [
+   {
+    "id": "sys:sap",
+    "label": "SAP ERP (MM/FI)",
+    "capabilities": 5
+   },
+   {
+    "id": "sys:edi",
+    "label": "Vendor EDI gateway",
+    "capabilities": 1
+   }
+  ]
+ },
+ "charts": [
+  {
+   "id": "items_per_month",
+   "type": "bar",
+   "title": "PO line items created per month",
+   "x_label": "2018",
+   "y_label": "Items",
+   "x": [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+   ],
+   "series": [
+    {
+     "name": "Items",
+     "y": [
+      23110,
+      20450,
+      22980,
+      21300,
+      22010,
+      21870,
+      20120,
+      19980,
+      20440,
+      21550,
+      19200,
+      18724
+     ]
+    }
+   ],
+   "note": "Source: cases.parquet"
+  },
+  {
+   "id": "item_categories",
+   "type": "hbar",
+   "title": "Item categories",
+   "x_label": "",
+   "y_label": "Items",
+   "x": [
+    "3-way match, invoice after GR",
+    "3-way match, invoice before GR",
+    "2-way match",
+    "Consignment"
+   ],
+   "series": [
+    {
+     "name": "Items",
+     "y": [
+      221010,
+      15182,
+      1538,
+      14004
+     ]
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "events_by_activity",
+   "type": "hbar",
+   "title": "Most frequent activities",
+   "x_label": "",
+   "y_label": "Events",
+   "x": [
+    "Record Goods Receipt",
+    "Record Invoice Receipt",
+    "Create Purchase Order Item",
+    "Clear Invoice",
+    "Vendor creates invoice",
+    "Remove Payment Block",
+    "Change Price"
+   ],
+   "series": [
+    {
+     "name": "Events",
+     "y": [
+      313099,
+      278478,
+      251734,
+      243024,
+      230281,
+      54932,
+      18081
+     ]
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "duration_dist",
+   "type": "line",
+   "title": "Case duration distribution",
+   "x_label": "Days",
+   "y_label": "Share of cases",
+   "x": [
+    "0",
+    "15",
+    "30",
+    "45",
+    "60",
+    "75",
+    "90",
+    "105",
+    "120",
+    "135",
+    "150",
+    "165",
+    "180"
+   ],
+   "series": [
+    {
+     "name": "Observed",
+     "y": [
+      0.02,
+      0.09,
+      0.18,
+      0.21,
+      0.17,
+      0.11,
+      0.08,
+      0.05,
+      0.04,
+      0.02,
+      0.02,
+      0.01,
+      0.0
+     ]
+    }
+   ],
+   "note": ""
+  }
+ ]
+}

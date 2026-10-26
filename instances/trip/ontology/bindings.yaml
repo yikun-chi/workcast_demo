@@ -1,0 +1,226 @@
+# Trip.com hybrid-WFH trial: ontology bindings (schema: orgsim/ontology/bindings.py docstring).
+# Roles are bound to O*NET-SOC 31.0 occupations; every activity maps to real DWA ids taken from
+# onet.occupation(code)["dwas"], so `orgsim validate trip` checks them against the O*NET release.
+organization:
+  id: org:trip
+  label: Trip.com (Airfare and IT divisions, hybrid-WFH trial 2021-22)
+  properties:
+    headquarters: Shanghai
+    source: Bloom, Han & Liang, Nature 2024; Harvard Dataverse doi:10.7910/DVN/6X4ZZL
+
+locations:
+  - id: loc:shanghai_office
+    label: Shanghai headquarters (office)
+    properties: {kind: office, note: "All 1,612 trial employees were office-based in Shanghai before the trial; mean one-way commute 49.7 min"}
+  - id: loc:home
+    label: Employee home (WFH days)
+    properties: {kind: home, note: "Where offered employees work on Wednesdays and Fridays they take up"}
+
+org_units:
+  - id: airfare_division
+    label: Airfare division
+    location: loc:shanghai_office
+    properties: {function: "Customer service and airfare operations", note: "Headcount from population.parquet (role-consistent synthetic split)"}
+  - id: it_division
+    label: IT division
+    location: loc:shanghai_office
+    properties: {function: "Software engineering", note: "Headcount from population.parquet (role-consistent synthetic split)"}
+
+roles:
+  - id: customer_service_rep
+    label: Customer service representative
+    onet_code: "43-4051.00"
+    org_unit: airfare_division
+    properties: {seat: employee, observed: "non-manager flag observed; engineer vs customer-service split is synthetic (49.3% engineers, table5_left_c)"}
+  - id: software_engineer
+    label: Software engineer
+    onet_code: "15-1252.00"
+    org_unit: it_division
+    properties: {seat: employee, observed: "non-manager flag observed; engineer vs customer-service split is synthetic"}
+  - id: manager
+    label: Manager (first-line and middle management)
+    onet_code: "11-1021.00"
+    properties: {seat: manager, observed: "managerial flag observed (395 of 1,612)"}
+
+systems:
+  - id: crm_ticketing
+    label: CRM and ticketing system
+    capabilities:
+      - {id: cap_lookup_booking, label: Look up booking and customer record}
+      - {id: cap_process_refund, label: Process payment, refund or rebooking}
+      - {id: cap_log_case, label: Log and route a customer case}
+  - id: code_repository
+    label: Code repository and CI
+    capabilities:
+      - {id: cap_commit, label: Commit and review code}
+      - {id: cap_run_tests, label: Run automated tests}
+      - {id: cap_monitor_service, label: Monitor service health}
+  - id: video_conferencing
+    label: Video conferencing and chat
+    capabilities:
+      - {id: cap_meeting, label: Hold a meeting or stand-up}
+      - {id: cap_chat, label: Message a colleague}
+  - id: hr_system
+    label: HR system
+    capabilities:
+      - {id: cap_review, label: Record performance review and promotion}
+      - {id: cap_schedule, label: Record attendance and WFH day}
+
+artifacts:
+  - {id: resolved_case, label: Resolved customer case}
+  - {id: code_change, label: Merged code change}
+  - {id: status_report, label: Status report}
+  - {id: performance_review, label: Semi-annual performance review}
+
+activities:
+  # ---- customer service representative (43-4051.00) ----
+  - id: handle_customer_inquiry
+    label: Handle customer inquiry
+    roles: [customer_service_rep]
+    dwa_ids: ["4.A.4.a.1.a.3", "4.A.4.a.8.c.1"]
+    capability: cap_lookup_booking
+    produces: resolved_case
+    properties: {weight: 0.35, remote_feasible: true}
+  - id: process_booking_change
+    label: Process booking change, payment or refund
+    roles: [customer_service_rep]
+    dwa_ids: ["4.A.4.c.1.c.4", "4.A.4.c.1.c.6", "4.A.4.c.3.d.1"]
+    capability: cap_process_refund
+    produces: resolved_case
+    properties: {weight: 0.2, remote_feasible: true}
+  - id: verify_transaction_records
+    label: Verify transaction and account records
+    roles: [customer_service_rep]
+    dwa_ids: ["4.A.2.a.2.a.9", "4.A.3.b.6.j.3"]
+    capability: cap_lookup_booking
+    properties: {weight: 0.12, remote_feasible: true}
+  - id: escalate_case
+    label: Refer or escalate a case to the right team
+    roles: [customer_service_rep]
+    dwa_ids: ["4.A.4.a.5.a.1"]
+    capability: cap_log_case
+    properties: {weight: 0.08, remote_feasible: true}
+  - id: notify_customers
+    label: Notify customers of schedule changes
+    roles: [customer_service_rep]
+    dwa_ids: ["4.A.4.a.3.c.7"]
+    capability: cap_log_case
+    properties: {weight: 0.1, remote_feasible: true}
+  - id: promote_travel_products
+    label: Offer ancillary travel products
+    roles: [customer_service_rep]
+    dwa_ids: ["4.A.4.a.6.c.12", "4.A.2.b.1.a.7"]
+    capability: cap_lookup_booking
+    properties: {weight: 0.07, remote_feasible: true}
+  - id: cs_team_meeting
+    label: Team briefing or coaching session
+    roles: [customer_service_rep]
+    dwa_ids: ["4.A.3.b.6.m.5"]
+    capability: cap_meeting
+    properties: {weight: 0.08, remote_feasible: true}
+  # ---- software engineer (15-1252.00) ----
+  - id: write_code
+    label: Write and modify software
+    roles: [software_engineer]
+    dwa_ids: ["4.A.2.b.2.b.7", "4.A.2.b.2.b.10"]
+    capability: cap_commit
+    produces: code_change
+    properties: {weight: 0.35, remote_feasible: true}
+  - id: code_review
+    label: Review colleagues' code
+    roles: [software_engineer]
+    dwa_ids: ["4.A.4.a.2.h.7"]
+    capability: cap_commit
+    properties: {weight: 0.12, remote_feasible: true}
+  - id: write_tests
+    label: Develop and run tests
+    roles: [software_engineer]
+    dwa_ids: ["4.A.3.b.2.f.15"]
+    capability: cap_run_tests
+    properties: {weight: 0.13, remote_feasible: true}
+  - id: analyze_requirements
+    label: Analyze requirements and specifications
+    roles: [software_engineer]
+    dwa_ids: ["4.A.2.a.4.e.5", "4.A.3.b.1.f.7"]
+    capability: cap_chat
+    properties: {weight: 0.1, remote_feasible: true}
+  - id: monitor_systems
+    label: Monitor production systems
+    roles: [software_engineer]
+    dwa_ids: ["4.A.1.a.2.j.3", "4.A.2.a.1.g.6"]
+    capability: cap_monitor_service
+    properties: {weight: 0.08, remote_feasible: true}
+  - id: resolve_it_issues
+    label: Resolve incidents with other teams
+    roles: [software_engineer]
+    dwa_ids: ["4.A.4.b.1.a.3", "4.A.4.b.6.d.2"]
+    capability: cap_chat
+    properties: {weight: 0.1, remote_feasible: true}
+  - id: eng_standup
+    label: Stand-up and project communication
+    roles: [software_engineer]
+    dwa_ids: ["4.A.4.a.2.h.9"]
+    capability: cap_meeting
+    produces: status_report
+    properties: {weight: 0.12, remote_feasible: true}
+  # ---- manager (11-1021.00) ----
+  - id: monitor_team_performance
+    label: Monitor team performance
+    roles: [manager]
+    dwa_ids: ["4.A.1.a.2.f.1"]
+    capability: cap_review
+    properties: {weight: 0.18, remote_feasible: true}
+  - id: plan_schedules_assignments
+    label: Plan staff schedules and assignments
+    roles: [manager]
+    dwa_ids: ["4.A.4.b.1.f.2", "4.A.2.b.1.h.5"]
+    capability: cap_schedule
+    properties: {weight: 0.15, remote_feasible: true}
+  - id: analyze_operations
+    label: Analyze operational data for decisions
+    roles: [manager]
+    dwa_ids: ["4.A.2.a.4.g.12", "4.A.2.a.4.k.7"]
+    capability: cap_monitor_service
+    produces: status_report
+    properties: {weight: 0.15, remote_feasible: true}
+  - id: direct_operations
+    label: Direct projects and operations
+    roles: [manager]
+    dwa_ids: ["4.A.4.b.4.j.39", "4.A.4.b.4.j.3"]
+    capability: cap_meeting
+    properties: {weight: 0.2, remote_feasible: true}
+  - id: set_goals_policies
+    label: Set goals and implement process changes
+    roles: [manager]
+    dwa_ids: ["4.A.2.b.2.v.2", "4.A.2.b.1.i.1", "4.A.4.b.6.e.7"]
+    capability: cap_meeting
+    properties: {weight: 0.1, remote_feasible: true}
+  - id: coach_and_train
+    label: Coach and train staff
+    roles: [manager]
+    dwa_ids: ["4.A.4.b.3.d.16"]
+    capability: cap_meeting
+    properties: {weight: 0.12, remote_feasible: true}
+  - id: hire_personnel
+    label: Interview and hire
+    roles: [manager]
+    dwa_ids: ["4.A.4.c.2.a.3"]
+    capability: cap_review
+    properties: {weight: 0.1, remote_feasible: true}
+
+# Team (same_manager) edges are generated at runtime from population.parquet team_id; the deposit has no
+# team identity, so teams are synthetic. Only the relationship type present is declared here.
+relationships: []
+relationship_types: [same_manager]
+
+latent_states:
+  - {id: commute_burden, label: Commute burden (two-way hours per working day), properties: {scale: hours}}
+  - {id: work_life_balance, label: Work-life balance, properties: {scale: "0-10"}}
+  - {id: job_satisfaction, label: Job satisfaction, properties: {scale: "0-10"}}
+  - {id: attachment, label: Attachment to the firm, properties: {scale: "0-1"}}
+
+policies:
+  - id: hybrid_wfh_wed_fri
+    label: Hybrid WFH offer (Wednesday and Friday) to the treatment arm
+    affects: [customer_service_rep, software_engineer, manager, loc:home]
+    properties: {days: [Wed, Fri], arm_field: treat, start: 2021-08-09, end: 2022-01-23}

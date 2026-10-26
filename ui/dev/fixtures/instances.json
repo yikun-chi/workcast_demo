@@ -1,0 +1,44 @@
+[
+ {
+  "id": "bpi19",
+  "title": "Procurement purchase-to-pay (BPI Challenge 2019)",
+  "world_type": "process",
+  "role_in_phase1": "Demo 1, process fidelity",
+  "world": "One multinational company's purchase-order line items for 2018: buyers create orders, vendors invoice, goods are received, accounts payable matches and clears invoices, with payment blocks and rework when documents disagree. 607 specialized human users, 20 batch jobs, vendors as external actors.",
+  "clock": {
+   "tick": "1h",
+   "coverage": "2018-01-01 .. 2019-01-31"
+  },
+  "status": "initialized; baseline and two interventions run",
+  "n_runs": 3,
+  "n_scenarios": 3,
+  "has_report": true,
+  "has_evaluation": true,
+  "plugins": [
+   {
+    "id": "process-map",
+    "title": "Process map",
+    "entry": "process-map.html",
+    "icon": "flow",
+    "url": "/ui/dev/plugin-demo.html"
+   }
+  ]
+ },
+ {
+  "id": "trip",
+  "title": "Hybrid work-from-home policy trial (Trip.com, Nature 2024)",
+  "world_type": "workforce",
+  "role_in_phase1": "Demo 2, human reaction fidelity",
+  "world": "1,612 employees in two divisions over six months (Aug 2021 to Jan 2022). Half were randomly offered two WFH days a week. The simulated workforce is an archetype mixture built from the real joint covariate distribution; outcomes are attrition, satisfaction, performance and the manager contrast, scored at the population level against the randomized trial.",
+  "clock": {
+   "tick": "1h",
+   "coverage": "2021-08-09 .. 2022-01-23"
+  },
+  "status": "data verified; world configuration in progress",
+  "n_runs": 0,
+  "n_scenarios": 1,
+  "has_report": false,
+  "has_evaluation": false,
+  "plugins": []
+ }
+]

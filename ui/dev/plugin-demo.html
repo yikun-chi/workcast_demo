@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Process map (plugin demo)</title>
+  <link rel="stylesheet" href="/ui/theme.css">
+  <style>body { padding: 20px; } .flow { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; } .step { padding: 10px 14px; } .arrow { color: var(--muted); }</style>
+</head>
+<body>
+  <div class="page-head"><div><h1>Purchase-to-pay process map</h1><div class="sub">Instance plugin page (fixture). Uses the shell's theme.css and the same /api endpoints.</div></div></div>
+  <div class="card">
+    <div class="flow" id="flow"></div>
+  </div>
+  <script>
+    const steps = ["Create PO item", "Approve PO", "Vendor confirms", "Record goods receipt", "Record invoice", "Remove payment block", "Clear invoice"];
+    const f = document.getElementById("flow");
+    steps.forEach((s, i) => { const d = document.createElement("div"); d.className = "card tight step"; d.textContent = s; f.appendChild(d); if (i < steps.length - 1) { const a = document.createElement("span"); a.className = "arrow"; a.textContent = "→"; f.appendChild(a); } });
+  </script>
+</body>
+</html>

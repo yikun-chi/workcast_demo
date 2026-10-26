@@ -1,0 +1,56 @@
+dup events (all copies): 165821 extra copies: 132748 cases affected: 4955
+dup by activity: {'Record Service Entry Sheet': 147296, 'Record Goods Receipt': 16770, 'Clear Invoice': 1140, 'Change Quantity': 332, 'Record Invoice Receipt': 76, 'Cancel Goods Receipt': 73, 'Change Price': 44, 'Change Delivery Indicator': 32}
+copies per dup group: {2: 10897, 3: 5256, 4: 3782, 5: 2794, 6: 2130, 7: 1648}
+same case/act/ts/user (ignoring cnw): 209283
+User == org:resource share: 1.0
+events before 2017: 95 {'Vendor creates invoice': 77, 'Vendor creates debit memo': 18}
+             case_id               concept:name                        ts org:resource     cnw
+0   4507004931_00010     Vendor creates invoice 1948-01-26 22:59:00+00:00         NONE   325.0
+1   4507004931_00010  Vendor creates debit memo 1948-01-26 22:59:00+00:00         NONE   325.0
+2   4507004931_00020     Vendor creates invoice 1948-01-26 22:59:00+00:00         NONE    68.0
+3   4507004931_00020  Vendor creates debit memo 1948-01-26 22:59:00+00:00         NONE    68.0
+4   4507004931_00030     Vendor creates invoice 1948-01-26 22:59:00+00:00         NONE  1856.0
+5   4507004931_00030  Vendor creates debit memo 1948-01-26 22:59:00+00:00         NONE  1856.0
+6   4507004931_00040     Vendor creates invoice 1948-01-26 22:59:00+00:00         NONE    72.0
+7   4507004931_00040  Vendor creates debit memo 1948-01-26 22:59:00+00:00         NONE    72.0
+8   4507004931_00050     Vendor creates invoice 1948-01-26 22:59:00+00:00         NONE   102.0
+9   4507004931_00050  Vendor creates debit memo 1948-01-26 22:59:00+00:00         NONE   102.0
+18  4507014062_00090     Vendor creates invoice 1993-05-18 21:59:00+00:00         NONE  9978.0
+17  4507014062_00080     Vendor creates invoice 1993-05-18 21:59:00+00:00         NONE  2416.0
+events >= 2019-02: 9
+                  case_id               concept:name                        ts org:resource        cnw
+1595914  4508076322_00010     Vendor creates invoice 2019-02-01 22:59:00+00:00         NONE     8605.0
+1595915  4508076323_00010     Vendor creates invoice 2019-02-01 22:59:00+00:00         NONE    17548.0
+1595916  2000000100_00001     Vendor creates invoice 2019-04-30 21:59:00+00:00         NONE  7815013.0
+1595917  2000000100_00001  Vendor creates debit memo 2019-04-30 21:59:00+00:00         NONE  7815013.0
+1595918  4508055808_00020     Vendor creates invoice 2019-10-03 21:59:00+00:00         NONE     2249.0
+1595919  4508071281_00010     Vendor creates invoice 2019-12-05 22:59:00+00:00         NONE      362.0
+1595920  4508071281_00140     Vendor creates invoice 2019-12-05 22:59:00+00:00         NONE      250.0
+1595921  4507005744_00010     Vendor creates invoice 2020-04-09 21:59:00+00:00         NONE     5033.0
+1595922  4507019322_00010     Vendor creates invoice 2020-04-06 21:59:00+00:00         NONE    40904.0
+2019+ by month {'2019-01': 45128, '2019-02': 2, '2019-04': 2, '2019-10': 1, '2019-12': 2, '2020-04': 2}
+2019-01 by activity {'Clear Invoice': 17638, 'Record Invoice Receipt': 10385, 'Record Goods Receipt': 8260, 'Vendor creates invoice': 2927, 'Remove Payment Block': 2920, 'Change Approval for Purchase Order': 580, 'Change Quantity': 525, 'Create Purchase Order Item': 382}
+seconds==0 share: 1.0
+Item Type                       Consignment  Limit  Service  Standard  Subcontracting  Third-party
+Item Category
+2-way match                               0   1044        0         0               0            0
+3-way match, invoice after GR             0      0     5838      8344             616          384
+3-way match, invoice before GR            0      0        0    211842            4062         5106
+Consignment                           14498      0        0         0               0            0
+GR-Based Inv. Verif.           false           true
+Goods Receipt                  false    true   true
+Item Category
+2-way match                     1044       0      0
+3-way match, invoice after GR      0       0  15182
+3-way match, invoice before GR     0  221010      0
+Consignment                        0   14498      0
+1-event cases activity: {'Create Purchase Order Item': 2835}
+train: n=134740 clear_invoice=0.874 median_dur_d=77.0 last_event_after_2019-01-31=0.0000 last_in_jan2019=0.007
+val: n=41279 clear_invoice=0.849 median_dur_d=76.9 last_event_after_2019-01-31=0.0000 last_in_jan2019=0.062
+test: n=61121 clear_invoice=0.490 median_dur_d=48.6 last_event_after_2019-01-31=0.0000 last_in_jan2019=0.342
+dec: n=14128 clear_invoice=0.049 median_dur_d=21.5 last_event_after_2019-01-31=0.0000 last_in_jan2019=0.564
+cases created per month {'1948-01': 5, '1993-05': 9, '2001-01': 1, '2001-02': 2, '2001-04': 8, '2001-06': 4, '2001-07': 2, '2008-06': 45, '2015-03': 1, '2015-11': 1, '2016-04': 1, '2016-05': 1, '2017-01': 13, '2017-02': 3, '2017-03': 2, '2017-04': 8, '2017-05': 3, '2017-06': 2, '2017-07': 1, '2017-08': 4, '2017-09': 5, '2017-10': 5, '2017-11': 15, '2017-12': 123, '2018-01': 21269, '2018-02': 20894, '2018-03': 24846, '2018-04': 22460, '2018-05': 23000, '2018-06': 22271, '2018-07': 21081, '2018-08': 20198, '2018-09': 18650, '2018-10': 21855, '2018-11': 20616, '2018-12': 14128, '2019-01': 202}
+active human users per month {'2017-02': 1, '2017-12': 2, '2018-01': 246, '2018-02': 258, '2018-03': 269, '2018-04': 269, '2018-05': 287, '2018-06': 264, '2018-07': 289, '2018-08': 269, '2018-09': 401, '2018-10': 397, '2018-11': 369, '2018-12': 356, '2019-01': 178}
+activities per human user: median 2.0 p90 7.0 max 14
+events per human user: median 104.0 p90 3300.5999999999904 max 166353 top5 share 0.33372924125975595
+cases per company {'companyID_0000': 250686, 'companyID_0003': 1044, 'companyID_0001': 2, 'companyID_0002': 2}

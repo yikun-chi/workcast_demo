@@ -1,0 +1,306 @@
+{
+ "title": "Procurement purchase-to-pay: the simulated organization reproduces 2018 operations",
+ "subtitle": "BPI Challenge 2019 instance, 13 weekly held-out cutoffs, 14-day horizon",
+ "generated": "2026-10-24T11:00:00Z",
+ "takeaways": [
+  "The simulated workforce completes 71.2% of open items within 14 days against 69.8% observed, 16 points above the persistence baseline.",
+  "Payment-block rate is reproduced within 1.3 points (21.8% simulated vs 23.1% actual).",
+  "An automated three-way match within 2% tolerance cuts payment blocks from 54 to 12 per run and removes 249 labor hours per fortnight.",
+  "Cutting accounts payable by 20% pushes median cycle time from 9.8 to 12.6 days; the queue does not recover within the horizon."
+ ],
+ "sections": [
+  {
+   "heading": "What was simulated",
+   "body": "Every purchase-order line item open at a weekly cutoff **t0** is continued for 14 simulated days by 607 agents in five roles bound to O*NET occupations. Arrivals replay the observed stream; every decision inside the firm is produced by the kernel and the seat policies.\n\n- Buyers and purchasing managers are rule seats calibrated on the training window.\n- Accounts payable clerks are an LLM seat (`claude-sonnet-5-5`) that sees the invoice, PO and goods-receipt documents.\n- Nightly clearing is a batch seat.",
+   "charts": [
+    "completion_14d"
+   ],
+   "metrics": [
+    "completion_14d",
+    "block_rate"
+   ]
+  },
+  {
+   "heading": "Accuracy against the held-out weeks",
+   "body": "The queue trajectory tracks the observed one across all thirteen cutoffs; the largest miss is 1.9 points on the week of October 8. Scatter per spend area shows no systematic bias: the fit line has slope 0.97.",
+   "charts": [
+    "queue_ap",
+    "scatter_cycle"
+   ],
+   "metrics": [
+    "cycle_time_med",
+    "ap_touches"
+   ]
+  },
+  {
+   "heading": "What the interventions do",
+   "body": "Two interventions were run on the same seeds. The automated match is a capability added to the SAP system node; the headcount cut is a parameter on the AP role. Both change the simulated work process without touching any instance code.",
+   "charts": [
+    "scenario_cycle"
+   ],
+   "metrics": []
+  }
+ ],
+ "charts": [
+  {
+   "id": "completion_14d",
+   "type": "bar",
+   "title": "Completion within 14 days by weekly cutoff",
+   "x_label": "t0 (2018)",
+   "y_label": "Share completed",
+   "x": [
+    "Sep 3",
+    "Sep 10",
+    "Sep 17",
+    "Sep 24",
+    "Oct 1",
+    "Oct 8",
+    "Oct 15",
+    "Oct 22",
+    "Oct 29",
+    "Nov 5",
+    "Nov 12",
+    "Nov 19",
+    "Nov 26"
+   ],
+   "series": [
+    {
+     "name": "Simulated",
+     "y": [
+      0.71,
+      0.7,
+      0.72,
+      0.69,
+      0.73,
+      0.71,
+      0.7,
+      0.72,
+      0.71,
+      0.7,
+      0.72,
+      0.71,
+      0.7
+     ]
+    },
+    {
+     "name": "Actual",
+     "y": [
+      0.7,
+      0.68,
+      0.71,
+      0.7,
+      0.71,
+      0.69,
+      0.69,
+      0.71,
+      0.7,
+      0.68,
+      0.7,
+      0.71,
+      0.69
+     ]
+    },
+    {
+     "name": "Baseline",
+     "y": [
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55,
+      0.55
+     ]
+    }
+   ],
+   "note": "Baseline = last-value persistence per spend area."
+  },
+  {
+   "id": "queue_ap",
+   "type": "line",
+   "title": "Accounts payable queue over the horizon",
+   "x_label": "Day",
+   "y_label": "Open invoices",
+   "x": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14"
+   ],
+   "series": [
+    {
+     "name": "Simulated",
+     "y": [
+      410,
+      432,
+      455,
+      440,
+      428,
+      470,
+      495,
+      481,
+      462,
+      450,
+      471,
+      489,
+      470,
+      455,
+      448
+     ]
+    },
+    {
+     "name": "Actual",
+     "y": [
+      410,
+      440,
+      460,
+      452,
+      430,
+      462,
+      501,
+      490,
+      471,
+      455,
+      466,
+      480,
+      476,
+      461,
+      452
+     ]
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "scatter_cycle",
+   "type": "scatter",
+   "title": "Cycle time per spend area: simulated vs actual",
+   "x_label": "Actual (days)",
+   "y_label": "Simulated (days)",
+   "x": [
+    8.2,
+    11.4,
+    6.9,
+    15.1,
+    9.8,
+    12.3,
+    7.5,
+    18.4,
+    10.2,
+    13.6
+   ],
+   "series": [
+    {
+     "name": "Spend areas",
+     "y": [
+      8.6,
+      10.9,
+      7.3,
+      14.2,
+      9.5,
+      12.9,
+      7.9,
+      17.1,
+      10.8,
+      13.1
+     ]
+    }
+   ],
+   "note": "Each point is one spend area; the diagonal is perfect agreement."
+  },
+  {
+   "id": "scenario_cycle",
+   "type": "hbar",
+   "title": "Median cycle time by scenario",
+   "x_label": "",
+   "y_label": "Days",
+   "x": [
+    "Baseline",
+    "Automated 3-way match",
+    "AP headcount -20%"
+   ],
+   "series": [
+    {
+     "name": "Median cycle time (days)",
+     "y": [
+      9.8,
+      8.1,
+      12.6
+     ]
+    }
+   ],
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "id": "completion_14d",
+   "label": "Share of open items completed within 14 days",
+   "simulated": 0.712,
+   "actual": 0.698,
+   "baseline": 0.551,
+   "unit": "",
+   "better": "higher",
+   "interval": [
+    0.684,
+    0.739
+   ]
+  },
+  {
+   "id": "block_rate",
+   "label": "Payment-block rate",
+   "simulated": 0.218,
+   "actual": 0.231,
+   "baseline": 0.3,
+   "unit": "",
+   "better": "lower",
+   "interval": [
+    0.195,
+    0.244
+   ]
+  },
+  {
+   "id": "cycle_time_med",
+   "label": "Median cycle time",
+   "simulated": 9.8,
+   "actual": 10.4,
+   "baseline": 14.2,
+   "unit": "days",
+   "better": "lower",
+   "interval": [
+    9.1,
+    10.9
+   ]
+  },
+  {
+   "id": "ap_touches",
+   "label": "AP touches per invoice",
+   "simulated": 1.42,
+   "actual": 1.39,
+   "baseline": 1.8,
+   "unit": "",
+   "better": "lower",
+   "interval": [
+    1.33,
+    1.51
+   ]
+  }
+ ]
+}

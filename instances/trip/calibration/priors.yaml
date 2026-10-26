@@ -1,0 +1,178 @@
+# Behavioral priors for the Trip.com workforce world. RULE: nothing here is fitted on Trip.com outcomes
+# (attrition, satisfaction, performance, promotion, take-up). Each parameter is a central value plus a range
+# from an independent source; one value per parameter is drawn per seed (triangular on the range, mode at
+# the central value) so the forecast interval reflects prior uncertainty plus sampling noise.
+# Units: satisfaction scales are 0-10; hazards are weekly; "full" = five-day WFH exposure.
+version: 4
+frozen: 2026-10-25
+sampling: triangular          # lo, central, hi
+revision_log:
+  - version: 1
+    frozen: 2026-10-24
+    note: "Initial independent priors. Forecast scored against the trial (attrition ITT -1.07 pp vs trial -2.40; satisfaction ITT +0.22 vs +0.35; take-up 0.55 vs 0.52)."
+  - version: 2
+    frozen: 2026-10-25
+    note: >
+      Digital-twin revision after the v1 diagnostic (v1 reproduced take-up and the manager/non-manager split but
+      under-predicted the hybrid arm's gain by about half). Mechanism changes in dynamics.yaml, each with an
+      independent source here: (a) a per-person WFH-preference trait drives both take-up and the value of each WFH
+      day (selection on gains), anchored so that the upper half of the preference distribution, the population that
+      volunteered in the 2015 Ctrip experiment, has mean value 1 (new parameter pref_value_slope); (b) the amenity
+      channel of the offer acts from the week it is offered, while satisfaction and work-life balance still adapt
+      gradually; (c) employees not offered WFH compare themselves with teammates who are, which lowers their
+      satisfaction (new parameter relative_deprivation_k; arms were assigned within teams by birthday); (d)
+      hybrid_value_share_2d revised from 0.7 [0.5, 0.9] to 0.9 [0.6, 1.2] on evidence that two days carry about the
+      amenity value of five. Still nothing fitted on this trial's outcomes.
+  - version: 3
+    frozen: 2026-10-25
+    note: >
+      Round 2 of three exploration rounds (selection rule fixed in advance: lowest mean |simulated - trial| / trial SE
+      over the five primary outcomes; ties broken by 90%-interval coverage; every round's scored evaluation is kept).
+      One change: option_value_share revised from 0.25 [0, 0.5] to 0.5 [0.25, 0.75]. Willingness-to-pay studies value the
+      OPTION to work from home, not the days used (Mas & Pallais 2017), and SWAA respondents who use two WFH days still
+      value the arrangement at about 8% of pay, so the amenity accrues largely on eligible days whether or not they are
+      taken.
+  - version: 4
+    frozen: 2026-10-25
+    note: >
+      Round 3 of three. One change on top of v3: the attachment stock (accumulated satisfaction and flexibility, already
+      simulated but unused by the quit hazard) now lowers the hazard (new parameter beta_attach), the organisational
+      commitment channel of turnover meta-analyses. Attenuated because the instantaneous satisfaction, commute and
+      amenity channels already carry part of the commitment effect. Selected by the pre-specified rule (lowest mean |simulated - trial| / trial SE over the five primary outcomes).
+parameters:
+  quit_rate_semiannual:
+    central: 0.08
+    range: [0.05, 0.12]
+    source: "Baseline voluntary quit rate over ~24 weeks for Chinese white-collar/tech staff: annual voluntary turnover 15-20% (Aon Hewitt and Mercer China turnover surveys 2019-2021; internet sector above the all-industry mean), i.e. 7-10% per half year."
+  tenure_slope:
+    central: 0.08
+    range: [0.03, 0.15]
+    source: "Quit hazard declines with tenure: roughly 5-10% lower per additional year beyond the first (Farber 1994 'The analysis of interfirm worker mobility', JOLE; job-matching models)."
+  manager_hazard_mult:
+    central: 0.6
+    range: [0.4, 0.9]
+    source: "Voluntary turnover at management level is about half to two thirds of the staff level (SHRM Human Capital Benchmarking; Mercer turnover surveys)."
+  wfh_full_quit_hr:
+    central: 0.5
+    range: [0.35, 0.7]
+    source: "Ctrip 2015 full-time WFH experiment: attrition fell by about 50% among WFH employees over nine months (Bloom, Liang, Roberts & Ying, QJE 2015, doi:10.7910/DVN/PZQOB1). Hazard ratio for five-day WFH; the three channels below (satisfaction, commute, direct flexibility) sum to this total."
+  beta_sat:
+    central: 0.21
+    range: [0.12, 0.35]
+    source: "Job satisfaction to turnover meta-analyses: rho = -0.19 to -0.28 (Griffeth, Hom & Gaertner 2000; Rubenstein et al. 2018), i.e. a hazard ratio of about 0.65 per SD of satisfaction; with SD ~2 points on a 0-10 scale this is 0.21 log-hazard per point."
+  beta_commute:
+    central: 0.15
+    range: [0.05, 0.30]
+    source: "Longer commutes raise quit intention and job switching: about 10-20% higher per extra hour of daily commuting (van Ommeren & Gutierrez-i-Puigarnau 2011, Regional Science and Urban Economics; Chatterjee et al. 2020 Transport Reviews). Per two-way commute hour per working day."
+  d_sat_full:
+    central: 0.6
+    range: [0.3, 1.0]
+    source: "Full-time WFH raised work-attitude survey scores significantly in the 2015 Ctrip trial (Bloom et al. 2015, Table on attitudes); telecommuting-job satisfaction meta-analysis r ~ 0.1 (Gajendran & Harrison 2007, JAP). Taken as ~0.3 SD = 0.6 points on 0-10."
+  d_wlb_full:
+    central: 0.9
+    range: [0.4, 1.5]
+    source: "Telecommuting reduces work-family conflict by d ~ 0.3-0.45 (Gajendran & Harrison 2007; Allen, Golden & Shockley 2015, Psychological Science in the Public Interest), plus ~1.5 commute hours saved per WFH day (SWAA, Barrero, Bloom & Davis 2021)."
+  hybrid_value_share_2d:
+    central: 0.9
+    range: [0.6, 1.2]
+    source: "Amenity value of two WFH days relative to five. Workers' desired WFH is ~2.3-2.5 days a week and a majority prefer hybrid to fully remote (Survey of Working Arrangements and Attitudes, Barrero, Bloom & Davis 2021 'Why working from home will stick'); over half of the full-time WFH employees in the 2015 Ctrip experiment chose to return to the office when it ended, citing isolation (Bloom, Liang, Roberts & Ying 2015), so five days carry disamenities that two do not. v1 used 0.7 [0.5, 0.9]."
+  pref_value_slope:
+    central: 0.5
+    range: [0.2, 0.9]
+    source: "Willingness to pay for the option to work from home is highly dispersed across workers: about 8% of wages on average with a large mass near zero and a long right tail (Mas & Pallais 2017, AER 'Valuing alternative work arrangements'; Maestas, Mullen, Powell, von Wachter & Wenger 2023, AER 'The value of working conditions in the United States'). Log-scale slope of the per-day benefit on the standardized WFH-preference trait, the same trait that drives take-up (Roy 1951 selection on gains). Normalised so that the upper half of the preference distribution, the population that volunteered in the 2015 Ctrip experiment (503 of 996 eligible), has mean value 1, because the 2015 attrition hazard ratio was measured on that population."
+  relative_deprivation_k:
+    central: 0.3
+    range: [0.0, 0.6]
+    source: "Employees denied an amenity that their teammates receive compare themselves with those peers: disclosing peers' higher pay lowered job satisfaction and raised job-search intentions among below-median earners (Card, Mas, Moretti & Saez 2012, AER 'Inequality at work'); equity theory (Adams 1965). Points of job satisfaction (0-10) lost by an employee not offered WFH when all teammates are offered it, scaled by the share of teammates offered. Arms were assigned within teams by birthday parity, so the comparison was salient every Wednesday and Friday."
+  option_value_share:
+    central: 0.5
+    range: [0.25, 0.75]
+    source: "Workers value the option of schedule flexibility even when they rarely use it: willingness to pay is elicited for the option to work from home (Mas & Pallais 2017, AER 'Valuing alternative work arrangements'), and SWAA respondents using two WFH days value the arrangement at about 8% of pay (Barrero, Bloom & Davis 2021). Share of the realised-WFH benefit accruing to eligible employees on days they come in. v1-v2 used 0.25 [0, 0.5]."
+  manager_effect_share:
+    central: 0.6
+    range: [0.3, 1.0]
+    source: "Schedule-control interventions help most where baseline control is low (Kelly, Moen et al. 2014 STAR trial, American Sociological Review); managers already hold more autonomy and coordination duties, so their benefit is attenuated."
+  children_value_boost:
+    central: 0.2
+    range: [0.0, 0.5]
+    source: "Parents of young children value WFH more and report larger time savings (SWAA, Barrero, Bloom & Davis 2021). Multiplicative uplift on the benefit for employees with children."
+  takeup_base:
+    central: 0.5
+    range: [0.35, 0.7]
+    source: "About half of eligible employees volunteered for WFH in the 2015 Ctrip trial (503 of 996; Bloom et al. 2015); ~55-60% of workers want two or more WFH days (SWAA 2021). Share of eligible WFH days taken by the average eligible employee."
+  b_takeup_commute:
+    central: 1.0
+    range: [0.3, 2.0]
+    source: "Commute time is the strongest predictor of the desire to WFH (SWAA, Barrero, Bloom & Davis 2021). Logit slope per one-way commute hour."
+  b_takeup_children:
+    central: 0.3
+    range: [0.0, 0.8]
+    source: "Parents want more WFH days (SWAA 2021). Logit shift."
+  b_takeup_volunteer:
+    central: 0.5
+    range: [0.0, 1.0]
+    source: "Revealed preference: employees who volunteered for the trial before the lottery asked for WFH. Logit shift."
+  takeup_sd:
+    central: 1.0
+    range: [0.5, 1.5]
+    source: "Authored: between-person heterogeneity in WFH preference on the logit scale (wide, so take-up spans 0.2-0.8 across people)."
+  adjust_rate:
+    central: 0.3
+    range: [0.15, 0.5]
+    source: "Authored: attitudes adjust to a new arrangement within one to two months (hedonic adaptation literature, e.g. Luhmann et al. 2012). Weekly adjustment fraction."
+  contagion_k:
+    central: 0.05
+    range: [0.0, 0.15]
+    source: "Weak within-team sentiment spillover (Barsade 2002 emotional contagion; Felps et al. 2009 turnover contagion, AMJ). Weekly pull toward the team mean."
+  beta_attach:
+    central: 1.0
+    range: [0.5, 2.0]
+    source: "Affective organisational commitment predicts voluntary turnover (rho = -0.17 with turnover, -0.56 with turnover intention; Meyer, Stanley, Herscovitch & Topolnytsky 2002, Journal of Vocational Behavior), about OR 0.55 per SD of commitment. Attachment here has SD ~0.15 on its 0-1 scale, so the full meta-analytic value is ~3 log-hazard per unit; set to one third of that (1.0) because the instantaneous satisfaction, commute and amenity channels already carry part of the commitment effect. Log-hazard per unit change of attachment from its start-of-run value."
+  attach_rate:
+    central: 0.02
+    range: [0.01, 0.05]
+    source: "Authored: attachment is a slow stock of accumulated satisfaction and flexibility."
+  sat_anchor:
+    central: 7.5
+    range: [7.0, 8.0]
+    source: "Approximate mean job satisfaction of urban white-collar workers in China on a 0-10 scale (CGSS/CFPS job-satisfaction items average ~3.6-3.8 on five points). The ITT contrasts do not depend on the anchor."
+  sat_sd:
+    central: 1.5
+    range: [1.2, 2.0]
+    source: "Typical between-person SD of 0-10 satisfaction items (1.5-2.0; e.g. ESS, SWAA)."
+  wlb_anchor:
+    central: 7.0
+    range: [6.5, 7.5]
+    source: "Authored: work-life balance rated slightly below job satisfaction for long-commute office workers."
+  wlb_sd:
+    central: 1.6
+    range: [1.2, 2.0]
+    source: "As sat_sd."
+  survey_noise_sd:
+    central: 0.8
+    range: [0.5, 1.2]
+    source: "Single-item satisfaction test-retest reliability ~0.7 implies measurement noise of ~0.8 points (Wanous, Reichers & Hudy 1997)."
+  perf_rho:
+    central: 0.55
+    range: [0.4, 0.7]
+    source: "Performance-rating stability over one year ~0.5-0.6 (Sturman, Cheramie & Cashen 2005, JAP meta-analysis)."
+  perf_noise_sd:
+    central: 0.65
+    range: [0.5, 0.85]
+    source: "Grade SD ~0.8 times sqrt(1 - rho^2)."
+  d_perf_full:
+    central: 0.0
+    range: [-0.15, 0.15]
+    source: "Centred near zero: the 2015 call-centre trial found output up 13% but review/promotion effects ambiguous; hybrid field evidence outside this trial (Choudhury et al. 2024, SMJ) finds no performance loss. Grade points per unit exposure."
+  promo_rate_semiannual:
+    central: 0.06
+    range: [0.04, 0.10]
+    source: "Annual promotion rates of 10-15% in large firms (Mercer, Baker-Gibbs-Holmstrom style personnel data), i.e. 5-8% per half year."
+  promo_hr_full:
+    central: 0.85
+    range: [0.5, 1.1]
+    source: "Full-time WFH roughly halved promotion conditional on performance in the 2015 Ctrip trial; hybrid keeps in-office visibility, so the prior is attenuated toward one."
+  promo_grade_slope:
+    central: 0.5
+    range: [0.3, 0.8]
+    source: "Authored: promotion odds rise with the review grade."

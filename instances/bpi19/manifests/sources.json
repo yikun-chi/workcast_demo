@@ -1,0 +1,529 @@
+{
+  "dataset": "BPI Challenge 2019",
+  "retrieval_date": "2026-10-24",
+  "figshare_article_id": 12715853,
+  "figshare_api_url": "https://api.figshare.com/v2/articles/12715853",
+  "doi": "10.4121/uuid:d06aff4b-79f0-45e6-8ec8-e19730c248f1",
+  "version": 1,
+  "published_date": "2019-01-31T00:00:00Z",
+  "authors": [
+    "Boudewijn van Dongen"
+  ],
+  "license": {
+    "value": 1,
+    "name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "publisher_description": "This data originated from a large multinational company operating from The Netherlands in the area of coatings and paints and we ask participants to investigate the purchase order handling process for some of its 60 subsidiaries. In particular, the process owner has compliance questions.\n\nIn the data, each purchase order (or purchase document) contains one or more line items. For each line item, there are roughly four types of flows in the data:\n\n(1) 3-way matching, invoice after goods receipt: For these items, the value of the goods receipt message should be matched against the value of an invoice receipt message and the value put during creation of the item (indicated by both the GR-based flag and the Goods Receipt flags set to true).\n\n(2) 3-way matching, invoice before goods receipt: Purchase Items that do require a goods receipt message, while they do not require GR-based invoicing (indicated by the GR-based IV flag set to false and the Goods Receipt flags set to true). For such purchase items, invoices can be entered before the goods are receipt, but they are blocked until goods are received. This unblocking can be done by a user, or by a batch process at regular intervals. Invoices should only be cleared if goods are received and the value matches with the invoice and the value at creation of the item.\n\n(3) 2-way matching (no goods receipt needed): For these items, the value of the invoice should match the value at creation (in full or partially until PO value is consumed), but there is no separate goods receipt message required (indicated by both the GR-based flag and the Goods Receipt flags set to false).\n\n(4)Consignment: For these items, there are no invoices on PO level as this is handled fully in a separate process. Here we see GR indicator is set to true but the GR IV flag is set to false and also we know by item type (consignment) that we do not expect an invoice against this item.\n\nUnfortunately, the complexity of the data goes further than just this division in four categories. For each purchase item, there can be many goods receipt messages and corresponding invoices which are subsequently paid. Consider for example the process of paying rent. There is a Purchase Document with one item for paying rent, but a total of 12 goods receipt messages with (cleared) invoices with a value equal to 1/12 of the total amount. For logistical services, there may even be hundreds of goods receipt messages for one line item.\n\nOverall, for each line item, the amounts of the line item, the goods receipt messages (if applicable) and the invoices have to match for the process to be compliant.\n\nOf course, the log is anonymized, but some semantics are left in the data, for example: The resources are split between batch users and normal users indicated by their name. The batch users are automated processes executed by different systems. The normal users refer to human actors in the process. The monetary values of each event are anonymized from the original data using a linear translation respecting 0, i.e. addition of multiple invoices for a single item should still lead to the original item worth (although there may be small rounding errors for numerical reasons). Company, vendor, system and document names and IDs are anonymized in a consistent way throughout the log. The company has the key, so any result can be translated by them to business insights about real customers and real purchase documents.\n\nThe event log is fully IEEE-XES compliant and is structured as follows. The case ID is a combination of the purchase document and the purchase item. There is a total of 76,349 purchase documents containing in total 251,734 items, i.e. there are 251,734 cases. In these cases, there are 1,595,923 events relating to 42 activities performed by 627 users (607 human users and 20 batch users). Sometimes the user field is empty, or NONE, which indicates no user was recorded in the source system.\n\nFor each purchase item (or case) the following attributes are recorded:\n\nconcept:name: A combination of the purchase document id and the item id, Purchasing Document: The purchasing document ID,\nItem: The item ID, Item Type: The type of the item, GR-Based Inv. Verif.: Flag indicating if GR-based invoicing is required (see above),\nGoods Receipt: Flag indicating if 3-way matching is required (see above), Source: The source system of this item, Doc. Category name: The name of the category of the purchasing document,\nCompany: The subsidiary of the company from where the purchase originated, Spend classification text: A text explaining the class of purchase item, Spend area text: A text explaining the area for the purchase item, Sub spend area text: Another text explaining the area for the purchase item, Vendor: The vendor to which the purchase document was sent, Name: The name of the vendor,\nDocument Type: The document type, Item Category: The category as explained above (3-way with GR-based invoicing, 3-way without, 2-way, consignment).",
+  "publisher_claims": {
+    "purchase_documents": 76349,
+    "cases": 251734,
+    "events": 1595923,
+    "activities": 42,
+    "users_total": 627,
+    "human_users": 607,
+    "batch_users": 20
+  },
+  "canonical_file": {
+    "name": "BPI_Challenge_2019.xes",
+    "size_bytes": 728558522,
+    "download_url": "https://ndownloader.figshare.com/files/24072995",
+    "figshare_computed_md5": "4eb909242351193a61e1c15b9c3cc814",
+    "mimetype": "text/xml"
+  },
+  "acquisition_note": "figshare ndownloader returned HTTP 202/504 for >40 min on 2026-10-24 (status page: \"Botnet flood\" incident same day); data.4tu.nl unreachable from this host. Byte-identical copy obtained from the official ICPM 2019 conference site; md5 matches figshare computed_md5.",
+  "retrieved_file": {
+    "url": "https://icpmconference.org/2019/wp-content/uploads/sites/6/2019/01/log_IEEE.xes_.gz",
+    "local_path": "instances/bpi19/data/raw/log_IEEE.xes_.gz",
+    "size_bytes": 16901365,
+    "sha256": "43edc7abe7b53c75f53f91b6720ba20878de8a3216b5202ae22a0442b92e9c9a",
+    "format": "gzip-compressed XES 1849.2016 XML"
+  },
+  "decompressed_file": {
+    "local_path": "instances/bpi19/data/raw/BPI_Challenge_2019_icpm.xes",
+    "size_bytes": 728558522,
+    "sha256": "af63bc687fc4152f2123b05c3af7772b37ef3fce2d3f67f812666c9e356baae7",
+    "md5": "4eb909242351193a61e1c15b9c3cc814",
+    "md5_matches_figshare": true
+  },
+  "counts": {
+    "traces": 251734,
+    "events": 1595923,
+    "activities": 42,
+    "distinct_users_excl_none_missing": 627,
+    "batch_users": 20,
+    "human_users": 607,
+    "purchasing_documents": 76349,
+    "variants": 11973
+  },
+  "timestamp_min": "1948-01-26 22:59:00+00:00",
+  "timestamp_max": "2020-04-09 21:59:00+00:00",
+  "xes_log_meta": {
+    "extensions": [
+      {
+        "name": "Organizational",
+        "prefix": "org",
+        "uri": "http://www.xes-standard.org/org.xesext"
+      },
+      {
+        "name": "Concept",
+        "prefix": "concept",
+        "uri": "http://www.xes-standard.org/concept.xesext"
+      },
+      {
+        "name": "Time",
+        "prefix": "time",
+        "uri": "http://www.xes-standard.org/time.xesext"
+      }
+    ],
+    "classifiers": [
+      {
+        "name": "Event Name",
+        "scope": "event",
+        "keys": "concept:name"
+      },
+      {
+        "name": "Resource",
+        "scope": "event",
+        "keys": "org:resource"
+      }
+    ],
+    "globals": {
+      "trace": {
+        "concept:name": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "Purchasing Document": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "Item": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "Item Type": {
+          "type": "string",
+          "default": ""
+        },
+        "GR-Based Inv. Verif.": {
+          "type": "boolean",
+          "default": "false"
+        },
+        "Goods Receipt": {
+          "type": "boolean",
+          "default": "false"
+        },
+        "Source": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "Purch. Doc. Category name": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "Company": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "Spend classification text": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "Spend area text": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "Sub spend area text": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "Vendor": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "Name": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "Document Type": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "Item Category": {
+          "type": "string",
+          "default": "UNKNOWN"
+        }
+      },
+      "event": {
+        "concept:name": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "time:timestamp": {
+          "type": "date",
+          "default": "1970-01-01T00:00:00.000Z"
+        },
+        "org:resource": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "User": {
+          "type": "string",
+          "default": "UNKNOWN"
+        },
+        "Cumulative net worth (EUR)": {
+          "type": "float",
+          "default": "0.0"
+        }
+      }
+    },
+    "log_attrs": {
+      "concept:name": {
+        "type": "string",
+        "value": "BPI Challenge 2019"
+      }
+    }
+  },
+  "trace_attributes": {
+    "Spend area text": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.013065378534484813
+    },
+    "Company": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "Document Type": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "Sub spend area text": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.013065378534484813
+    },
+    "Purchasing Document": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "Purch. Doc. Category name": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "Vendor": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "Item Type": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "Item Category": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "Spend classification text": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.013065378534484813
+    },
+    "Source": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "Name": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "GR-Based Inv. Verif.": {
+      "xes_type": [
+        "boolean"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "Item": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "concept:name": {
+      "xes_type": [
+        "string"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "Goods Receipt": {
+      "xes_type": [
+        "boolean"
+      ],
+      "traces_carrying": 251734,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    }
+  },
+  "event_attributes": {
+    "User": {
+      "xes_type": [
+        "string"
+      ],
+      "events_carrying": 1595923,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "org:resource": {
+      "xes_type": [
+        "string"
+      ],
+      "events_carrying": 1595923,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "concept:name": {
+      "xes_type": [
+        "string"
+      ],
+      "events_carrying": 1595923,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "Cumulative net worth (EUR)": {
+      "xes_type": [
+        "float"
+      ],
+      "events_carrying": 1595923,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    },
+    "time:timestamp": {
+      "xes_type": [
+        "date"
+      ],
+      "events_carrying": 1595923,
+      "coverage": 1.0,
+      "null_or_empty_rate": 0.0
+    }
+  },
+  "normalized_output": {
+    "events_parquet_dir": "instances/bpi19/data/normalized/events.parquet",
+    "partitioning": "hive month=YYYY-MM on event time:timestamp (UTC)",
+    "cases_parquet": "instances/bpi19/data/normalized/cases.parquet",
+    "event_columns": [
+      "User",
+      "org:resource",
+      "concept:name",
+      "Cumulative net worth (EUR)",
+      "time:timestamp",
+      "case_id",
+      "_pos",
+      "ts"
+    ],
+    "case_columns": [
+      "Spend area text",
+      "Company",
+      "Document Type",
+      "Sub spend area text",
+      "Purchasing Document",
+      "Purch. Doc. Category name",
+      "Vendor",
+      "Item Type",
+      "Item Category",
+      "Spend classification text",
+      "Source",
+      "Name",
+      "GR-Based Inv. Verif.",
+      "Item",
+      "concept:name",
+      "Goods Receipt",
+      "n_events"
+    ]
+  },
+  "xes_namespace_note": "<log> element has no xmlns; tags are un-namespaced",
+  "data_quality": {
+    "events_with_NONE_resource": 399090,
+    "events_outside_2018-01-01_2019-01-31": 327,
+    "events_before_2018": 318,
+    "events_after_2019-01-31": 9,
+    "cases_with_any_event_outside": 271,
+    "exact_duplicate_event_copies": 132748,
+    "events_after_exact_dedup": 1463175,
+    "timestamp_resolution": "minute (100% seconds==0), all UTC Z",
+    "per_year_events": {
+      "1948": 10,
+      "1993": 9,
+      "2001": 22,
+      "2008": 45,
+      "2015": 3,
+      "2016": 6,
+      "2017": 223,
+      "2018": 1550468,
+      "2019": 45135,
+      "2020": 2
+    },
+    "per_month_events": {
+      "1948-01": 10,
+      "1993-05": 9,
+      "2001-01": 1,
+      "2001-02": 2,
+      "2001-04": 13,
+      "2001-06": 4,
+      "2001-07": 2,
+      "2008-06": 45,
+      "2015-03": 1,
+      "2015-11": 1,
+      "2015-12": 1,
+      "2016-01": 1,
+      "2016-02": 1,
+      "2016-04": 2,
+      "2016-05": 1,
+      "2016-11": 1,
+      "2017-01": 13,
+      "2017-02": 3,
+      "2017-03": 4,
+      "2017-04": 9,
+      "2017-05": 7,
+      "2017-06": 3,
+      "2017-07": 3,
+      "2017-08": 7,
+      "2017-09": 7,
+      "2017-10": 8,
+      "2017-11": 22,
+      "2017-12": 137,
+      "2018-01": 73474,
+      "2018-02": 103959,
+      "2018-03": 139088,
+      "2018-04": 133348,
+      "2018-05": 146397,
+      "2018-06": 143507,
+      "2018-07": 142436,
+      "2018-08": 137400,
+      "2018-09": 140671,
+      "2018-10": 147964,
+      "2018-11": 142316,
+      "2018-12": 99908,
+      "2019-01": 45128,
+      "2019-02": 2,
+      "2019-04": 2,
+      "2019-10": 1,
+      "2019-12": 2,
+      "2020-04": 2
+    }
+  },
+  "splits": {
+    "cases_created": {
+      "train_2018-01-01_2018-06-30": 134740,
+      "val_2018-07-01_2018-08-31": 41279,
+      "test_2018-09-01_2018-11-30": 61121,
+      "before_2018": 264,
+      "dec_2018_or_later": 14330
+    },
+    "events": {
+      "train": 739773,
+      "val": 279836,
+      "test": 430951
+    }
+  },
+  "families": {
+    "2-way match": {
+      "n": 1044,
+      "share_clear_invoice": 0.2902298851,
+      "share_gr": 0.0,
+      "share_inv": 0.658045977,
+      "median_events": 4.0,
+      "median_dur_days": 23.6861111111
+    },
+    "3-way match, invoice after GR": {
+      "n": 15182,
+      "share_clear_invoice": 0.6373336846,
+      "share_gr": 0.9576472138,
+      "share_inv": 0.7329732578,
+      "median_events": 6.0,
+      "median_dur_days": 63.4222222222
+    },
+    "3-way match, invoice before GR": {
+      "n": 221010,
+      "share_clear_invoice": 0.7859282385,
+      "share_gr": 0.9342292204,
+      "share_inv": 0.9029636668,
+      "median_events": 5.0,
+      "median_dur_days": 66.3479166667
+    },
+    "Consignment": {
+      "n": 14498,
+      "share_clear_invoice": 0.0,
+      "share_gr": 0.928817768,
+      "share_inv": 0.0,
+      "median_events": 2.0,
+      "median_dur_days": 19.9260416667
+    }
+  },
+  "publisher_claims_verified": {
+    "cases": true,
+    "events": true,
+    "activities": true,
+    "purchasing_documents": true,
+    "human_users": true,
+    "batch_users": true
+  },
+  "report": "docs/validation.md",
+  "scripts": [
+    "instances/bpi19/ingest/audit/parse_xes.py",
+    "instances/bpi19/ingest/audit/analyze.py",
+    "instances/bpi19/ingest/audit/anomalies.py",
+    "instances/bpi19/ingest/audit/extra_users.py",
+    "instances/bpi19/ingest/audit/build_manifest.py"
+  ]
+}

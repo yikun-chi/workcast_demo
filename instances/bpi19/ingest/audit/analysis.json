@@ -1,0 +1,1423 @@
+{
+  "n_events": 1595923,
+  "n_cases": 251734,
+  "n_case_ids_in_events": 251734,
+  "cases_with_zero_events": 0,
+  "duplicate_case_ids": 0,
+  "event_null_rate": {
+    "User": 0.0,
+    "org:resource": 0.0,
+    "concept:name": 0.0,
+    "Cumulative net worth (EUR)": 0.0,
+    "time:timestamp": 0.0,
+    "case_id": 0.0,
+    "_pos": 0.0,
+    "ts": 0.0
+  },
+  "case_null_rate": {
+    "Spend area text": 0.013065378534484813,
+    "Company": 0.0,
+    "Document Type": 0.0,
+    "Sub spend area text": 0.013065378534484813,
+    "Purchasing Document": 0.0,
+    "Purch. Doc. Category name": 0.0,
+    "Vendor": 0.0,
+    "Item Type": 0.0,
+    "Item Category": 0.0,
+    "Spend classification text": 0.013065378534484813,
+    "Source": 0.0,
+    "Name": 0.0,
+    "GR-Based Inv. Verif.": 0.0,
+    "Item": 0.0,
+    "concept:name": 0.0,
+    "Goods Receipt": 0.0,
+    "n_events": 0.0
+  },
+  "n_activities": 42,
+  "activities": {
+    "Record Goods Receipt": 314097,
+    "Create Purchase Order Item": 251734,
+    "Record Invoice Receipt": 228760,
+    "Vendor creates invoice": 219919,
+    "Clear Invoice": 194393,
+    "Record Service Entry Sheet": 164975,
+    "Remove Payment Block": 57136,
+    "Create Purchase Requisition Item": 46592,
+    "Receive Order Confirmation": 32065,
+    "Change Quantity": 21449,
+    "Change Price": 12423,
+    "Delete Purchase Order Item": 8875,
+    "Change Approval for Purchase Order": 7541,
+    "Cancel Invoice Receipt": 7096,
+    "Vendor creates debit memo": 6255,
+    "Change Delivery Indicator": 3289,
+    "Cancel Goods Receipt": 3096,
+    "SRM: In Transfer to Execution Syst.": 1765,
+    "SRM: Created": 1628,
+    "SRM: Complete": 1628,
+    "SRM: Awaiting Approval": 1628,
+    "SRM: Document Completed": 1628,
+    "SRM: Ordered": 1628,
+    "Release Purchase Order": 1610,
+    "SRM: Change was Transmitted": 1440,
+    "Reactivate Purchase Order Item": 543,
+    "Block Purchase Order Item": 514,
+    "Cancel Subsequent Invoice": 491,
+    "Release Purchase Requisition": 467,
+    "Change Storage Location": 415,
+    "Update Order Confirmation": 244,
+    "SRM: Deleted": 188,
+    "Record Subsequent Invoice": 167,
+    "Set Payment Block": 124,
+    "SRM: Transfer Failed (E.Sys.)": 45,
+    "Change Currency": 35,
+    "Change Final Invoice Indicator": 11,
+    "SRM: Transaction Completed": 8,
+    "Change payment term": 7,
+    "SRM: Incomplete": 6,
+    "SRM: Held": 6,
+    "Change Rejection Indicator": 2
+  },
+  "user_null_or_NONE": {
+    "missing": 0,
+    "NONE": 399090
+  },
+  "n_distinct_users_total": 627,
+  "n_batch_users": 20,
+  "n_human_users": 607,
+  "user_name_patterns": {
+    "user_#": 607,
+    "batch_#": 20
+  },
+  "batch_user_list": [
+    "batch_00",
+    "batch_01",
+    "batch_02",
+    "batch_03",
+    "batch_04",
+    "batch_05",
+    "batch_06",
+    "batch_07",
+    "batch_08",
+    "batch_09",
+    "batch_10",
+    "batch_11",
+    "batch_12",
+    "batch_13",
+    "batch_14",
+    "batch_15",
+    "batch_16",
+    "batch_17",
+    "batch_18",
+    "batch_19"
+  ],
+  "events_by_user_class": {
+    "human": 1040646,
+    "NONE": 399090,
+    "batch": 156187
+  },
+  "per_activity": {
+    "Record Goods Receipt": {
+      "n": 314097,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.2707252855,
+      "pct_human": 0.7292747145,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9472774334,
+      "n_distinct_users": 256
+    },
+    "Create Purchase Order Item": {
+      "n": 251734,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0763623507,
+      "pct_human": 0.9236376493,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9349114542,
+      "n_distinct_users": 185
+    },
+    "Record Invoice Receipt": {
+      "n": 228760,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0414058402,
+      "pct_human": 0.9585941598,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9995060325,
+      "n_distinct_users": 31
+    },
+    "Vendor creates invoice": {
+      "n": 219919,
+      "pct_user_none_or_missing": 1.0,
+      "pct_batch": 0.0,
+      "pct_human": 0.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9996316826,
+      "n_distinct_users": 1
+    },
+    "Clear Invoice": {
+      "n": 194393,
+      "pct_user_none_or_missing": 0.0408502364,
+      "pct_batch": 0.0,
+      "pct_human": 0.9591497636,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9996090394,
+      "n_distinct_users": 24
+    },
+    "Record Service Entry Sheet": {
+      "n": 164975,
+      "pct_user_none_or_missing": 1.0,
+      "pct_batch": 0.0,
+      "pct_human": 0.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9986422185,
+      "n_distinct_users": 1
+    },
+    "Remove Payment Block": {
+      "n": 57136,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.2702674321,
+      "pct_human": 0.7297325679,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9998599832,
+      "n_distinct_users": 12
+    },
+    "Create Purchase Requisition Item": {
+      "n": 46592,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.219715831,
+      "pct_human": 0.780284169,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9369634272,
+      "n_distinct_users": 233
+    },
+    "Receive Order Confirmation": {
+      "n": 32065,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.1464525183,
+      "pct_human": 0.8535474817,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9739591455,
+      "n_distinct_users": 10
+    },
+    "Change Quantity": {
+      "n": 21449,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 9.32444e-05,
+      "pct_human": 0.9999067556,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9342160474,
+      "n_distinct_users": 166
+    },
+    "Change Price": {
+      "n": 12423,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9933993399,
+      "n_distinct_users": 134
+    },
+    "Delete Purchase Order Item": {
+      "n": 8875,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9310422535,
+      "n_distinct_users": 136
+    },
+    "Change Approval for Purchase Order": {
+      "n": 7541,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9996021748,
+      "n_distinct_users": 49
+    },
+    "Cancel Invoice Receipt": {
+      "n": 7096,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.1018883878,
+      "pct_human": 0.8981116122,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9997181511,
+      "n_distinct_users": 21
+    },
+    "Vendor creates debit memo": {
+      "n": 6255,
+      "pct_user_none_or_missing": 1.0,
+      "pct_batch": 0.0,
+      "pct_human": 0.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9996802558,
+      "n_distinct_users": 1
+    },
+    "Change Delivery Indicator": {
+      "n": 3289,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.8388567954,
+      "n_distinct_users": 109
+    },
+    "Cancel Goods Receipt": {
+      "n": 3096,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.1589147287,
+      "pct_human": 0.8410852713,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9140826873,
+      "n_distinct_users": 111
+    },
+    "SRM: In Transfer to Execution Syst.": {
+      "n": 1765,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.9331444759,
+      "pct_human": 0.0668555241,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9954674221,
+      "n_distinct_users": 12
+    },
+    "SRM: Complete": {
+      "n": 1628,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.8808353808,
+      "pct_human": 0.1191646192,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9963144963,
+      "n_distinct_users": 13
+    },
+    "SRM: Created": {
+      "n": 1628,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.8845208845,
+      "pct_human": 0.1154791155,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9963144963,
+      "n_distinct_users": 12
+    },
+    "SRM: Ordered": {
+      "n": 1628,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 1.0,
+      "pct_human": 0.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9963144963,
+      "n_distinct_users": 1
+    },
+    "SRM: Document Completed": {
+      "n": 1628,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.8808353808,
+      "pct_human": 0.1191646192,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9963144963,
+      "n_distinct_users": 13
+    },
+    "SRM: Awaiting Approval": {
+      "n": 1628,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.8808353808,
+      "pct_human": 0.1191646192,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9963144963,
+      "n_distinct_users": 13
+    },
+    "Release Purchase Order": {
+      "n": 1610,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 1.0,
+      "n_distinct_users": 20
+    },
+    "SRM: Change was Transmitted": {
+      "n": 1440,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 1.0,
+      "pct_human": 0.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9972222222,
+      "n_distinct_users": 1
+    },
+    "Reactivate Purchase Order Item": {
+      "n": 543,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9742173112,
+      "n_distinct_users": 51
+    },
+    "Block Purchase Order Item": {
+      "n": 514,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 1.0,
+      "n_distinct_users": 5
+    },
+    "Cancel Subsequent Invoice": {
+      "n": 491,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9979633401,
+      "n_distinct_users": 10
+    },
+    "Release Purchase Requisition": {
+      "n": 467,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.4197002141,
+      "pct_human": 0.5802997859,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9785867238,
+      "n_distinct_users": 38
+    },
+    "Change Storage Location": {
+      "n": 415,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.8578313253,
+      "n_distinct_users": 56
+    },
+    "Update Order Confirmation": {
+      "n": 244,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0327868852,
+      "pct_human": 0.9672131148,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9590163934,
+      "n_distinct_users": 7
+    },
+    "SRM: Deleted": {
+      "n": 188,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 1.0,
+      "pct_human": 0.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9893617021,
+      "n_distinct_users": 1
+    },
+    "Record Subsequent Invoice": {
+      "n": 167,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0299401198,
+      "pct_human": 0.9700598802,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 1.0,
+      "n_distinct_users": 10
+    },
+    "Set Payment Block": {
+      "n": 124,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 1.0,
+      "n_distinct_users": 7
+    },
+    "SRM: Transfer Failed (E.Sys.)": {
+      "n": 45,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 1.0,
+      "n_distinct_users": 1
+    },
+    "Change Currency": {
+      "n": 35,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9714285714,
+      "n_distinct_users": 7
+    },
+    "Change Final Invoice Indicator": {
+      "n": 11,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.9090909091,
+      "n_distinct_users": 2
+    },
+    "SRM: Transaction Completed": {
+      "n": 8,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.75,
+      "n_distinct_users": 5
+    },
+    "Change payment term": {
+      "n": 7,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 0.8571428571,
+      "n_distinct_users": 4
+    },
+    "SRM: Held": {
+      "n": 6,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 1.0,
+      "pct_human": 0.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 1.0,
+      "n_distinct_users": 1
+    },
+    "SRM: Incomplete": {
+      "n": 6,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 1.0,
+      "pct_human": 0.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 1.0,
+      "n_distinct_users": 1
+    },
+    "Change Rejection Indicator": {
+      "n": 2,
+      "pct_user_none_or_missing": 0.0,
+      "pct_batch": 0.0,
+      "pct_human": 1.0,
+      "pct_cnw_nonnull": 1.0,
+      "pct_cnw_nonzero": 1.0,
+      "n_distinct_users": 1
+    }
+  },
+  "cnw_overall": {
+    "nonnull": 1.0,
+    "nonzero": 0.9747669530422207,
+    "describe": {
+      "count": 1595923.0,
+      "mean": 17888.974151635135,
+      "std": 222772.33836587847,
+      "min": 0.0,
+      "25%": 145.0,
+      "50%": 536.0,
+      "75%": 2481.0,
+      "max": 28994530.0
+    }
+  },
+  "purchasing_documents": {
+    "n_distinct": 76349,
+    "mean_items": 3.297148620152196,
+    "median": 1.0,
+    "p90": 7.0,
+    "p99": 32.0,
+    "max": 429,
+    "share_single_item": 0.6300017027073046
+  },
+  "case_id_startswith_pd": 1.0,
+  "ts_min": "1948-01-26 22:59:00+00:00",
+  "ts_max": "2020-04-09 21:59:00+00:00",
+  "events_outside_2018_01_to_2019_01": 327,
+  "events_before_2018": 318,
+  "events_after_2019_01": 9,
+  "cases_with_any_event_outside": 271,
+  "per_month_events": {
+    "1948-01": 10,
+    "1993-05": 9,
+    "2001-01": 1,
+    "2001-02": 2,
+    "2001-04": 13,
+    "2001-06": 4,
+    "2001-07": 2,
+    "2008-06": 45,
+    "2015-03": 1,
+    "2015-11": 1,
+    "2015-12": 1,
+    "2016-01": 1,
+    "2016-02": 1,
+    "2016-04": 2,
+    "2016-05": 1,
+    "2016-11": 1,
+    "2017-01": 13,
+    "2017-02": 3,
+    "2017-03": 4,
+    "2017-04": 9,
+    "2017-05": 7,
+    "2017-06": 3,
+    "2017-07": 3,
+    "2017-08": 7,
+    "2017-09": 7,
+    "2017-10": 8,
+    "2017-11": 22,
+    "2017-12": 137,
+    "2018-01": 73474,
+    "2018-02": 103959,
+    "2018-03": 139088,
+    "2018-04": 133348,
+    "2018-05": 146397,
+    "2018-06": 143507,
+    "2018-07": 142436,
+    "2018-08": 137400,
+    "2018-09": 140671,
+    "2018-10": 147964,
+    "2018-11": 142316,
+    "2018-12": 99908,
+    "2019-01": 45128,
+    "2019-02": 2,
+    "2019-04": 2,
+    "2019-10": 1,
+    "2019-12": 2,
+    "2020-04": 2
+  },
+  "per_year_events": {
+    "1948": 10,
+    "1993": 9,
+    "2001": 22,
+    "2008": 45,
+    "2015": 3,
+    "2016": 6,
+    "2017": 223,
+    "2018": 1550468,
+    "2019": 45135,
+    "2020": 2
+  },
+  "outside_window_activities": {
+    "Vendor creates invoice": 292,
+    "Vendor creates debit memo": 28,
+    "Create Purchase Requisition Item": 7
+  },
+  "outside_window_years": {
+    "1948": 10,
+    "1993": 9,
+    "2001": 22,
+    "2008": 45,
+    "2015": 3,
+    "2016": 6,
+    "2017": 223,
+    "2019": 7,
+    "2020": 2
+  },
+  "share_cases_first_event_2018": 0.9981488396482001,
+  "cases_first_event_year": {
+    "1948": 5,
+    "1993": 9,
+    "2001": 17,
+    "2008": 45,
+    "2015": 2,
+    "2016": 2,
+    "2017": 184,
+    "2018": 251268,
+    "2019": 202
+  },
+  "cases_last_event_year": {
+    "2018": 219052,
+    "2019": 32680,
+    "2020": 2
+  },
+  "share_cases_reach_clear_invoice": 0.7296471672479681,
+  "share_cases_reach_gr": 0.9314554251710139,
+  "share_cases_reach_invoice_receipt": 0.8396918970023914,
+  "first_activity_dist": {
+    "Create Purchase Order Item": 199867,
+    "Create Purchase Requisition Item": 46526,
+    "Vendor creates invoice": 3457,
+    "SRM: Created": 1360,
+    "Change Approval for Purchase Order": 378,
+    "Vendor creates debit memo": 122,
+    "Release Purchase Order": 22,
+    "Change Currency": 2
+  },
+  "last_activity_dist": {
+    "Clear Invoice": 181328,
+    "Record Invoice Receipt": 23091,
+    "Record Goods Receipt": 22776,
+    "Delete Purchase Order Item": 8123,
+    "Remove Payment Block": 5397,
+    "Create Purchase Order Item": 4447,
+    "Cancel Invoice Receipt": 1348,
+    "Change Approval for Purchase Order": 1346,
+    "Record Service Entry Sheet": 921,
+    "Change Delivery Indicator": 718,
+    "Change Price": 529,
+    "Change Quantity": 525,
+    "Cancel Goods Receipt": 440,
+    "Receive Order Confirmation": 232,
+    "Block Purchase Order Item": 167
+  },
+  "flag_distributions": {
+    "Item Category": {
+      "3-way match, invoice before GR": 221010,
+      "3-way match, invoice after GR": 15182,
+      "Consignment": 14498,
+      "2-way match": 1044
+    },
+    "Item Type": {
+      "Standard": 220186,
+      "Consignment": 14498,
+      "Service": 5838,
+      "Third-party": 5490,
+      "Subcontracting": 4678,
+      "Limit": 1044
+    },
+    "GR-Based Inv. Verif.": {
+      "false": 236552,
+      "true": 15182
+    },
+    "Goods Receipt": {
+      "true": 250690,
+      "false": 1044
+    },
+    "Document Type": {
+      "Standard PO": 248755,
+      "Framework order": 1539,
+      "EC Purchase order": 1440
+    },
+    "Spend classification text": {
+      "PR": 164717,
+      "NPR": 81057,
+      "": 3289,
+      "OTHER": 2671
+    },
+    "Company": {
+      "companyID_0000": 250686,
+      "companyID_0003": 1044,
+      "companyID_0001": 2,
+      "companyID_0002": 2
+    },
+    "Sub spend area text": {
+      "Products for Resale": 61396,
+      "Labels": 57681,
+      "Trading products (old structure)": 22292,
+      "Metal Containers & Lids < 30L": 20792,
+      "Plastic Containers & Lids < 30L": 20240,
+      "Extenders": 8377,
+      "Packaging - Other": 6700,
+      "Road Packed": 3438,
+      "": 3289,
+      "MRO (components)": 2551,
+      "Surfactants": 2489,
+      "Laboratory Supplies & Services": 2189,
+      "Color Collateral": 2152,
+      "Rheology & Thixotropic Agents": 2047,
+      "Styrene Acrylics": 1760,
+      "Business Gifts & Promotional Items": 1471,
+      "Alkyd Resins": 1450,
+      "Pure Acrylics": 1418,
+      "Colorants": 1387,
+      "Paperboard": 1362,
+      "Biocides": 1313,
+      "Chloride": 1286,
+      "Defoamers & Antifoams": 1166,
+      "Glycol & Ether Solvents": 1128,
+      "Sea": 1076
+    },
+    "Spend area text": {
+      "Packaging": 109199,
+      "Sales": 65864,
+      "Trading & End Products": 22292,
+      "Additives": 18318,
+      "CAPEX & SOCS": 6769,
+      "Logistics": 5242,
+      "Latex & Monomers": 5007,
+      "": 3289,
+      "Others": 2635,
+      "Solvents": 2629,
+      "Pigments & Colorants": 2593,
+      "Specialty Resins": 2406,
+      "Titanium Dioxides": 1863,
+      "Marketing": 1791,
+      "Enterprise Services": 664,
+      "Real Estate": 584,
+      "Commodity Resins": 409,
+      "Workforce Services": 128,
+      "Spend Area Unidentified": 36,
+      "Energy": 15,
+      "Chemicals & Intermediates": 1
+    },
+    "Source": {
+      "sourceSystemID_0000": 251734
+    }
+  },
+  "n_distinct_case_attr_values": {
+    "Spend area text": 21,
+    "Company": 4,
+    "Document Type": 3,
+    "Sub spend area text": 136,
+    "Purchasing Document": 76349,
+    "Purch. Doc. Category name": 1,
+    "Vendor": 1975,
+    "Item Type": 6,
+    "Item Category": 4,
+    "Spend classification text": 4,
+    "Source": 1,
+    "Name": 1899,
+    "GR-Based Inv. Verif.": 2,
+    "Item": 490,
+    "concept:name": 251734,
+    "Goods Receipt": 2,
+    "n_events": 352
+  },
+  "per_item_category": {
+    "2-way match": {
+      "n": 1044,
+      "share_clear_invoice": 0.2902298851,
+      "share_gr": 0.0,
+      "share_inv": 0.658045977,
+      "median_events": 4.0,
+      "median_dur_days": 23.6861111111
+    },
+    "3-way match, invoice after GR": {
+      "n": 15182,
+      "share_clear_invoice": 0.6373336846,
+      "share_gr": 0.9576472138,
+      "share_inv": 0.7329732578,
+      "median_events": 6.0,
+      "median_dur_days": 63.4222222222
+    },
+    "3-way match, invoice before GR": {
+      "n": 221010,
+      "share_clear_invoice": 0.7859282385,
+      "share_gr": 0.9342292204,
+      "share_inv": 0.9029636668,
+      "median_events": 5.0,
+      "median_dur_days": 66.3479166667
+    },
+    "Consignment": {
+      "n": 14498,
+      "share_clear_invoice": 0.0,
+      "share_gr": 0.928817768,
+      "share_inv": 0.0,
+      "median_events": 2.0,
+      "median_dur_days": 19.9260416667
+    }
+  },
+  "flag_combos": [
+    {
+      "Item Category": "2-way match",
+      "GR-Based Inv. Verif.": "false",
+      "Goods Receipt": "false",
+      "n": 1044,
+      "share_clear_invoice": 0.2902298851,
+      "share_gr": 0.0
+    },
+    {
+      "Item Category": "3-way match, invoice after GR",
+      "GR-Based Inv. Verif.": "true",
+      "Goods Receipt": "true",
+      "n": 15182,
+      "share_clear_invoice": 0.6373336846,
+      "share_gr": 0.9576472138
+    },
+    {
+      "Item Category": "3-way match, invoice before GR",
+      "GR-Based Inv. Verif.": "false",
+      "Goods Receipt": "true",
+      "n": 221010,
+      "share_clear_invoice": 0.7859282385,
+      "share_gr": 0.9342292204
+    },
+    {
+      "Item Category": "Consignment",
+      "GR-Based Inv. Verif.": "false",
+      "Goods Receipt": "true",
+      "n": 14498,
+      "share_clear_invoice": 0.0,
+      "share_gr": 0.928817768
+    }
+  ],
+  "split_cases_created": {
+    "train_2018-01-01_2018-06-30": 134740,
+    "val_2018-07-01_2018-08-31": 41279,
+    "test_2018-09-01_2018-11-30": 61121,
+    "before_2018": 264,
+    "dec_2018_or_later": 14330
+  },
+  "split_events": {
+    "train": 739773,
+    "val": 279836,
+    "test": 430951
+  },
+  "open_cases_at_weekly_t0": {
+    "2018-09-03": {
+      "open_cases": 56419,
+      "open_created_2018": 56321,
+      "open_created_in_test": 704,
+      "new_cases_next_7d": 4981
+    },
+    "2018-09-10": {
+      "open_cases": 54083,
+      "open_created_2018": 53985,
+      "open_created_in_test": 4904,
+      "new_cases_next_7d": 4357
+    },
+    "2018-09-17": {
+      "open_cases": 56332,
+      "open_created_2018": 56280,
+      "open_created_in_test": 8842,
+      "new_cases_next_7d": 4043
+    },
+    "2018-09-24": {
+      "open_cases": 58479,
+      "open_created_2018": 58431,
+      "open_created_in_test": 12363,
+      "new_cases_next_7d": 4554
+    },
+    "2018-10-01": {
+      "open_cases": 52564,
+      "open_created_2018": 52517,
+      "open_created_in_test": 16260,
+      "new_cases_next_7d": 4520
+    },
+    "2018-10-08": {
+      "open_cases": 48743,
+      "open_created_2018": 48696,
+      "open_created_in_test": 19993,
+      "new_cases_next_7d": 4490
+    },
+    "2018-10-15": {
+      "open_cases": 50321,
+      "open_created_2018": 50276,
+      "open_created_in_test": 23029,
+      "new_cases_next_7d": 5412
+    },
+    "2018-10-22": {
+      "open_cases": 53355,
+      "open_created_2018": 53311,
+      "open_created_in_test": 27066,
+      "new_cases_next_7d": 4614
+    },
+    "2018-10-29": {
+      "open_cases": 48377,
+      "open_created_2018": 48335,
+      "open_created_in_test": 29163,
+      "new_cases_next_7d": 4556
+    },
+    "2018-11-05": {
+      "open_cases": 49035,
+      "open_created_2018": 48995,
+      "open_created_in_test": 31158,
+      "new_cases_next_7d": 4992
+    },
+    "2018-11-12": {
+      "open_cases": 46581,
+      "open_created_2018": 46545,
+      "open_created_in_test": 32857,
+      "new_cases_next_7d": 4831
+    },
+    "2018-11-19": {
+      "open_cases": 48144,
+      "open_created_2018": 48109,
+      "open_created_in_test": 34974,
+      "new_cases_next_7d": 4661
+    },
+    "2018-11-26": {
+      "open_cases": 49696,
+      "open_created_2018": 49661,
+      "open_created_in_test": 36945,
+      "new_cases_next_7d": 4903
+    }
+  },
+  "case_duration_days_ge2": {
+    "n": 248899,
+    "median": 64.30347222222223,
+    "p90": 126.18055555555556,
+    "p99": 220.50636111111032,
+    "max": 25670.547916666666,
+    "mean": 72.33920785193547
+  },
+  "case_duration_days_ge2_created2018": {
+    "n": 248457,
+    "median": 64.32847222222222,
+    "p90": 126.14930555555556,
+    "p99": 217.3385
+  },
+  "events_per_case": {
+    "mean": 6.33971970413214,
+    "median": 5.0,
+    "p90": 7.0,
+    "p99": 24.0,
+    "max": 990,
+    "share_1_event": 0.011261887547967298
+  },
+  "right_censoring": {
+    "log_end": "2020-04-09 21:59:00+00:00",
+    "share_cases_not_reaching_clear_invoice": 0.2703528327520319,
+    "share_cases_last_event_within_30d_of_log_end": 7.944894213733544e-06,
+    "share_cases_last_event_within_60d_of_log_end_and_no_clear_invoice": 0.0,
+    "share_cases_last_event_after_2018_12_31": 0.12982751634661985,
+    "share_cases_created_2018_not_clear_invoice": 0.27061279675508015
+  },
+  "n_variants": 11973,
+  "top_variants": [
+    {
+      "variant": "Create Purchase Order Item -> Vendor creates invoice -> Record Goods Receipt -> Record Invoice Receipt -> Clear Invoice",
+      "n": 50286,
+      "share": 0.1997584752159025
+    },
+    {
+      "variant": "Create Purchase Order Item -> Record Goods Receipt -> Vendor creates invoice -> Record Invoice Receipt -> Clear Invoice",
+      "n": 30798,
+      "share": 0.12234342599728285
+    },
+    {
+      "variant": "Create Purchase Order Item -> Record Goods Receipt",
+      "n": 12214,
+      "share": 0.04851946896327075
+    },
+    {
+      "variant": "Create Purchase Order Item -> Vendor creates invoice -> Record Goods Receipt -> Record Invoice Receipt -> Remove Payment Block -> Clear Invoice",
+      "n": 11383,
+      "share": 0.04521836541746447
+    },
+    {
+      "variant": "Create Purchase Order Item -> Receive Order Confirmation -> Record Goods Receipt -> Vendor creates invoice -> Record Invoice Receipt -> Clear Invoice",
+      "n": 9694,
+      "share": 0.03850890225396649
+    },
+    {
+      "variant": "Create Purchase Requisition Item -> Create Purchase Order Item -> Vendor creates invoice -> Record Goods Receipt -> Record Invoice Receipt -> Clear Invoice",
+      "n": 8921,
+      "share": 0.03543820064035847
+    },
+    {
+      "variant": "Create Purchase Order Item -> Vendor creates invoice -> Record Invoice Receipt -> Record Goods Receipt -> Remove Payment Block -> Clear Invoice",
+      "n": 8835,
+      "share": 0.03509657018916793
+    },
+    {
+      "variant": "Create Purchase Order Item -> Record Goods Receipt -> Vendor creates invoice -> Record Invoice Receipt -> Remove Payment Block -> Clear Invoice",
+      "n": 7985,
+      "share": 0.03171999014833118
+    },
+    {
+      "variant": "Create Purchase Order Item -> Delete Purchase Order Item",
+      "n": 5298,
+      "share": 0.02104602477218016
+    },
+    {
+      "variant": "Create Purchase Order Item -> Receive Order Confirmation -> Vendor creates invoice -> Record Goods Receipt -> Record Invoice Receipt -> Clear Invoice",
+      "n": 4244,
+      "share": 0.01685906552154258
+    }
+  ],
+  "share_cases_in_top10_variants": 0.5945084891194674,
+  "share_cases_in_top100_variants": 0.862036911978517,
+  "share_variants_singleton": 0.7541969431220246,
+  "n_transitions": 1344189,
+  "transition_top": [
+    {
+      "from": "Record Service Entry Sheet",
+      "to": "Record Service Entry Sheet",
+      "n": 139107,
+      "share": 0.10348767918797133
+    },
+    {
+      "from": "Record Invoice Receipt",
+      "to": "Clear Invoice",
+      "n": 134955,
+      "share": 0.10039882784340595
+    },
+    {
+      "from": "Record Goods Receipt",
+      "to": "Record Invoice Receipt",
+      "n": 112182,
+      "share": 0.0834570138574263
+    },
+    {
+      "from": "Vendor creates invoice",
+      "to": "Record Goods Receipt",
+      "n": 110215,
+      "share": 0.08199367797236846
+    },
+    {
+      "from": "Create Purchase Order Item",
+      "to": "Vendor creates invoice",
+      "n": 103150,
+      "share": 0.0767377206627937
+    },
+    {
+      "from": "Vendor creates invoice",
+      "to": "Record Invoice Receipt",
+      "n": 95218,
+      "share": 0.07083676477043035
+    },
+    {
+      "from": "Record Goods Receipt",
+      "to": "Vendor creates invoice",
+      "n": 80616,
+      "share": 0.059973709054307094
+    },
+    {
+      "from": "Create Purchase Order Item",
+      "to": "Record Goods Receipt",
+      "n": 77206,
+      "share": 0.05743686341727242
+    },
+    {
+      "from": "Record Goods Receipt",
+      "to": "Record Goods Receipt",
+      "n": 54277,
+      "share": 0.04037899432297095
+    },
+    {
+      "from": "Remove Payment Block",
+      "to": "Clear Invoice",
+      "n": 49424,
+      "share": 0.03676863893395944
+    },
+    {
+      "from": "Create Purchase Requisition Item",
+      "to": "Create Purchase Order Item",
+      "n": 46125,
+      "share": 0.03431437097015375
+    },
+    {
+      "from": "Record Invoice Receipt",
+      "to": "Remove Payment Block",
+      "n": 37621,
+      "share": 0.02798787968061039
+    },
+    {
+      "from": "Create Purchase Order Item",
+      "to": "Receive Order Confirmation",
+      "n": 30837,
+      "share": 0.02294097035461531
+    },
+    {
+      "from": "Record Goods Receipt",
+      "to": "Record Service Entry Sheet",
+      "n": 23151,
+      "share": 0.017223024440759446
+    },
+    {
+      "from": "Receive Order Confirmation",
+      "to": "Record Goods Receipt",
+      "n": 20398,
+      "share": 0.015174949356080134
+    },
+    {
+      "from": "Record Service Entry Sheet",
+      "to": "Record Goods Receipt",
+      "n": 19183,
+      "share": 0.014271058608573646
+    },
+    {
+      "from": "Record Invoice Receipt",
+      "to": "Record Goods Receipt",
+      "n": 15580,
+      "share": 0.011590631972140823
+    },
+    {
+      "from": "Record Goods Receipt",
+      "to": "Remove Payment Block",
+      "n": 15370,
+      "share": 0.011434403941707602
+    },
+    {
+      "from": "Create Purchase Order Item",
+      "to": "Change Quantity",
+      "n": 11760,
+      "share": 0.008748769704260338
+    },
+    {
+      "from": "Change Quantity",
+      "to": "Record Goods Receipt",
+      "n": 9206,
+      "share": 0.006848739276991554
+    },
+    {
+      "from": "Receive Order Confirmation",
+      "to": "Vendor creates invoice",
+      "n": 9190,
+      "share": 0.0068368361889585465
+    },
+    {
+      "from": "Create Purchase Order Item",
+      "to": "Delete Purchase Order Item",
+      "n": 6890,
+      "share": 0.005125767284213753
+    },
+    {
+      "from": "Record Invoice Receipt",
+      "to": "Record Invoice Receipt",
+      "n": 6783,
+      "share": 0.005046165382993017
+    },
+    {
+      "from": "Create Purchase Order Item",
+      "to": "Change Price",
+      "n": 6433,
+      "share": 0.004785785332270982
+    },
+    {
+      "from": "Change Quantity",
+      "to": "Vendor creates invoice",
+      "n": 5994,
+      "share": 0.004459194354365346
+    }
+  ],
+  "n_distinct_transitions": 498,
+  "self_loop_share": 0.15662678388232606,
+  "exception_activities_used": [
+    "Change Quantity",
+    "Change Price",
+    "Cancel Invoice Receipt",
+    "Cancel Goods Receipt",
+    "Delete Purchase Order Item",
+    "Remove Payment Block",
+    "Change Delivery Indicator",
+    "Change Approval for Purchase Order",
+    "Change Storage Location",
+    "Change Currency",
+    "Change Final Invoice Indicator",
+    "Change payment term",
+    "Change Rejection Indicator",
+    "Reactivate Purchase Order Item",
+    "Block Purchase Order Item",
+    "Set Payment Block",
+    "Cancel Subsequent Invoice",
+    "Release Purchase Order",
+    "Update Order Confirmation",
+    "SRM: Change was Transmitted",
+    "SRM: Deleted",
+    "SRM: Transaction Completed",
+    "SRM: Incomplete",
+    "SRM: Held"
+  ],
+  "exceptions": {
+    "share_cases_ge1": 0.36303796864944743,
+    "mean_per_case": 0.5027092089268831,
+    "p90": 1.0,
+    "max": 43,
+    "per_activity_cases": {
+      "Change Quantity": 17590,
+      "Change Price": 11224,
+      "Cancel Invoice Receipt": 6471,
+      "Cancel Goods Receipt": 2470,
+      "Delete Purchase Order Item": 8839,
+      "Remove Payment Block": 55839,
+      "Change Delivery Indicator": 2975,
+      "Change Approval for Purchase Order": 4377,
+      "Change Storage Location": 364,
+      "Change Currency": 35,
+      "Change Final Invoice Indicator": 11,
+      "Change payment term": 7,
+      "Change Rejection Indicator": 1,
+      "Reactivate Purchase Order Item": 529,
+      "Block Purchase Order Item": 499,
+      "Set Payment Block": 122,
+      "Cancel Subsequent Invoice": 476,
+      "Release Purchase Order": 961,
+      "Update Order Confirmation": 227,
+      "SRM: Change was Transmitted": 1440,
+      "SRM: Deleted": 143,
+      "SRM: Transaction Completed": 8,
+      "SRM: Incomplete": 6,
+      "SRM: Held": 6
+    }
+  },
+  "exceptions_core6": {
+    "activities": [
+      "Change Quantity",
+      "Change Price",
+      "Cancel Invoice Receipt",
+      "Cancel Goods Receipt",
+      "Delete Purchase Order Item",
+      "Remove Payment Block"
+    ],
+    "share_cases_ge1": 0.342357409011099,
+    "mean_per_case": 0.43726711528835993
+  },
+  "distinct_users_per_case": {
+    "mean": 4.913766118204136,
+    "median": 5.0,
+    "p90": 6.0,
+    "max": 22
+  },
+  "handoffs_per_case": {
+    "mean": 4.264247181548778,
+    "median": 4.0,
+    "p90": 6.0,
+    "share_cases_ge1": 0.963147608189597
+  },
+  "handoff_class_matrix": {
+    "NONE": {
+      "NONE": 148814,
+      "batch": 31844,
+      "human": 209705
+    },
+    "batch": {
+      "NONE": 30971,
+      "batch": 54675,
+      "human": 62791
+    },
+    "human": {
+      "NONE": 215726,
+      "batch": 42333,
+      "human": 547330
+    }
+  },
+  "transition_delays": [
+    {
+      "from": "Record Service Entry Sheet",
+      "to": "Record Service Entry Sheet",
+      "n": 139107,
+      "median_h": 0.0,
+      "p90_h": 0.0,
+      "mean_h": 0.03777679532062849,
+      "share_negative": 0.0,
+      "share_zero": 0.9861257880624268,
+      "share_lt_1min": 0.9861257880624268
+    },
+    {
+      "from": "Record Invoice Receipt",
+      "to": "Clear Invoice",
+      "n": 134955,
+      "median_h": 865.45,
+      "p90_h": 2183.4766666666665,
+      "mean_h": 1049.3278563224778,
+      "share_negative": 0.0,
+      "share_zero": 0.0008002667555851951,
+      "share_lt_1min": 0.0008002667555851951
+    },
+    {
+      "from": "Record Goods Receipt",
+      "to": "Record Invoice Receipt",
+      "n": 112182,
+      "median_h": 307.1333333333333,
+      "p90_h": 1154.9833333333333,
+      "mean_h": 519.2722491130485,
+      "share_negative": 0.0,
+      "share_zero": 6.239860227130913e-05,
+      "share_lt_1min": 6.239860227130913e-05
+    },
+    {
+      "from": "Vendor creates invoice",
+      "to": "Record Goods Receipt",
+      "n": 110215,
+      "median_h": 34.333333333333336,
+      "p90_h": 128.0,
+      "mean_h": 58.98606950052171,
+      "share_negative": 0.0,
+      "share_zero": 0.0,
+      "share_lt_1min": 0.0
+    },
+    {
+      "from": "Create Purchase Order Item",
+      "to": "Vendor creates invoice",
+      "n": 103150,
+      "median_h": 155.80833333333334,
+      "p90_h": 679.5,
+      "mean_h": 286.71835514622717,
+      "share_negative": 0.0,
+      "share_zero": 0.0,
+      "share_lt_1min": 0.0
+    },
+    {
+      "from": "Vendor creates invoice",
+      "to": "Record Invoice Receipt",
+      "n": 95218,
+      "median_h": 112.03333333333333,
+      "p90_h": 852.0166666666667,
+      "mean_h": 301.4686942944961,
+      "share_negative": 0.0,
+      "share_zero": 0.0,
+      "share_lt_1min": 0.0
+    },
+    {
+      "from": "Record Goods Receipt",
+      "to": "Vendor creates invoice",
+      "n": 80616,
+      "median_h": 14.825,
+      "p90_h": 207.31666666666666,
+      "mean_h": 79.13948016936259,
+      "share_negative": 0.0,
+      "share_zero": 1.2404485461943038e-05,
+      "share_lt_1min": 1.2404485461943038e-05
+    },
+    {
+      "from": "Create Purchase Order Item",
+      "to": "Record Goods Receipt",
+      "n": 77206,
+      "median_h": 306.325,
+      "p90_h": 772.8333333333333,
+      "mean_h": 369.23055742645215,
+      "share_negative": 0.0,
+      "share_zero": 0.030399191772660157,
+      "share_lt_1min": 0.030399191772660157
+    },
+    {
+      "from": "Record Goods Receipt",
+      "to": "Record Goods Receipt",
+      "n": 54277,
+      "median_h": 0.0,
+      "p90_h": 0.06666666666666667,
+      "mean_h": 6.721138788068611,
+      "share_negative": 0.0,
+      "share_zero": 0.7877554028409823,
+      "share_lt_1min": 0.7877554028409823
+    },
+    {
+      "from": "Clear Invoice",
+      "to": "Record Goods Receipt",
+      "n": 759,
+      "median_h": 119.2,
+      "p90_h": 624.8733333333334,
+      "mean_h": 277.31473429951694,
+      "share_negative": 0.0,
+      "share_zero": 0.0,
+      "share_lt_1min": 0.0
+    },
+    {
+      "from": "Record Invoice Receipt",
+      "to": "Remove Payment Block",
+      "n": 37621,
+      "median_h": 192.98333333333332,
+      "p90_h": 1470.85,
+      "mean_h": 512.3385950222836,
+      "share_negative": 0.0,
+      "share_zero": 0.0015416921400281758,
+      "share_lt_1min": 0.0015416921400281758
+    },
+    {
+      "from": "Remove Payment Block",
+      "to": "Clear Invoice",
+      "n": 49424,
+      "median_h": 601.8583333333333,
+      "p90_h": 2214.9,
+      "mean_h": 871.9457884833279,
+      "share_negative": 0.0,
+      "share_zero": 0.00026303010683068957,
+      "share_lt_1min": 0.00026303010683068957
+    }
+  ],
+  "all_gaps": {
+    "share_zero": 0.17368316509062343,
+    "share_negative": 0.0,
+    "median_h": 59.31666666666667,
+    "p90_h": 986.4333333333333
+  },
+  "exact_duplicate_events": 132748,
+  "events_with_midnight_timestamp": 172,
+  "events_midnight_by_activity": {
+    "Remove Payment Block": 147,
+    "Record Goods Receipt": 10,
+    "Create Purchase Order Item": 10,
+    "Record Service Entry Sheet": 5
+  },
+  "ts_second_resolution_share": 1.0,
+  "ts_tz_offsets": {
+    "0.000Z": 1595923
+  },
+  "events_vendor_invoice_before_po": null,
+  "cases_vendor_invoice_before_po_create": {
+    "n_both": 209946,
+    "share_vi_before_po": 0.017590237489640195
+  },
+  "share_cases_trace_order_equals_ts_order": 1.0
+}

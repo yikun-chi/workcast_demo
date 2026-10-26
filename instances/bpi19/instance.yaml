@@ -1,0 +1,36 @@
+id: bpi19
+title: Procurement purchase-to-pay (BPI Challenge 2019)
+company: Global coatings company (anonymized)
+problem: "Can we predict completion rates and cycle times after a workforce expansion?"
+protocol_line: "Model selected on pre-policy validation, refitted through August 31, and scored on September-October prediction windows; subsequent case events are withheld."
+situation: "A multinational's purchase-to-pay operation: purchase-order items are ordered, received, invoiced and cleared in the payment run. In September 2018 the active workforce expanded, and the order mix shifted towards requisition-first items."
+data_used: "The public BPI Challenge 2019 event log: 251,734 purchase-order line items and 1.4 million timestamped steps for all of 2018, with the user who performed each step. Process parameters are selected using January-June fitting and July-August validation, then refitted through August 31."
+intro: >
+  Replays one company's purchase-to-pay operation on an hourly clock: 251,734 purchase-order line items in 2018, worked
+  by 607 specialized users and 20 batch jobs. The simulation continues every live item for two weeks from a Monday cutoff
+  and is scored against what actually happened next, after the September 2018 workforce expansion, with observed pre-change data as reference. The
+  alternative asks what the operation would have looked like without the expansion.
+world_type: process
+world: >
+  One multinational company's purchase-order line items for 2018: buyers create
+  orders, vendors invoice, goods are received, accounts payable matches and
+  clears invoices, with payment blocks and rework when documents disagree.
+  607 specialized human users, 20 batch jobs, vendors as external actors.
+source: "manifests/sources.json (XES, 728,558,522 bytes, md5 4eb909242351193a61e1c15b9c3cc814, CC BY 4.0)"
+data:
+  raw: instances/bpi19/data/raw/
+  normalized: instances/bpi19/data/normalized/
+clock:
+  tick: 1h
+  coverage: "2018-01-01 .. 2019-01-31"
+  timestamp_resolution: "minute; vendor events are date-only"
+scenarios:
+  baseline: baseline
+  alternative: no_expansion
+evaluation:
+  train: "Selection fit: 2018-01-01 .. 2018-06-30; final fit through 2018-08-31"
+  validation: "2018-07-01 .. 2018-08-31"
+  test_cutoffs: "2018-09-03, 2018-09-17, 2018-10-01, 2018-10-15"
+  primary_horizon_days: 14
+  tracks: ["C-I conditional continuation", "C-II unconditional (t0 <= 2018-10-15 only)"]
+status: "ready: ingest, bindings, baseline, evaluation, report and insights verified end to end (docs/validation.md)"

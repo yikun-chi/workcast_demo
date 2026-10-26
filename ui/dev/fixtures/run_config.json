@@ -1,0 +1,32 @@
+{
+ "scenario": {
+  "id": "baseline",
+  "title": "Baseline: 2018 operations as observed",
+  "description": "Replays arrivals from the training window and simulates the workforce with calibrated service times, approval rules and payment-block behavior.",
+  "horizon_days": 14,
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "world": {
+   "arrival_rate_per_h": 28.6,
+   "work_hours": [
+    8,
+    18
+   ],
+   "match_tolerance_pct": 0.0,
+   "approval_threshold_eur": 10000,
+   "roles": {
+    "role:ap_clerk": {
+     "headcount": 148
+    },
+    "role:buyer": {
+     "headcount": 180
+    }
+   }
+  },
+  "interventions": []
+ },
+ "seed": 1
+}

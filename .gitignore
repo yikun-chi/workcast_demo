@@ -1,0 +1,44 @@
+# Bulk data and run outputs, reproducible from manifests
+/data/*
+!/data/README.md
+!/data/manifests/
+!/data/models/
+/data/models/*
+!/data/models/README.md
+/instances/*/data/
+/runs/
+
+# Local reference library; keep the bibliography in Git
+/docs/literature/**/*.pdf
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+build/
+dist/
+*.egg-info/
+
+# Node
+/ui/node_modules/
+/ui/dist/
+
+# Local credentials and runtime files
+.env
+.env.*
+.aws
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.log
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Machine-specific editor and assistant settings
+.claude/settings.local.json
+.DS_Store
+Thumbs.db
+*.swp
+*.swo

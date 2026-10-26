@@ -1,0 +1,53 @@
+# Process-family preconditions enforced by orgsim.worlds.process. The kernel removes a policy's option when a
+# rule rejects it; the policy chooses only among the options that remain. Rules were derived from the cleaned
+# log (support printed by `orgsim ingest bpi19` and stored in constraints_support.json) and the ingest audit (ingest/audit/analysis.json).
+#
+# Rule forms:
+#   {activity, requires_any: [..]}      the activity is allowed only after at least one listed activity occurred
+#   {activity, requires_all: [..]}      ... after all listed activities occurred
+#   {activity, blocks: {set, clear}}    the activity is allowed only while no block set by `set` is still open (not cleared)
+#   {forbid: [..]}                      the listed activities never occur in these families
+#   {terminal: [..]}                    the listed activities end the case
+# `families` restricts a rule to Item Category values; omitted = every family.
+
+dormancy_days: 90      # a case with no event for this long before t0 is treated as finished (gap p90 is 41 days)
+
+rules:
+  - id: clear_requires_invoice_receipt
+    description: Clear Invoice needs a recorded invoice (violated by 0.2% of actual clearings)
+    activity: Clear Invoice
+    requires_any: [Record Invoice Receipt, Record Subsequent Invoice]
+  - id: remove_block_requires_invoice_receipt
+    description: A payment block can only be removed once an invoice was recorded (0.1% violations)
+    activity: Remove Payment Block
+    requires_any: [Record Invoice Receipt]
+  - id: three_way_before_gr_clear_requires_gr_or_block_release
+    description: In the dominant family the invoice may arrive before the goods, but clearing needs the goods receipt unless the mismatch was resolved through a payment-block release (0.24% violations)
+    families: ["3-way match, invoice before GR"]
+    activity: Clear Invoice
+    requires_any: [Record Goods Receipt, Remove Payment Block]
+  - id: three_way_after_gr_invoice_requires_gr
+    description: GR-based invoice verification records the invoice only after the goods receipt (0.0% violations)
+    families: ["3-way match, invoice after GR"]
+    activity: Record Invoice Receipt
+    requires_any: [Record Goods Receipt]
+  - id: three_way_after_gr_clear_requires_gr
+    description: ... and clears only after the goods receipt (0.01% violations)
+    families: ["3-way match, invoice after GR"]
+    activity: Clear Invoice
+    requires_any: [Record Goods Receipt]
+  - id: payment_block_must_be_removed
+    description: An explicitly set payment block must be removed before clearing
+    activity: Clear Invoice
+    blocks: {set: Set Payment Block, clear: Remove Payment Block}
+  - id: consignment_never_invoices
+    description: Consignment items are settled outside this process; no invoice path (0 occurrences)
+    families: [Consignment]
+    forbid: [Vendor creates invoice, Vendor creates debit memo, Record Invoice Receipt, Cancel Invoice Receipt, Record Subsequent Invoice, Cancel Subsequent Invoice, Clear Invoice, Remove Payment Block, Set Payment Block, Record Service Entry Sheet]
+  - id: two_way_has_no_goods_receipt
+    description: 2-way match (framework/limit orders) has no goods receipt (0 occurrences)
+    families: ["2-way match"]
+    forbid: [Record Goods Receipt, Cancel Goods Receipt, Record Service Entry Sheet]
+  - id: delete_ends_case
+    description: Deleting the PO item ends the case (ingest audit; reactivations are out of scope)
+    terminal: [Delete Purchase Order Item]
