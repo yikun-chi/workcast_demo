@@ -1099,10 +1099,15 @@ def results_view(ctx: InstanceContext) -> dict[str, Any]:
     charts.append({"id": "top_tokens_by_cutoff", "type": "line", "title": f"Tokens of the leading companies, {H} weeks after each cutoff (trillions)", "x": cx, "x_label": "", "y_label": "trillion tokens",
                    "series": [{"name": "Simulation prediction", "y": [w["levels"]["top_tokens"]["simulation"] for w in wins], "band": [[w["levels"]["top_tokens"]["interval"][0] for w in wins], [w["levels"]["top_tokens"]["interval"][1] for w in wins]], "source": "baseline"},
                               {"name": "Actual outcome", "y": [w["levels"]["top_tokens"]["actual"] for w in wins], "source": "actual"}], "note": ""})
-    hero = {"kicker": f"{sum(w['n_apps'] for w in wins):,} company predictions over {len(wins)} cutoffs, {H} weeks ahead",
-            "stats": [{"label": f"Error in each company's {H}-week tokens", "value": ct.get("simulation"), "unit": "%"},
-                      {"label": "Best standard forecast", "value": ct.get(best_t), "unit": "%"},
-                      {"label": f"Error in each company's {H}-week spend", "value": cs.get("simulation"), "unit": "%"},
+    bvd = {b["id"]: b for b in ev.get("business_validation", [])}
+    h1 = (acc.get("by_horizon") or {}).get("1")
+    best1 = min(comps, key=lambda k: h1[k]) if h1 else None
+    hero = {"kicker": f"Backtested: {sum(w['n_apps'] for w in wins):,} company predictions over {len(wins)} cutoffs",
+            "stats": [{"label": f"Less error than the best standard forecast on the leading {proto.get('n_apps', 100)} companies' {H}-week AI spend",
+                       "value": bvd.get("top_spend", {}).get("error_reduction_pct"), "unit": "%"},
+                      {"label": "Error in each company's tokens one week ahead", "value": h1["simulation"] if h1 else None, "unit": "%"},
+                      {"label": f"Best standard forecast one week ahead ({labels[best1].split(':')[0]})" if h1 else "", "value": h1[best1] if h1 else None, "unit": "%"},
+                      {"label": f"Error in each company's {H}-week spend (best standard forecast {cs.get(best_s):.1f}%)", "value": cs.get("simulation"), "unit": "%"},
                       {"label": "Companies inside the 90% range", "value": acc.get("coverage90"), "unit": "%"}],
             "claim": "Every prediction uses only data from before its cutoff; published list prices and model listing dates are supplied as they happened. Spend is at list prices.",
             "chart": "company_scatter"}

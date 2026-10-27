@@ -1,4 +1,5 @@
 id: openrouter
+order: 1                 # listed first on the landing page
 title: AI token demand and spend (OpenRouter)
 company: The AI apps and models on OpenRouter
 problem: "Can we predict how many AI tokens a company will use, and what it will spend, in the next eight weeks?"

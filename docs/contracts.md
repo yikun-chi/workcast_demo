@@ -9,7 +9,7 @@ Change a contract here in the same change that alters it.
 sentence, shown as the card title), `situation` (two sentences: what the company did), `data_used` (one or two
 sentences: the dataset and what it records), `intro` (one concise paragraph: what is simulated and what the
 alternative asks), `world_type`
-(`process` or `workforce`), `world` (one paragraph), `clock.tick: 1h`, `clock.coverage`,
+(`process`, `workforce` or `market`), `world` (one paragraph), `clock.tick: 1h`, `clock.coverage`,
 `scenarios: {baseline: <id>, alternative: <id>}`, `protocol_line` (one sentence on how the result is kept honest)
 and `status`.
 
@@ -25,6 +25,8 @@ and `status`.
 | `reports/build_report.py` -> `report.json` | yes | Results tab narrative (section 6) |
 | `ui/pages.json` + pages | optional | detailed views embedded in Results (section 7) |
 | `data/raw`, `data/normalized` | generated | git-ignored |
+
+An optional integer `order` sets the instance's place on the landing page (lower first; default 100, then by id).
 
 Scenario files not named in `instance.yaml` are listed with role `other`: hidden from the UI, runnable from the CLI.
 
