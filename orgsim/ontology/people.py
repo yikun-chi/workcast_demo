@@ -7,6 +7,7 @@ outcomes, and is generic over world type:
 
   workforce  one row per employee in population.parquet; connections are team membership (same_manager edges are
              implied by team_id), role, division and the division's location
+  market     one row per app (company) in apps.parquet; grouped by app category and use-case segment
   process    one row per user in user_roles.csv; connections are hand-offs (consecutive events on the same case by
              different users) aggregated from events_clean.parquet
 
@@ -146,6 +147,41 @@ def _process(ctx: InstanceContext) -> dict[str, Any]:
     }
 
 
+def _market(ctx: InstanceContext) -> dict[str, Any]:
+    """Companies are the apps OpenRouter ranks; each belongs to an app category (unit) and a use-case segment (role)."""
+    b = _bindings(ctx)
+    apps = pd.read_parquet(ctx.data_normalized / "apps.parquet")
+    unit_label, role_label = _labels(b, "org_units"), _labels(b, "roles")
+    seg_role = {(r.get("properties") or {}).get("segment"): r["id"] for r in b.get("roles", [])}
+    seg = apps.category.map({"coding": "programming", "creative": "roleplay", "entertainment": "roleplay"}).fillna("market")
+    persons = pd.DataFrame({"person_id": "app:" + apps.app_id.astype(str), "label": apps.app_name})
+    persons["app_name"] = apps.app_name
+    persons["org_unit"] = ("ou:" + apps.category).where(apps.category.isin(["coding", "creative", "productivity", "entertainment"]))
+    persons["org_unit_label"] = persons.org_unit.map(unit_label).fillna("Unclassified")
+    persons["role_id"] = seg.map(seg_role)
+    persons["role_label"] = persons.role_id.map(role_label)
+    persons["subcategory"] = apps.subcategory
+    persons["first_week"] = apps.first_week.dt.date.astype(str)
+    persons["last_week"] = apps.last_week.dt.date.astype(str)
+    persons["weeks_ranked"] = apps.weeks_ranked
+    persons["peak_billion_tokens"] = (apps.peak_tokens / 1e9).round(2)
+    persons = persons.sort_values("peak_billion_tokens", ascending=False).reset_index(drop=True)
+    groups = [{"id": u["id"], "type": "OrgUnit", "kind": "unit", "label": u["label"], "parent": None, "size": int(persons.org_unit.eq(u["id"]).sum()), "properties": u.get("properties") or {}}
+              for u in b.get("org_units", [])]
+    groups += [{"id": r["id"], "type": "Role", "kind": "role", "label": r["label"], "parent": r.get("org_unit"), "size": int(persons.role_id.eq(r["id"]).sum()),
+                "properties": {"onet_code": r.get("onet_code"), **(r.get("properties") or {})}} for r in b.get("roles", [])]
+    links = [{"source": g["id"], "target": g["parent"], "type": "member_of"} for g in groups if g.get("parent")]
+    return {
+        "persons": persons,
+        "columns": [{"id": c, "label": l} for c, l in [("person_id", "Company"), ("app_name", "App"), ("org_unit_label", "Category"), ("subcategory", "Subcategory"), ("role_label", "Segment"),
+                                                        ("first_week", "First ranked"), ("last_week", "Last ranked"), ("weeks_ranked", "Weeks ranked"), ("peak_billion_tokens", "Peak week (billion tokens)")]],
+        "groups": groups, "links": links, "person_links": [],
+        "notes": ["Each row is an app OpenRouter ranked in a weekly top 200 (OpenRouter Datasets API, CC BY 4.0). Categories come from OpenRouter's app classification; unclassified apps are often one-off jobs.",
+                  "Apps are linked to each other only through the models their segments use; select an app to see its category and segment."],
+        "excluded_from_behavior": [],
+    }
+
+
 def _handoffs(ctx: InstanceContext) -> pd.DataFrame:
     ev_p = ctx.data_normalized / "events_clean.parquet"
 
@@ -168,6 +204,8 @@ def _build(ctx: InstanceContext) -> dict[str, Any]:
         return _cached((ctx.id, "people"), paths, lambda: _workforce(ctx))
     if wt == "process":
         return _cached((ctx.id, "people"), paths, lambda: _process(ctx))
+    if wt == "market":
+        return _cached((ctx.id, "people"), paths + [ctx.data_normalized / "apps.parquet"], lambda: _market(ctx))
     raise FileNotFoundError(f"no people view for world type {wt!r}")
 
 

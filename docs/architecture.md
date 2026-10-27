@@ -7,13 +7,18 @@ How the WORKCAST simulation platform is built. For file and API shapes see `cont
 
 The platform is the product; an instance is one company turned into a simulated world. The platform never contains
 instance logic. An instance is a folder under `instances/<id>/` holding its data, ontology bindings, seat policies,
-calibration, scenarios, evaluation protocol and report builder. The two world types in use are:
+calibration, scenarios, evaluation protocol and report builder. The three world types in use are:
 
 - **workforce** (`orgsim/worlds/workforce.py`): a population of employees, each a digital twin with a fixed trait
   layer and weekly latent states (job satisfaction, work-life balance, commute burden, attachment), reacting to a
   policy over time. Used by `trip`.
 - **process** (`orgsim/worlds/process.py`): work items flowing through activities performed by role pools under
   capacity and process constraints, with a payment-run calendar and same-person continuity. Used by `bpi19`.
+- **market** (`orgsim/worlds/market.py`): companies whose AI workloads run on models at published list prices. Each
+  company has a token volume, a growth path and a persistence class (one-off job, recurring, steady product); each
+  use-case segment holds workload agents that choose among the models listed that week. Calibrated at every cutoff from
+  backtests that end before it; the central path (every shock at its median) is the point prediction and the runs give
+  the ranges. Used by `openrouter`.
 
 A world type exposes three functions: `World` (the simulation), `evaluate(ctx, scenario_ids)` (scores the
 baseline against ground truth and writes `runs/<id>/evaluation.json`) and `results_view(ctx)` (the document the

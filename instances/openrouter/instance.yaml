@@ -1,0 +1,35 @@
+id: openrouter
+title: AI token demand and spend (OpenRouter)
+company: The AI apps and models on OpenRouter
+problem: "Can we predict how many AI tokens a company will use, and what it will spend, in the next eight weeks?"
+protocol_line: "Every prediction is made from data before its cutoff and scored on the eight weeks after it; the published price lists and model launches are supplied as they happened."
+situation: "OpenRouter routes AI requests from thousands of apps to hundreds of models. Each week new models launch, list prices change, and the apps that build on them grow, switch models or fade."
+data_used: "OpenRouter's public usage datasets: weekly tokens for the top 200 apps and the top 50 models since January 2025, with use-case mixes. Archived OpenRouter price lists supply each model's list price and listing date."
+intro: >
+  Rebuilds the AI API market as companies (the apps) and the models they route their work to. From each cutoff the
+  simulation carries every leading app forward for eight weeks: how its token volume grows or fades, which models its
+  workloads move to as new models launch and prices change, and therefore what it spends. Each prediction is scored
+  against what the app actually used. The alternative asks what the coding companies would have spent if the leading
+  coding model had doubled its price.
+world_type: market
+world: >
+  The apps in OpenRouter's weekly top 200, each a company with a token volume, a growth path and a use-case segment;
+  the models they use, with list prices from the archived price lists; and the use-case segments (programming,
+  roleplay and others) whose workloads choose among the models each week.
+source: "manifests/sources.json (OpenRouter Datasets API, CC BY 4.0; Internet Archive captures of the OpenRouter model list)"
+data:
+  raw: instances/openrouter/data/raw/
+  normalized: instances/openrouter/data/normalized/
+clock:
+  tick: 1h
+  step: 168h
+  coverage: "2025-01-06 .. 2026-10-25"
+evaluation:
+  cutoffs: "16 Mondays, 2025-07-07 .. 2026-08-31, four weeks apart"
+  horizon_weeks: 8
+  calibration: "at each cutoff, backtests whose targets end before it"
+  timestamp_resolution: "day (usage); week (apps and use-case mixes)"
+scenarios:
+  baseline: baseline
+  alternative: leader_price_double
+status: "ready: ingest, bindings, baseline, alternative, evaluation, report and insights verified end to end (docs/validation_openrouter.md)"

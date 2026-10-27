@@ -1,0 +1,16 @@
+# Seat -> policy adapter. Workload seats choose the model a workload runs on among the models the kernel lists that
+# week, with weights from standing, list price and launch priors. Swapping a seat to an LLM is a config change.
+default:
+  adapter: rule
+seats:
+  workload:
+    adapter: rule
+  company:
+    adapter: rule
+  # Example: let a hosted model choose for programming workloads (needs ANTHROPIC_API_KEY; falls back to the rule).
+  # workload:
+  #   adapter: llm
+  #   model: claude-sonnet-5-5
+  #   system_prompt: >
+  #     You run the model routing for a software company's coding agent. Each week choose the model for one workload
+  #     given the list prices and how widely each model is used.

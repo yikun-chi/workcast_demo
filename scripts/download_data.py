@@ -147,9 +147,20 @@ def bpi19(verify_only: bool) -> None:
     print("BPI source and parsed table counts verified", flush=True)
 
 
+def openrouter(verify_only: bool) -> None:
+    """API snapshots cannot be re-downloaded byte for byte (each response carries its own as_of), so the fetch only
+    adds missing files; every file listed in the manifest is then verified."""
+    if not verify_only:
+        subprocess.run([sys.executable, str(ROOT / "instances/openrouter/ingest/audit/fetch.py")], check=True)
+    manifest = json.loads((ROOT / "instances/openrouter/manifests/sources.json").read_text())
+    for entry in manifest["files"]:
+        verify(ROOT / "instances/openrouter" / entry["path"], entry["sha256"])
+    print(f"OpenRouter inputs verified ({manifest['n_files']} files)", flush=True)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("source", nargs="?", choices=("all", "onet", "trip", "bpi19"), default="all")
+    parser.add_argument("source", nargs="?", choices=("all", "onet", "trip", "bpi19", "openrouter"), default="all")
     parser.add_argument("--verify-only", action="store_true", help="Check existing inputs without downloading or parsing")
     args = parser.parse_args()
     for name in ("onet", "trip", "bpi19") if args.source == "all" else (args.source,):

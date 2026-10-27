@@ -1,0 +1,71 @@
+# Bindings for the market world. Companies are the apps on OpenRouter, grouped by OpenRouter's app categories;
+# workloads are use-case segments that run on models; models are systems offered by their providers.
+# Roles carry the O*NET occupation whose work the segment mostly serves, where one fits.
+organization:
+  id: org:openrouter
+  label: AI apps and models on OpenRouter
+  properties:
+    source: OpenRouter Datasets API (CC BY 4.0)
+    period: 2025-01-06 .. 2026-10-25
+org_units:
+- id: ou:coding
+  label: Coding apps
+  properties: {description: "CLI agents, IDE extensions, cloud agents, programming and app-builder tools"}
+- id: ou:creative
+  label: Creative apps
+  properties: {description: "Creative writing, roleplay, image, video and audio generation"}
+- id: ou:productivity
+  label: Productivity apps
+  properties: {description: "Writing assistants, general chat, personal agents, legal tools"}
+- id: ou:entertainment
+  label: Entertainment apps
+  properties: {description: "Roleplay and game apps"}
+roles:
+- id: coding_workload
+  label: Programming workload
+  onet_code: 15-1252.00
+  org_unit: ou:coding
+  properties: {segment: programming, description: "Code generation, review and debugging requests routed by coding apps"}
+- id: creative_workload
+  label: Roleplay and creative workload
+  onet_code: 27-3043.00
+  org_unit: ou:creative
+  properties: {segment: roleplay, description: "Character and story generation requests from creative and entertainment apps"}
+- id: general_workload
+  label: General workload
+  onet_code: 43-9061.00
+  org_unit: ou:productivity
+  properties: {segment: market, description: "Requests from productivity and other apps; priced with the whole-market model mix"}
+activities:
+- id: route_request
+  label: Route a request to a model
+  roles: [coding_workload, creative_workload, general_workload]
+  system: sys:openrouter
+- id: generate_tokens
+  label: Generate prompt and completion tokens
+  roles: [coding_workload, creative_workload, general_workload]
+  system: sys:openrouter
+process_edges:
+- {from: route_request, to: generate_tokens}
+systems:
+- id: sys:openrouter
+  label: OpenRouter routing API
+  capabilities:
+  - {id: cap:routing, label: Route requests across providers}
+  - {id: cap:price_list, label: Published per-token list prices}
+external_actors:
+- id: ext:model_providers
+  label: Model providers (OpenAI, Anthropic, Google, DeepSeek, Qwen, xAI and others)
+  interacts_with: [generate_tokens]
+policies:
+- id: pol:list_prices
+  label: Published list prices per million prompt and completion tokens
+  affects: [route_request]
+- id: pol:model_launches
+  label: New models listed on the router
+  affects: [route_request]
+latent_states:
+- id: ls:growth
+  label: A company's weekly token growth rate
+- id: ls:model_standing
+  label: A model's standing with a segment's workloads

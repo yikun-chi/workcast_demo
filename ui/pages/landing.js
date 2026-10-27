@@ -3,7 +3,7 @@ import { h, badge, emptyState, fmtNum } from "../components/ui.js";
 export async function render(root, { instances, href }) {
   document.title = "Emergent Science - WORKCAST simulation";
   root.append(h("div", { class: "hero" },
-    h("div", { class: "pill" }, h("span", { class: "dot" }), "Workforce and process simulation"),
+    h("div", { class: "pill" }, h("span", { class: "dot" }), "Workforce, process and market simulation"),
     h("h1", null, "Rehearse the decision ", h("em", null, "before"), " you make it."),
     h("p", null, "Each instance is a real company rebuilt as a simulation: its people as digital twins, its process on an hourly clock. We simulate what happened and put it next to what really happened, then explore the alternative the company did not try.")));
   if (!instances.length) { root.append(emptyState("No instances found.", "Add a folder under instances/<id>/ with an instance.yaml.")); return; }
@@ -14,7 +14,7 @@ export async function render(root, { instances, href }) {
     const alt = i.alternative || null;
     const line = (label, text) => text ? h("div", { class: "small", style: { lineHeight: "1.5" } }, h("b", null, label, ". "), text) : null;
     grid.append(h("div", { class: "card instance-card clickable", onClick: (e) => { if (e.target.closest("button, a")) return; open(); } },
-      h("div", { class: "row", style: { justifyContent: "space-between" } }, h("div", { class: "row" }, badge(i.world_type === "workforce" ? "people decision" : i.world_type === "process" ? "process decision" : i.world_type || "instance", "accent"), h("span", { class: "muted small" }, i.company || "")), h("span", { class: "mono muted small" }, i.id)),
+      h("div", { class: "row", style: { justifyContent: "space-between" } }, h("div", { class: "row" }, badge(i.world_type === "workforce" ? "people decision" : i.world_type === "process" ? "process decision" : i.world_type === "market" ? "market decision" : i.world_type || "instance", "accent"), h("span", { class: "muted small" }, i.company || "")), h("span", { class: "mono muted small" }, i.id)),
       h("h2", { class: "problem", style: { fontSize: "19px" } }, i.problem || i.title),
       h("div", { class: "stack", style: { gap: "6px", color: "var(--text-2)" } },
         line("The situation", i.situation),

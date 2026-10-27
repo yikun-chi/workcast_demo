@@ -66,7 +66,8 @@ the newest run.
 ```
 
 Chart object (rendered by `ui/components/chart.js`): `{id, type: bar|hbar|line|scatter, title, x_label, y_label,
-x: [...], series: [{name, y, color?, band?: [lo, hi], point?, dashed?, outlined?, source?}], note, y_min?, y_max?}`.
+x: [...], series: [{name, y, x?, color?, band?: [lo, hi], point?, dashed?, outlined?, source?}], note, y_min?, y_max?, x_log?, y_log?}`.
+`x_log`/`y_log` switch an axis to a logarithmic scale; a scatter series may carry its own `x` values.
 
 ## 5. Evaluation and results
 
@@ -93,6 +94,13 @@ a causal no-change counterfactual. No run values are changed by this presentatio
 Evaluation also records `run_ids: {scenario: [run_id]}`. Results and reports use only that cohort; unrelated runs never enter an alternative comparison. Process `periods.before` has `runs: 0`, `observations`, and actual-only metrics. Before horizons must end before `change_date`.
 
 Process `business_validation` contains `{id, windows: [{cutoff, actual, simulated, baselines}], simulation_mae, baseline_mae, best_baseline, beats_best_baseline, error_reduction_pct}`. MAE averages absolute errors over cutoffs after averaging seeds within each cutoff. `calibration_window` records the final pre-policy fit. Protocol `workers` controls independent process workers without changing protocol order.
+
+Market evaluation (`orgsim/worlds/market.py`) adds `windows: [{cutoff, n_apps, censored_pct, company_tokens_wape, company_spend_wape,
+company_tokens_mdape, direction_hit: {simulation, <comparator>: value}, coverage90, levels: {top_tokens, top_spend, market_tokens,
+prog_leader_share: {before, actual, simulation, interval?, <comparator>}}, run_ids}]`, `accuracy` (the same measures averaged over
+windows, with `best_baseline` and `error_reduction_pct`), `business_validation` for the three totals, `comparator_labels` and
+`scatter` (one row per company prediction). Market run summaries carry per-app `tokens`/`spend_usd` (this run) and
+`tokens_central`/`spend_central` (the central path, the point prediction), segment prices and model mixes.
 
 Workforce evaluation adds `paired_comparison` and `paired_effects` for matching scenario seeds. Metric `paired_baseline` and chart-series `paired_y` / `paired_band` supply that subset in the alternative panel, while the validation panel uses the full evaluation ensemble. Point predictions are means; `point_path` may select the expected-quit estimator while the realized `path` supplies predictive intervals. The expected-quit estimator is the accumulated hazard while at risk, not an individual probability.
 

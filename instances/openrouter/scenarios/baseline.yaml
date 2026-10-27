@@ -1,0 +1,13 @@
+id: baseline
+title: "The market as it happened: published prices and model launches"
+short_title: As it happened
+description: >
+  From each Monday cutoff, carry the 100 leading apps forward for eight weeks. New models are listed on the dates they
+  first appeared and every model carries the list price published at the time; nothing else after the cutoff is known
+  to the simulation.
+seeds: [1, 2, 3, 4, 5]
+world:
+  t0: "2026-08-24"
+  horizon_weeks: 8
+  n_apps: 100
+interventions: []

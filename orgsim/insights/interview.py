@@ -2,7 +2,8 @@
 
 Nothing here is measured on real people. Every interview is with a simulated agent, and every answer is rendered from
 that agent's simulated record: its profile, trait layer, latent states and decisions (workforce worlds, from twins.json)
-or its role pool's queue, utilization and exceptions (process worlds, from summary.json). Two voices:
+or its role pool's queue, utilization and exceptions (process worlds, from summary.json), or a company's simulated
+tokens, model mix and spend (market worlds, from summary.json). Two voices:
 
   template   deterministic sentences built from the agent's numbers; always available, used for the demo
   llm        a hosted model writes the answers from the same facts (ANTHROPIC_API_KEY); topics and sentiment are still
@@ -40,6 +41,10 @@ TOPIC_LABELS = {
     "payment_run_cadence": "Payment-run cadence sets the clearing time", "payment_blocks": "Payment blocks hold invoices", "waiting_for_goods_receipt": "Waiting for the goods receipt",
     "capacity_slack": "Spare capacity in the role", "capacity_strain": "Role capacity under strain", "rework_exceptions": "Rework and exceptions",
     "hand_off_dependency": "Depends on another role's step", "vendor_timing": "Vendor invoice timing", "batch_automation": "Batch jobs do the routine steps",
+    # market
+    "growing": "Usage growing", "fading": "Usage fading", "one_off_job": "A one-off job, not a steady product", "steady_product": "A steady product with regular traffic",
+    "price_up": "List prices went up", "price_down": "List prices went down", "switched_models": "Moved work to other models", "new_models": "Trying newly listed models",
+    "coding_workload": "Coding workloads", "roleplay_workload": "Roleplay and creative workloads",
     "more_people_same_queue": "More people, same queue", "fewer_people_same_queue": "Fewer people, same queue", "throughput_up": "Throughput went up", "throughput_down": "Throughput went down",
 }
 
@@ -289,6 +294,95 @@ def _pr_metric_topics(metric: str) -> set[str]:
             "handoffs": {"hand_off_dependency", "batch_automation"}}[metric]
 
 
+# ----------------------------------------------------------------------------- market interviews (companies)
+
+MK_QUESTIONS = [
+    ("tokens", "How will your token use change over the next eight weeks?"),
+    ("models", "Which models will your workloads run on, and why?"),
+    ("spend", "What will you spend, and what drives it?"),
+]
+SEGMENT_LABELS = {"programming": "coding", "roleplay": "roleplay and creative", "market": "general"}
+
+
+def _mk_facts(a: dict[str, Any], head: dict[str, Any]) -> dict[str, Any]:
+    seg = a["segment"]
+    tok8 = float(sum(a["tokens"])); start = float(a.get("start_tokens_week") or a["tokens"][0])
+    growth = (a["tokens"][-1] / start - 1) * 100 if start > 0 else 0.0
+    price = head.get("segment_price", {}).get(seg, [])
+    mix = head.get("segment_mix_end", {}).get(seg, {})
+    top = sorted(mix.items(), key=lambda kv: -kv[1])[:3]
+    newm = [m for m in head.get("new_models_listed", []) if mix.get(m, 0) >= 0.01]
+    return {"name": a["name"], "segment": seg, "segment_label": SEGMENT_LABELS.get(seg, seg), "category": a.get("category"), "subcategory": a.get("subcategory"),
+            "persistence": a.get("persistence"), "start_tokens_week": start, "tokens_8w": tok8, "growth_pct": growth, "spend_8w": float(sum(a["spend_usd"])),
+            "price_start": price[0] if price else None, "price_end": price[-1] if price else None, "top_models": top, "new_models": newm,
+            "repriced": list((head.get("price_multipliers") or {}).keys()), "t0": head.get("t0")}
+
+
+def _mk_topics(f: dict[str, Any]) -> list[str]:
+    t = ["coding_workload"] if f["segment"] == "programming" else ["roleplay_workload"] if f["segment"] == "roleplay" else []
+    t.append("one_off_job" if f["persistence"] == "burst" else "steady_product" if f["persistence"] == "steady" else "growing" if f["growth_pct"] > 0 else "fading")
+    if f["growth_pct"] >= 10: t.append("growing")
+    elif f["growth_pct"] <= -10: t.append("fading")
+    if f["price_start"] and f["price_end"]:
+        if f["price_end"] > f["price_start"] * 1.03: t.append("price_up")
+        elif f["price_end"] < f["price_start"] * 0.97: t.append("price_down")
+    if f["repriced"] and f["segment"] == "programming": t.append("switched_models")
+    if f["new_models"]: t.append("new_models")
+    return list(dict.fromkeys(t))
+
+
+def _mk_template(f: dict[str, Any], metric: str) -> str:
+    wk = f["start_tokens_week"] / 1e9; tot = f["tokens_8w"] / 1e9
+    if metric == "tokens":
+        kind = {"burst": "We ran as a one-off job: a week or two of heavy traffic, then little.", "recurring": "Our traffic comes and goes from week to week.",
+                "steady": "We are a steady product with traffic every week."}.get(f["persistence"], "")
+        return f"{kind} We were using about {wk:,.1f} billion tokens a week before {f['t0']}; over the next eight weeks the simulation has us at {tot:,.1f} billion in total, ending {f['growth_pct']:+.0f}% against where we started."
+    if metric == "models":
+        mods = ", ".join(f"{m.split('/')[-1]} ({v * 100:.0f}%)" for m, v in f["top_models"]) or "the models in our segment"
+        extra = f" Newly listed models that picked up work: {', '.join(m.split('/')[-1] for m in f['new_models'][:3])}." if f["new_models"] else ""
+        rp = f" The repriced model ({', '.join(m.split('/')[-1] for m in f['repriced'])}) costs twice as much, so some of our {f['segment_label']} workloads moved off it." if f["repriced"] and f["segment"] == "programming" else ""
+        return f"Our {f['segment_label']} workloads end the period mostly on {mods}.{extra}{rp}"
+    if metric == "spend":
+        pr = f" The blended list price of our workloads moved from ${f['price_start']:.2f} to ${f['price_end']:.2f} per million tokens." if f["price_start"] and f["price_end"] else ""
+        return f"About ${f['spend_8w']:,.0f} over eight weeks at list prices; caching and discounts would bring the bill down.{pr} Volume, not price, drives most of the change."
+    return ""
+
+
+def interview_market(ctx: InstanceContext, scenario_id: str, run_id: str, n: int, voice, company: str) -> dict[str, Any]:
+    reader = RunReader(ctx.id, scenario_id, run_id)
+    head = json.loads((reader.dir / "summary.json").read_text()).get("headline") or {}
+    apps = head.get("apps", [])
+    # the largest companies first, then a spread across segments
+    order = sorted(range(len(apps)), key=lambda i: -sum(apps[i]["tokens"]))
+    pick = order[: max(1, n // 2)] + [i for i in order[n // 2:] if apps[i]["segment"] != "market"][: n - n // 2]
+    interviews = []
+    for i in pick[:n]:
+        f = _mk_facts(apps[i], head)
+        topics = _mk_topics(f)
+        sent = "positive" if f["growth_pct"] >= 10 else "negative" if f["growth_pct"] <= -10 else "neutral"
+        qa = [{"metric": m, "question": q, "answer": voice(f, m, q, _mk_template(f, m)), "topics": topics, "sentiment": sent} for m, q in MK_QUESTIONS]
+        interviews.append({"agent_id": f"app:{apps[i]['app_id']}", "role": f["segment"], "group": f["segment_label"], "outcome": f"{f['growth_pct']:+.0f}% over eight weeks",
+                           "facts": f, "profile": f"{f['name']}: {f['subcategory'] or f['category'] or 'unclassified'} app, {f['persistence']} traffic, {f['start_tokens_week'] / 1e9:,.1f} billion tokens a week at the cutoff.",
+                           "topics": topics, "sentiment": sent, "qa": qa})
+    return {"interviews": interviews, "group_label": "segment"}
+
+
+def _mk_insights(block: dict[str, Any], title: str) -> list[str]:
+    iv = block["interviews"]; n = len(iv)
+    out = []
+    oneoff = sum(1 for i in iv if "one_off_job" in i["topics"]); fading = sum(1 for i in iv if "fading" in i["topics"]); growing = sum(1 for i in iv if "growing" in i["topics"])
+    out.append(f"{title}: {growing} of {n} interviewed companies expect to grow by 10% or more over eight weeks and {fading} expect to fall by 10% or more; {oneoff} describe themselves as one-off jobs.")
+    sw = sum(1 for i in iv if "switched_models" in i["topics"])
+    if sw:
+        out.append(f"{title}: {sw} coding companies moved some work off the repriced model.")
+    nm = sum(1 for i in iv if "new_models" in i["topics"])
+    if nm:
+        out.append(f"{title}: {nm} of {n} companies' segments put work on models listed after the cutoff.")
+    spend = sum(i["facts"]["spend_8w"] for i in iv)
+    out.append(f"{title}: the interviewed companies spend ${spend:,.0f} at list prices over the eight weeks in this run.")
+    return out
+
+
 # ----------------------------------------------------------------------------- voices
 
 def template_voice(facts: dict[str, Any], metric: str, question: str, rendered: str) -> str:
@@ -407,14 +501,22 @@ def build_insights(ctx: InstanceContext, n_per_scenario: int = 24, model: str | 
                 if iv.get("type") in ("headcount_shift", "capacity") and iv.get("role", "all") == "all":
                     alt_mult = float(iv.get("multiplier", 1.0))
         try:
-            block = interview_workforce(ctx, sid, rid, n_per_scenario, voice, company) if ctx.world_type == "workforce" else interview_process(ctx, sid, rid, n_per_scenario, voice, company, alt_mult)
+            if ctx.world_type == "workforce":
+                block = interview_workforce(ctx, sid, rid, n_per_scenario, voice, company)
+            elif ctx.world_type == "market":
+                block = interview_market(ctx, sid, rid, n_per_scenario, voice, company)
+            else:
+                block = interview_process(ctx, sid, rid, n_per_scenario, voice, company, alt_mult)
         except FileNotFoundError as e:
             out["scenarios"][role] = {"scenario": sid, "title": titles.get(sid, sid), "run_id": rid, "error": str(e)}
             continue
-        block.update({"scenario": sid, "title": titles.get(sid, sid), "run_id": rid, "questions": WF_QUESTIONS if ctx.world_type == "workforce" else PR_QUESTIONS,
-                      "sentiment_basis": "each twin's end-of-period job satisfaction: 6 or below negative, 7.5 or above positive" if ctx.world_type == "workforce" else "role utilization in the run: 60% or more negative (strained), 25% or less positive (spare capacity)"})
+        questions = {"workforce": WF_QUESTIONS, "market": MK_QUESTIONS}.get(ctx.world_type, PR_QUESTIONS)
+        basis = {"workforce": "each twin's end-of-period job satisfaction: 6 or below negative, 7.5 or above positive",
+                 "market": "the company's simulated weekly tokens at the end of the eight weeks against the start: up 10% or more positive, down 10% or more negative"}.get(
+                     ctx.world_type, "role utilization in the run: 60% or more negative (strained), 25% or less positive (spare capacity)")
+        block.update({"scenario": sid, "title": titles.get(sid, sid), "run_id": rid, "questions": questions, "sentiment_basis": basis})
         _aggregate(block)
-        block["key_insights"] = (_wf_insights if ctx.world_type == "workforce" else _pr_insights)(block, role.capitalize())
+        block["key_insights"] = {"workforce": _wf_insights, "market": _mk_insights}.get(ctx.world_type, _pr_insights)(block, role.capitalize())
         out["scenarios"][role] = block
     # cross-scenario comparison on sentiment and the most frequent topics
     b, a = out["scenarios"].get("baseline"), out["scenarios"].get("alternative")

@@ -23,13 +23,17 @@ agents** about the key metrics. The audience is mid to higher management playing
 screen must show the actual change, reference condition, observed impact, simulated impact and prediction error.
 Alternatives follow; detailed metrics remain available on selection.
 
-Two instances exist and run end to end:
+Three instances exist and run end to end:
 
 - `trip`: Trip.com's 2021 randomized hybrid-work experiment (1,612 employees as twins; predictions of the policy's
   effects, scored against observed outcomes; alternative "hybrid for everyone").
 - `bpi19`: a multinational's purchase-to-pay process (BPI Challenge 2019 event log, 251,734 purchase-order items;
   the simulation predicts two-week horizons after the September 2018 workforce expansion, with the observed before period as reference; alternative "no
   expansion").
+- `openrouter`: the AI apps on OpenRouter (weekly tokens of the top 200 apps and top 50 models since January 2025, archived
+  list prices); predicts each leading company's tokens and spend eight weeks ahead at 16 rolling cutoffs, scored against
+  three standard forecasts; alternative "coding leader at 2x price". Data live on the iMac SSD checkout
+  (`scripts/sync_imac.sh`); the evaluation is retrospective (see `docs/validation_openrouter.md`).
 
 ## Rules that must hold (do not relax these without the user)
 
@@ -38,7 +42,7 @@ Two instances exist and run end to end:
    Results hero blocks come from `results_view(ctx)`; insights come from each agent's simulated record.
 2. **Nothing is fitted on the outcome it is scored against.** Trip.com: every behavioral parameter in
    `calibration/priors.yaml` has a central value, a range and a cited independent source; post-change outcomes are
-   used only for scoring and display. BPIC 2019: select the specification with January-June fitting and July-August validation; refit the selected model on all data strictly before September 1. The user permits pre-policy calibration but forbids either group's post-policy data as calibration. Only after-change predictions are scored; future case activity is withheld at each cutoff, while actual incoming orders are supplied. Trip results are retrospective: the inherited prior revision log records prior outcome-based comparison, so do not claim a pristine prospective holdout.
+   used only for scoring and display. BPIC 2019: select the specification with January-June fitting and July-August validation; refit the selected model on all data strictly before September 1. The user permits pre-policy calibration but forbids either group's post-policy data as calibration. Only after-change predictions are scored; future case activity is withheld at each cutoff, while actual incoming orders are supplied. Trip results are retrospective: the inherited prior revision log records prior outcome-based comparison, so do not claim a pristine prospective holdout. OpenRouter: every company parameter is fitted at each cutoff from backtests whose targets end before it; usage after the cutoff is read only by the scorer (`tests/test_market.py` checks that deleting it leaves the prediction unchanged); the model structure was chosen with these periods available, so its results are retrospective too.
 3. **No iteration or version talk, and no old results.** No "v4", "best of three rounds", evaluation history or
    changelog text anywhere in the product or the docs. `runs/<id>/evaluation.json` is the only scored result; old
    result files are deleted, not archived. The only provenance kept is the sourced `revision_log` inside
@@ -69,7 +73,7 @@ orgsim/                       the platform package (Python 3.12, FastAPI)
                               system.py (concept graph as used by one instance)
   policies/                   seat adapters: rule, llm (Anthropic), local (OpenAI-compatible); registry
   scenarios/                  loader (extends/deep-merge, scenario roles baseline|alternative|other)
-  worlds/                     one module per world type: process.py, workforce.py (+ survival.py);
+  worlds/                     one module per world type: process.py, workforce.py, market.py (+ survival.py);
                               each has World, evaluate(ctx, ids) and results_view(ctx)
   evaluation/                 metrics, Markov baselines, results.py (shared results-view helpers)
   insights/                   interview.py (simulated interviews, topics, sentiment, key insights)
