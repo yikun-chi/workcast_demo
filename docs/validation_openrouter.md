@@ -63,6 +63,8 @@ Models first listed after the cutoff carried 35.7% of a segment's tokens in week
 
 Negative error reduction means the simulation loses.
 
+In dollars: the leading companies spent $62.6M per 8-week window on average at list prices. The simulation's spend forecast missed by 15.7% of that and the best standard forecast by 30.3%, so the simulation landed $9.11M closer per window, about $59M a year (6.5 windows). This is forecast error avoided, not spending saved; spend grew over the period, so later windows weigh more in dollars.
+
 ## Limitations
 
 This is a retrospective evaluation: the model's structure was chosen with these periods available, so it is not a prospective holdout. Forecasts published before the weeks they predict are the clean test. Usage covers traffic routed through OpenRouter, not the whole market; providers count tokens with different tokenizers; spend is at list prices, and caching and discounts make realised spend lower. The alternative's size depends on an authored price sensitivity (`calibration/market.yaml`). A language-model buyer seat that judges new models is available as a configuration change; its measured result is in `docs/plans/buyer_seat_protocol.md`.
