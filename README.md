@@ -13,6 +13,7 @@ Backtested on real AI usage on OpenRouter from July 2025 to October 2026: 1,600 
 
 - **48% less error** forecasting the combined 8-week AI spend of the 100 leading apps than the best standard forecast (mean absolute error $9.8M vs $18.9M, no change).
 - **$9.1M closer** to the actual spend in each 8-week window, about **$59M a year** of forecast error avoided: on $62.6M of 8-week spend on average, the forecast misses by 16% instead of 30% (list prices).
+- **3.7% of AI spend saved** by a company that buys committed capacity (reserved units at a discount; unused units are lost, extra use pays the full rate) against this forecast instead of the best standard forecast, at a 40% commitment discount; 1.2% to 6.1% at 20% to 60% discounts. The cost of forecast error falls by 17%.
 - **One week ahead**, each company's tokens with 25.8% error vs 32.7% for the best standard forecast (21% less error).
 - **8 weeks ahead**, each company's spend with 36.3% error vs 41.6% (no change).
 - **Growth or decline** called correctly for 69% of companies (65% for the best standard forecast); 87% of actual outcomes inside the simulation's 90% range.

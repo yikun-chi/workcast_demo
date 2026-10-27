@@ -65,6 +65,16 @@ Negative error reduction means the simulation loses.
 
 In dollars: the leading companies spent $62.6M per 8-week window on average at list prices. The simulation's spend forecast missed by 15.7% of that and the best standard forecast by 30.3%, so the simulation landed $9.11M closer per window, about $59M a year (6.5 windows). This is forecast error avoided, not spending saved; spend grew over the period, so later windows weigh more in dollars.
 
+## What the lower error is worth to a company
+
+A company that buys committed capacity (reserved units at a discount, as with provisioned-throughput reservations: unused reserved units are lost and use above the reservation pays the pay-as-you-go rate; [mechanics](https://learn.microsoft.com/en-us/azure/cost-management-billing/reservations/azure-openai)) and commits to a forecast of its 8-week spend loses (1 - discount) on every dollar over-committed and the discount on every dollar it had to buy at the full rate. Each forecast commits to its own point prediction; losses are a percent of actual spend over every company and cutoff. Discounts vary by provider, model and term, so three are shown.
+
+| Commitment discount | Simulation | No change | Recent trend | Market growth | Saved vs best standard (% of spend) | Lower cost of error |
+|---|---:|---:|---:|---:|---:|---:|
+| 20% | 15.0% | 16.2% | 46.0% | 34.2% | 1.2 | 8% |
+| 40% | 17.6% | 21.3% | 39.2% | 30.9% | 3.7 | 17% |
+| 60% | 20.2% | 26.3% | 32.3% | 27.5% | 6.1 | 23% |
+
 ## Limitations
 
 This is a retrospective evaluation: the model's structure was chosen with these periods available, so it is not a prospective holdout. Forecasts published before the weeks they predict are the clean test. Usage covers traffic routed through OpenRouter, not the whole market; providers count tokens with different tokenizers; spend is at list prices, and caching and discounts make realised spend lower. The alternative's size depends on an authored price sensitivity (`calibration/market.yaml`). A language-model buyer seat that judges new models is available as a configuration change; its measured result is in `docs/plans/buyer_seat_protocol.md`.

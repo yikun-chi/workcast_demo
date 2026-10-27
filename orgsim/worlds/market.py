@@ -894,7 +894,8 @@ def evaluate(ctx: InstanceContext, scenario_ids: list[str]) -> dict[str, Any]:
         for i, a in enumerate(h0["apps"]):
             scatter.append({"cutoff": win["cutoff"], "app": a["name"], "segment": a["segment"], "actual": float(tot_act[i]), "simulation": float(tot_sim[i]),
                             "lo": float(lo[i]), "hi": float(hi[i]), "carry_forward": float(comp["carry_forward"]["tokens"].sum(1)[i]),
-                            "spend_actual": float(spd_act[i]), "spend_simulation": float(spd_sim[i])})
+                            "spend_actual": float(spd_act[i]), "spend_simulation": float(spd_sim[i]),
+                            **{f"spend_{k}": float(v["spend"].sum(1)[i]) for k, v in comp.items()}})
     # alternative: same cutoffs and seeds
     alt_rows = []
     if alt_id and alt_id in scenario_ids:
