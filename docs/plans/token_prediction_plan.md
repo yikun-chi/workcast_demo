@@ -1,6 +1,6 @@
 # Plan: token demand prediction instance (`instances/openrouter/`)
 
-Drafted 2026-10-27. Status: Phase 1 built as `instances/openrouter/` (world type `market`); results in `docs/validation_openrouter.md`. Phases 2 and 3 not built.
+Drafted 2026-10-27. Status: Phase 1 built as `instances/openrouter/` (world type `market`); results in `docs/validation_openrouter.md`; the language-model buyer seat is measured in `docs/plans/buyer_seat_protocol.md`. Phases 2 and 3 not built.
 
 ## The pitch
 

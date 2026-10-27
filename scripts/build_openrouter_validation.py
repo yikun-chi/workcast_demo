@@ -44,8 +44,54 @@ def build() -> None:
             "|---|---:|" + "---:|" * len(labels)]
     for key, name in rows:
         text.append(f"| {name} | {pct(acc[key]['simulation'])} | " + " | ".join(pct(acc[key][k]) for k in labels) + " |")
-    text += ["", f"The simulation's 90% range contained the actual {H}-week tokens of {pct(acc['coverage90'])} of companies.", "",
-             "## Totals", "", "| Outcome | Simulation MAE | Best non-simulation MAE | Error reduction |", "|---|---:|---:|---:|"]
+    text += ["", f"The simulation's 90% range contained the actual {H}-week tokens of {pct(acc['coverage90'])} of companies.", ""]
+    if acc.get("by_horizon"):
+        text += ["## Shorter horizons", "",
+                 "The same runs scored on each company's tokens over the first weeks after the cutoff (token-weighted error).", "",
+                 "| Weeks ahead | Simulation | " + " | ".join(short[k] for k in labels) + " |", "|---|---:|" + "---:|" * len(labels)]
+        for hh, v in acc["by_horizon"].items():
+            text.append(f"| {hh} | {pct(v['simulation'])} | " + " | ".join(pct(v[k]) for k in labels) + " |")
+        text.append("")
+    if acc.get("by_class"):
+        cls_name = {"steady": "Established (ranked all 8 weeks before the cutoff)", "recurring": "Recurring (ranked 4-7 of those weeks)", "burst": "One-off jobs (ranked 1-3 of those weeks)"}
+        text += ["## Established companies and one-off jobs", "",
+                 f"Each company's group is set from the eight weeks before the cutoff. Error in its {H}-week tokens (token-weighted).", "",
+                 "| Group | Predictions | Simulation | " + " | ".join(short[k] for k in labels) + " |", "|---|---:|---:|" + "---:|" * len(labels)]
+        for c in ("steady", "recurring", "burst"):
+            if c in acc["by_class"]:
+                v = acc["by_class"][c]
+                text.append(f"| {cls_name[c]} | {v['n']:,} | {pct(v['simulation'])} | " + " | ".join(pct(v[k]) for k in labels) + " |")
+        text.append("")
+    ms = acc.get("model_shares")
+    if ms:
+        who = {"simulation": "Simulation", "price_formula": "Price formula (no language model)", "no_change": "No change (shares at the cutoff)"}
+        seg_name = {"programming": "Programming", "roleplay": "Roleplay", "market": "All other use"}
+        cols = [k for k in who if k in ms["distance"]]
+        text += ["## Where the tokens go: each segment's model mix", "",
+                 f"For each use-case segment, the share of its tokens on each model in week {H} after the cutoff. Distance is the share of the segment's tokens "
+                 "that would have to move to turn the predicted mix into the actual one (lower is better).", "",
+                 "| Segment | " + " | ".join(who[k] for k in cols) + " |", "|---|" + "---:|" * len(cols)]
+        for sg, v in ms["by_segment"].items():
+            text.append(f"| {seg_name.get(sg, sg)} | " + " | ".join(f"{v[k]:.1f} pts" for k in cols) + " |")
+        text.append("| All segments | " + " | ".join(f"{ms['distance'][k]:.1f} pts" for k in cols) + " |")
+        ns = ms["new_models_share"]
+        text += ["", f"Models first listed after the cutoff carried {ns['actual']:.1f}% of a segment's tokens in week {H} on average; the simulation predicted "
+                 f"{ns['simulation']:.1f}%" + (f" and the price formula {ns['price_formula']:.1f}%" if "price_formula" in ns else "") + ".", ""]
+    lr, lh = acc.get("launch_rank"), acc.get("launch_rank_held_out")
+    if lr:
+        text += ["## Which new models win", "",
+                 "When new models are listed, the buyer seat (`gpt-4.1-mini-2025-04-14`, training data ending 2024-06-01, before the usage data begins) judges how "
+                 "much of the segment each will win; market memory from before the cutoff sets how much the new models take together. The rule judges by each "
+                 "provider's earlier launches. Rank correlation of each judgment with the new models' actual final-week shares, per segment and cutoff "
+                 "(protocol: `docs/plans/buyer_seat_protocol.md`; the prompt was designed on the first four cutoffs).", "",
+                 "| Cutoffs | Segment-cutoffs | Language-model buyer | Rule | Buyer higher |", "|---|---:|---:|---:|---:|",
+                 f"| All {len(wins)} | {lr['n']} | {lr['buyer']:.2f} | {lr['rule']:.2f} | {lr['buyer_higher']} of {lr['n']} |"]
+        if lh:
+            text.append(f"| Held out (last {len(wins) - 4}) | {lh['n']} | {lh['buyer']:.2f} | {lh['rule']:.2f} | {lh['buyer_higher']} of {lh['n']} |")
+        if acc.get("company_spend_wape_formula") is not None:
+            text += ["", f"Company spend error with the rule's launch judgment instead: {pct(acc['company_spend_wape_formula'])} (simulation {pct(cs['simulation'])})."]
+        text.append("")
+    text += ["## Totals", "", "| Outcome | Simulation MAE | Best non-simulation MAE | Error reduction |", "|---|---:|---:|---:|"]
     names = {"top_tokens": f"Tokens of the leading companies, {H} weeks (trillions)", "top_spend": f"Their spend at list prices, {H} weeks ($ millions)",
              "market_tokens": f"All tokens on OpenRouter, {H} weeks (trillions)"}
     for b in ev["business_validation"]:
@@ -56,7 +102,8 @@ def build() -> None:
              "This is a retrospective evaluation: the model's structure was chosen with these periods available, so it is not a prospective holdout. "
              "Forecasts published before the weeks they predict are the clean test. Usage covers traffic routed through OpenRouter, not the whole market; "
              "providers count tokens with different tokenizers; spend is at list prices, and caching and discounts make realised spend lower. "
-             "The alternative's size depends on an authored price sensitivity (`calibration/market.yaml`).", ""]
+             "The alternative's size depends on an authored price sensitivity (`calibration/market.yaml`). A language-model buyer seat that judges new "
+             "models is available as a configuration change; its measured result is in `docs/plans/buyer_seat_protocol.md`.", ""]
     (ROOT / "docs/validation_openrouter.md").write_text("\n".join(text))
     readme = ROOT / "README.md"
     lines = readme.read_text().splitlines()

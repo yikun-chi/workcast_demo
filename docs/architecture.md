@@ -16,9 +16,10 @@ calibration, scenarios, evaluation protocol and report builder. The three world 
   capacity and process constraints, with a payment-run calendar and same-person continuity. Used by `bpi19`.
 - **market** (`orgsim/worlds/market.py`): companies whose AI workloads run on models at published list prices. Each
   company has a token volume, a growth path and a persistence class (one-off job, recurring, steady product); each
-  use-case segment holds workload agents that choose among the models listed that week. Calibrated at every cutoff from
-  backtests that end before it; the central path (every shock at its median) is the point prediction and the runs give
-  the ranges. Used by `openrouter`.
+  use-case segment holds workload agents that choose among the models listed that week, and a buyer seat judges each
+  newly listed model. Calibrated at every cutoff from backtests that end before it, with the specification chosen per
+  persistence class; the central path (every shock at its median) is the point prediction and the runs give the ranges.
+  Used by `openrouter`.
 
 A world type exposes three functions: `World` (the simulation), `evaluate(ctx, scenario_ids)` (scores the
 baseline against ground truth and writes `runs/<id>/evaluation.json`) and `results_view(ctx)` (the document the
@@ -33,7 +34,9 @@ for a purchase-order item), and the seat's adapter returns one option:
 
 - `rule`: draws from the offered weights (transparent, deterministic given the seed);
 - `llm`: a hosted Anthropic model reads the same observation, including the twin's profile and states, and chooses;
-- `local`: an OpenAI-compatible local server.
+- `local`: an OpenAI-compatible local server;
+- `openai`: an OpenAI model through Chat Completions, with a response cache (reruns repeat decisions without calls) and a
+  spending cap. Besides choosing one option it can give a number per option (`estimate`), as the market buyer seat does.
 
 Failures fall back to the rule policy and the fallback is recorded in the trace. `policies/seats.yaml` maps seats
 (role ids) to adapters, so swapping a model is configuration.

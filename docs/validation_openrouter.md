@@ -12,23 +12,57 @@ Actual spend is each company's tokens times the blended list price of its use-ca
 
 | Measure | Simulation | No change | Recent trend | Market growth |
 |---|---:|---:|---:|---:|
-| Error in each company's 8-week tokens (token-weighted) | 44.2% | 45.1% | 65.8% | 53.1% |
-| Error in each company's 8-week spend (spend-weighted) | 39.2% | 41.6% | 74.2% | 55.7% |
-| Median company's error | 31.9% | 35.5% | 59.6% | 53.8% |
-| Growth or decline called correctly (higher is better) | 66.9% | 64.9% | 65.4% | 61.2% |
+| Error in each company's 8-week tokens (token-weighted) | 43.6% | 45.1% | 65.8% | 53.1% |
+| Error in each company's 8-week spend (spend-weighted) | 36.3% | 41.6% | 74.2% | 55.7% |
+| Median company's error | 33.7% | 35.5% | 59.6% | 53.8% |
+| Growth or decline called correctly (higher is better) | 68.8% | 64.9% | 65.4% | 61.2% |
 
-The simulation's 90% range contained the actual 8-week tokens of 87.6% of companies.
+The simulation's 90% range contained the actual 8-week tokens of 87.2% of companies.
+
+## Shorter horizons
+
+The same runs scored on each company's tokens over the first weeks after the cutoff (token-weighted error).
+
+| Weeks ahead | Simulation | No change | Recent trend | Market growth |
+|---|---:|---:|---:|---:|
+| 1 | 25.8% | 32.7% | 33.1% | 34.3% |
+| 2 | 29.0% | 35.0% | 35.7% | 36.8% |
+| 4 | 34.8% | 39.7% | 44.4% | 43.2% |
+| 8 | 43.6% | 45.1% | 65.8% | 53.1% |
+
+## Established companies and one-off jobs
+
+Each company's group is set from the eight weeks before the cutoff. Error in its 8-week tokens (token-weighted).
+
+| Group | Predictions | Simulation | No change | Recent trend | Market growth |
+|---|---:|---:|---:|---:|---:|
+| Established (ranked all 8 weeks before the cutoff) | 1,114 | 40.6% | 41.2% | 63.0% | 52.5% |
+| Recurring (ranked 4-7 of those weeks) | 320 | 73.7% | 71.1% | 157.9% | 83.7% |
+| One-off jobs (ranked 1-3 of those weeks) | 166 | 84.4% | 134.1% | 255.8% | 164.6% |
+
+## Where the tokens go: each segment's model mix
+
+For each use-case segment, the share of its tokens on each model in week 8 after the cutoff. Distance is the share of the segment's tokens that would have to move to turn the predicted mix into the actual one (lower is better).
+
+| Segment | Simulation | No change (shares at the cutoff) |
+|---|---:|---:|
+| All other use | 54.8 pts | 55.7 pts |
+| Programming | 64.6 pts | 65.8 pts |
+| Roleplay | 41.1 pts | 41.3 pts |
+| All segments | 53.5 pts | 54.3 pts |
+
+Models first listed after the cutoff carried 35.7% of a segment's tokens in week 8 on average; the simulation predicted 8.0%.
 
 ## Totals
 
 | Outcome | Simulation MAE | Best non-simulation MAE | Error reduction |
 |---|---:|---:|---:|
-| Tokens of the leading companies, 8 weeks (trillions) | 24.93 | 20.32 (Market growth) | -22.7% |
-| Their spend at list prices, 8 weeks ($ millions) | 11.88 | 18.95 (No change) | 37.3% |
+| Tokens of the leading companies, 8 weeks (trillions) | 23.13 | 20.32 (Market growth) | -13.8% |
+| Their spend at list prices, 8 weeks ($ millions) | 9.84 | 18.95 (No change) | 48.1% |
 | All tokens on OpenRouter, 8 weeks (trillions) | 40.61 | 45.52 (Recent trend) | 10.8% |
 
 Negative error reduction means the simulation loses.
 
 ## Limitations
 
-This is a retrospective evaluation: the model's structure was chosen with these periods available, so it is not a prospective holdout. Forecasts published before the weeks they predict are the clean test. Usage covers traffic routed through OpenRouter, not the whole market; providers count tokens with different tokenizers; spend is at list prices, and caching and discounts make realised spend lower. The alternative's size depends on an authored price sensitivity (`calibration/market.yaml`).
+This is a retrospective evaluation: the model's structure was chosen with these periods available, so it is not a prospective holdout. Forecasts published before the weeks they predict are the clean test. Usage covers traffic routed through OpenRouter, not the whole market; providers count tokens with different tokenizers; spend is at list prices, and caching and discounts make realised spend lower. The alternative's size depends on an authored price sensitivity (`calibration/market.yaml`). A language-model buyer seat that judges new models is available as a configuration change; its measured result is in `docs/plans/buyer_seat_protocol.md`.

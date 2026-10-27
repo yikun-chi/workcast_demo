@@ -96,3 +96,55 @@ def test_evaluation_scores_every_cutoff_with_matching_comparators():
     for w in ev["windows"]:
         assert set(w["company_tokens_wape"]) == {"simulation", *M.COMPARATOR_LABELS}
         assert all(np.isfinite(v) for v in w["company_spend_wape"].values())
+
+
+class _RecordingBuyer:
+    """Stands in for a language-model buyer: records every prompt it is shown and leaves the choice to the formula."""
+    name = "recording"
+
+    def __init__(self) -> None:
+        self.seen: list[str] = []
+
+    def estimate(self, obs):
+        from orgsim.policies.llm import render_options
+        self.seen.append(render_options(obs))
+        return None
+
+    def decide(self, obs, rng):
+        raise AssertionError("buyer seat is only asked to estimate")
+
+    def describe(self):
+        return {"adapter": "recording"}
+
+
+@pytest.mark.data
+def test_buyer_prompt_does_not_show_usage_after_the_cutoff(monkeypatch):
+    from orgsim.instances import get_instance
+    from orgsim.policies.registry import PolicyRegistry
+    from orgsim.scenarios import load_scenario
+    from orgsim.store import RunWriter
+    ctx = get_instance("openrouter")
+    proto = ctx.yaml("evaluation/protocol.yaml")
+    t0 = pd.Timestamp(proto["cutoffs"][len(proto["cutoffs"]) // 2])
+    sc = load_scenario(ctx, "baseline"); sc["world"]["t0"] = str(t0.date())
+    load_orig, dyn_cache = M._load, M._cached_dynamics
+
+    def prompts(data):
+        dyn_cache.cache_clear(); load_orig.cache_clear()
+        rec = _RecordingBuyer()
+        reg = PolicyRegistry()
+        reg._cache["buyer"] = rec
+        monkeypatch.setattr(M, "load_registry", lambda c: reg)
+        monkeypatch.setattr(M, "load_data", lambda c: data)
+        monkeypatch.setattr(M, "_load", lambda root, mtime: data)
+        writer = RunWriter(ctx.id, "baseline", run_id=f"test-buyer-{len(data.aw)}")
+        try:
+            M.World.from_instance(ctx, sc, 1).run(writer)
+        finally:
+            shutil.rmtree(writer.dir, ignore_errors=True)
+        return rec.seen
+
+    full = load_orig(str(ctx.data_normalized), (ctx.data_normalized / "app_weekly.parquet").stat().st_mtime)
+    a, b = prompts(full), prompts(_truncate(full, t0))
+    dyn_cache.cache_clear(); load_orig.cache_clear()
+    assert a and a == b

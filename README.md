@@ -10,7 +10,7 @@ Interviews describe simulated agents, not statements from real employees.
 |---|---|---|
 | `trip` | Trip.com: two work-from-home days a week? | Attrition effect -2.39 pp predicted vs -2.40 pp actual; retrospective evaluation; neither group's post-change outcomes used for calibration |
 | `bpi19` | Purchase-to-pay: predict operations after the workforce expansion | Lower error across prediction windows than the best non-simulation comparator on 3 of 5 business outcomes; details in [validation](docs/validation.md) |
-| `openrouter` | AI apps on OpenRouter: predict each company's tokens and spend 8 weeks ahead | 1,600 company predictions: token error 44.2% vs 45.1% for the best standard forecast, spend error 39.2% vs 41.6%, 87.6% inside the 90% range; details in [validation](docs/validation_openrouter.md) |
+| `openrouter` | AI apps on OpenRouter: predict each company's tokens and spend 8 weeks ahead | 1,600 company predictions: token error 43.6% vs 45.1% for the best standard forecast, spend error 36.3% vs 41.6%, 87.2% inside the 90% range; details in [validation](docs/validation_openrouter.md) |
 
 Trip.com is a retrospective evaluation: neither group's post-change outcomes enter
 the current calibration, but the inherited prior history includes outcome-based

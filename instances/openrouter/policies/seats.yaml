@@ -1,5 +1,6 @@
-# Seat -> policy adapter. Workload seats choose the model a workload runs on among the models the kernel lists that
-# week, with weights from standing, list price and launch priors. Swapping a seat to an LLM is a config change.
+# Seat -> policy adapter. The buyer seat judges each newly listed model: the share of its use-case segment it will carry
+# once workloads settle (rule: a draw from how earlier launches did). Workload seats then move workloads among the models
+# the kernel lists. Swapping a seat's model is a config change.
 default:
   adapter: rule
 seats:
@@ -7,10 +8,21 @@ seats:
     adapter: rule
   company:
     adapter: rule
-  # Example: let a hosted model choose for programming workloads (needs ANTHROPIC_API_KEY; falls back to the rule).
-  # workload:
-  #   adapter: llm
-  #   model: claude-sonnet-5-5
+  buyer:
+    adapter: rule
+  # A language-model buyer (docs/plans/buyer_seat_protocol.md for its measured result): replace the buyer seat above
+  # with the block below and run with OPENAI_API_KEY set; the cached responses in data/llm/ repeat its decisions.
+  # buyer:
+  #   adapter: openai
+  #   # Training data ends 2024-06-01 (OpenAI model page, checked 2026-10-27): before the first usage week in the data
+  #   # (2025-01), so the model has seen none of the weeks it is asked about. A dated snapshot does not change.
+  #   model: gpt-4.1-mini-2025-04-14
+  #   temperature: 0
+  #   seed: 7
+  #   cache: data/llm/buyer.jsonl          # every response, kept so reruns repeat the same decisions without new calls
+  #   max_usd: 20
+  #   usd_per_mtok: {input: 0.40, output: 1.60}   # OpenAI model page, checked 2026-10-27
   #   system_prompt: >
-  #     You run the model routing for a software company's coding agent. Each week choose the model for one workload
-  #     given the list prices and how widely each model is used.
+  #     You choose AI models for a group of companies that buy model access through OpenRouter, which lists each model
+  #     with its provider and list price. When new models are listed you judge how much of the group's work each will
+  #     win, using the information given and what you know about the providers. Reply with JSON only.

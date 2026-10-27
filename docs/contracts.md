@@ -97,10 +97,14 @@ Process `business_validation` contains `{id, windows: [{cutoff, actual, simulate
 
 Market evaluation (`orgsim/worlds/market.py`) adds `windows: [{cutoff, n_apps, censored_pct, company_tokens_wape, company_spend_wape,
 company_tokens_mdape, direction_hit: {simulation, <comparator>: value}, coverage90, levels: {top_tokens, top_spend, market_tokens,
-prog_leader_share: {before, actual, simulation, interval?, <comparator>}}, run_ids}]`, `accuracy` (the same measures averaged over
-windows, with `best_baseline` and `error_reduction_pct`), `business_validation` for the three totals, `comparator_labels` and
-`scatter` (one row per company prediction). Market run summaries carry per-app `tokens`/`spend_usd` (this run) and
-`tokens_central`/`spend_central` (the central path, the point prediction), segment prices and model mixes.
+prog_leader_share: {before, actual, simulation, interval?, <comparator>}}, by_horizon: {<weeks>: {simulation, <comparator>}},
+by_class: {<steady|recurring|burst>: {n, simulation, <comparator>}}, model_shares: {<segment>: {distance, new_share}}, launch_rank?,
+spend_formula_wape?, run_ids}]`, `accuracy` (the same measures averaged over windows, with `best_baseline` and `error_reduction_pct`;
+`by_horizon`, `by_class`, `model_shares`; with a language-model buyer also `launch_rank`, `launch_rank_held_out` and
+`company_spend_wape_formula`), `business_validation` for the three totals, `comparator_labels` and `scatter` (one row per company
+prediction). Market run summaries carry per-app `tokens`/`spend_usd` (this run) and `tokens_central`/`spend_central` (the central
+path, the point prediction), segment prices and model mixes; with a language-model buyer also `segment_mix_end_rule`,
+`spend_central_formula`, `buyer` (calls, cache hits, spend) and `launch_scores`.
 
 Workforce evaluation adds `paired_comparison` and `paired_effects` for matching scenario seeds. Metric `paired_baseline` and chart-series `paired_y` / `paired_band` supply that subset in the alternative panel, while the validation panel uses the full evaluation ensemble. Point predictions are means; `point_path` may select the expected-quit estimator while the realized `path` supplies predictive intervals. The expected-quit estimator is the accumulated hazard while at risk, not an individual probability.
 
