@@ -1,0 +1,13 @@
+id: no_expansion
+title: What if the company had not expanded its workforce?
+short_title: No expansion
+summary: "Approximate foregoing the expansion by staffing every human role at 62.5% of its observed level; explore the effect on completion and utilization."
+description: >
+  This scenario approximates foregoing the expansion by staffing every human role at 62.5% of the workforce
+  observed before each prediction period. It uses the same incoming orders, process constraints and payment-run
+  calendar. The uniform staffing multiplier is a scenario assumption; the simulation estimates how completion,
+  waiting and utilization respond to that assumption.
+extends: baseline
+seeds: [1, 2, 3]
+interventions:
+  - {type: headcount_shift, role: all, multiplier: 0.625}

@@ -1,0 +1,34 @@
+[
+ {
+  "file": "bpi19_no_expansion.yaml",
+  "copied_from": "instances/bpi19/scenarios/no_expansion.yaml",
+  "last_commit_of_original": "77e3f073e2e37ef779c46527a55322d95e770886",
+  "copied_utc": "2026-10-28T14:40:31+00:00",
+  "bytes": 768,
+  "sha256": "7882b780a2f8ee8b7bc716eee6cf31bedd2397f0ed89862cf213b58b6867fe55"
+ },
+ {
+  "file": "openrouter_evaluation.json",
+  "copied_from": "runs/openrouter/evaluation.json on the iMac checkout (git-ignored run output)",
+  "last_commit_of_original": null,
+  "copied_utc": "2026-10-28T14:40:31+00:00",
+  "bytes": 838303,
+  "sha256": "09243383e7e55156ef1546a30d92cbb695549aeaa92a941e84179aa2a3809c45"
+ },
+ {
+  "file": "trip_instance.yaml",
+  "copied_from": "instances/trip/instance.yaml",
+  "last_commit_of_original": "77e3f073e2e37ef779c46527a55322d95e770886",
+  "copied_utc": "2026-10-28T14:40:31+00:00",
+  "bytes": 2786,
+  "sha256": "d5a585d025277ff37024a7b738ae1aeeacb9623e232872342fc1570bc9b97878"
+ },
+ {
+  "file": "validation_trip_bpi19.md",
+  "copied_from": "docs/validation.md",
+  "last_commit_of_original": "d2bacc4e950ed101162fb5edb236f94b3eaebced",
+  "copied_utc": "2026-10-28T14:40:31+00:00",
+  "bytes": 6911,
+  "sha256": "bb91e2f6c7b8107d1882c288c5245048c6b7763043f03bc1a5e8423acc4e5261"
+ }
+]

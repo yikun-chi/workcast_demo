@@ -1,0 +1,15 @@
+# Client assumptions for the illustrative value case. These are NOT sourced facts: each is a stated example that real
+# client figures replace in scoping. Sourced rates (replacement cost, wages, licence price) live in sealed/inputs.csv.
+firm_employees: 3000                 # illustrative firm size (original value-case memo)
+average_salary_usd: 80000            # illustrative average salary; replacement cost = Gallup low end x this
+pilot_decision_months_classical: 9   # three sequential live pilots (original memo)
+pilot_decision_months_ours: 4        # one live pilot after the simulation narrows the options (original memo)
+licence_seats_share: 1.0             # every employee holds an AI tool seat
+licence_low_use_share: 0.3333333333  # one seat in three is low-use
+licence_recovered_share: 0.25        # a quarter of low-use spend recovered in year one (original memo)
+behaviour_share_before: 0.30         # employees showing the target behaviour before the programme (original memo)
+behaviour_share_after: 0.38          # after a simulation-guided rollout (original memo)
+behaviour_value_per_employee_usd: 300  # placeholder annual value of one more employee showing the behaviour
+annual_token_spend_usd: 650000       # implied by the original memo's "20% saves $130,000"
+commitment_discount: 0.40            # discount for capacity committed in advance; published figures vary by provider and term
+ops_team_after_expansion: 40         # finance-operations team size after an expansion of the BPI 2019 size
