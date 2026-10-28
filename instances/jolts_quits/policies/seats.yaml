@@ -1,0 +1,7 @@
+# Seat -> policy adapter. Each month every employee agent chooses between quitting and staying, with weights from its
+# industry's quit probability for its tenure (rule: a draw from those weights).
+default:
+  adapter: rule
+seats:
+  employee:
+    adapter: rule

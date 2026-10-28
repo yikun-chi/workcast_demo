@@ -1,0 +1,11 @@
+id: charge_double
+title: What if the per-trip charge had been twice as high?
+short_title: Charge doubled
+summary: "$1.50 per taxi trip and $3.00 per Uber or Lyft trip from 5 January 2025; same riders, calendar and seeds."
+description: >
+  The per-trip charge on trips to, from or within the congestion zone is doubled from its start: $1.50 for taxis and
+  $3.00 for Uber and Lyft. Riders respond with the price sensitivity measured on the 2019 surcharge; every rider group
+  is re-simulated with the same seeds.
+extends: baseline
+interventions:
+  - {type: charge_multiplier, multiplier: 2.0}

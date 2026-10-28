@@ -1,0 +1,37 @@
+id: nyc_congestion
+order: 10
+title: Taxi and ride-hail demand under congestion pricing (New York City)
+company: New York City's yellow taxis and Uber and Lyft
+problem: "Can we predict how many taxi and ride-hail trips end in Manhattan's congestion zone, week by week, after a new per-trip charge?"
+protocol_line: "Every prediction is made from trip records before its cutoff and scored on the 26 weeks after it; the published charge schedule and the public-holiday calendar are supplied as they happened."
+situation: "On 5 January 2025 New York started congestion pricing: every taxi trip to, from or within Manhattan south of 60th Street pays $0.75 more and every Uber or Lyft trip $1.50 more. Riders could keep riding, switch or stay away."
+data_used: "The NYC Taxi and Limousine Commission trip records: every yellow taxi and high-volume for-hire (Uber, Lyft) trip since January 2022, with pickup and drop-off zones and fares, plus January-March of 2018 and 2019 for the 2019 state surcharge."
+intro: >
+  Rebuilds the city's taxi and ride-hail demand as riders grouped by service, by where they travel (within, into, out of
+  or outside the congestion zone) and by time of day. Each day every rider group decides how many trips to take, from
+  its weekday and holiday habits, the season and the price it pays; riders whose trips carry the new charge respond to
+  it with the price sensitivity measured when the state added a congestion surcharge in February 2019. From each cutoff
+  the simulation carries the riders forward 26 weeks and is scored against the trips recorded. The alternative asks
+  what would have happened with the charge doubled.
+world_type: demand
+world: >
+  Rider groups for two services (yellow taxi; Uber and Lyft), four zone flows and two time bands (day 06:00-19:59,
+  night), each a population of riders with weekday, holiday and seasonal habits, a level that drifts, and a response to
+  the price of a trip.
+source: "manifests/sources.json (NYC TLC trip records, NYC Open Data; TLC Industry Notice 24-10; NYS Tax notice N-19-2)"
+data:
+  raw: instances/nyc_congestion/data/raw/
+  normalized: instances/nyc_congestion/data/normalized/
+clock:
+  tick: 1h
+  step: 24h
+  coverage: "2022-01-01 .. 2026-08-31"
+evaluation:
+  cutoffs: "Sundays every four weeks; see evaluation/protocol.yaml"
+  horizon_weeks: 26
+  calibration: "at each cutoff, daily trips before it; price response from the 2019 surcharge"
+  timestamp_resolution: "trip (pickup time); scored by week, Sunday to Saturday"
+scenarios:
+  baseline: baseline
+  alternative: charge_double
+status: "in development"

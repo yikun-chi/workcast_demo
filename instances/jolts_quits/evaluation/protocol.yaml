@@ -1,0 +1,41 @@
+# Evaluation protocol: quarterly rolling cutoffs, six-month horizons, every prediction made from months before its
+# cutoff. A cutoff's data end with the month before it (the month JOLTS published last, ignoring the five-week
+# publication lag). The first 16 cutoffs (2010-2013) are for development; the design is frozen in
+# docs/plans/jolts_quits_protocol.md before the other 49 are run.
+instance: jolts_quits
+baseline_scenario: baseline
+cutoffs: ["2010-01-01", "2010-04-01", "2010-07-01", "2010-10-01", "2011-01-01", "2011-04-01", "2011-07-01", "2011-10-01", "2012-01-01", "2012-04-01",
+          "2012-07-01", "2012-10-01", "2013-01-01", "2013-04-01", "2013-07-01", "2013-10-01", "2014-01-01", "2014-04-01", "2014-07-01", "2014-10-01",
+          "2015-01-01", "2015-04-01", "2015-07-01", "2015-10-01", "2016-01-01", "2016-04-01", "2016-07-01", "2016-10-01", "2017-01-01", "2017-04-01",
+          "2017-07-01", "2017-10-01", "2018-01-01", "2018-04-01", "2018-07-01", "2018-10-01", "2019-01-01", "2019-04-01", "2019-07-01", "2019-10-01",
+          "2020-01-01", "2020-04-01", "2020-07-01", "2020-10-01", "2021-01-01", "2021-04-01", "2021-07-01", "2021-10-01", "2022-01-01", "2022-04-01",
+          "2022-07-01", "2022-10-01", "2023-01-01", "2023-04-01", "2023-07-01", "2023-10-01", "2024-01-01", "2024-04-01", "2024-07-01", "2024-10-01",
+          "2025-01-01", "2025-04-01", "2025-07-01", "2025-10-01", "2026-01-01"]
+dev_cutoffs: 16
+horizon_months: 6
+headline_horizons: [3, 6]
+seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+alternative_cutoffs: ["2026-01-01"]
+periods:                          # held-out cutoffs reported separately as well
+  before_2020: ["2014-01-01", "2019-10-01"]
+  pandemic_2020_2021: ["2020-01-01", "2021-10-01"]
+  since_2022: ["2022-01-01", "2026-01-01"]
+population: >
+  The 19 JOLTS industries that together make up total nonfarm employment (mining and logging; construction; durable and
+  nondurable manufacturing; wholesale; retail; transportation, warehousing and utilities; information; finance and
+  insurance; real estate; professional and business services; private education; health care and social assistance;
+  arts and recreation; accommodation and food; other services; federal; state and local education; other state and
+  local government). Held-out truth: each industry's quits rate, not seasonally adjusted, in the months 3 and 6 after
+  the last published month.
+headline_metric: >
+  Error in each industry's quits rate 3 and 6 months ahead, pooled over industries and held-out cutoffs: sum of absolute
+  errors / sum of actual rates (WAPE). Accuracy = 100 x (1 - WAPE / 100). Also the mean absolute error in percentage points.
+comparators:
+  carry_forward: the last published month's rate
+  seasonal_naive: the same month a year earlier
+  trend: the last twelve months' average grown at the log-linear trend of the last 24 months
+  ets: statsmodels ExponentialSmoothing on the log rate, additive damped trend and additive monthly seasonality, last 120 months
+  arima: statsmodels SARIMAX (0,1,1)(0,1,1)12 on the log rate, last 120 months
+leakage:
+  calibration: habits, tenure and openings effects, level, drift and shock sizes use only months before the cutoff
+  vintage: values are the current published vintage, so months before a cutoff include revisions published after it

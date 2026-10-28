@@ -1,0 +1,26 @@
+# Demand world settings for the NYC taxi and ride-hail riders. Habits (weekday, holiday and seasonal effects), the level
+# at the cutoff, the drift and the shock sizes are fitted at every cutoff from days before it (orgsim/worlds/demand.py).
+# The values below are fixed settings, the published charge schedule and the measured price response; none is fitted
+# on the weeks that are scored.
+horizon_weeks: 26
+history_days: 1100              # days of history used at each cutoff (at most three years)
+min_history_days: 360           # a backtest needs at least a year of history before its own cutoff
+harmonics: 12                   # annual harmonics of the day of year
+knot_days: 56                   # the trend may bend every eight weeks
+ridge_trend: 1.0                # penalty on trend bends (per day of history)
+ridge_cal: 0.001                # light penalty on the calendar effects
+inner_cutoffs: 8                # backtests before each cutoff; their 26-week targets end before it
+inner_step_days: 28
+grid:
+  level_days: [7, 14, 28]       # days whose median residual sets the level at the cutoff
+  drift: [0.0, 0.5, 1.0]        # weight on the trend of the last 13 weeks
+  phi: [0.9, 1.0]               # weekly persistence of that trend
+shared_shock: 0.5               # share of a segment's level shock shared with its service
+customers_per_segment: 200      # rider agents per segment, each deciding weekly whether to keep riding at the charge
+sensitivity_shape: 4.0          # spread of price sensitivity across riders: Gamma(4, 1/4), mean 1
+price_response: calibration/price_response.json    # elasticity measured on the 2019 state surcharge (price_response.py)
+# The published schedule (TLC Industry Notice 24-10, 5 December 2024): from 5 January 2025, per trip to, from, within or
+# through the Congestion Relief Zone, paid by the passenger.
+charges:
+  - {from: "2025-01-05", where: {service: yellow, charged: true}, amount: 0.75}
+  - {from: "2025-01-05", where: {service: hvfhv, charged: true}, amount: 1.50}

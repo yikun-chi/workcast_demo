@@ -1,0 +1,11 @@
+id: baseline
+title: "Quits as they happened: each industry carried forward six months"
+short_title: As it happened
+description: >
+  From each cutoff, carry every industry's employees forward six months. The simulation knows the months published
+  before the cutoff and nothing after it.
+seeds: [1, 2, 3]
+world:
+  t0: "2026-01-01"
+  horizon_months: 6
+interventions: []

@@ -1,0 +1,10 @@
+id: hiring_surge
+title: What if every industry had hired half as many people again over the six months?
+short_title: Hiring up 50%
+summary: "Hires 1.5 times the expected path in every industry from the cutoff; same employees and seeds."
+description: >
+  Every industry hires 50% more people each month than its habits predict. Recent hires quit more often than
+  established employees, so the quits that follow are re-simulated with the same seeds.
+extends: baseline
+interventions:
+  - {type: hires_multiplier, multiplier: 1.5}

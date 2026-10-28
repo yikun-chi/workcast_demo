@@ -1,0 +1,19 @@
+# Turnover world settings. Habits (month-of-year effects, trend), the level at the cutoff, the drift, the tenure and
+# openings effects and the shock sizes are fitted at every cutoff from months before it (orgsim/worlds/turnover.py).
+# None is fitted on the months that are scored.
+horizon_months: 6
+history_months: 120             # months of history used at each cutoff
+min_history_months: 48          # a backtest needs four years of history before its own cutoff
+knot_months: 12                 # the trend may bend once a year
+ridge_trend: 0.5                # penalty on trend bends (per month of history)
+ridge_cal: 0.001
+inner_cutoffs: 8                # backtests before each cutoff; their 6-month targets end before it
+inner_step_months: 3
+recent_months: 6                # an employee hired in the last six months counts as a recent hire
+grid:
+  level_months: [1, 3]          # months whose median residual sets the level at the cutoff
+  drift: [0.0, 1.0]             # weight on the trend of the last 12 months
+  phi: [0.8]                    # monthly persistence of that trend
+  gamma: [0.0, 1.0, 3.0]        # recent hires quit (1 + gamma) times as often as established employees
+  beta: [0.0, 0.5]              # elasticity of quits to the job openings rate of the month before
+employees_per_industry: 1000    # employee agents per industry

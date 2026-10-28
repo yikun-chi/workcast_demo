@@ -45,10 +45,11 @@ def _run(ctx, scenario_id: str, seed: int) -> dict:
     return {"run_id": writer.run_id, "scenario": scenario_id, "seed": seed}
 
 
-def _evaluate(ctx, scenario_ids: list[str]) -> dict:
+def _evaluate(ctx, scenario_ids: list[str], phase: str = "") -> dict:
     from .worlds import world_module
     t = time.time()
-    result = world_module(ctx).evaluate(ctx, scenario_ids)
+    # phase "dev" scores only the development cutoffs (demand worlds, whose protocol names them); default: every cutoff
+    result = world_module(ctx).evaluate(ctx, scenario_ids, **({"phase": phase} if phase else {}))
     print(f"[{ctx.id}] evaluation written ({time.time()-t:.1f}s)")
     return result
 
@@ -60,7 +61,7 @@ def main(argv: list[str] | None = None) -> int:
     s = sub.add_parser("validate"); s.add_argument("instance")
     s = sub.add_parser("ingest"); s.add_argument("instance")
     s = sub.add_parser("run"); s.add_argument("instance"); s.add_argument("--scenario", default="baseline"); s.add_argument("--seed", type=int, default=1); s.add_argument("--seeds", default="")
-    s = sub.add_parser("evaluate"); s.add_argument("instance"); s.add_argument("--scenarios", default="")
+    s = sub.add_parser("evaluate"); s.add_argument("instance"); s.add_argument("--scenarios", default=""); s.add_argument("--phase", default="", choices=["", "dev", "all"])
     s = sub.add_parser("insights"); s.add_argument("instance"); s.add_argument("--n", type=int, default=24); s.add_argument("--model", default="")
     s = sub.add_parser("demo"); s.add_argument("instance", nargs="?"); s.add_argument("--skip-ingest", action="store_true")
     s = sub.add_parser("serve"); s.add_argument("--host", default="127.0.0.1"); s.add_argument("--port", type=int, default=8000); s.add_argument("--reload", action="store_true")
@@ -86,7 +87,7 @@ def main(argv: list[str] | None = None) -> int:
     if a.cmd == "evaluate":
         ctx = get_instance(a.instance)
         ids = [x for x in a.scenarios.split(",") if x] or [s["id"] for s in list_scenarios(ctx)]
-        print(json.dumps(_evaluate(ctx, ids).get("headline", {}), indent=2, default=str)); return 0
+        print(json.dumps(_evaluate(ctx, ids, a.phase).get("headline", {}), indent=2, default=str)); return 0
     if a.cmd == "insights":
         from .insights import build_insights
         d = build_insights(get_instance(a.instance), n_per_scenario=a.n, model=a.model or None)

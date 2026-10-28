@@ -1,0 +1,8 @@
+# Seat -> policy adapter. Each week every rider agent whose trips carry the charge chooses between keeping on riding and
+# staying away, with weights from its price sensitivity (rule: a draw from those weights). Swapping a seat's model is a
+# configuration change.
+default:
+  adapter: rule
+seats:
+  customer:
+    adapter: rule

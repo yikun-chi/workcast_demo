@@ -1,0 +1,11 @@
+id: baseline
+title: "Congestion pricing as it happened: $0.75 per taxi trip, $1.50 per Uber or Lyft trip"
+short_title: As it happened
+description: >
+  From each Sunday cutoff, carry every rider group forward for 26 weeks. The per-trip charge starts on 5 January 2025 as
+  published; the public-holiday calendar is known in advance; nothing else after the cutoff is known to the simulation.
+seeds: [1, 2, 3]
+world:
+  t0: "2025-01-05"
+  horizon_weeks: 26
+interventions: []

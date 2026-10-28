@@ -1,0 +1,43 @@
+# Evaluation protocol: rolling cutoffs four weeks apart, 26-week horizons, every prediction made from trip records before
+# its cutoff. The first seven cutoffs are for development (their horizons end before the charge starts); the design is
+# frozen in docs/plans/nyc_congestion_protocol.md before the other 22 are run.
+instance: nyc_congestion
+baseline_scenario: baseline
+cutoffs: ["2024-01-07", "2024-02-04", "2024-03-03", "2024-03-31", "2024-04-28", "2024-05-26", "2024-06-23", "2024-07-21", "2024-08-18",
+          "2024-09-15", "2024-10-13", "2024-11-10", "2024-12-08", "2025-01-05", "2025-02-02", "2025-03-02", "2025-03-30", "2025-04-27",
+          "2025-05-25", "2025-06-22", "2025-07-20", "2025-08-17", "2025-09-14", "2025-10-12", "2025-11-09", "2025-12-07", "2026-01-04",
+          "2026-02-01", "2026-03-01"]
+dev_cutoffs: 7
+change_cutoff: "2025-01-05"          # the day the charge started: the months after the start, predicted from the months before
+horizon_weeks: 26
+seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+alternative_cutoffs: ["2025-01-05"]
+unit_label: trips
+groups:
+  - {id: yellow_zone, label: "Yellow taxi trips ending in the congestion zone", where: {service: yellow, flow: [within, into]}, headline: true}
+  - {id: hvfhv_zone, label: "Uber and Lyft trips ending in the congestion zone", where: {service: hvfhv, flow: [within, into]}, headline: true}
+  - {id: yellow_within, label: "Yellow taxi trips within the zone", where: {service: yellow, flow: within}}
+  - {id: yellow_into, label: "Yellow taxi trips into the zone", where: {service: yellow, flow: into}}
+  - {id: yellow_out, label: "Yellow taxi trips out of the zone", where: {service: yellow, flow: out_of}}
+  - {id: yellow_outside, label: "Yellow taxi trips outside the zone", where: {service: yellow, flow: outside}}
+  - {id: hvfhv_within, label: "Uber and Lyft trips within the zone", where: {service: hvfhv, flow: within}}
+  - {id: hvfhv_into, label: "Uber and Lyft trips into the zone", where: {service: hvfhv, flow: into}}
+  - {id: hvfhv_out, label: "Uber and Lyft trips out of the zone", where: {service: hvfhv, flow: out_of}}
+  - {id: hvfhv_outside, label: "Uber and Lyft trips outside the zone", where: {service: hvfhv, flow: outside}}
+population: >
+  Every yellow taxi and high-volume for-hire (Uber, Lyft) trip in the TLC records with known pickup and drop-off zones,
+  counted by pickup day. Held-out truth is the weekly count (Sunday to Saturday) of trips ending in the congestion relief
+  zone (within it or into it) for each service in the 26 weeks from each cutoff.
+inputs_after_cutoff: the published per-trip charge schedule (TLC Industry Notice 24-10) and the calendar of public holidays
+headline_metric: >
+  Error in weekly trips ending in the zone, pooled over both services, every week of the 26-week horizon and every
+  held-out cutoff: sum of absolute errors / sum of actual trips (WAPE). Accuracy = 100 x (1 - WAPE / 100).
+comparators:
+  carry_forward: the average of the four weeks before the cutoff, repeated
+  seasonal_naive: the same week 52 weeks earlier, times the ratio of the last eight weeks to the same eight weeks a year earlier
+  trend: the four-week average grown at the log-linear trend of the 52 weeks before the cutoff
+  ets: statsmodels ExponentialSmoothing on log weekly trips, additive damped trend, additive 52-week seasonality, fitted on every week since January 2022
+leakage:
+  calibration: habits, level, drift and shock sizes use only days before the cutoff
+  price_response: measured on January-March 2018 and 2019 (calibration/price_response.json), before every cutoff
+  zones: zone membership is read from where the 2025 charge was recorded (a boundary, not a trip count)

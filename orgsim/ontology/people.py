@@ -8,6 +8,8 @@ outcomes, and is generic over world type:
   workforce  one row per employee in population.parquet; connections are team membership (same_manager edges are
              implied by team_id), role, division and the division's location
   market     one row per app (company) in apps.parquet; grouped by app category and use-case segment
+  demand     one row per customer segment in series.parquet; grouped by service (unit) and flow (role)
+  turnover   one row per scored industry; grouped by sector group
   process    one row per user in user_roles.csv; connections are hand-offs (consecutive events on the same case by
              different users) aggregated from events_clean.parquet
 
@@ -182,6 +184,75 @@ def _market(ctx: InstanceContext) -> dict[str, Any]:
     }
 
 
+def _group_rows(ctx: InstanceContext, persons: pd.DataFrame) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Org units and roles from the bindings with their member counts, and the role -> unit links."""
+    b = _bindings(ctx)
+    groups = [{"id": u["id"], "type": "OrgUnit", "kind": "unit", "label": u["label"], "parent": None, "size": int(persons.org_unit.eq(u["id"]).sum()), "properties": u.get("properties") or {}}
+              for u in b.get("org_units", [])]
+    groups += [{"id": r["id"], "type": "Role", "kind": "role", "label": r["label"], "parent": r.get("org_unit"), "size": int(persons.role_id.eq(r["id"]).sum()),
+                "properties": {"onet_code": r.get("onet_code"), **(r.get("properties") or {})}} for r in b.get("roles", [])]
+    return groups, [{"source": g["id"], "target": g["parent"], "type": "member_of"} for g in groups if g.get("parent")]
+
+
+def _demand(ctx: InstanceContext) -> dict[str, Any]:
+    """Customer segments (demand worlds): one row per segment in series.parquet; unit = its service, role = its flow."""
+    b = _bindings(ctx)
+    meta = pd.read_parquet(ctx.data_normalized / "series.parquet")
+    y = pd.read_parquet(ctx.data_normalized / "series_daily.parquet")
+    last = y[y.date >= y.date.max() - pd.Timedelta(days=364)].groupby("series_id").value.mean()
+    p = ctx.data_normalized / "price_daily.parquet"
+    price = pd.read_parquet(p).pipe(lambda d: d[d.date >= d.date.max() - pd.Timedelta(days=364)]).groupby("series_id").price.mean() if p.exists() else pd.Series(dtype=float)
+    role_of = {(r.get("properties") or {}).get("flow"): r["id"] for r in b.get("roles", [])}
+    unit_label, role_label = _labels(b, "org_units"), _labels(b, "roles")
+    persons = pd.DataFrame({"person_id": "segment:" + meta.series_id, "label": meta.label})
+    persons["org_unit"] = "ou:" + meta.service
+    persons["org_unit_label"] = persons.org_unit.map(unit_label)
+    persons["role_id"] = meta.flow.map(role_of)
+    persons["role_label"] = persons.role_id.map(role_label)
+    persons["band"] = meta.band
+    persons["charged"] = meta.charged.map({True: "yes", False: "no"})
+    persons["daily_trips"] = meta.series_id.map(last).round(0)
+    persons["price"] = meta.series_id.map(price).round(2)
+    persons = persons.sort_values("daily_trips", ascending=False).reset_index(drop=True)
+    groups, links = _group_rows(ctx, persons)
+    return {"persons": persons,
+            "columns": [{"id": c, "label": l} for c, l in [("person_id", "Rider group"), ("org_unit_label", "Service"), ("role_label", "Trips"), ("band", "Time of day"),
+                                                            ("charged", "Pays the 2025 charge"), ("daily_trips", "Trips per day, last 52 weeks"), ("price", "Average price paid ($)")]],
+            "groups": groups, "links": links, "person_links": [],
+            "notes": ["Each row is a rider group: one service, one zone flow and one time band. Its riders are simulated as agents with shared weekday, holiday and seasonal habits and their own price sensitivity.",
+                      "Trips and prices are from the NYC TLC trip records; prices are what riders paid before tips and the 2025 charge."],
+            "excluded_from_behavior": []}
+
+
+def _turnover(ctx: InstanceContext) -> dict[str, Any]:
+    """Industries (turnover worlds): one row per scored industry; its employees are simulated by tenure."""
+    b = _bindings(ctx)
+    meta = pd.read_parquet(ctx.data_normalized / "series.parquet")
+    meta = meta[meta.scored]
+    d = pd.read_parquet(ctx.data_normalized / "jolts_monthly.parquet")
+    last = d[d.month >= d.month.max() - pd.DateOffset(months=11)].pivot_table(index="industry", columns="element", values="value", aggfunc="mean")
+    unit_label, role_label = _labels(b, "org_units"), _labels(b, "roles")
+    unit_of = {i: u["id"] for u in b.get("org_units", []) for i in (u.get("properties") or {}).get("industries", [])}
+    persons = pd.DataFrame({"person_id": "industry:" + meta.series_id, "label": meta.label})
+    persons["industry"] = meta.label.to_numpy()
+    persons["org_unit"] = meta.series_id.map(unit_of).to_numpy()
+    persons["org_unit_label"] = persons.org_unit.map(unit_label)
+    persons["role_id"] = "employees"
+    persons["role_label"] = role_label.get("employees", "Employees")
+    persons["quits_rate"] = meta.series_id.map(last.get("QUR", pd.Series(dtype=float))).round(2).to_numpy()
+    persons["hires_rate"] = meta.series_id.map(last.get("HIR", pd.Series(dtype=float))).round(2).to_numpy()
+    persons["openings_rate"] = meta.series_id.map(last.get("JOR", pd.Series(dtype=float))).round(2).to_numpy()
+    persons["employment_thousands"] = (meta.series_id.map(last.get("QUL", pd.Series(dtype=float))) / meta.series_id.map(last.get("QUR", pd.Series(dtype=float))) * 100).round(0).to_numpy()
+    persons = persons.sort_values("employment_thousands", ascending=False).reset_index(drop=True)
+    groups, links = _group_rows(ctx, persons)
+    return {"persons": persons,
+            "columns": [{"id": c, "label": l} for c, l in [("person_id", "Industry"), ("industry", "Name"), ("org_unit_label", "Sector group"), ("employment_thousands", "Employment (thousands)"),
+                                                            ("quits_rate", "Quits rate, last 12 months (%)"), ("hires_rate", "Hires rate (%)"), ("openings_rate", "Job openings rate (%)")]],
+            "groups": groups, "links": links, "person_links": [],
+            "notes": ["Each row is an industry from BLS JOLTS (not seasonally adjusted, last 12 months averaged); its employees are simulated as agents by tenure, deciding each month whether to quit."],
+            "excluded_from_behavior": []}
+
+
 def _handoffs(ctx: InstanceContext) -> pd.DataFrame:
     ev_p = ctx.data_normalized / "events_clean.parquet"
 
@@ -206,6 +277,10 @@ def _build(ctx: InstanceContext) -> dict[str, Any]:
         return _cached((ctx.id, "people"), paths, lambda: _process(ctx))
     if wt == "market":
         return _cached((ctx.id, "people"), paths + [ctx.data_normalized / "apps.parquet"], lambda: _market(ctx))
+    if wt == "demand":
+        return _cached((ctx.id, "people"), paths + [ctx.data_normalized / "series.parquet", ctx.data_normalized / "series_daily.parquet"], lambda: _demand(ctx))
+    if wt == "turnover":
+        return _cached((ctx.id, "people"), paths + [ctx.data_normalized / "jolts_monthly.parquet"], lambda: _turnover(ctx))
     raise FileNotFoundError(f"no people view for world type {wt!r}")
 
 

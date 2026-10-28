@@ -1,0 +1,34 @@
+id: jolts_quits
+order: 11
+title: Quits by industry (US JOLTS)
+company: US employers, by industry
+problem: "Can we predict each industry's monthly quits rate three and six months ahead?"
+protocol_line: "Every prediction is made from months published before its cutoff and scored on the six months after it."
+situation: "Each month the Bureau of Labor Statistics publishes how many employees quit, were hired and how many jobs were open, industry by industry. Quits swing with the season and with how easy it is to find another job."
+data_used: "BLS Job Openings and Labor Turnover Survey, not seasonally adjusted: quits, hires and job openings for 19 industries that make up total nonfarm employment, December 2000 to August 2026 (current vintage)."
+intro: >
+  Rebuilds each industry's workforce as employees by tenure. Every month new hires join, and each employee decides
+  whether to quit: newer employees quit more often, every employee quits more in the season people usually move, and
+  quits rise when jobs are easier to find. From each cutoff the simulation carries every industry forward six months
+  and is scored against the quits rate published for those months.
+world_type: turnover
+world: >
+  Employees in 19 industries, grouped by tenure (hired in the last six months or earlier), with monthly quit decisions
+  driven by the season, the industry's level and trend, and the share of recent hires.
+source: "manifests/sources.json (BLS Public Data API, JOLTS; public domain)"
+data:
+  raw: instances/jolts_quits/data/raw/
+  normalized: instances/jolts_quits/data/normalized/
+clock:
+  tick: 1h
+  step: 1 month
+  coverage: "2000-12-01 .. 2026-08-01"
+evaluation:
+  cutoffs: "monthly rolling cutoffs; see evaluation/protocol.yaml"
+  horizon_months: 6
+  calibration: "at each cutoff, months before it"
+  timestamp_resolution: "month"
+scenarios:
+  baseline: baseline
+  alternative: hiring_surge
+status: "in development"
