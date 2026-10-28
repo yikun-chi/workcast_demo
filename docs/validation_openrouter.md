@@ -75,6 +75,14 @@ A company that buys committed capacity (reserved units at a discount, as with pr
 | 40% | 17.6% | 21.3% | 39.2% | 30.9% | 3.7 | 17% | $36,560 | $14.9M |
 | 60% | 20.2% | 26.3% | 32.3% | 27.5% | 6.1 | 23% | $60,900 | $24.8M |
 
+For one buyer of the leading apps' combined spend (one commitment per 8-week window on the forecast total), where the forecast misses by 15.7% instead of 30.3%:
+
+| Commitment discount | Simulation | No change | Recent trend | Market growth | Saved vs best standard (% of spend) | Saved per $1M of annual spend |
+|---|---:|---:|---:|---:|---:|---:|
+| 20% | 4.0% | 7.6% | 31.3% | 21.2% | 3.6 | $36,254 |
+| 40% | 6.6% | 12.6% | 24.4% | 17.8% | 6.1 | $60,594 |
+| 60% | 9.2% | 17.7% | 17.6% | 14.5% | 5.3 | $53,375 |
+
 ## Limitations
 
 This is a retrospective evaluation: the model's structure was chosen with these periods available, so it is not a prospective holdout. Forecasts published before the weeks they predict are the clean test. Usage covers traffic routed through OpenRouter, not the whole market; providers count tokens with different tokenizers; spend is at list prices, and caching and discounts make realised spend lower. The alternative's size depends on an authored price sensitivity (`calibration/market.yaml`). A language-model buyer seat that judges new models is available as a configuration change; its measured result is in `docs/plans/buyer_seat_protocol.md`.
