@@ -57,11 +57,11 @@ def main() -> None:
                 comp_res.setdefault(k, []).append(score(P))
             for sl in [int(x) for x in a.slopes.split(",")]:
                 for sp in specs:
-                    P = v.outcome_from_share(W.central_share(A_hist, pool, H, sp, sl), tgt)
+                    P = v.outcome_from_share(W.central_share(A_hist, pool, H, sp, sl, bool(cfg.get("normalize", False))), tgt)
                     res.setdefault(json.dumps({**sp, "slope": sl}), []).append(score(P))
                 c2 = {**cfg, "slope_periods": sl}
                 dyn = W.fit_dynamics(d, c2, groups, c, H)
-                P = v.outcome_from_share(W.central_share(A_hist, pool, H, dyn["spec"], sl), tgt)
+                P = v.outcome_from_share(W.central_share(A_hist, pool, H, dyn["spec"], sl, bool(cfg.get("normalize", False))), tgt)
                 sel_res.setdefault(f"selected (slope {sl})", []).append(score(P))
                 print(f"cutoff {c} block {b['id']} slope {sl}: selected {dyn['spec']} ({dyn['selection']})", flush=True)
     sc = float(proto.get("scale", 1.0))

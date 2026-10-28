@@ -1,0 +1,11 @@
+id: office_uptake
+title: What if office and administrative workers had taken up the assistant twice as fast?
+short_title: Office uptake doubled
+summary: "Office and administrative support workers who do not use the assistant start at twice the simulated hazard; same cutoffs and seeds."
+description: >
+  An enterprise roll-out aimed at office and administrative support work doubles the probability that a non-using
+  worker in that group starts using the assistant in each period. Every other group behaves as in the simulation of
+  what happened; shares are rescaled to sum to 100%. The size of the change is authored, not estimated.
+extends: baseline
+interventions:
+  - {type: adoption_hazard_multiplier, groups: ["43"], multiplier: 2.0}

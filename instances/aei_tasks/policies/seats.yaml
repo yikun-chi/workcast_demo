@@ -1,0 +1,7 @@
+# Seat -> policy adapter. Each simulated worker is offered "start" or "stop" using the assistant with the kernel's
+# hazards; the rule draws from those weights.
+default:
+  adapter: rule
+seats:
+  adopter:
+    adapter: rule

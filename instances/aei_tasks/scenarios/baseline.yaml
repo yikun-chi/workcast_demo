@@ -1,0 +1,12 @@
+id: baseline
+title: "AI use by occupation as it happened: every group carried forward to the next release"
+short_title: As it happened
+description: >
+  From each release, carry every occupation group's simulated workers forward to the next release: workers start or
+  stop using the assistant with the hazards of the diffusion path calibrated on the earlier releases, and each group's
+  share of conversations is its use relative to all groups.
+seeds: [1, 2, 3, 4, 5]
+world:
+  cutoff: 5
+  horizon_periods: 1
+interventions: []

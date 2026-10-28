@@ -205,8 +205,9 @@ def spec_list(grid: dict[str, list[Any]]) -> list[dict[str, Any]]:
                                                                grid.get("phi", [1.0, 0.9]), grid.get("form", ["imitation", "external"]))]
 
 
-def central_share(A: np.ndarray, pool: np.ndarray | None, H: int, spec: dict[str, Any], slope_periods: int) -> np.ndarray:
-    """Expected share per group for horizons 1..H after the last column of A (groups x periods)."""
+def central_share(A: np.ndarray, pool: np.ndarray | None, H: int, spec: dict[str, Any], slope_periods: int, normalize: bool = False) -> np.ndarray:
+    """Expected share per group for horizons 1..H after the last column of A (groups x periods). With `normalize` the
+    groups' shares are rescaled to sum to one each period (groups that split one whole, such as occupation shares)."""
     form = spec["form"]
     if A.shape[1] == 0:
         A = np.full((A.shape[0], 1), np.nan)
@@ -226,6 +227,8 @@ def central_share(A: np.ndarray, pool: np.ndarray | None, H: int, spec: dict[str
         g = spec["phi"] * g
         cum = cum + g
         out[:, h] = from_z(lvl + cum, form)
+    if normalize:
+        out = out / out.sum(axis=0, keepdims=True)
     return out
 
 
@@ -245,7 +248,7 @@ def _fold_errors(v: View, c: int, H: int, specs: list[dict[str, Any]], slope_per
     pool = sub.pool[sub.periods >= sub.start] if sub.pool is not None else None
     out = []
     for sp in specs:
-        Ac = central_share(A_hist, pool, int(hs.max()), sp, slope_periods)[:, hs - 1]
+        Ac = central_share(A_hist, pool, int(hs.max()), sp, slope_periods, bool(v.cfg.get("normalize", False)))[:, hs - 1]
         pred = sub.outcome_from_share(Ac, tgt_p)
         out.append({"pred": pred, "actual": actual, "hs": hs, "z_pred": to_z(Ac, sp["form"]),
                     "z_act": to_z(np.clip(1 - actual / sub.baseline(tgt_p), EPS, 1 - EPS), sp["form"]) if v.outcome == "displaced" else to_z(actual, sp["form"])})
@@ -361,7 +364,7 @@ class World(BaseWorld):
         v = self.view
         A_hist = v.A[:, v.periods >= v.start]
         pool = v.pool[v.periods >= v.start] if v.pool is not None else None
-        self.central_A = central_share(A_hist, pool, self.H, self.dyn["spec"], int(self.cfg.get("slope_periods", 0)))
+        self.central_A = central_share(A_hist, pool, self.H, self.dyn["spec"], int(self.cfg.get("slope_periods", 0)), bool(self.cfg.get("normalize", False)))
         self.target_periods = np.arange(self.t0, self.t0 + self.H)
         self.interventions = scenario.get("interventions", []) or []
         # an intervention scales the adoption hazard of non-users in some groups from the cutoff (alternative scenarios)
@@ -433,6 +436,8 @@ class World(BaseWorld):
                 using[i, start_now] = True
                 using[i, stop_now] = False
                 shares[i, h] = using[i].mean()
+            if self.cfg.get("normalize"):
+                shares[:, h] = shares[:, h] / max(float(shares[:, h].sum()), 1e-12)
                 self.emit(agent_id=f"group:{self.groups[i]}", role="group", org_unit=str(self.groups[i]), activity="adoption", action_type="state", provenance="simulated",
                           attributes={"period": int(self.t0 + h), "share": round(float(shares[i, h]), 5), "started": int(len(start_now)), "stopped": int(len(stop_now))})
             for _ in range(int(self.cfg.get("period_days", 7)) * 24):
