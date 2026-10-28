@@ -1,16 +1,16 @@
 # Variants compared on the dev cutoffs only (scripts/service_dev.py). The chosen one is written into service.yaml.
 # Round 1 (per-cutoff backtest selection): base, revert, pool, no1se, revert_pool_no1se, tiers, inner16, ot4, ot4_noload, ot13_noload.
-# Round 2: fixed specifications (grid = simplest = one spec) and the on-time base.
-f_k4: {grid: {k_level: [4], phi: [0.0], w: [0.0], seasonal: [0.0], drift: [0.0]}, simplest: {k_level: 4}, on_time: {load_response: false}}
-f_k2: {grid: {k_level: [2], phi: [0.0], w: [0.0], seasonal: [0.0], drift: [0.0]}, simplest: {k_level: 2}, on_time: {load_response: false}}
-f_k8: {grid: {k_level: [8], phi: [0.0], w: [0.0], seasonal: [0.0], drift: [0.0]}, simplest: {k_level: 8}, on_time: {load_response: false}}
-f_k4_s05: {grid: {k_level: [4], phi: [0.0], w: [0.0], seasonal: [0.5], drift: [0.0]}, simplest: {k_level: 4, seasonal: 0.5}, on_time: {load_response: false}}
-f_k4_s1: {grid: {k_level: [4], phi: [0.0], w: [0.0], seasonal: [1.0], drift: [0.0]}, simplest: {k_level: 4, seasonal: 1.0}, on_time: {load_response: false}}
-f_k4_d1: {grid: {k_level: [4], phi: [0.0], w: [0.0], seasonal: [0.0], drift: [1.0]}, simplest: {k_level: 4, drift: 1.0}, on_time: {load_response: false}}
-f_k4_w05: {grid: {k_level: [4], phi: [0.6], w: [0.5], seasonal: [0.0], drift: [0.0]}, simplest: {k_level: 4, phi: 0.6, w: 0.5}, on_time: {load_response: false}}
-f_k4_rev09: {grid: {k_level: [4], phi: [0.0], w: [0.0], seasonal: [0.0], drift: [0.0], revert: [0.9]}, simplest: {k_level: 4, revert: 0.9}, on_time: {load_response: false}}
-f_k4_pool05: {grid: {k_level: [4], phi: [0.0], w: [0.0], seasonal: [0.0], drift: [0.0], pool: [0.5]}, simplest: {k_level: 4, pool: 0.5}, on_time: {load_response: false}}
-ot4_p1e6: {on_time: {base_weeks: 4, load_response: false, prior_n: 1000000}}
-ot4_p5: {on_time: {base_weeks: 4, load_response: false, prior_n: 5}}
-ot2_p5: {on_time: {base_weeks: 2, load_response: false, prior_n: 5}}
-ot8_p50: {on_time: {base_weeks: 8, load_response: false, prior_n: 50}}
+# Round 2 (fixed specifications; grid = simplest = one spec): f_k4, f_k2, f_k8, f_k4_s05, f_k4_s1, f_k4_d1, f_k4_w05, f_k4_rev09,
+#   f_k4_pool05; on-time base: ot4_p1e6, ot4_p5, ot2_p5, ot8_p50.
+# Round 3: around the best fixed specification (k 4, phi 0.6, w 0.5) and the on-time base.
+f_k4_w05_p06: {grid: {k_level: [4], phi: [0.6], w: [0.5], seasonal: [0.0], drift: [0.0]}, simplest: {k_level: 4, phi: 0.6, w: 0.5}, on_time: {base_weeks: 4, load_response: false, prior_n: 1}}
+f_k4_w1_p06: {grid: {k_level: [4], phi: [0.6], w: [1.0], seasonal: [0.0], drift: [0.0]}, simplest: {k_level: 4, phi: 0.6, w: 1.0}, on_time: {base_weeks: 4, load_response: false, prior_n: 1}}
+f_k4_w05_p09: {grid: {k_level: [4], phi: [0.9], w: [0.5], seasonal: [0.0], drift: [0.0]}, simplest: {k_level: 4, phi: 0.9, w: 0.5}, on_time: {base_weeks: 4, load_response: false, prior_n: 1}}
+f_k4_w05_p03: {grid: {k_level: [4], phi: [0.3], w: [0.5], seasonal: [0.0], drift: [0.0]}, simplest: {k_level: 4, phi: 0.3, w: 0.5}, on_time: {base_weeks: 4, load_response: false, prior_n: 1}}
+f_k3_w05_p06: {grid: {k_level: [3], phi: [0.6], w: [0.5], seasonal: [0.0], drift: [0.0]}, simplest: {k_level: 3, phi: 0.6, w: 0.5}, on_time: {base_weeks: 4, load_response: false, prior_n: 1}}
+f_k6_w05_p06: {grid: {k_level: [6], phi: [0.6], w: [0.5], seasonal: [0.0], drift: [0.0]}, simplest: {k_level: 6, phi: 0.6, w: 0.5}, on_time: {base_weeks: 4, load_response: false, prior_n: 1}}
+f_k4_w05_p06_s025: {grid: {k_level: [4], phi: [0.6], w: [0.5], seasonal: [0.25], drift: [0.0]}, simplest: {k_level: 4, phi: 0.6, w: 0.5, seasonal: 0.25}, on_time: {base_weeks: 3, load_response: false, prior_n: 1}}
+f_k4_w05_p06_seg10: {grid: {k_level: [4], phi: [0.6], w: [0.5], seasonal: [0.0], drift: [0.0]}, simplest: {k_level: 4, phi: 0.6, w: 0.5}, segment_min_share: 0.10, on_time: {base_weeks: 6, load_response: false, prior_n: 1}}
+f_k4_w05_p06_seg02: {grid: {k_level: [4], phi: [0.6], w: [0.5], seasonal: [0.0], drift: [0.0]}, simplest: {k_level: 4, phi: 0.6, w: 0.5}, segment_min_share: 0.02, on_time: {base_weeks: 4, load_response: false, prior_n: 0.5}}
+# Round 4: the frozen configuration itself (service.yaml as committed), no overrides.
+frozen: {}

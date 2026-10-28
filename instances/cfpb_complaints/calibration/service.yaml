@@ -1,23 +1,30 @@
-# Service world settings (orgsim/worlds/service.py). Every parameter is fitted at each cutoff from complaints
-# received before it; the values below are fixed settings and the grids the backtests choose from.
+# Service world settings (orgsim/worlds/service.py), frozen after the development cutoffs (docs/plans/cfpb_complaints_protocol.md).
+# Every quantity below is either a fixed setting chosen on the dev cutoffs or is re-estimated at each cutoff from complaints
+# received before it (holiday effects, annual patterns, levels, own growth, on-time rates, backtest shock sizes).
 n_orgs: 50                      # companies with the most complaints in the 13 weeks before the cutoff
 selection_weeks: 13
 segment_min_share: 0.05         # a product with at least 5% of a company's complaints (last 26 weeks) is its own segment
 share_weeks: 26
 history_weeks: 156              # weeks of history at each cutoff
-inner_cutoffs: 8                # earlier backtests whose 12-week targets end before the cutoff
+inner_cutoffs: 8                # earlier backtests (targets end before the cutoff); they set the shock sizes for the ranges
 inner_step_weeks: 4
+# Demand specification fixed on the dev cutoffs (dev_variants.yaml, round 3: f_k4_w05_p06): the starting level is the
+# mean of the last four weeks; growth starts at half the segment's own eight-week growth and fades by 0.6 a week;
+# no annual pattern, forward drift, reversion or pooling (each raised the dev error). Holiday weeks are always applied.
 grid:
-  k_level: [1, 2, 4, 8]         # weeks averaged for the starting level
-  phi: [0.0, 0.6, 0.9]          # weekly persistence of a segment's growth
-  w: [0.0, 0.5, 1.0]            # weight on the segment's own eight-week growth vs the typical forward drift
-  seasonal: [0.0, 0.5, 1.0]     # weight on the segment's annual pattern
-  drift: [0.0, 1.0]             # weight on the typical realised growth of leading segments after earlier cutoffs
-simplest: {k_level: 4, phi: 0.0, w: 0.0, seasonal: 0.0, drift: 0.0}   # the recent four-week level held flat
-tiers: []                       # size tiers (weekly complaints) with their own specification; [] = one for all
+  k_level: [4]
+  phi: [0.6]
+  w: [0.5]
+  seasonal: [0.0]
+  drift: [0.0]
+  revert: [1.0]
+  pool: [0.0]
+simplest: {k_level: 4, phi: 0.6, w: 0.5, seasonal: 0.0, drift: 0.0, revert: 1.0, pool: 0.0}
+one_se: true
+tiers: []
 on_time:
   deadline_days: 15             # CFPB: a company is expected to respond within 15 days; flags are known after that
-  base_weeks: 13
-  prior_n: 50                   # pseudo-count shrinking a product's on-time rate to its company's
-  response_weeks: 52            # organisation-weeks used to estimate the load response
-  load_response: true
+  base_weeks: 4                 # on-time rate of the last four weeks whose deadline has passed
+  prior_n: 5                    # pseudo-count shrinking a product's on-time rate to its company's
+  response_weeks: 52
+  load_response: false          # the estimated load response raised the dev error (rounds 1-2), so it is off

@@ -1,0 +1,23 @@
+{
+ "dataset": "CFPB Consumer Complaint Database",
+ "publisher": "Consumer Financial Protection Bureau",
+ "landing_page": "https://www.consumerfinance.gov/data-research/consumer-complaints/",
+ "field_reference": "https://www.consumerfinance.gov/complaint/data-use/",
+ "license": {
+  "name": "Freely available for anyone to use, analyze, and build on (U.S. federal government data)",
+  "source": "https://www.consumerfinance.gov/data-research/consumer-complaints/"
+ },
+ "publication_rule": "Complaints are published after the company responds or after 15 days, whichever comes first; only complaints sent to companies for response are published (landing page).",
+ "caveat": "Not a statistical sample of consumers' experiences (landing page).",
+ "files": [
+  {
+   "name": "complaints.csv.zip",
+   "url": "https://files.consumerfinance.gov/ccdb/complaints.csv.zip",
+   "size_bytes": 359474702,
+   "sha256": "92df301d0179817ba450346c0e552c14efc3ee1ac5e9341f30849fe204350e5e",
+   "last_modified": "Wed, 28 Oct 2026 09:16:31 GMT",
+   "retrieved": "2026-10-28T15:12:48+00:00"
+  }
+ ],
+ "generated": "2026-10-28T15:13:06+00:00"
+}

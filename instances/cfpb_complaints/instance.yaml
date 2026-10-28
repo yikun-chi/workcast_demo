@@ -10,14 +10,13 @@ intro: >
   Rebuilds each leading company's complaint workload as the consumers of each of its products (requester segments)
   and the company's response staff. From each cutoff the simulation carries every segment forward for 12 weeks:
   its level, how its growth fades, its annual pattern and holiday weeks; the company's on-time answers follow its
-  product mix and its load against the staffing it ran before the cutoff. Each prediction is scored against the
-  complaints the company actually received. The alternative asks what would have happened to on-time answers if
-  every company had answered with 20% less response capacity.
+  product mix and the rates it showed just before the cutoff. Each prediction is scored against the complaints the
+  company actually received. The alternative asks how the workload would have looked had complaints about the three
+  credit bureaus run 25% higher.
 world_type: service
 world: >
   The 50 companies with the most complaints, each split into the products its complaints are about; consumers of
-  each product file complaints weekly; each company answers them with the response capacity it showed before the
-  cutoff.
+  each product file complaints weekly; each company answers them at the on-time rates it showed before the cutoff.
 source: "manifests/sources.json (CFPB complaints.csv.zip; freely available for anyone to use)"
 data:
   raw: instances/cfpb_complaints/data/raw/
@@ -33,5 +32,5 @@ evaluation:
   timestamp_resolution: "day"
 scenarios:
   baseline: baseline
-  alternative: capacity_cut
+  alternative: bureau_surge
 status: "in progress"

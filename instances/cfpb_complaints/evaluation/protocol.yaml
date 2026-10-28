@@ -15,7 +15,7 @@ dev_cutoffs: ['2021-01-04', '2021-02-01', '2021-03-01', '2021-03-29', '2021-04-2
               '2021-09-13', '2021-10-11', '2021-11-08', '2021-12-06', '2022-01-03', '2022-01-31', '2022-02-28', '2022-03-28', '2022-04-25']
 horizon_weeks: 12
 data_end: "2026-09-06"          # last scored week ends here: every complaint in it is past its 15-day publication and response deadline at retrieval (2026-10-28)
-seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 alternative_cutoffs: 4
 comparator_history_weeks: 156
 population: >
@@ -23,7 +23,7 @@ population: >
   complaints received in each of the 12 weeks from the cutoff, and the share of them the company answered on time.
 inputs_after_cutoff: the U.S. federal holiday calendar (known in advance); nothing else
 metrics:
-  volume: {label: "Weekly complaints per company", measure: wape, unit_word: complaints}
+  volume: {label: "Weekly complaints per company", measure: wape, unit_word: complaints, org_word: company}
   on_time: {label: "Share of complaints answered on time per company", measure: mae, unit: "pts"}
 groups:
   other_companies:

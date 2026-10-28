@@ -423,11 +423,11 @@ def fit_demand(v: Visible, u: Units, cfg: dict[str, Any], H: int) -> dict[str, A
     # shock sizes by horizon: robust spread of unit log errors in the backtests with the chosen specs
     resid = []
     for f in folds:
-        P = tiered_paths(f["Y"], f["weeks"], f["fit"], H, chosen, mu, tier[u.unit_org], groups)
-        resid.append(np.log1p(f["A"]) - P)
+        P = np.maximum(np.expm1(tiered_paths(f["Y"], f["weeks"], f["fit"], H, chosen, mu, tier[u.unit_org], groups)), 0)
+        resid.append(np.log1p(org_sum(f["A"], u)) - np.log1p(org_sum(P, u)))      # organisation-level errors: shocks shared by its segments
     if resid:
         R = np.concatenate(resid, axis=0)
-        sigma = 1.4826 * np.median(np.abs(R - np.median(R, axis=0)), axis=0)
+        sigma = (np.quantile(R, 0.95, axis=0) - np.quantile(R, 0.05, axis=0)) / (2 * 1.645)
     else:
         sigma = np.full(H, 0.3)
     return {"spec_by_tier": chosen, "mu_by_tier": {int(t): round(v_, 5) for t, v_ in mu.items()}, "selection": selection, "inner_error": inner_err,
@@ -648,10 +648,11 @@ def simulate(cal: Calibrated, seed: int, interventions: list[dict[str, Any]] | N
         elif iv.get("type") == "capacity_multiplier":
             capacity[sel] *= float(iv.get("multiplier", 1.0))
     central = np.maximum(np.expm1(logp), 0) * demand_mult[:, None]
-    # shocks: per-unit random walk in log demand whose spread by horizon matches the backtests, then Poisson arrivals
+    # shocks: one random walk in log demand per organisation, shared by its segments, whose spread by weeks ahead matches
+    # the organisation-level errors of the backtests; then Poisson arrivals
     sig = np.asarray(dem["sigma"], dtype=float)
     inc = np.sqrt(np.maximum(np.diff(np.concatenate([[0.0], sig ** 2])), 1e-8))
-    walk = np.cumsum(rng.normal(0, 1, (n_u, H)) * inc[None, :], axis=1)
+    walk = np.cumsum(rng.normal(0, 1, (len(u.orgs), H)) * inc[None, :], axis=1)[u.unit_org]
     lam = np.maximum(np.expm1(logp + walk), 0) * demand_mult[:, None]
     draws = rng.poisson(lam).astype(float)
     out: dict[str, Any] = {"central": {"volume": org_sum(central, u)}, "path": {"volume": org_sum(draws, u)}}
@@ -1081,10 +1082,11 @@ def results_view(ctx: InstanceContext) -> dict[str, Any]:
     proto = ev["protocol"]; labels = ev["comparator_labels"]
     held = ev["accuracy"]["held_out"]
     H = proto["horizon_weeks"]
+    org = (proto["metrics"].get("volume") or {}).get("org_word", "organisation"); orgs = org[:-1] + "ies" if org.endswith("y") else org + "s"
     unit_word = (proto.get("metrics", {}).get("volume") or {}).get("unit_word", "requests")
     base = doc["scenarios"]["baseline"]; alt = doc["scenarios"].get("alternative")
     sources = [{"id": "actual", "label": "Actual outcome", "kind": "actual", "kind_label": "Actual outcome (actual data)", "short": "Actual outcome", "scenario": base["id"],
-                "note": f"Weekly {unit_word} of each organisation in the {H} weeks after each of {len(proto['held_out_cutoffs'])} held-out cutoffs."},
+                "note": f"Weekly {unit_word} of each {org} in the {H} weeks after each of {len(proto['held_out_cutoffs'])} held-out cutoffs."},
                {"id": "baseline", "label": "Simulation prediction", "kind": "simulated", "kind_label": "Simulation prediction", "short": "Simulation prediction", "scenario": base["id"],
                 "runs": len(ev["run_ids"].get(base["id"], [])), "note": "Central path of the simulation at each cutoff, calibrated on data before it."}]
     metrics = []
@@ -1103,18 +1105,18 @@ def results_view(ctx: InstanceContext) -> dict[str, Any]:
     if vol:
         best = vol["best_baseline"]
         wins = ev["windows"]
-        charts.append({"id": "volume_error_by_cutoff", "type": "line", "title": f"Error in each organisation's weekly {unit_word}, by cutoff", "x_label": "cutoff", "y_label": "% of actual (WAPE)",
+        charts.append({"id": "volume_error_by_cutoff", "type": "line", "title": f"Error in each {org}'s weekly {unit_word}, by cutoff", "x_label": "cutoff", "y_label": "% of actual (WAPE)",
                        "x": [w["cutoff"] for w in wins], "series": [{"name": "Simulation prediction", "y": [round(100 * w["scores"]["volume"]["simulation"], 2) for w in wins], "source": "baseline"},
                                                                      {"name": labels[best], "y": [round(100 * w["scores"]["volume"][best], 2) for w in wins], "dashed": True, "source": "actual"}],
                        "note": "Cutoffs before " + (proto["held_out_cutoffs"][0] if proto["held_out_cutoffs"] else "") + " were used to make design choices; the rest are held out."})
         tot = [w for w in ev["windows"] if w["split"] == "held_out"]
-        charts.append({"id": "total_weekly", "type": "line", "title": f"Weekly {unit_word} of the leading organisations, average over the {H} weeks after each cutoff", "x_label": "cutoff", "y_label": unit_word,
+        charts.append({"id": "total_weekly", "type": "line", "title": f"Weekly {unit_word} of the leading {orgs}, average over the {H} weeks after each cutoff", "x_label": "cutoff", "y_label": unit_word,
                        "x": [w["cutoff"] for w in tot], "series": [{"name": "Actual outcome", "y": [round(w["totals"]["actual"] / H, 1) for w in tot], "source": "actual"},
                                                                     {"name": "Simulation prediction", "y": [round(w["totals"]["simulation"] / H, 1) for w in tot], "source": "baseline"},
                                                                     {"name": labels[best], "y": [round(w["totals"][best] / H, 1) for w in tot], "dashed": True}], "note": ""})
     stats = []
     if vol:
-        stats = [{"label": f"Error in weekly {unit_word} per organisation, simulation", "value": round(100 * vol["errors"]["simulation"], 1), "unit": "%"},
+        stats = [{"label": f"Error in weekly {unit_word} per {org}, simulation", "value": round(100 * vol["errors"]["simulation"], 1), "unit": "%"},
                  {"label": f"Best classical forecast ({labels[vol['best_baseline']]})", "value": round(100 * vol["errors"][vol["best_baseline"]], 1), "unit": "%"},
                  {"label": "Error reduction", "value": round(vol["error_reduction_pct"], 1), "unit": "%"},
                  {"label": "Accuracy, simulation", "value": round(vol["accuracy_pct"]["simulation"], 1), "unit": "%"}]
@@ -1124,7 +1126,7 @@ def results_view(ctx: InstanceContext) -> dict[str, Any]:
     doc.update({"sources": sources, "metrics": metrics, "effects": [], "charts": charts, "hero": hero, "evaluation": {"generated": ev.get("generated"), "protocol": proto}})
     row = next((r for r in ev.get("scenario_comparison", []) if alt and r["scenario"] == alt["id"]), None)
     if row and row["outcomes"]:
-        names = {"volume": f"Weekly {unit_word} per organisation", "on_time": "Answered on time (%)", "median_close_h": "Median hours to close"}
+        names = {"volume": f"Weekly {unit_word} per {org}", "on_time": "Answered on time (%)", "median_close_h": "Median hours to close"}
         stats = [{"label": names[k], "value": f"{v['baseline']:.1f} → {v['alternative']:.1f}", "unit": ""} for k, v in row["outcomes"].items() if k != "volume"]
         doc["hero"]["alternative"] = {"kicker": f"Alternative: {alt['short_title']}", "stats": stats,
                                       "text": f"{alt.get('description', '').strip()} Simulated at the last {len(row['cutoffs'])} cutoffs with the same seeds; a model estimate, not an observed effect."}
@@ -1142,9 +1144,10 @@ def build_report(ctx: InstanceContext) -> dict[str, Any]:
     proto, labels, H = ev["protocol"], ev["comparator_labels"], ev["protocol"]["horizon_weeks"]
     held = ev["accuracy"]["held_out"]
     unit_word = (proto["metrics"].get("volume") or {}).get("unit_word", "requests")
+    org = (proto["metrics"].get("volume") or {}).get("org_word", "organisation"); orgs = org[:-1] + "ies" if org.endswith("y") else org + "s"
     pct = lambda x: "n/a" if x is None else f"{x:.1f}%"  # noqa: E731
     v = held["volume"]; b = v["best_baseline"]
-    takeaways = [f"On {len(proto['held_out_cutoffs'])} held-out cutoffs the simulation's error in each organisation's weekly {unit_word} over the next {H} weeks was "
+    takeaways = [f"On {len(proto['held_out_cutoffs'])} held-out cutoffs the simulation's error in each {org}'s weekly {unit_word} over the next {H} weeks was "
                  f"{pct(100 * v['errors']['simulation'])}, against {pct(100 * v['errors'][b])} for the best classical forecast ({labels[b]}): "
                  f"{pct(v['error_reduction_pct'])} lower error, accuracy {pct(v['accuracy_pct']['simulation'])}."]
     for key, s in held.items():
@@ -1155,11 +1158,11 @@ def build_report(ctx: InstanceContext) -> dict[str, Any]:
         e = (lambda x: pct(100 * x)) if m["measure"] in ("wape", "mape") else (lambda x: f"{x:.2f} points")
         takeaways.append(f"{m['label']}{', ' + grp if grp else ''}: simulation {e(s['errors']['simulation'])}, best classical forecast ({labels[s['best_baseline']]}) "
                          f"{e(s['errors'][s['best_baseline']])}; error reduction {pct(s['error_reduction_pct'])}.")
-    takeaways.append(f"The simulation's 90% range contained {pct(100 * ev['coverage90']['held_out'])} of actual organisation-weeks.")
+    takeaways.append(f"The simulation's 90% range contained {pct(100 * ev['coverage90']['held_out'])} of actual {org}-weeks.")
     sections = [{"heading": "How the predictions were made", "body": (
-        f"At each Monday cutoff the leading organisations are carried forward {H} weeks from data before the cutoff only. "
+        f"At each Monday cutoff the leading {orgs} are carried forward {H} weeks from data before the cutoff only. "
         f"The first {len(proto['dev_cutoffs'])} cutoffs were used to choose the design; the remaining {len(proto['held_out_cutoffs'])} were run once after it was frozen. "
-        "Classical forecasts of each organisation's own weekly series are scored on the same weeks."), "charts": ["volume_error_by_cutoff"], "metrics": []}]
+        f"Classical forecasts of each {org}'s own weekly series are scored on the same weeks."), "charts": ["volume_error_by_cutoff"], "metrics": []}]
     report = {"title": ctx.meta.get("title", ctx.id), "subtitle": ctx.meta.get("problem", ""), "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
               "takeaways": takeaways, "sections": sections, "charts": [], "metrics": []}
     (ctx.reports_dir / "report.json").write_text(json.dumps(report, indent=1))

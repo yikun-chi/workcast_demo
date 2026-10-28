@@ -1,0 +1,11 @@
+id: bureau_surge
+title: What if complaints about the three credit bureaus ran 25% higher?
+short_title: Bureau complaints +25%
+summary: "Complaints to Equifax, Experian and TransUnion 25% above the simulated path for the whole horizon; every other company as in the baseline."
+description: >
+  Consumers file 25% more complaints with each of the three nationwide credit bureaus than the baseline simulation
+  predicts, for all 12 weeks. Every other company's segments and every on-time rate stay as calibrated. The surge is a
+  scenario assumption; the simulation shows the weekly workload it adds and how the complaint mix shifts.
+extends: baseline
+interventions:
+  - {type: demand_multiplier, orgs: ["EQUIFAX, INC.", "Experian Information Solutions Inc.", "TRANSUNION INTERMEDIATE HOLDINGS, INC."], multiplier: 1.25}
