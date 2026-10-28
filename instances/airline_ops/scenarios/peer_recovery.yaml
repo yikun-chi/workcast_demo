@@ -1,0 +1,12 @@
+id: peer_recovery
+title: What if Southwest had recovered like its peers in December 2022?
+short_title: Peer recovery
+summary: "Give Southwest the recovery capacity (the daily fade of crews and aircraft out of position) of the median other carrier, at the December 2022 cutoffs."
+description: >
+  Same schedules, airport conditions and seeds. Southwest's disruption stock fades at the median rate fitted for the
+  other carriers at the same cutoff instead of its own. The size of the effect depends on that assumption; it is a
+  simulated alternative, not an observed one.
+extends: baseline
+seeds: [1, 2, 3]
+interventions:
+  - {type: recovery, carriers: [WN], decay: peer_median}

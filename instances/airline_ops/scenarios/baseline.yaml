@@ -1,0 +1,13 @@
+id: baseline
+title: As flown
+short_title: As flown
+description: >
+  Every carrier flies its published schedule from the cutoff for four weeks. Airport conditions are drawn from each
+  airport's own history for the time of year, starting from the conditions at the cutoff; each carrier's operations
+  control chooses its cancellation posture day by day.
+horizon_days: 28
+seeds: [1, 2, 3]
+world:
+  t0: "2022-12-26"
+  horizon_days: 28
+interventions: []

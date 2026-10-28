@@ -1,0 +1,128 @@
+{
+ "year": 2019,
+ "rule": "most scheduled departures (cancelled flights included) in the twelve 2019 files",
+ "airports": [
+  {
+   "airport": "ATL",
+   "departures": 395009
+  },
+  {
+   "airport": "ORD",
+   "departures": 339606
+  },
+  {
+   "airport": "DFW",
+   "departures": 304344
+  },
+  {
+   "airport": "DEN",
+   "departures": 252026
+  },
+  {
+   "airport": "CLT",
+   "departures": 235496
+  },
+  {
+   "airport": "LAX",
+   "departures": 219952
+  },
+  {
+   "airport": "IAH",
+   "departures": 179688
+  },
+  {
+   "airport": "PHX",
+   "departures": 175328
+  },
+  {
+   "airport": "LGA",
+   "departures": 171665
+  },
+  {
+   "airport": "SFO",
+   "departures": 170918
+  },
+  {
+   "airport": "LAS",
+   "departures": 164020
+  },
+  {
+   "airport": "DTW",
+   "departures": 161768
+  },
+  {
+   "airport": "MSP",
+   "departures": 160960
+  },
+  {
+   "airport": "BOS",
+   "departures": 150564
+  },
+  {
+   "airport": "MCO",
+   "departures": 143094
+  },
+  {
+   "airport": "SEA",
+   "departures": 142857
+  },
+  {
+   "airport": "DCA",
+   "departures": 139388
+  },
+  {
+   "airport": "EWR",
+   "departures": 136081
+  },
+  {
+   "airport": "JFK",
+   "departures": 127145
+  },
+  {
+   "airport": "PHL",
+   "departures": 119151
+  },
+  {
+   "airport": "SLC",
+   "departures": 115130
+  },
+  {
+   "airport": "BWI",
+   "departures": 104652
+  },
+  {
+   "airport": "FLL",
+   "departures": 98409
+  },
+  {
+   "airport": "SAN",
+   "departures": 93470
+  },
+  {
+   "airport": "MIA",
+   "departures": 89214
+  },
+  {
+   "airport": "MDW",
+   "departures": 83763
+  },
+  {
+   "airport": "BNA",
+   "departures": 82654
+  },
+  {
+   "airport": "TPA",
+   "departures": 76599
+  },
+  {
+   "airport": "DAL",
+   "departures": 73907
+  },
+  {
+   "airport": "IAD",
+   "departures": 69223
+  }
+ ],
+ "share_of_departures": 0.6435,
+ "airports_total": 360
+}

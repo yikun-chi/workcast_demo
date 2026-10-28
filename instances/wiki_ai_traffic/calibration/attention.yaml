@@ -1,0 +1,9 @@
+# Fitting choices for the attention world. Every parameter is estimated at each cutoff from days strictly before it.
+# Choices here are made on the development cutoffs only (docs/plans/wiki_ai_traffic_protocol.md).
+season_years: 4                  # yearly shape: weekly medians of up to four 364-day years before the cutoff
+season_article_weight: 0.5       # weight on the article's own shape (the rest from its section)
+rhythm_article_weight: 0.5       # the same for the weekly rhythm
+level_days: 28                   # recent level: deseasonalized median of these days
+drift_years: 2                   # habit drift: mean year-on-year change of the section's articles over these years
+drift_damping: 0.5               # share of that drift carried forward
+paths: 20                        # paths per run

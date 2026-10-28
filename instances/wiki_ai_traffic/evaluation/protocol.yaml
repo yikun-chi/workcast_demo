@@ -1,0 +1,34 @@
+# Evaluation protocol: monthly rolling cutoffs, six-month horizons, every prediction from views before its cutoff.
+instance: wiki_ai_traffic
+baseline_scenario: baseline
+cutoff_grid: {start: "2017-07-01", end: "2024-09-01"}     # first of each month; the last window ends 2025-02-28
+dev_cutoffs: 22                  # the first quarter of the 87 cutoffs (2017-07-01 .. 2019-04-01); every design choice is made here
+run_only: dev                    # removed when the design is frozen; then every cutoff is run once
+horizon_days: 182
+seeds: [1, 2, 3]
+workers: 2
+comparator_history_months: 48
+population: >
+  The 1,000 articles of English Wikipedia's Vital articles (Level 3) as listed in revision 756347162 (2016-12-23).
+  Truth is each article's views by users (all access methods) per calendar month in the six months from the cutoff,
+  and their total.
+end_of_span: >
+  The last window ends 2025-02-28: from March 2025 Wikimedia reclassified traffic from bots built to evade detection,
+  which changes the meaning of the user counts after that date.
+primary_metrics:
+  - {id: total_ape, truth: total monthly views of the 1,000 articles, measure: "absolute error as % of actual, mean over months and cutoffs"}
+  - {id: total_ae, truth: same, measure: "mean absolute error in views; accuracy = 1 - error / mean actual"}
+  - {id: article_wape, truth: each article's monthly views, measure: "sum of absolute errors / sum of actual views, per cutoff, then averaged"}
+comparators:
+  carry_forward: the last full month's daily views times the days of each month ahead
+  seasonal_naive: the same calendar month a year earlier (per day, times the days of the month)
+  historical_average: the same calendar month in each of the three previous years
+  trend: least-squares line through the log of the last twelve months' daily views
+  ets: exponential smoothing on the log of monthly daily views, yearly seasonality allowed, form chosen by AICc on 48 months
+events:                          # launches, reported separately (fixed before any held-out run)
+  - {id: chatgpt, label: "ChatGPT released (2022-11-30)", date: "2022-11-30", cutoffs: ["2022-12-01", "2023-01-01"]}
+  - {id: ai_overviews, label: "Google AI Overviews in U.S. search (2024-05-14)", date: "2024-05-14", cutoffs: ["2024-05-01", "2024-06-01"]}
+alternative_cutoffs: ["2024-05-01"]
+leakage:
+  calibration: every fitted parameter uses days strictly before the cutoff
+  inputs_after_cutoff: none (the simulation of what happened has no AI channel; the alternative adds one by assumption)

@@ -1,0 +1,12 @@
+# Fitting choices for the airline world. Every parameter is estimated at each cutoff from days strictly before it.
+# Choices here are made on the development cutoffs only (docs/plans/airline_ops_protocol.md).
+training_years: 3                 # days used to fit, counted back from the cutoff
+exclude_periods:                  # the pandemic schedule collapse and restart: not used to fit any parameter
+  - ["2020-03-01", "2021-06-30"]
+stock_decay_grid: [0.0, 0.3, 0.5, 0.7, 0.85]   # daily fade of a carrier's disruption stock, chosen per carrier by fit
+slow_window_days: 28              # window of the slow (recent-level) component of airports and carriers
+airport_slow_level: true
+carrier_slow_level: true
+min_cell_flights: 5               # carrier-airport-days with fewer scheduled departures are not used to fit
+min_training_days: 180
+paths: 100                        # weather paths per run

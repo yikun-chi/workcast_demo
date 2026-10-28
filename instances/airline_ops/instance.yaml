@@ -1,0 +1,36 @@
+id: airline_ops
+title: US airline operations (BTS on-time performance)
+company: U.S. airlines reporting on-time performance to the Department of Transportation
+problem: "Can we predict each airline's on-time performance and cancellations over the next four weeks, including after an operational shock?"
+protocol_line: "Every prediction is made from data before its cutoff and scored on the four weeks after it; the published flight schedule is supplied as it was flown."
+situation: "U.S. carriers fly roughly 600,000 scheduled flights a month through airports whose weather and air-traffic conditions change daily. In December 2022 Southwest cancelled 16,900 flights over the holidays; from April 28, 2025 the FAA slowed Newark traffic after equipment and staffing problems and capped its hourly flights from May 20."
+data_used: "The Bureau of Transportation Statistics' Reporting Carrier On-Time Performance files: every scheduled domestic flight of the reporting carriers since January 2015, with cancellations by cause and delays by cause (public domain)."
+intro: >
+  Rebuilds U.S. domestic airline operations as carriers flying their published schedules through 30 large airports
+  (and all other airports as one group). Each day every airport draws its weather and air-traffic condition, each
+  carrier's operations control chooses how hard to thin its schedule, and disruption carries over through crews and
+  aircraft out of position. From each weekly cutoff the simulation predicts every carrier's and airport's on-time
+  share and cancellations for four weeks, scored against what happened. The alternative asks how Southwest's December
+  2022 disruption would have run with the recovery capacity of its peers.
+world_type: airline
+world: >
+  The reporting carriers (mainline and regional), each flying its scheduled departures and arrivals at 30 large
+  airports and a group for every other airport; the airports' daily weather and air-traffic conditions; and each
+  carrier's operations control, which decides cancellations and carries a stock of disruption from day to day.
+source: "manifests/sources.json (BTS TranStats Reporting Carrier On-Time Performance, monthly files 2015-01 to 2026-08; public domain)"
+data:
+  raw: instances/airline_ops/data/raw/
+  normalized: instances/airline_ops/data/normalized/
+clock:
+  tick: 1h
+  step: 24h
+  coverage: "2015-01-01 .. 2026-08-31"
+evaluation:
+  cutoffs: "weekly Mondays, 2021-07-05 .. 2026-08-03 (first quarter for development, the rest held out)"
+  horizon_days: 28
+  calibration: "at each cutoff, the three years before it, without March 2020 - June 2021"
+  timestamp_resolution: "day"
+scenarios:
+  baseline: baseline
+  alternative: peer_recovery
+status: "in development"

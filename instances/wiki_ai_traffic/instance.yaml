@@ -1,0 +1,36 @@
+id: wiki_ai_traffic
+title: Reference traffic and AI answers (Wikipedia pageviews)
+company: English Wikipedia's 1,000 core reference articles
+problem: "Can we predict the traffic to reference content over the next six months, including after AI answer tools launch?"
+protocol_line: "Every prediction is made from views before its cutoff and scored on the six months after it."
+situation: "Reference content gets its traffic from people looking things up. OpenAI released ChatGPT on November 30, 2022, and Google began rolling out AI Overviews to everyone in the U.S. on May 14, 2024; both answer questions without a visit to the page."
+data_used: "Wikimedia's public pageview counts (CC0): daily views by real users of the 1,000 articles on English Wikipedia's Level 3 Vital articles list as it stood in December 2016, by access method (desktop, mobile web, app), since July 2015."
+intro: >
+  Rebuilds the readers of 1,000 core reference articles as sections of readers (people, history, geography,
+  science, ...) on desktop, mobile web and the app. Each day every article has a need driven by its recent level, its
+  own shape over the year and the week, and shocks from the news; each week every group of readers settles how strongly
+  to keep coming to Wikipedia. From each monthly cutoff the simulation predicts every article's views for six months,
+  scored against what happened, including the months after ChatGPT and after Google's AI Overviews. The alternative
+  asks how much traffic an AI answer channel taking a share of desktop and mobile searches would remove.
+world_type: attention
+world: >
+  1,000 reference articles grouped in the sections of the Vital articles list; for each section and access method a
+  group of readers whose habit of coming to Wikipedia drifts; daily needs per article with yearly and weekly shape and
+  news shocks; and, in the alternative, an AI answer channel that takes part of the needs.
+source: "manifests/sources.json (Wikimedia Analytics pageviews API, CC0 1.0; Wikipedia:Vital articles/Level 3, revision 756347162)"
+data:
+  raw: instances/wiki_ai_traffic/data/raw/
+  normalized: instances/wiki_ai_traffic/data/normalized/
+clock:
+  tick: 1h
+  step: 24h
+  coverage: "2015-07-01 .. 2026-09-30"
+evaluation:
+  cutoffs: "first day of each month, 2017-07-01 .. 2024-09-01 (first quarter for development, the rest held out)"
+  horizon_months: 6
+  calibration: "at each cutoff, the four years before it"
+  timestamp_resolution: "day"
+scenarios:
+  baseline: baseline
+  alternative: ai_answers
+status: "in development"

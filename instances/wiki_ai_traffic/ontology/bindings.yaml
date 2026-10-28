@@ -1,0 +1,71 @@
+# Bindings for the attention world. Readers are grouped by the sections of the Vital articles list and by access
+# method; articles are the artifacts they read; Wikipedia, search engines and AI answer tools are the channels.
+organization:
+  id: org:wikipedia_reference
+  label: English Wikipedia reference articles
+  properties:
+    source: Wikimedia Analytics pageviews API (CC0 1.0)
+    period: 2015-07-01 .. 2026-09-30
+org_units:
+- id: ou:desktop
+  label: Desktop readers
+- id: ou:mobile_web
+  label: Mobile web readers
+- id: ou:app
+  label: App readers
+roles:
+- id: readers
+  label: Readers looking something up (the public; no occupation)
+  org_unit: ou:desktop
+  properties: {seat: readers, description: "Groups of readers (one per section and access method) who decide each week how strongly to keep coming to Wikipedia"}
+- id: editors
+  label: Editors and content writers
+  onet_code: 27-3043.00
+  properties: {description: "Write and maintain the articles; not simulated"}
+activities:
+- id: look_up
+  label: Look something up
+  roles: [readers]
+- id: read_article
+  label: Read a reference article
+  roles: [readers]
+  system: sys:wikipedia
+- id: ask_ai
+  label: Get an answer from an AI tool
+  roles: [readers]
+  system: sys:ai_answers
+process_edges:
+- {from: look_up, to: read_article}
+- {from: look_up, to: ask_ai}
+systems:
+- id: sys:wikipedia
+  label: Wikipedia (desktop, mobile web, app)
+  capabilities:
+  - {id: cap:articles, label: Reference articles}
+- id: sys:search
+  label: Search engines
+  capabilities:
+  - {id: cap:links, label: Links to articles}
+- id: sys:ai_answers
+  label: AI answer tools (chat assistants, AI Overviews in search)
+  capabilities:
+  - {id: cap:answers, label: Answers without a visit}
+artifacts:
+- id: art:reference_article
+  label: Reference article (1,000 core topics)
+external_actors:
+- id: ext:news
+  label: News and events that send sudden attention to a topic
+  interacts_with: [look_up]
+policies:
+- id: pol:chatgpt
+  label: ChatGPT released (2022-11-30)
+  affects: [ask_ai]
+- id: pol:ai_overviews
+  label: Google AI Overviews rolled out to everyone in U.S. search (2024-05-14)
+  affects: [ask_ai]
+latent_states:
+- id: ls:habit
+  label: A reader group's habit of coming to Wikipedia
+- id: ls:need
+  label: An article's daily need

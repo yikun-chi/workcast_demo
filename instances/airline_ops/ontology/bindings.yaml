@@ -1,0 +1,79 @@
+# Bindings for the airline world. Carriers are the reporting airlines; each has an operations control that decides
+# cancellations (the seat), and crews who fly the schedule. Airports and the air traffic system are external actors
+# whose daily conditions the kernel draws. Roles carry the O*NET occupation of the people who do the work.
+organization:
+  id: org:us_airlines
+  label: U.S. reporting airlines
+  properties:
+    source: BTS Reporting Carrier On-Time Performance (public domain)
+    period: 2015-01-01 .. 2026-08-31
+org_units:
+- id: ou:mainline
+  label: Mainline and low-cost carriers
+  properties: {description: "Carriers that sell and operate their own flights (for example AA, DL, UA, WN, B6, AS, NK, F9, G4, HA)"}
+- id: ou:regional
+  label: Regional carriers
+  properties: {description: "Carriers that operate flights for mainline partners (for example OO, YX, MQ, 9E, OH, YV, QX)"}
+roles:
+- id: ops_control
+  label: Operations control (dispatch and crew scheduling)
+  onet_code: 43-5032.00
+  org_unit: ou:mainline
+  properties: {seat: ops_control, description: "Decides each day how hard to thin the schedule given airport conditions and crews and aircraft out of position"}
+- id: flight_crew
+  label: Flight crews
+  onet_code: 53-2011.00
+  org_unit: ou:mainline
+  properties: {description: "Fly the schedule; displaced crews are the carrier's disruption stock"}
+- id: cabin_crew
+  label: Cabin crews
+  onet_code: 53-2031.00
+  org_unit: ou:mainline
+- id: air_traffic_control
+  label: Air traffic control
+  onet_code: 53-2021.00
+  properties: {description: "Sets arrival and departure rates at airports; its staffing and equipment problems show up as air-system delays"}
+activities:
+- id: decide_posture
+  label: Choose the day's cancellation posture
+  roles: [ops_control]
+  system: sys:ops_control
+- id: operate_flight
+  label: Operate a scheduled flight
+  roles: [flight_crew, cabin_crew]
+- id: cancel_flight
+  label: Cancel a scheduled flight
+  roles: [ops_control]
+  system: sys:ops_control
+- id: manage_flow
+  label: Manage arrival and departure flow
+  roles: [air_traffic_control]
+process_edges:
+- {from: decide_posture, to: operate_flight}
+- {from: decide_posture, to: cancel_flight}
+- {from: manage_flow, to: operate_flight}
+systems:
+- id: sys:ops_control
+  label: Operations control and crew scheduling systems
+  capabilities:
+  - {id: cap:recovery, label: Re-crew and re-route after cancellations}
+  - {id: cap:schedule, label: Published flight schedule}
+external_actors:
+- id: ext:airports
+  label: Airports (30 modelled individually, the rest as one group)
+  interacts_with: [operate_flight, manage_flow]
+- id: ext:weather
+  label: Weather
+  interacts_with: [manage_flow]
+policies:
+- id: pol:schedule
+  label: Published flight schedule (supplied as flown)
+  affects: [operate_flight, cancel_flight]
+- id: pol:faa_rate_limits
+  label: FAA arrival and departure rate limits (for example Newark, from May 20, 2025)
+  affects: [manage_flow]
+latent_states:
+- id: ls:airport_condition
+  label: An airport's daily weather and air-traffic condition
+- id: ls:disruption_stock
+  label: A carrier's crews and aircraft out of position (fading stock of recent cancellations)

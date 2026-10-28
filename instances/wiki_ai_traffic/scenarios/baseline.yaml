@@ -1,0 +1,12 @@
+id: baseline
+title: As it happened
+short_title: As it happened
+description: >
+  Every article's need and every group of readers carried forward from the cutoff for six months, with the habits
+  and seasonal shapes measured before it. No new channel is added after the cutoff.
+horizon_days: 182
+seeds: [1, 2, 3]
+world:
+  t0: "2024-05-01"
+  horizon_days: 182
+interventions: []

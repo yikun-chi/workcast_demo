@@ -1,0 +1,34 @@
+# Evaluation protocol: weekly rolling cutoffs, four-week horizons, every prediction from data before its cutoff.
+instance: airline_ops
+baseline_scenario: baseline
+cutoff_grid: {start: "2021-07-05", end: "2026-08-03", step_days: 7}     # Mondays; the last window ends 2026-08-30
+dev_cutoffs: 66                   # the first quarter of the 266 cutoffs (2021-07-05 .. 2022-10-03); every design choice is made on these
+run_only: dev                     # removed when the design is frozen; then every cutoff is run once
+horizon_days: 28
+seeds: [1, 2, 3]
+workers: 2
+min_weekly_flights: 200           # carrier-weeks and airport-weeks with fewer scheduled flights are not scored
+population: >
+  At each cutoff: every carrier that flew on at least 90% of the 28 days before it (with 180 or more training days),
+  and the 30 modelled airports (departures of those carriers). Truth is each one's weekly share of scheduled flights
+  arriving on time (cancelled and diverted flights count as not on time) and weekly share cancelled, in the four weeks
+  from the cutoff.
+inputs_after_cutoff: the published schedule (scheduled departures per carrier and airport, arrivals per destination)
+primary_metrics:
+  - {id: carrier_ontime, truth: each carrier's weekly on-time share, measure: "mean absolute error, percentage points"}
+  - {id: carrier_cancel, truth: each carrier's weekly cancellation share, measure: "mean absolute error, percentage points"}
+  - {id: airport_ontime, truth: each airport's weekly on-time share of departures}
+  - {id: airport_cancel, truth: each airport's weekly cancellation share of departures}
+comparators:
+  carry_forward: the week before the cutoff
+  seasonal_naive: the same weeks 364 days earlier
+  historical_average: the same weeks in each of the three previous years (weeks in the excluded period skipped)
+  trend: least-squares line through the eight weeks before the cutoff
+  ets: exponential smoothing on the logit of the weekly share, form chosen by AICc on 104 weeks before the cutoff
+events:                           # named shocks, reported separately (fixed before any held-out run)
+  - {id: southwest_dec2022, label: "Southwest, December 2022", level: carrier, unit: WN, cutoffs: ["2022-12-19", "2023-01-09"]}
+  - {id: newark_2025, label: "Newark, spring 2025", level: airport, unit: EWR, cutoffs: ["2025-04-28", "2025-06-23"]}
+alternative_cutoffs: ["2022-12-19", "2022-12-26"]
+leakage:
+  calibration: every fitted parameter uses days strictly before the cutoff
+  schedule: the scheduled flights after the cutoff are supplied (BTS lists the flights in the carrier's schedule before departure, including those later cancelled); their outcomes are hidden

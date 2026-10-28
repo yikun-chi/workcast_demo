@@ -1,0 +1,5 @@
+# Seat -> policy adapter. ops_control is each carrier's operations control: every day the kernel offers it the
+# cancellation postures with the weights carriers have used in that situation, and the seat chooses one.
+default: {adapter: rule}
+seats:
+  ops_control: {adapter: rule}

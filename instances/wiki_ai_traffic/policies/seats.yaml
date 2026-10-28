@@ -1,0 +1,5 @@
+# Seat -> policy adapter. readers is each section's group of readers on one access method: every week the kernel
+# offers it how strongly to keep coming to Wikipedia, with weights from how its habit drifted before the cutoff.
+default: {adapter: rule}
+seats:
+  readers: {adapter: rule}
