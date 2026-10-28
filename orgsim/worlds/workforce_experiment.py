@@ -238,7 +238,8 @@ def charts(runs: list[dict[str, Any]], ref: dict[str, Any], proto: dict[str, Any
 
 
 def results_view(ctx: InstanceContext) -> dict[str, Any]:
-    from ..evaluation.results import base_document, run_docs
+    from ..evaluation.results import base_document
+    from ..scenarios.loader import load_scenario
     doc = base_document(ctx)
     ev_path = ctx.runs_dir / "evaluation.json"
     ev = json.loads(ev_path.read_text()) if ev_path.exists() else {}
@@ -249,6 +250,13 @@ def results_view(ctx: InstanceContext) -> dict[str, Any]:
     comps = ev.get("comparators") or {}
     order = [c for c in (proto.get("comparator_order") or comps.keys()) if c in comps]
     alt_row = next((r for r in ev.get("scenario_comparison") or [] if alt and r["scenario"] == alt["id"]), None)
+    n = (ev.get("population") or {}).get("n") or {}
+    try:
+        days = (load_scenario(ctx, base["id"]).get("world") or {}).get("policy", {}).get("days") or []
+    except FileNotFoundError:
+        days = []
+    vals = {"n_home": n.get("1", "?"), "n_office": n.get("0", "?"), "n_total": sum(n.values()) if n else "?", "days_per_week": len(days)}
+    st = {k: (v.format(**vals) if isinstance(v, str) else v) for k, v in st.items()}
     doc["design"] = st.get("design", "")
     sources = [{"id": "actual", "label": f"{base['title']} · actual outcome", "kind": "actual", "kind_label": "Actual outcome (actual data)", "short": "Actual outcome", "scenario": base["id"], "note": ev.get("reference_source", "")},
                {"id": "baseline", "label": f"{base['title']} · simulation prediction", "kind": "simulated", "kind_label": "Simulation prediction", "short": "Simulation prediction", "scenario": base["id"],
@@ -273,7 +281,7 @@ def results_view(ctx: InstanceContext) -> dict[str, Any]:
         hero_stats += [{"label": f"{e['label']}: simulation prediction", "value": e.get("simulated"), "unit": e.get("unit")},
                        {"label": "Actual outcome", "value": e.get("actual"), "unit": e.get("unit")}]
     doc["story"] = {"before": {"label": st.get("before_label", "Before the change"), "sublabel": st.get("before_sublabel", "")},
-                    "change": {"label": st.get("change_label", ""), "description": st.get("change_description", ""), "stats": st.get("change_stats", [])},
+                    "change": {"label": st.get("change_label", ""), "description": st.get("change_description", ""), "stats": [{"label": "Employees sent home", "value": f"{vals['n_home']} of {vals['n_total']}"}, {"label": "Home days a week", "value": vals["days_per_week"]}]},
                     "after": {"label": st.get("after_label", "After the change"), "sublabel": st.get("after_sublabel", "")},
                     "columns": {"before_actual": "Actual outcome", "after_actual": "Actual outcome", "after_sim": "Simulation prediction"},
                     "metrics": story_metrics, "chart": st.get("chart"), "baselines": baselines, "baseline_basis": "outcome",

@@ -34,18 +34,16 @@ value_inputs:
     "employees in the experiment, home group": "population.n.1"
     "employees in the experiment, office group": "population.n.0"
 story:
-  design: "Ctrip randomly sent 131 of 249 volunteer call-centre employees home four days a week from 6 December 2010; the other 118 stayed in the office. The actual outcomes are the following 37 weeks. The difference between the two groups' changes from their 2010 averages measures the impact of working at home."
+  design: "Ctrip randomly sent {n_home} of {n_total} volunteer call-centre employees home {days_per_week} days a week from 6 December 2010; the other {n_office} stayed in the office. The actual outcomes are the following weeks to 19 August 2011. The difference between the two groups' changes from their 2010 averages measures the impact of working at home."
   before_label: "Before the experiment"
   before_sublabel: "2010, weeks 1-48 (actual data)"
-  change_label: "Four days a week at home"
+  change_label: "{days_per_week} days a week at home"
   change_description: "Half the volunteers, chosen by an even or odd birthday, worked from home four days a week; the rest stayed in the office."
-  change_stats: [{label: "Employees sent home", value: "131 of 249"}, {label: "Home days", value: "4 a week"}]
   after_label: "During the experiment"
   after_sublabel: "Weeks 50 of 2010 to 33 of 2011"
   chart: weekly_calls
   hero_kicker: "Simulation compared with the randomized experiment"
   claim: "The simulation uses each employee's 2010 record and assumptions from research published before the results. Outcomes after 6 December 2010 are used only to check accuracy. The comparison is retrospective: the design was chosen by people who knew the published result."
-  comparator_formula: "Earlier research: home group's 2010 calls x exp(0.36 x SD of weekly log calls); quits: Φ(Φ⁻¹(2010 rate) + 0.38 x (−0.17))."
   comparator_sources:
     - {label: "Gajendran & Harrison 2007", url: "https://doi.org/10.1037/0021-9010.92.6.1524"}
     - {label: "Griffeth, Hom & Gaertner 2000", url: "https://doi.org/10.1177/014920630002600305"}

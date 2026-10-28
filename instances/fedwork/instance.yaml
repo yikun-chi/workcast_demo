@@ -1,0 +1,35 @@
+id: fedwork
+title: U.S. federal workforce separations after the 2025 changes (OPM data)
+company: U.S. federal government
+order: 50
+problem: "Can we predict how many employees each federal agency loses after a return-to-office order and a paid resignation offer?"
+situation: "On 20 January 2025 the President ordered federal agencies to end remote work, and on 28 January OPM offered nearly every federal employee a deferred resignation: stop working, stay paid until 30 September 2025, then leave. The offer closed on 12 February."
+data_used: "OPM's Federal Workforce Data: every separation from federal service by month since 2005 (agency, age band, length of service, type of separation) and monthly snapshots of all 2.3 million employees, published through a public API."
+protocol_line: "Each agency's employees are simulated from the December 2024 snapshot and separation rates before 2025, with assumptions from earlier research. Separations after January 2025 are used only to check accuracy."
+intro: >
+  Simulates the 2.3 million civilian federal employees in OPM's data as cohort twins (one per agency, age band,
+  length of service, appointment, schedule and supervisory status), each with its own pre-2025 separation rates by type.
+  The return-to-office order raises voluntary leaving and the deferred resignation offer is taken up by the employees
+  most likely to leave anyway, as a one-off early-retirement window does. Separations by agency and month from
+  February to December 2025 are scored against what OPM recorded; the alternative asks what the return-to-office order
+  would have done without the resignation offer.
+world_type: workforce
+world: >
+  Federal civilian employees in OPM's data, as of December 2024, grouped into cohort twins by agency, age band, length of
+  service, appointment, work schedule and supervisory status. Separations by type follow each twin's own pre-change
+  rates; the 2025 return-to-office order and the deferred resignation offer enter on their announced dates. Outcomes are
+  separations by agency and month, February to December 2025.
+source: "manifests/sources.json (OPM Federal Workforce Data API, pinned file versions with SHA-256)"
+data:
+  raw: instances/fedwork/data/raw/
+  normalized: instances/fedwork/data/normalized/
+clock:
+  tick: 1h
+  coverage: "2025-01-01 .. 2025-12-31"
+scenarios:
+  baseline: baseline
+  alternative: no_resignation_offer
+evaluation:
+  design: "agency-month separations at rolling December cutoffs; three development years without a policy change, then 2025 scored once"
+  freeze_rule: "rates fitted on separations recorded by each cutoff; specification chosen on the development cutoffs; priors cite work published before January 2025"
+status: "ready: ingest, calibration, evaluation and report"

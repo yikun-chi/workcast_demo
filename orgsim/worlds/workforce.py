@@ -42,6 +42,8 @@ Optional blocks, each inert when absent:
   scenario `offers:`     [{id, decide, effective, who?}] with dynamics `offers: {id: {accept: expr}}`: on the decision
                          date a share of each twin accepts, leaves the risk set, and separates on the effective date
   scenario `count_by`    a population column; separations are counted per value of it and per calendar month
+  scenario `stock`       depleting (default: leavers are gone) or constant (leavers are replaced, offer acceptors are not)
+  scenario `population_file`  the population table under data/normalized (default population.parquet)
 Population columns named `<name>_mMM` are also available as `<name>` during calendar month MM.
 """
 from __future__ import annotations
@@ -217,7 +219,7 @@ class World(BaseWorld):
         # Trace sampling and observed survey noise must not move behavioral draws.
         self.trace_rng = np.random.default_rng(np.random.SeedSequence([seed, 1]))
         self.measure_rng = np.random.default_rng(np.random.SeedSequence([seed, 2]))
-        self.pop = pd.read_parquet(ctx.data_normalized / "population.parquet").reset_index(drop=True)
+        self.pop = pd.read_parquet(ctx.data_normalized / str(w.get("population_file", "population.parquet"))).reset_index(drop=True)
         self.n = len(self.pop)
         self.bindings = ctx.yaml("ontology/bindings.yaml")
         self.dyn = ctx.yaml("calibration/dynamics.yaml")
@@ -340,6 +342,10 @@ class World(BaseWorld):
             self.group_codes, self.group_labels = codes, [str(x) for x in labels]
         self.sep_counts: dict[tuple[str, str], dict[str, np.ndarray]] = {}       # (month, type) -> {expected, realized} per group
         self.last_step = _d(w["start"]) - timedelta(days=1)
+        self.stock = str(w.get("stock", "depleting"))          # constant: leavers are replaced (offer acceptors are not)
+        if self.stock not in ("depleting", "constant"):
+            raise ValueError(f"workforce world: stock must be depleting or constant, not {self.stock!r}")
+        self.accepted = np.zeros(self.n); self.accepted_exp = np.zeros(self.n)
         self.month_cols = sorted({c[:-4] for c in self.pop.columns if len(c) > 4 and c[-4:-2] == "_m" and c[-2:].isdigit()})
 
     # ------------------------------------------------------------------ configuration helpers
@@ -726,6 +732,7 @@ class World(BaseWorld):
                 acc_e = self.expected_alive * p
                 acc_r = self.rng.binomial(self.alive.astype(np.int64), p).astype(float)
                 self.expected_alive -= acc_e; self.alive -= acc_r
+                self.accepted_exp += acc_e; self.accepted += acc_r
                 self.pending_exp[o["id"]] += acc_e; self.pending[o["id"]] += acc_r
                 o["done"] = True
                 self._aggregate_rows(f"{o['id']}_accepted", acc_e, acc_r, when)
@@ -747,6 +754,9 @@ class World(BaseWorld):
         total = 1.0 - np.prod([1.0 - p for p in probs.values()], axis=0)
         share = np.sum(list(probs.values()), axis=0)
         self.hazard = total
+        if self.stock == "constant":           # replacement hiring holds each twin at its starting size, less offer acceptors
+            self.alive = np.maximum(self.headcount0 - self.accepted, 0.0)
+            self.expected_alive = np.maximum(self.headcount0 - self.accepted_exp, 0.0)
         remaining = self.alive.astype(np.int64)
         left_prob = np.ones(self.n)
         for name, p in probs.items():
