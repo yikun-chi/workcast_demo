@@ -25,7 +25,7 @@ calibration, scenarios, evaluation protocol and report builder. The three world 
   along a diffusion path (logistic imitation or a constant external hazard; growth shared across groups, damped). The
   outcome is the share itself or a volume the adoption displaces (baseline trend and seasonality fitted before the change,
   times the share not yet switched). Calibrated at each cutoff from backtests that end before it; comparators include
-  carry-forward, recent average, linear trend, damped-trend smoothing and a Bass diffusion fit. Used by `btos_ai` and
+  carry-forward, recent average, linear trend, damped-trend smoothing and a Bass diffusion fit. Used by `btos_ai`, `aei_tasks` and
   `so_chatgpt`.
 
 A world type exposes three functions: `World` (the simulation), `evaluate(ctx, scenario_ids)` (scores the

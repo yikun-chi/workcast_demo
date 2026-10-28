@@ -110,7 +110,7 @@ path, the point prediction), segment prices and model mixes; with a language-mod
 
 Adoption evaluation (`orgsim/worlds/adoption.py`) reads `data/normalized/series.parquet` (`group, period, date, value, se`;
 periods are consecutive integers) and `groups.parquet` (`group, label, modelled?, scored?`), and `calibration/adoption.yaml`
-(`outcome: share|displaced`, `aggregate_group`, `grid`, `default_spec`, and for displaced outcomes `change: {period,
+(`outcome: share|displaced`, `normalize` (shares of one whole), `aggregate_group`, `grid`, `default_spec`, and for displaced outcomes `change: {period,
 season_periods, fourier, baseline_periods}`). The protocol names `cutoffs` (a list of periods or `{first, last, step}`),
 `blocks: [{id, label, from, to}]` (horizons in periods; shares are averaged, volumes summed), `headline_blocks`,
 `comparators`, `scale` and `unit`; the first quarter of the cutoffs (at least two) is the development set

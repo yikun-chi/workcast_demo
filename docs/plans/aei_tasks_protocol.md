@@ -61,3 +61,5 @@ outcome; it is not expected to support a value claim.
 ## After the held-out run
 
 Results are reported as measured in `docs/validation_aei_tasks.md` (generated from `runs/aei_tasks/evaluation.json`).
+
+The held-out cutoffs were run once on 2026-10-28 with the frozen design. No bug was found and nothing was changed after the run.

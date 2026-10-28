@@ -8,7 +8,7 @@ import pytest
 
 from orgsim.worlds import adoption as A
 
-INSTANCES = ["btos_ai", "so_chatgpt"]
+INSTANCES = ["btos_ai", "so_chatgpt", "aei_tasks"]
 _LOAD, _DYN = A._load, A._cached_dynamics          # the cached originals (the leak test patches A._load)
 
 

@@ -85,12 +85,15 @@ def main() -> None:
             if bid not in proto["headline_blocks"]:
                 continue
             bb = min(labels, key=lambda k: x["mae"][k])
-            if x["mae"]["simulation"] > x["mae"][bb]:
+            if x["mae"]["simulation"] > x["mae"][bb] + 1e-9:
                 lose_c.append(f"{w['cutoff_date']} ({blocks[bid]['label']}: {nf(x['mae']['simulation'])} vs {nf(x['mae'][bb])}, {name[bb]})")
     n_pairs = sum(1 for w in held for b in w["blocks"] if b in proto["headline_blocks"])
-    beat_best = sum(1 for w in held for bid, x in w["blocks"].items() if bid in proto["headline_blocks"] and x["mae"]["simulation"] < x["mae"][best])
+    hp = [x for w in held for bid, x in w["blocks"].items() if bid in proto["headline_blocks"]]
+    beat_best = sum(1 for x in hp if x["mae"]["simulation"] < x["mae"][best] - 1e-9)
+    tie_best = sum(1 for x in hp if abs(x["mae"]["simulation"] - x["mae"][best]) <= 1e-9)
     lines += ["## Where the simulation loses", "",
-              f"Held-out cutoff and horizon pairs where the simulation's error was below {name[best]}'s (the best other method overall): {beat_best} of {n_pairs}. "
+              f"Held-out cutoff and horizon pairs where the simulation's error was below {name[best]}'s (the best other method overall): {beat_best} of {n_pairs}"
+              + (f" ({tie_best} equal)" if tie_best else "") + ". "
               f"Pairs where at least one other method, chosen after the fact for that pair, had lower error: {len(lose_c)} of {n_pairs}."]
     if lose_c:
         lines += ["", "; ".join(lose_c) + "."]
