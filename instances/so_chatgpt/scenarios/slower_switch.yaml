@@ -1,0 +1,11 @@
+id: slower_switch
+title: What if askers had switched to AI assistants half as fast from the cutoff?
+short_title: Switch to AI at half speed
+summary: "Askers who still post switch to AI assistants at half the simulated hazard from the cutoff; same cutoffs and seeds."
+description: >
+  A slower switch (for example, if the site had kept more askers with its own AI answers) halves the weekly probability
+  that an asker who still posts on Stack Overflow moves to an AI assistant. The size of the change is authored, not
+  estimated.
+extends: baseline
+interventions:
+  - {type: adoption_hazard_multiplier, multiplier: 0.5}

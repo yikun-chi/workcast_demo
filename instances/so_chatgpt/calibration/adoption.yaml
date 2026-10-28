@@ -1,0 +1,25 @@
+# Adoption world settings. The share of would-be questions taken to AI assistants follows a diffusion path whose
+# specification is chosen at every cutoff from backtests whose targets fall before it (orgsim/worlds/adoption.py); the
+# question volume without AI is a log-linear trend with seasonality fitted on the weeks before the launch only.
+outcome: displaced
+aggregate_group: null
+agents_per_group: 1000         # simulated would-be askers
+period_days: 7
+change:
+  period: 90                   # the week of 2022-11-28 (ChatGPT released 2022-11-30)
+  season_periods: 52
+  fourier: 3                   # seasonal harmonics in the no-AI baseline
+  baseline_periods: 90         # every week before the launch (from 2021-03-08)
+slope_periods: 26              # weeks behind each growth estimate
+inner_cutoffs: 10
+inner_step: 2
+min_history: 6                 # weeks after the launch a backtest needs before its own cutoff
+grid:
+  k_level: [1, 4]
+  drift: [0.0, 0.5, 1.0]
+  w: [1.0]                     # one population: no pooling across groups
+  phi: [1.0, 0.95, 0.9, 0.8]
+  form: [imitation, external]
+default_spec: {k_level: 4, drift: 0.0, w: 1.0, phi: 1.0, form: imitation}   # the recent switched share held flat
+shock_common_share: 1.0
+default_sigma: 0.15

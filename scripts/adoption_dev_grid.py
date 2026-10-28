@@ -46,7 +46,7 @@ def main() -> None:
         pool = v.pool[v.periods >= v.start] if v.pool is not None else None
         act_full = d.matrix(groups, list(range(c, c + H)))
         tgt = np.arange(c, c + H)
-        comp = W.comparators(v, H, list(proto.get("comparators", [])), int(proto.get("recent_periods", 6)), proto.get("season_periods"))
+        comp = W.comparators(v, H, list(proto.get("comparators", [])), int(proto.get("recent_periods", 6)), proto.get("season_periods"), proto.get("trend_periods"))
         for b in blocks:
             if c - 1 + int(b["to"]) > last:
                 continue

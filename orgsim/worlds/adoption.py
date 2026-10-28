@@ -208,6 +208,8 @@ def spec_list(grid: dict[str, list[Any]]) -> list[dict[str, Any]]:
 def central_share(A: np.ndarray, pool: np.ndarray | None, H: int, spec: dict[str, Any], slope_periods: int) -> np.ndarray:
     """Expected share per group for horizons 1..H after the last column of A (groups x periods)."""
     form = spec["form"]
+    if A.shape[1] == 0:
+        A = np.full((A.shape[0], 1), np.nan)
     z = np.where(np.isfinite(A), to_z(np.nan_to_num(A, nan=0.5), form), np.nan)
     own = nan_slope(z, slope_periods)
     if pool is not None and np.isfinite(pool).sum() >= 3:
@@ -217,6 +219,7 @@ def central_share(A: np.ndarray, pool: np.ndarray | None, H: int, spec: dict[str
         pooled = float(np.median(own)) if len(own) else 0.0
     g = spec["drift"] * (spec["w"] * own + (1 - spec["w"]) * pooled)
     lvl = nan_level(z, int(spec["k_level"]), g if spec["drift"] > 0 else np.zeros_like(g))
+    lvl = np.where(np.isfinite(lvl), lvl, float(to_z(np.array([EPS]), form)[0]))   # no adoption observed yet: none
     out = np.empty((A.shape[0], H))
     cum = np.zeros(A.shape[0])
     for h in range(H):
@@ -516,8 +519,9 @@ COMPARATOR_LABELS = {
 }
 
 
-def comparators(v: View, H: int, which: list[str], recent: int, season: int | None) -> dict[str, np.ndarray]:
-    """Non-simulation predictions (groups x horizons, outcome scale) from the same periods before the cutoff."""
+def comparators(v: View, H: int, which: list[str], recent: int, season: int | None, trend_periods: int | None = None) -> dict[str, np.ndarray]:
+    """Non-simulation predictions (groups x horizons, outcome scale) from the same periods before the cutoff. The
+    linear trend uses the last `trend_periods` periods (None: every period)."""
     Y = v.value
     tgt = np.arange(v.cutoff, v.cutoff + H)
     hs = np.arange(1, H + 1, dtype=float)
@@ -535,7 +539,7 @@ def comparators(v: View, H: int, which: list[str], recent: int, season: int | No
             elif k == "recent_average":
                 P[i] = obs[-recent:].mean()
             elif k == "linear_trend":
-                r = hist[i]
+                r = hist[i] if not trend_periods else row[-int(trend_periods):]
                 t = np.arange(len(r), dtype=float)
                 ok = np.isfinite(r)
                 b1, b0 = np.polyfit(t[ok], r[ok], 1)
@@ -625,7 +629,7 @@ def evaluate(ctx: InstanceContext, scenario_ids: list[str]) -> dict[str, Any]:
         Pc = np.array([g["central"] for g in h0["groups"]])
         R = np.array([[g["run"] for g in s.headline["groups"]] for s in sims])          # seeds x groups x H
         v = View(d, cfg, groups, c)
-        comp = comparators(v, H, comps_which, recent, int(season) if season else None)
+        comp = comparators(v, H, comps_which, recent, int(season) if season else None, proto.get("trend_periods"))
         A = d.matrix(groups, list(range(c, c + H)))           # actual outcomes: read only here, for scoring
         win = {"cutoff": int(c), "cutoff_date": h0["cutoff_date"], "last_observed": str(pd.Timestamp(dates.get(c - 1)).date()) if (c - 1) in dates.index else None,
                "selection": h0["calibration"]["selection"], "spec": h0["calibration"]["spec"], "inner_cutoffs": h0["calibration"]["inner_cutoffs"], "blocks": {}, "run_ids": [s.run_id for s in sims]}
