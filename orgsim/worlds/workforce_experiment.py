@@ -131,7 +131,7 @@ def evaluate(ctx: InstanceContext, scenario_ids: list[str]) -> dict[str, Any]:
                 e["best_comparator_error"] = be
                 e["beats_best_comparator"] = bool(abs(point - actual) < be)
                 e["error_reduction_pct"] = _r(100.0 * (1.0 - abs(point - actual) / be), 2) if be else None
-            if spec["kind"] in ("level", "attrition_level") and actual:
+            if spec["kind"] in ("level", "attrition_level") and actual and spec.get("accuracy", True):
                 e["accuracy_pct"] = _r(100.0 * (1.0 - abs(point - actual) / abs(actual)), 2)
                 e["comparator_accuracy_pct"] = {k: _r(100.0 * (1.0 - abs(v - actual) / abs(actual)), 2) for k, v in cvals.items()}
             if se:

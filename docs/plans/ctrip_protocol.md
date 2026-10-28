@@ -87,3 +87,7 @@ These are the simulation's own predictions from 10 runs, with outcomes unseen:
 ## Retrospective caveat
 
 This evaluation is retrospective. The team that chose the design knew the published result in outline: higher output and lower quits in the home group. The priors' central values are the published meta-analytic estimates, taken as printed, and were not adjusted toward the experiment.
+
+## After scoring
+
+- 2026-10-28: the held-out run was scored once (`runs/ctrip/evaluation.json`). Presentation change only: percent accuracy, 100 × (1 − |error| / actual), is not reported for the performance-score levels, whose actual values are near zero on a z-score scale (the home group's actual level was −0.017), so the ratio is meaningless. No prediction, prior or comparator changed; the rerun reproduces the same predictions with the same seeds.
