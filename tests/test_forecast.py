@@ -39,6 +39,12 @@ def test_ets_short_history_falls_back_to_non_seasonal():
     assert np.all(np.isfinite(auto_ets(y, 8, 52)))
 
 
+def test_ets_survives_extreme_series():
+    y = np.r_[np.full(50, -9.2), np.full(30, 6.0), np.full(24, -9.2)]       # logits of shares at the clip bounds
+    assert np.all(np.isfinite(auto_ets(y, 4, 7)))
+    assert np.all(np.isfinite(auto_ets(np.r_[np.zeros(100), 1e6], 4)))
+
+
 def test_scores():
     assert wape([1, 3], [2, 2]) == pytest.approx(0.5)
     assert accuracy_pct(5.0, 50.0) == pytest.approx(90.0)
