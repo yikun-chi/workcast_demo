@@ -1,0 +1,21 @@
+{
+ "dataset": {
+  "title": "Replication Data for: Does working from home work? Evidence from a Chinese experiment",
+  "authors": ["Nicholas Bloom", "James Liang", "John Roberts", "Zhichun Jenny Ying"],
+  "article": "Quarterly Journal of Economics 130(1), 2015, doi:10.1093/qje/qju032",
+  "deposit": "Harvard Dataverse doi:10.7910/DVN/PZQOB1, version 1, released 2018-07-25, file WFH.zip (3,879,925 bytes, MD5 f02e914b1779714ce6bae090b46ff172)",
+  "license": "CC0 1.0 (Dataverse deposit metadata)",
+  "access_note": "The Dataverse file requires a guestbook response (guestbook 269); no guestbook was submitted. The ingest downloads the authors' own public copy, linked as 'Data' for this paper on https://nbloom.people.stanford.edu/research (a Google Drive file). It holds the replication set: 22 Stata files, Tables2014.do, the Stata log, Readme.txt and figure PDFs, plus macOS metadata entries that the ingest skips.",
+  "retrieval_date": "2026-10-28"
+ },
+ "files": [
+  {
+   "name": "WFH_authors_copy.zip",
+   "url": "https://drive.google.com/uc?export=download&id=1xvEVI74v3xsfnwNvRwyOz9Mup-aNYiE8",
+   "landing_page": "https://nbloom.people.stanford.edu/research",
+   "bytes": 4072614,
+   "sha256": "c858416d2e3eb1ce967a63584014738923454511288621ecb0e003b44c7bb2fa",
+   "license": "CC0 1.0 (the files of the Dataverse deposit)"
+  }
+ ]
+}

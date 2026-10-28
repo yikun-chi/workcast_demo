@@ -1,0 +1,10 @@
+id: two_days_home
+title: What if the home group had worked from home two days a week instead of four?
+short_title: Two home days a week
+summary: "Send the home group home on Wednesdays and Fridays only, the hybrid arrangement Trip.com tested in 2021; the question is how much of the effect on calls and quits remains."
+description: >
+  The home group works from home on Wednesday and Friday and comes in the other three days; the office group is
+  unchanged. Compared with the simulation of the experiment as run.
+extends: baseline
+interventions:
+  - {type: wfh_offer, days: [Wed, Fri], who: treat}
