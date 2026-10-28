@@ -1,0 +1,24 @@
+# Evaluation protocol: rolling cutoffs over the original-wording BTOS AI series (2023-09-11 .. 2025-10-19).
+# A cutoff c means the prediction is made once period c-1 is published, from periods 0..c-1 only.
+instance: btos_ai
+baseline_scenario: baseline
+cutoffs: {first: 20, last: 46, step: 2}     # 14 cutoffs, four weeks apart; the first quarter (4) is for development
+blocks:
+  - {id: m3, label: "3 months ahead (6 periods)", from: 6, to: 6}
+  - {id: m6, label: "6 months ahead (13 periods)", from: 13, to: 13}
+headline_blocks: [m3, m6]
+seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+alternative_cutoffs: 2
+comparators: [carry_forward, recent_average, linear_trend, holt_damped, bass_diffusion]
+recent_periods: 6                           # recent average: the last six periods (three months)
+scale: 100                                  # shares are reported in percentage points
+unit: "pp"
+headline_label: "Error in each sector's AI use rate (percentage points)"
+chart_label: "Share of firms using AI (%)"
+population: >
+  The 15 two-digit NAICS sectors whose AI estimate is published in at least 90% of periods. Truth is the published
+  share of firms answering yes in the target period (a survey estimate with its own sampling error).
+primary_metric: "mean absolute error in percentage points over sectors, cutoffs and both horizons; accuracy = 100 x (1 - error / mean actual)"
+leakage:
+  calibration: specification choice, growth rates and range widths use only periods before the cutoff
+  wording: periods after the 2025-11-17 wording change are not used

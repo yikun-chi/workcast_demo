@@ -1,0 +1,48 @@
+# Bindings for the adoption world. Each sector is an org unit holding a population of employer businesses (firms);
+# the decision every period is whether a firm uses AI. The role carries the O*NET occupation that makes the decision.
+organization:
+  id: org:us_employer_businesses
+  label: U.S. employer businesses (Census BTOS sample frame)
+  properties:
+    source: U.S. Census Bureau, Business Trends and Outlook Survey (public domain)
+    period: 2023-09-11 .. 2025-10-05
+org_units:
+- {id: "ou:23", label: Construction}
+- {id: "ou:31", label: Manufacturing}
+- {id: "ou:42", label: Wholesale Trade}
+- {id: "ou:44", label: Retail Trade}
+- {id: "ou:48", label: Transportation and Warehousing}
+- {id: "ou:51", label: Information}
+- {id: "ou:52", label: Finance and Insurance}
+- {id: "ou:53", label: Real Estate and Rental and Leasing}
+- {id: "ou:54", label: "Professional, Scientific, and Technical Services"}
+- {id: "ou:56", label: Administrative and Support and Waste Management}
+- {id: "ou:61", label: Educational Services}
+- {id: "ou:62", label: Health Care and Social Assistance}
+- {id: "ou:71", label: "Arts, Entertainment, and Recreation"}
+- {id: "ou:72", label: Accommodation and Food Services}
+- {id: "ou:81", label: Other Services (except Public Administration)}
+roles:
+- id: firm_decision_maker
+  label: Business owner or chief executive deciding on AI use
+  onet_code: 11-1011.00
+  properties: {description: "One per simulated firm: decides each period whether the business uses AI"}
+activities:
+- id: use_ai
+  label: Use AI in producing goods or services
+  roles: [firm_decision_maker]
+  system: sys:ai_tools
+systems:
+- id: sys:ai_tools
+  label: AI tools (machine learning, natural language processing, virtual agents, voice recognition)
+  capabilities:
+  - {id: cap:ai, label: Artificial intelligence used in production}
+policies:
+- id: pol:adoption_programme
+  label: A programme that raises non-users' hazard of starting to use AI (alternative scenario)
+  affects: [use_ai]
+latent_states:
+- id: ls:ai_use
+  label: Whether the firm used AI in the last two weeks
+- id: ls:adoption_hazard
+  label: A non-using firm's probability of starting to use AI in a period
