@@ -69,11 +69,11 @@ In dollars: the leading companies spent $62.6M per 8-week window on average at l
 
 A company that buys committed capacity (reserved units at a discount, as with provisioned-throughput reservations: unused reserved units are lost and use above the reservation pays the pay-as-you-go rate; [mechanics](https://learn.microsoft.com/en-us/azure/cost-management-billing/reservations/azure-openai)) and commits to a forecast of its 8-week spend loses (1 - discount) on every dollar over-committed and the discount on every dollar it had to buy at the full rate. Each forecast commits to its own point prediction; losses are a percent of actual spend over every company and cutoff. Discounts vary by provider, model and term, so three are shown.
 
-| Commitment discount | Simulation | No change | Recent trend | Market growth | Saved vs best standard (% of spend) | Lower cost of error |
-|---|---:|---:|---:|---:|---:|---:|
-| 20% | 15.0% | 16.2% | 46.0% | 34.2% | 1.2 | 8% |
-| 40% | 17.6% | 21.3% | 39.2% | 30.9% | 3.7 | 17% |
-| 60% | 20.2% | 26.3% | 32.3% | 27.5% | 6.1 | 23% |
+| Commitment discount | Simulation | No change | Recent trend | Market growth | Saved vs best standard (% of spend) | Lower cost of error | Saved per $1M of annual spend | Saved across the 100 apps per year |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 20% | 15.0% | 16.2% | 46.0% | 34.2% | 1.2 | 8% | $12,219 | $5.0M |
+| 40% | 17.6% | 21.3% | 39.2% | 30.9% | 3.7 | 17% | $36,560 | $14.9M |
+| 60% | 20.2% | 26.3% | 32.3% | 27.5% | 6.1 | 23% | $60,900 | $24.8M |
 
 ## Limitations
 
