@@ -147,7 +147,7 @@ def _run(a: np.ndarray, alpha: float, beta: float, gamma: float, phi: float, tre
 
 
 def _sig(x: float) -> float:
-    return 1.0 / (1.0 + math.exp(-x))
+    return 1.0 / (1.0 + math.exp(-min(max(float(x), -60.0), 60.0)))      # clipped: the optimizer may step far out
 
 
 def fit_ets(y, trend: str | None = "Ad", seasonal: str | None = None, period: int = 1, log: bool = False,
@@ -171,7 +171,8 @@ def fit_ets(y, trend: str | None = "Ad", seasonal: str | None = None, period: in
 
     def obj(x: np.ndarray) -> float:
         al, be, ga, ph = unpack(x)
-        return _run(a, al, be, ga, ph, trend, seasonal, m, l0, b0, s0)[0]
+        sse = _run(a, al, be, ga, ph, trend, seasonal, m, l0, b0, s0)[0]
+        return sse if math.isfinite(sse) else 1e300
 
     x0 = np.array([0.0, -2.0, -2.0, 1.0])
     res = minimize(obj, x0, method="L-BFGS-B", options={"maxiter": maxiter})
