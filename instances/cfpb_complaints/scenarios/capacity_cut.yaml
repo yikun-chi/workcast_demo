@@ -1,0 +1,12 @@
+id: capacity_cut
+title: What if every company had answered with 20% less response capacity?
+short_title: Response capacity -20%
+summary: "Each company's response capacity at 80% of what it ran before the cutoff; same complaints and seeds."
+description: >
+  Every company answers the complaints it receives with 80% of the response capacity it showed before the cutoff.
+  Complaints arrive as in the baseline; the share answered on time responds to the higher load through the load
+  response estimated before the cutoff. The capacity cut is a scenario assumption; the simulation estimates the
+  on-time share that follows.
+extends: baseline
+interventions:
+  - {type: capacity_multiplier, orgs: all, multiplier: 0.8}

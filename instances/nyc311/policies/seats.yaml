@@ -1,0 +1,7 @@
+# Seat -> policy adapter. In the service world the kernel owns demand, capacity and the load response; the requester
+# segments and agencies are not offered discrete choices, so no seat is consulted. The default is kept for the
+# platform's seat registry.
+default: {adapter: rule}
+seats:
+  organisation: {adapter: rule}
+  requester_segment: {adapter: rule}

@@ -1,0 +1,69 @@
+# Bindings for the service world. Requesters are residents filing one complaint type with one agency (a requester
+# segment); the servicing organisation is the agency, whose field and office staff work and close the requests.
+organization:
+  id: org:nyc311
+  label: New York City agencies answering 311 service requests
+  properties:
+    source: NYC Open Data, 311 Service Requests (no use restrictions, NYC Admin. Code 23-502(d))
+    period: 2018-01-01 .. 2026-10-25
+org_units:
+- id: ou:public_safety
+  label: Police (NYPD)
+  properties: {description: "Noise, parking, blocked driveways and other quality-of-life complaints"}
+- id: ou:housing
+  label: Housing Preservation and Development (HPD)
+  properties: {description: "Heat, hot water, plumbing, paint and other building conditions"}
+- id: ou:city_services
+  label: Sanitation, transportation, environment, buildings and parks
+  properties: {description: "DSNY, DOT, DEP, DOB, DPR and others"}
+roles:
+- id: field_staff
+  label: Agency field and inspection staff
+  onet_code: 47-4011.00
+  org_unit: ou:city_services
+  properties: {description: "Inspect, respond on site and close the request"}
+- id: patrol
+  label: Patrol officers answering 311 complaints
+  onet_code: 33-3051.00
+  org_unit: ou:public_safety
+  properties: {description: "Respond to noise and parking complaints routed by 311"}
+- id: housing_inspector
+  label: Housing inspectors
+  onet_code: 47-4011.00
+  org_unit: ou:housing
+  properties: {description: "Inspect building conditions reported by tenants"}
+- id: requester_segment
+  label: Residents filing one complaint type with one agency
+  onet_code: ""
+  properties: {description: "A simulated agent: the residents who file one complaint type; their weekly requests"}
+activities:
+- id: file_request
+  label: Resident files a 311 request (phone, app, web, text)
+  roles: [requester_segment]
+  system: sys:nyc311
+- id: route_request
+  label: 311 routes the request to the responsible agency
+  roles: [field_staff, patrol, housing_inspector]
+  system: sys:nyc311
+- id: close_request
+  label: Agency works and closes the request
+  roles: [field_staff, patrol, housing_inspector]
+  system: sys:nyc311
+process_edges:
+- {from: file_request, to: route_request}
+- {from: route_request, to: close_request}
+systems:
+- id: sys:nyc311
+  label: NYC 311 customer-service system
+  capabilities:
+  - {id: cap:intake, label: Request intake across channels}
+  - {id: cap:routing, label: Routing to the responsible agency}
+external_actors:
+- id: ext:residents
+  label: Residents and visitors
+  interacts_with: [file_request]
+latent_states:
+- id: ls:demand_level
+  label: A segment's weekly request level
+- id: ls:load
+  label: An agency's predicted requests against its recent volume

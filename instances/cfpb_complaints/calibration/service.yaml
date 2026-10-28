@@ -1,0 +1,23 @@
+# Service world settings (orgsim/worlds/service.py). Every parameter is fitted at each cutoff from complaints
+# received before it; the values below are fixed settings and the grids the backtests choose from.
+n_orgs: 50                      # companies with the most complaints in the 13 weeks before the cutoff
+selection_weeks: 13
+segment_min_share: 0.05         # a product with at least 5% of a company's complaints (last 26 weeks) is its own segment
+share_weeks: 26
+history_weeks: 156              # weeks of history at each cutoff
+inner_cutoffs: 8                # earlier backtests whose 12-week targets end before the cutoff
+inner_step_weeks: 4
+grid:
+  k_level: [1, 2, 4, 8]         # weeks averaged for the starting level
+  phi: [0.0, 0.6, 0.9]          # weekly persistence of a segment's growth
+  w: [0.0, 0.5, 1.0]            # weight on the segment's own eight-week growth vs the typical forward drift
+  seasonal: [0.0, 0.5, 1.0]     # weight on the segment's annual pattern
+  drift: [0.0, 1.0]             # weight on the typical realised growth of leading segments after earlier cutoffs
+simplest: {k_level: 4, phi: 0.0, w: 0.0, seasonal: 0.0, drift: 0.0}   # the recent four-week level held flat
+tiers: []                       # size tiers (weekly complaints) with their own specification; [] = one for all
+on_time:
+  deadline_days: 15             # CFPB: a company is expected to respond within 15 days; flags are known after that
+  base_weeks: 13
+  prior_n: 50                   # pseudo-count shrinking a product's on-time rate to its company's
+  response_weeks: 52            # organisation-weeks used to estimate the load response
+  load_response: true

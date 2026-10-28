@@ -1,0 +1,12 @@
+id: baseline
+title: "Complaints as they came: each company's workload from the cutoff"
+short_title: As it happened
+description: >
+  From a Monday cutoff, carry the 50 companies with the most complaints forward for 12 weeks. Every segment's
+  demand, annual pattern, holiday weeks and each company's on-time behaviour are calibrated on complaints received
+  before the cutoff; nothing after the cutoff is known to the simulation except the holiday calendar.
+seeds: [1, 2, 3, 4, 5]
+world:
+  t0: "2026-06-15"
+  horizon_weeks: 12
+interventions: []

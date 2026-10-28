@@ -1,0 +1,63 @@
+# Bindings for the service world. Requesters are consumers of one product at one company (a requester segment);
+# the servicing organisation is the company, whose complaint-response staff answer what the CFPB forwards.
+organization:
+  id: org:cfpb_complaints
+  label: Financial companies answering consumer complaints through the CFPB
+  properties:
+    source: CFPB Consumer Complaint Database (freely available for anyone to use)
+    period: 2017-01-02 .. 2026-10-28
+org_units:
+- id: ou:credit_bureaus
+  label: Nationwide credit bureaus
+  properties: {description: "Equifax, Experian and TransUnion: most complaints since 2022"}
+- id: ou:banks_lenders
+  label: Banks, card issuers and lenders
+  properties: {description: "Banks, card issuers, mortgage and student-loan servicers"}
+- id: ou:collectors_other
+  label: Debt collectors, payment and data companies
+  properties: {description: "Debt buyers and collectors, payment apps, consumer-data companies"}
+roles:
+- id: complaint_response
+  label: Complaint-response staff
+  onet_code: 43-4051.00
+  org_unit: ou:banks_lenders
+  properties: {description: "Investigate a forwarded complaint and respond to the consumer and the CFPB within 15 days"}
+- id: requester_segment
+  label: Consumers of one product at one company
+  onet_code: ""
+  properties: {description: "A simulated agent: the people who complain about one product at one company; their weekly complaints"}
+activities:
+- id: file_complaint
+  label: Consumer files a complaint
+  roles: [requester_segment]
+  system: sys:cfpb_portal
+- id: forward_complaint
+  label: The CFPB forwards the complaint to the company
+  roles: [complaint_response]
+  system: sys:cfpb_portal
+- id: respond
+  label: Company responds within 15 days
+  roles: [complaint_response]
+  system: sys:cfpb_portal
+process_edges:
+- {from: file_complaint, to: forward_complaint}
+- {from: forward_complaint, to: respond}
+systems:
+- id: sys:cfpb_portal
+  label: CFPB company portal
+  capabilities:
+  - {id: cap:intake, label: Complaint intake by web, phone, mail and referral}
+  - {id: cap:response, label: Company response and timeliness flag}
+external_actors:
+- id: ext:consumers
+  label: Consumers
+  interacts_with: [file_complaint]
+policies:
+- id: pol:response_deadline
+  label: Companies are expected to respond within 15 days
+  affects: [respond]
+latent_states:
+- id: ls:demand_level
+  label: A segment's weekly complaint level
+- id: ls:load
+  label: A company's predicted complaints against its recent volume

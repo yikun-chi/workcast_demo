@@ -1,0 +1,37 @@
+id: cfpb_complaints
+order: 20
+title: Consumer complaints to financial companies (CFPB)
+company: The 50 financial companies with the most consumer complaints
+problem: "Can we predict how many complaints each company will receive, and how many it will answer on time, in the next 12 weeks?"
+protocol_line: "Every prediction is made from complaints received before its cutoff and scored on the 12 weeks after it; design choices were made on the first quarter of cutoffs and frozen before the rest were scored."
+situation: "Consumers file complaints about financial products with the CFPB, which forwards them to the company; the company is expected to respond within 15 days. Weekly complaint volumes rose more than tenfold between 2021 and 2026, most of them about credit reports."
+data_used: "The public CFPB Consumer Complaint Database: 18.0 million complaints since 2017, each with the date received, company, product and whether the company responded on time."
+intro: >
+  Rebuilds each leading company's complaint workload as the consumers of each of its products (requester segments)
+  and the company's response staff. From each cutoff the simulation carries every segment forward for 12 weeks:
+  its level, how its growth fades, its annual pattern and holiday weeks; the company's on-time answers follow its
+  product mix and its load against the staffing it ran before the cutoff. Each prediction is scored against the
+  complaints the company actually received. The alternative asks what would have happened to on-time answers if
+  every company had answered with 20% less response capacity.
+world_type: service
+world: >
+  The 50 companies with the most complaints, each split into the products its complaints are about; consumers of
+  each product file complaints weekly; each company answers them with the response capacity it showed before the
+  cutoff.
+source: "manifests/sources.json (CFPB complaints.csv.zip; freely available for anyone to use)"
+data:
+  raw: instances/cfpb_complaints/data/raw/
+  normalized: instances/cfpb_complaints/data/normalized/
+clock:
+  tick: 1h
+  step: 168h
+  coverage: "2017-01-02 .. 2026-10-28"
+evaluation:
+  cutoffs: "72 Mondays, 2021-01-04 .. 2026-06-15, four weeks apart; the first 18 for development, 54 held out"
+  horizon_weeks: 12
+  calibration: "at each cutoff, from complaints received before it; backtests whose targets end before it"
+  timestamp_resolution: "day"
+scenarios:
+  baseline: baseline
+  alternative: capacity_cut
+status: "in progress"

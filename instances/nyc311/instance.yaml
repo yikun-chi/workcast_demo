@@ -1,0 +1,36 @@
+id: nyc311
+order: 21
+title: New York City 311 service requests
+company: New York City agencies answering 311 requests
+problem: "Can we predict how many 311 requests each agency will receive, and how fast it will close them, in the next 12 weeks?"
+protocol_line: "Every prediction is made from requests created and closed before its cutoff and scored on the 12 weeks after it; design choices were made on the first quarter of cutoffs and frozen before the rest were scored."
+situation: "New Yorkers file service requests through 311 by phone, app, web and text; 311 routes each to the responsible agency, which works and closes it. Volumes and complaint mixes move with the seasons, holidays and local events."
+data_used: "NYC Open Data's 311 Service Requests (2010-2019 and 2020-to-present datasets): every request since January 2018 with its creation and closing time, agency and complaint type."
+intro: >
+  Rebuilds each agency's 311 workload as the residents filing each complaint type (requester segments) and the
+  agency's staff who work and close the requests. From each cutoff the simulation carries every segment forward for
+  12 weeks: its level, how its growth fades, its annual pattern and holiday weeks; the agency's time to close follows
+  its complaint mix and its load against the throughput it ran before the cutoff. Each prediction is scored against
+  what the agency actually received and how fast it closed it. The alternative asks how times to close would have
+  moved with 20% less field capacity.
+world_type: service
+world: >
+  The agencies receiving the most 311 requests, each split into its main complaint types; residents file requests
+  weekly; each agency closes them with the throughput it showed before the cutoff.
+source: "manifests/sources.json (NYC Open Data 311 Service Requests, monthly SoQL extracts; no use restrictions under NYC Admin. Code 23-502(d))"
+data:
+  raw: instances/nyc311/data/raw/
+  normalized: instances/nyc311/data/normalized/
+clock:
+  tick: 1h
+  step: 168h
+  coverage: "2018-01-01 .. 2026-10-25"
+evaluation:
+  cutoffs: "72 Mondays, 2021-01-04 .. 2026-06-15, four weeks apart; the first 18 for development, 54 held out"
+  horizon_weeks: 12
+  calibration: "at each cutoff, from requests created and closures recorded before it; backtests whose targets end before it"
+  timestamp_resolution: "second"
+scenarios:
+  baseline: baseline
+  alternative: capacity_cut
+status: "in progress"

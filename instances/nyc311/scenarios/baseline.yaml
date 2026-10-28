@@ -1,0 +1,12 @@
+id: baseline
+title: "Requests as they came: each agency's workload from the cutoff"
+short_title: As it happened
+description: >
+  From a Monday cutoff, carry the agencies with the most 311 requests forward for 12 weeks. Every segment's demand,
+  annual pattern, holiday weeks and each agency's closing times are calibrated on requests created and closed before
+  the cutoff; nothing after the cutoff is known to the simulation except the holiday calendar.
+seeds: [1, 2, 3, 4, 5]
+world:
+  t0: "2026-06-15"
+  horizon_weeks: 12
+interventions: []

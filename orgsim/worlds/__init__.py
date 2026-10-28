@@ -16,6 +16,7 @@ from typing import Any
 from ..instances import InstanceContext
 
 WORLD_MODULES = {"process": "orgsim.worlds.process", "workforce": "orgsim.worlds.workforce", "market": "orgsim.worlds.market"}
+WORLD_MODULES["service"] = "orgsim.worlds.service"     # requesters and the organisations that work their requests (cfpb_complaints, nyc311)
 
 
 def world_module(ctx: InstanceContext):

@@ -1,0 +1,11 @@
+id: capacity_cut
+title: What if every agency had worked its 311 requests with 20% less capacity?
+short_title: Field capacity -20%
+summary: "Each agency's closing capacity at 80% of what it ran before the cutoff; same requests and seeds."
+description: >
+  Every agency closes the requests it receives with 80% of the throughput it showed before the cutoff. Requests
+  arrive as in the baseline; times to close respond to the higher load through the elasticity estimated before the
+  cutoff. The capacity cut is a scenario assumption; the simulation estimates the closing times that follow.
+extends: baseline
+interventions:
+  - {type: capacity_multiplier, orgs: all, multiplier: 0.8}
