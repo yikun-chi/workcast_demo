@@ -67,3 +67,5 @@ simulation may lose in late cutoffs. Results will be reported as measured.
 
 Results are reported as measured in `docs/validation_so_chatgpt.md` (generated from `runs/so_chatgpt/evaluation.json`).
 Any bug fixed afterwards is recorded below with before and after numbers; no further tuning.
+
+The held-out cutoffs were run once on 2026-10-28 with the frozen design. No bug was found and nothing was changed after the run.

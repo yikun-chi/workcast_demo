@@ -826,3 +826,42 @@ def results_view(ctx: InstanceContext) -> dict[str, Any]:
     doc["design"] = ctx.meta.get("intro", "")
     doc.update({"sources": sources, "metrics": metrics, "effects": [], "charts": charts, "hero": hero, "evaluation": {"generated": ev.get("generated"), "protocol": proto}})
     return doc
+
+
+# ------------------------------------------------------------------ report
+
+def build_report(ctx: InstanceContext) -> dict[str, Any]:
+    """reports/report.json from the evaluation and the results view; every number is read from runs/<id>/evaluation.json."""
+    ev = json.loads((ctx.runs_dir / "evaluation.json").read_text())
+    view = results_view(ctx)
+    proto, acc, labels = ev["protocol"], ev["accuracy"], ev["comparator_labels"]
+    sc, unit = float(proto.get("scale", 1.0)), proto.get("unit", "")
+    name = {"simulation": "the simulation", **{k: v.split(":")[0].lower() for k, v in labels.items()}}
+    nf = (lambda x: f"{x * sc:,.2f}") if sc != 1 else (lambda x: f"{x:,.0f}")  # noqa: E731
+    hh, ha = acc["held_out"]["headline"], acc["all"]["headline"]
+    b, ba = hh["best_baseline"], ha["best_baseline"]
+    n_dev = len(proto["dev_cutoffs"])
+    held = [w for w in ev["windows"] if w["cutoff"] not in set(proto["dev_cutoffs"])]
+
+    def vs(x: float, y: float) -> str:
+        return "lower than" if x < y else "higher than" if x > y else "equal to"
+
+    takeaways = [
+        f"On {len(held)} held-out cutoffs ({hh['n_predictions']:,} predictions) the simulation's error was {nf(hh['mae']['simulation'])} {unit}, "
+        f"{vs(hh['mae']['simulation'], hh['mae'][b])} the best standard method ({name[b]}, {nf(hh['mae'][b])} {unit}): "
+        f"{abs(hh['error_reduction_pct']):.1f}% {'less' if hh['error_reduction_pct'] >= 0 else 'more'} error.",
+        f"Accuracy, 100 x (1 - error / mean actual): {hh['accuracy_pct']['simulation']:.1f}% for the simulation and {hh['accuracy_pct'][b]:.1f}% for {name[b]}.",
+        f"Over all {len(ev['windows'])} cutoffs, including the {n_dev} used to design it: {nf(ha['mae']['simulation'])} {unit} against {nf(ha['mae'][ba])} {unit} ({name[ba]}).",
+    ]
+    for bid, x in acc["held_out"].items():
+        if bid != "headline" and x:
+            blk = next(bb for bb in proto["blocks"] if bb["id"] == bid)
+            takeaways.append(f"{blk['label'][0].upper() + blk['label'][1:]}: {nf(x['mae']['simulation'])} {unit} for the simulation, {nf(x['mae'][x['best_baseline']])} {unit} for "
+                             f"{name[x['best_baseline']]}; {x['coverage90']:.0f}% of actual outcomes inside the simulation's 90% range.")
+    sections = [{"heading": "What was predicted", "body": ctx.meta.get("intro", "").strip(), "charts": [], "metrics": []},
+                {"heading": "Accuracy on the held-out cutoffs", "body": " ".join(takeaways[:2]), "charts": [c["id"] for c in view["charts"] if c["id"].startswith(("level_", "error_"))], "metrics": []}]
+    rep = {"title": ctx.meta.get("title", ctx.id), "subtitle": ctx.meta.get("problem", ""), "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+           "takeaways": takeaways, "sections": sections, "charts": view["charts"], "metrics": view["metrics"]}
+    ctx.reports_dir.mkdir(parents=True, exist_ok=True)
+    (ctx.reports_dir / "report.json").write_text(json.dumps(rep, indent=1, default=_json_default))
+    return rep

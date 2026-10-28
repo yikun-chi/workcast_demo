@@ -22,3 +22,11 @@ primary_metric: "mean absolute error in percentage points over sectors, cutoffs 
 leakage:
   calibration: specification choice, growth rates and range widths use only periods before the cutoff
   wording: periods after the 2025-11-17 wording change are not used
+# Prose for the generated validation doc (scripts/build_adoption_validation.py); no numbers here.
+data_notes:
+  - "The outcome is the published survey estimate for each sector and period, with its own sampling error; sectors with mostly suppressed estimates are left out. Census changed the question's wording on 2025-11-17 and started a new series because of a level shift, so no period after that date is used."
+limitations:
+  - "The truth is a survey estimate: part of every error is sampling noise that no method can predict."
+  - "Firms are simulated as populations of identical agents per sector; firm size and the survey weights are not modelled."
+  - "The adoption programme alternative uses an authored hazard multiplier, not an estimated effect."
+  - "Census data are public domain; the result can be shown to clients without licence restrictions."

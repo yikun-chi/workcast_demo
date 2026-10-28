@@ -24,3 +24,13 @@ population: "Every question posted on Stack Overflow that still exists (the API 
 primary_metric: "mean absolute error of the 13-week question totals (weeks 1-13 and 14-26 after each cutoff); accuracy = 100 x (1 - error / mean actual)"
 leakage:
   calibration: the no-AI baseline uses weeks before the launch; the diffusion path, its specification and range widths use weeks before the cutoff
+change_cutoff: 90
+change_note: "From the launch week no method had any sign of the coming fall: the simulation's switched share was zero because no switching had been observed yet, so its prediction is the trend and seasonality before the launch."
+# Prose for the generated validation doc (scripts/build_adoption_validation.py); no numbers here.
+data_notes:
+  - "Counts come from the public Stack Exchange API and exclude deleted questions. Stack Overflow content is CC BY-SA; the API terms require attribution to the Stack Exchange network and bind users to its Terms of Service, which should be checked before commercial use. The official data dump (login and click-through since 2024) is not used."
+limitations:
+  - "Deleted questions are missing, and older weeks have had longer to lose them."
+  - "The no-AI baseline is fitted on the weeks before the launch available from the API's anonymous quota and carried forward for years; its trend and seasonality are an assumption, not an observation."
+  - "One population for the whole site: tags, languages and question types are not modelled separately."
+  - "The slower-switch alternative uses an authored hazard multiplier, not an estimated effect."

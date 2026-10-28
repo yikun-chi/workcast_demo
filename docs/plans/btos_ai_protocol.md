@@ -68,3 +68,5 @@ plausible and will be reported as measured.
 
 Results are reported as measured in `docs/validation_btos_ai.md` (generated from `runs/btos_ai/evaluation.json`).
 Any bug fixed afterwards is recorded below with before and after numbers; no further tuning.
+
+The held-out cutoffs were run once on 2026-10-28 with the frozen design. No bug was found and nothing was changed after the run.

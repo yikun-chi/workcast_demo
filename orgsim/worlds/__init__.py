@@ -4,6 +4,8 @@
                (event-log instances such as bpi19; later the demo firm's work processes)
   workforce  - a population of employees with latent states reacting to policies over time
                (randomized-trial instances such as trip; later the demo firm's people dynamics)
+  market     - companies whose AI workloads run on models at published list prices (openrouter)
+  adoption   - populations of agents in groups taking up a technology along a diffusion path (btos_ai, so_chatgpt)
 
 Each module exposes:  World class (orgsim.kernel.world.World protocol)
                       evaluate(ctx, scenario_ids: list[str]) -> dict   (writes runs/<id>/evaluation.json)
