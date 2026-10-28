@@ -1,0 +1,24 @@
+# Service world settings (orgsim/worlds/service.py). Every parameter is fitted at each cutoff from requests created
+# before it and closures recorded before it; the values below are fixed settings and the grids the backtests choose from.
+n_orgs: 10                      # agencies with the most requests in the 13 weeks before the cutoff
+selection_weeks: 13
+segment_min_share: 0.03         # a complaint type with at least 3% of an agency's requests (last 26 weeks) is its own segment
+share_weeks: 26
+history_weeks: 156
+inner_cutoffs: 8
+inner_step_weeks: 4
+grid:
+  k_level: [1, 2, 4, 8]
+  phi: [0.0, 0.6, 0.9]
+  w: [0.0, 0.5, 1.0]
+  seasonal: [0.0, 0.5, 1.0]
+  drift: [0.0, 1.0]
+simplest: {k_level: 4, phi: 0.0, w: 0.0, seasonal: 0.0, drift: 0.0}
+one_se: true
+tiers: []
+closure:
+  base_weeks: 8                 # requests created in the last 8 weeks (Kaplan-Meier, censored at the cutoff)
+  prior_n: 30                   # pseudo-count shrinking a complaint type's distribution to its agency's
+  response_weeks: 52
+  followup_weeks: 4
+  load_response: true

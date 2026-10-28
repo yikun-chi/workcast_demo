@@ -1,0 +1,43 @@
+# Evaluation protocol: rolling cutoffs, 12-week horizons, every prediction made from requests created and closed before its cutoff.
+# The first quarter of the cutoffs (dev_cutoffs) was used for every design choice; the rest are held out and run once
+# after the design was frozen in docs/plans/nyc311_protocol.md.
+instance: nyc311
+baseline_scenario: baseline
+cutoffs: ['2021-01-04', '2021-02-01', '2021-03-01', '2021-03-29', '2021-04-26', '2021-05-24', '2021-06-21', '2021-07-19', '2021-08-16',
+          '2021-09-13', '2021-10-11', '2021-11-08', '2021-12-06', '2022-01-03', '2022-01-31', '2022-02-28', '2022-03-28', '2022-04-25',
+          '2022-05-23', '2022-06-20', '2022-07-18', '2022-08-15', '2022-09-12', '2022-10-10', '2022-11-07', '2022-12-05', '2023-01-02',
+          '2023-01-30', '2023-02-27', '2023-03-27', '2023-04-24', '2023-05-22', '2023-06-19', '2023-07-17', '2023-08-14', '2023-09-11',
+          '2023-10-09', '2023-11-06', '2023-12-04', '2024-01-01', '2024-01-29', '2024-02-26', '2024-03-25', '2024-04-22', '2024-05-20',
+          '2024-06-17', '2024-07-15', '2024-08-12', '2024-09-09', '2024-10-07', '2024-11-04', '2024-12-02', '2024-12-30', '2025-01-27',
+          '2025-02-24', '2025-03-24', '2025-04-21', '2025-05-19', '2025-06-16', '2025-07-14', '2025-08-11', '2025-09-08', '2025-10-06',
+          '2025-11-03', '2025-12-01', '2025-12-29', '2026-01-26', '2026-02-23', '2026-03-23', '2026-04-20', '2026-05-18', '2026-06-15']
+dev_cutoffs: ['2021-01-04', '2021-02-01', '2021-03-01', '2021-03-29', '2021-04-26', '2021-05-24', '2021-06-21', '2021-07-19', '2021-08-16',
+              '2021-09-13', '2021-10-11', '2021-11-08', '2021-12-06', '2022-01-03', '2022-01-31', '2022-02-28', '2022-03-28', '2022-04-25']
+horizon_weeks: 12
+data_end: "2026-09-06"          # last scored week ends here: at least seven weeks of closing follow-up before retrieval (2026-10-28)
+seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+alternative_cutoffs: 4
+comparator_history_weeks: 156
+population: >
+  The 10 agencies with the most 311 requests in the 13 weeks before each cutoff. Held-out truth is each agency's
+  requests created in each of the 12 weeks from the cutoff, and the median hours to close of those requests (a request
+  still open at retrieval counts as not closed; a week whose median is not reached is left out).
+inputs_after_cutoff: the U.S. federal holiday calendar (known in advance); nothing else
+metrics:
+  volume: {label: "Weekly requests per agency", measure: wape, unit_word: requests, org_word: agency}
+  median_close_h: {label: "Median hours to close per agency", measure: mape, unit: "%"}
+groups:
+  other_agencies:
+    label: "the agencies other than the police (NYPD)"
+    exclude: ["NYPD"]
+horizon_buckets: {"1-4": [1, 4], "5-12": [5, 12]}
+comparators:
+  carry_forward: the agency's requests in the last week before the cutoff, repeated
+  recent_average: the average of its last four weeks, repeated
+  historical_average: the average of its last 52 weeks, repeated
+  seasonal_naive: the same week one year earlier
+  trend: a straight line through the log of its last 26 weeks, extended
+  ets: exponential smoothing on the log of its last 156 weeks, form chosen by AICc among no trend, additive and damped additive trend
+  median_close_h: the same six forecasts of the agency's weekly median hours to close, from medians known at the cutoff (closures before it)
+leakage:
+  calibration: demand dynamics, annual patterns, holiday effects, closing-time distributions and the load response use only requests created before the cutoff and closures recorded before it

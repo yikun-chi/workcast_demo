@@ -75,4 +75,12 @@ with the same seeds. A demand-side assumption; with no load response the on-time
 
 ## Post-run changes
 
-None yet. Any bug fix after the held-out run is recorded here with before and after numbers; no further tuning.
+Any bug fix after the held-out run is recorded here with before and after numbers; no further tuning.
+
+1. **Aborted first run (2026-10-28 16:24 UTC).** The first held-out run (commit 9650246) crashed at cutoff 2024-04-22 with an
+   `OverflowError` inside the ETS comparator (`orgsim/evaluation/forecast.py`: the optimizer pushed a smoothing-parameter
+   transform into `math.exp` overflow on one company's series). No evaluation file was written, so there are no before
+   numbers. The run log printed one summary line per completed cutoff; it was not read before the rerun. Fix: the
+   comparator module's own fix (commit 887f51f, clipping the transform; forecasts on series that did not overflow are
+   unchanged) and `except OverflowError` beside the existing fallback in `comparator_forecasts`. The design above is
+   unchanged; the held-out cutoffs were rerun once with the fix.

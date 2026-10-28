@@ -822,7 +822,7 @@ def comparator_forecasts(series: np.ndarray, H: int, kind: str, lag: int = 0) ->
              "trend": fc.trend(y, K, 26, log=log)}
         try:
             f["ets"] = fc.auto_ets(y, K, 1, log=log, max_history=156)
-        except (ValueError, FloatingPointError):
+        except (ValueError, FloatingPointError, OverflowError):
             f["ets"] = f["carry_forward"]
         for k, val in f.items():
             val = np.maximum(np.asarray(val, dtype=float), 0)
