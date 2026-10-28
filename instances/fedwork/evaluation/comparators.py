@@ -131,9 +131,9 @@ def compute(ctx, cutoff: str, months: list[str], groups: list[str], ets_params: 
                 base = float(row.sum())
             rows_pg.append((g, m, base))
     out["programme"] = {"label": "Programme calculation", "pred": _frame(rows_pg),
-                        "description": ("Programme calculation takes the same month last year, raises quits and retirements by the published 14% return-to-office effect, "
-                                        "and adds the resignation offer in September as each agency's own voluntary leaving rate over the offer window times the published "
-                                        "early-retirement window effect (an 89% rise in departures), applied to its full-time staff. Without an announced policy it equals the same month last year.")}
+                        "description": (f"Programme calculation takes the same month last year, raises quits and retirements by the published {100 * (pri['rto_mult'] - 1):.0f}% return-to-office effect, "
+                                        "and adds the resignation offer in its effective month as each agency's own voluntary leaving rate over the offer window times the published "
+                                        f"early-retirement window effect (a {100 * (pri['drp_window_mult'] - 1):.0f}% rise in departures), applied to its full-time staff. Without an announced policy it equals the same month last year.")}
     return out
 
 

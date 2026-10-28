@@ -1,0 +1,29 @@
+{
+ "title": "Federal workforce separations: simulation against OPM's records",
+ "subtitle": "OPM Federal Workforce Data",
+ "generated": "2026-10-28T16:28:24.108541+00:00",
+ "takeaways": [
+  "From 2025-02 to 2025-12, the simulation's error in each agency's monthly separations was 46.3% (accuracy 53.7%), against 55.7% for the best series method (Same month last year).",
+  "The programme calculation that applies the same published effects to whole agencies was at 40.9%.",
+  "Total separations: actual 366,779, simulation 245,462, Same month last year 203,364.",
+  "In the development years without a policy change the simulation's error was 19.3% against 18.3% for Exponential smoothing.",
+  "Alternative (no resignation offer): 192,528 separations instead of 245,462 with the same seeds."
+ ],
+ "sections": [
+  {
+   "heading": "Error in each agency's monthly separations, by cutoff",
+   "body": "| Cutoff | Role | Simulation | Same month last year | Last 12-month average | Recent trend | Exponential smoothing | Programme calculation |\n|---|---|---:|---:|---:|---:|---:|---:|\n| 2021-12 | development | 23.5% | 21.2% | 26.1% | 21.5% | 19.0% | 21.2% |\n| 2022-12 | development | 19.3% | 24.0% | 30.4% | 35.0% | 21.4% | 24.0% |\n| 2023-12 | development | 14.9% | 12.5% | 21.1% | 18.0% | 14.6% | 12.5% |\n| 2024-12 | held_out | 46.3% | 55.7% | 59.1% | 59.0% | 55.8% | 40.9% |",
+   "charts": [
+    "monthly_total",
+    "agency_totals"
+   ],
+   "metrics": []
+  },
+  {
+   "heading": "How the prediction was made",
+   "body": "At each December cutoff, every agency's employees become cohort twins with separation rates fitted on records published by the cutoff; predict each agency's separations in each month from February to December of the next year; average 20 runs. rates fitted on separations recorded by each cutoff; specification chosen on the development cutoffs; priors cite work published before January 2025."
+  }
+ ],
+ "charts": [],
+ "metrics": []
+}

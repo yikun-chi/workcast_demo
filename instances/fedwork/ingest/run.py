@@ -6,7 +6,8 @@ Writes to instances/fedwork/data/normalized/:
   headcounts.parquet      employees per twin cell in each December snapshot (2018-2024)
   agencies.json           agency names and December headcounts
   twins_<cutoff>.parquet  cohort twins at each protocol cutoff, with separation rates fitted on records published by
-                          the cutoff (calibration/selection.json fixes the specification)
+                          the cutoff (calibration/selection.json fixes the specification); population.parquet is the
+                          held-out cutoff's twins, shown on the Data tab
   summary.json            facts and charts for the Overview page
 
 A twin cell is agency x age band x length-of-service band x permanent appointment x full-time x supervisor.
@@ -238,7 +239,10 @@ def main(ctx) -> None:
     if sel.exists():
         spec = json.loads(sel.read_text())["selected"]
         for c in proto.get("cutoffs") or []:
-            build_twins(seps, heads, c["cutoff"], spec).to_parquet(out / f"twins_{c['cutoff']}.parquet", index=False)
+            twins = build_twins(seps, heads, c["cutoff"], spec)
+            twins.to_parquet(out / f"twins_{c['cutoff']}.parquet", index=False)
+            if c["role"] == "held_out":
+                twins.to_parquet(out / "population.parquet", index=False)        # the twins the Data tab shows
     else:
         print("[fedwork] calibration/selection.json missing: run ingest/audit/select_spec.py, then ingest again to write the twins")
     (out / "summary.json").write_text(json.dumps(build_summary(seps, heads, agencies), indent=1))

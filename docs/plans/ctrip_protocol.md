@@ -91,3 +91,4 @@ This evaluation is retrospective. The team that chose the design knew the publis
 ## After scoring
 
 - 2026-10-28: the held-out run was scored once (`runs/ctrip/evaluation.json`). Presentation change only: percent accuracy, 100 × (1 − |error| / actual), is not reported for the performance-score levels, whose actual values are near zero on a z-score scale (the home group's actual level was −0.017), so the ratio is meaningless. No prediction, prior or comparator changed; the rerun reproduces the same predictions with the same seeds.
+- Story text on the Results page now reads group sizes and home days from the evaluation and the scenario instead of typed numbers; no prediction changed.

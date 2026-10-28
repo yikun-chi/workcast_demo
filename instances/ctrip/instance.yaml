@@ -33,3 +33,7 @@ evaluation:
   design: "group-level prediction of the experiment's effects from 2010 records and sourced priors"
   freeze_rule: "calibration uses 2010 weeks only; priors cite work published before February 2013; specification chosen on 2010 pseudo-changes"
 status: "ready: ingest, calibration, baseline, evaluation and report"
+people:
+  notes:
+    - "Every row is a real experiment participant (Bloom, Liang, Roberts & Ying 2015 replication files); the deposit has no team identity, so no teammates are shown."
+    - "Gender is shown because it is in the data; it enters no behavioural expression."

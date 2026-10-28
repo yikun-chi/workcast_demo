@@ -1,7 +1,7 @@
 {
  "title": "Ctrip work-from-home experiment: simulation against the actual outcome",
  "subtitle": "Bloom, Liang, Roberts & Ying (2015) replication files (authors' copy; Harvard Dataverse doi:10.7910/DVN/PZQOB1); computed by instances/ctrip/ingest/run.py",
- "generated": "2026-10-28T15:21:28.359167+00:00",
+ "generated": "2026-10-28T16:28:24.294479+00:00",
  "takeaways": [
   "Effect of working at home on weekly calls answered: the simulation predicted +7.6%; the experiment measured +13.4%. That is further from the actual than the best other prediction (Earlier research, +16.6%).",
   "Effect of working at home on quits: the simulation predicted -1.3 pp; the experiment measured -18.7 pp. That is further from the actual than the best other prediction (Earlier research, -1.6 pp).",

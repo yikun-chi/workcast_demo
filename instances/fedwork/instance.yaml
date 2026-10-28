@@ -33,3 +33,7 @@ evaluation:
   design: "agency-month separations at rolling December cutoffs; three development years without a policy change, then 2025 scored once"
   freeze_rule: "rates fitted on separations recorded by each cutoff; specification chosen on the development cutoffs; priors cite work published before January 2025"
 status: "ready: ingest, calibration, evaluation and report"
+people:
+  notes:
+    - "Every row is a cohort twin: all employees of one agency in the same age band, length-of-service band, appointment, schedule and supervisory status in the December 2024 snapshot; headcount is the number of employees it stands for."
+    - "Rates are monthly separation rates fitted on records published before 2025."

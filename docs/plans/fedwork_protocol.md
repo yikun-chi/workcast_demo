@@ -112,3 +112,18 @@ These come from `instances/fedwork/ingest/audit/predict_heldout.py`, which reads
 ## Retrospective caveat
 
 This evaluation is retrospective. The team that chose the design knew the 2025 events in outline: a large deferred-resignation take-up and reductions in force at several agencies. The priors take published values as printed. The specification was chosen only on development years without a policy change.
+
+## After scoring
+
+**The held-out run.** The held-out cutoff was scored once, on 2026-10-28, and written to `runs/fedwork/evaluation.json`. The session was interrupted before that run, and the iMac was checked afterwards: no earlier held-out run existed. Results are reported as measured in `docs/validation_fedwork.md`.
+
+**Known defect, not fixed.**
+- Three twin cells get parent rates above one a month. They hold 5 of 2,312,280 employees, with impossible combinations of age and length of service, such as age 40-44 with 30 or more years.
+- The cause: their demographic cell has almost no exposure.
+- Their hazards are clipped to one. They therefore leave in January, which is not scored, and take no part in the offer.
+- The effect on scored counts is at most 5 separations, so the held-out run was not repeated.
+
+**Presentation changes after scoring.** None of these changes any prediction:
+- The people view no longer requires team identity.
+- The Data tab shows the held-out cutoff's twins. This is `population.parquet`; the twin files were rebuilt and are byte-identical.
+- The programme calculation's description now reads its percentages from the priors.
