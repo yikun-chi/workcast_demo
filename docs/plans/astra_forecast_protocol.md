@@ -103,3 +103,24 @@ The same error metric as each case's validation, on the same targets. The report
   - market growth: 35.7%
 - **Prediction for the 13 held-out cutoffs:** C3 has the lowest mean error across horizons. At 1 week the margin over Astra and the damped trend may vanish (development: 23.0% vs 23.1% and 23.2%).
 - **Report:** every horizon, including any where a gold standard beats C3.
+
+### Run 2 held-out result (13 weekly cutoffs, scored once after the freeze)
+
+Source: `board/results/astra_run2_test.json`. Mean error across 1, 2, 4 and 8 weeks:
+
+| Method | Mean error |
+|---|---:|
+| GPT-6 Astra alone | 24.7% |
+| Damped trend | 24.7% |
+| C3 (frozen) | 25.8% |
+| WORKCAST alone | 30.1% |
+| Recent trend | 32.0% |
+| Market growth | 35.3% |
+| Carry-forward | 36.6% |
+
+**The prediction failed.**
+- C3 beat WORKCAST alone and three of the five gold standards.
+- It tied Astra at 8 weeks (33.8% vs 33.7%).
+- It lost to Astra and the damped trend overall.
+
+Cumulative spend for Runs 1 and 2 is $9.19 (`board/results/astra_ledger.json`). The development choice is not revised after this result. Any new design needs new held-out data: cutoffs after 2026-08-31 at the horizons already observed, or the live board.
