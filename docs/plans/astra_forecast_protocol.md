@@ -85,3 +85,21 @@ The same error metric as each case's validation, on the same targets. The report
 - **Headline:** mean held-out error at 1, 2, 4 and 8 weeks, for the frozen design against every gold standard.
 
 **Run 2 development note (2026-10-30).** In the first development pass, the damped-trend standard's unbounded trend produced 1,475% error at 8 weeks, from apps re-entering the top 200. A broken standard would flatter every other method, so its trend is now bounded at ±15% a week (the bound the recent-trend standard uses), and development was re-scored. All Astra answers were cached, so no new calls were needed. Development was spent $4.20 so far (Run 1 included).
+
+### FROZEN DESIGN: C3 (2026-10-30, before any held-out cutoff was scored)
+
+- **Choice:** C3, the median of WORKCAST, GPT-6 Astra (Run 1 prompt, mean of 2 samples), the four-week carry-forward, recent trend, market growth and the bounded damped-trend model, taken per app and per horizon.
+- **Development record** (`board/results/astra_run2_dev.json`, mean error over horizons 1, 2, 4 and 8):
+  - C3: 29.1%
+  - C4: 29.3%
+  - C1: 30.3%
+  - C2: 30.5%
+  - C5: 30.7%
+  - damped trend: 30.8%
+  - Astra: 31.0%
+  - WORKCAST: 33.8%
+  - recent trend: 34.2%
+  - carry-forward: 35.5%
+  - market growth: 35.7%
+- **Prediction for the 13 held-out cutoffs:** C3 has the lowest mean error across horizons. At 1 week the margin over Astra and the damped trend may vanish (development: 23.0% vs 23.1% and 23.2%).
+- **Report:** every horizon, including any where a gold standard beats C3.
