@@ -61,3 +61,25 @@ The same error metric as each case's validation, on the same targets. The report
 - **Caveat:** five windows is a small sample.
 - **Shown:** on sumervaid.com/predict as measured.
 - **Next test, to be pre-registered on the live board:** WORKCAST, Astra and their average, each forecasting the same weeks in advance.
+
+## Run 2 (frozen 2026-10-30, before any Run 2 call): WORKCAST with Astra inside, against every gold standard
+
+- **Authority:** Sumer, 2026-10-30, "I want our method to INCLUDE Astra and to beat all existing gold-standards". Same key (uuMA). The cap stays $25 in total, including Run 1's $1.91.
+- **Cutoffs:** every Monday from 2026-05-04 to 2026-08-31 (18), each with an 8-week horizon. All scored weeks are after Astra's knowledge cutoff.
+  - Development: the 5 Run 1 cutoffs (2026-05-11, 06-08, 07-06, 08-03, 08-31), whose results have been seen.
+  - Held out: the other 13 weekly cutoffs, which are never scored before the design is frozen.
+- **Gold standards** (the method must beat each one at the headline horizons):
+  - last four weeks carried forward;
+  - each app's recent trend;
+  - market growth;
+  - a damped-trend exponential smoothing model fitted to each app's 12-week history (log scale, parameters by least squares on that history);
+  - GPT-6 Astra alone (Run 1 prompt, 2 samples).
+- **Candidate designs**, all including Astra, listed here before any Run 2 result:
+  - C1: mean of WORKCAST and Astra.
+  - C2: geometric mean of WORKCAST and Astra.
+  - C3: median of WORKCAST, Astra and the four statistical standards.
+  - C4: Astra as refiner. Astra receives the Run 1 input plus WORKCAST's forecast for each app and returns the final forecast (2 samples, mean).
+  - C5: mean of WORKCAST, Astra and carry-forward.
+- **Selection:** the candidate with the lowest mean error across horizons 1, 2, 4 and 8 on the development cutoffs. It is then frozen in this file and committed before the held-out cutoffs are scored.
+- **Metric:** the board's token-weighted error (WAPE) on each app's first-h-week tokens. A week outside the top 200 counts at half the 200th app's volume.
+- **Headline:** mean held-out error at 1, 2, 4 and 8 weeks, for the frozen design against every gold standard.
