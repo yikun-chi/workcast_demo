@@ -1,0 +1,12 @@
+id: no_resignation_offer
+title: What if agencies had been ordered back to the office without the deferred resignation offer?
+short_title: No resignation offer
+summary: "Keep the return-to-office order but drop the paid resignation offer; the question is how many separations the offer itself added, and when."
+description: >
+  The return-to-office order of 20 January 2025 stands; the deferred resignation offer is never made. Compared with
+  the simulation of 2025 as announced, with the same seeds.
+extends: baseline
+world:
+  events:
+    drp_window: {start: "2100-01-01"}
+  offers: []

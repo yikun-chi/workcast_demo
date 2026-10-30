@@ -1,0 +1,34 @@
+# Rolling December cutoffs. The first three (no announced policy) choose the specification; December 2024 is held out
+# and scored once, after the design was frozen in docs/plans/fedwork_protocol.md.
+kind: forecast
+design: "At each December cutoff, every agency's employees become cohort twins with separation rates fitted on records published by the cutoff; predict each agency's separations in each month from February to December of the next year; average 20 runs."
+scenario: development
+seeds: {start: 1, count: 20}
+horizon_months: 12
+score_months: {first: 2, count: 11}          # February to December after a December cutoff
+cutoffs:
+  - {cutoff: '2021-12', role: development}
+  - {cutoff: '2022-12', role: development}
+  - {cutoff: '2023-12', role: development}
+  - {cutoff: '2024-12', role: held_out, scenario: baseline, policy: {offer_effective_month: '2025-09'}}
+whatif:
+  scenarios: [no_resignation_offer]
+  seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+value_inputs:
+  extra:
+    "held-out employees at the cutoff (December 2024 snapshot)": "windows.3.headcount_start"
+story:
+  design: "In January 2025 federal agencies were ordered back to the office and offered nearly every full-time employee a paid deferred resignation. Each agency's employees are simulated from the December 2024 snapshot with separation rates from records published before 2025; separations from February to December 2025 are the actual outcome. The same method was first checked on 2022, 2023 and 2024, years without such a change."
+  before_label: "Before the change"
+  before_sublabel: "February to December 2024 (actual data)"
+  change_label: "Return to the office and a paid resignation offer"
+  change_description: "20 January 2025: remote work ended by presidential memorandum. 28 January: OPM offered full-time employees pay until 30 September 2025 if they resigned effective that day; the offer closed on 12 February."
+  after_label: "After the change"
+  after_sublabel: "February to December 2025"
+  hero_kicker: "Simulation compared with the separations OPM recorded"
+  claim: "Separation rates come from records published before 2025 and the policy enters only through its announced dates and published effects from earlier studies. Records after January 2025 are used only to check accuracy. This is a retrospective evaluation: the design was chosen by people who knew the 2025 events in outline."
+  comparator_sources:
+    - {label: "Ding et al. return-to-office study (Fortune, Dec 2024)", url: "https://fortune.com/2024/12/11/return-to-office-mandate-employees-study/"}
+    - {label: "Lumsdaine, Stock & Wise 1990", url: "https://www.nber.org/papers/w3369"}
+  alternative_text: "Without the resignation offer, the return-to-office order alone raises quits and retirements; the offer's separations disappear from September."
+  top_groups: 15

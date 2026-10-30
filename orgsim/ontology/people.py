@@ -89,14 +89,16 @@ def _workforce(ctx: InstanceContext) -> dict[str, Any]:
     for r in b.get("roles", []):
         groups.append({"id": r["id"], "type": "Role", "kind": "role", "label": r["label"], "parent": r.get("org_unit"), "size": int((pop.role_id == r["id"]).sum()),
                        "properties": {"onet_code": r.get("onet_code")}})
+    teams = teams[teams["team_id"].astype(str) != ""]          # populations without team identity have no team groups
     for t in teams.itertuples(index=False):
         groups.append({"id": t.team_id, "type": "OrgUnit", "kind": "team", "label": f"Team {t.team_id}", "parent": t.org_unit, "size": int(t.size),
                        "properties": {"offered_wfh": int(getattr(t, "treated", 0)), "managers": int(getattr(t, "managers", 0))}})
     links = [{"source": g["id"], "target": g["parent"], "type": "part_of" if g["kind"] == "team" else "member_of"} for g in groups if g.get("parent")]
     links += [{"source": u["id"], "target": u["location"], "type": "located_at"} for u in b.get("org_units", []) if u.get("location")]
     sizes = teams["size"].to_numpy()
-    person_links = [{"type": "same_manager", "basis": "same team_id (teams are synthetic groups of about 10 within a division; the deposit has no team identity)",
-                     "count": int((sizes * (sizes - 1) // 2).sum())}]
+    meta = ctx.meta.get("people") or {}
+    person_links = [{"type": "same_manager", "basis": meta.get("team_basis", "same team_id (teams are synthetic groups of about 10 within a division; the deposit has no team identity)"),
+                     "count": int((sizes * (sizes - 1) // 2).sum())}] if len(teams) else []
     person_links.append({"type": "located_at", "basis": "division location", "count": int(persons["location"].notna().sum())})
     return {
         "persons": persons,
@@ -105,7 +107,7 @@ def _workforce(ctx: InstanceContext) -> dict[str, Any]:
                                                         ("grad", "Graduate degree"), ("volunteer", "Volunteered"), ("prior_performance", "Prior grade"), ("location", "Location"), ("female", "Female")]
                     if c in persons.columns],
         "groups": groups, "links": links, "person_links": person_links,
-        "notes": ["Every row is a real trial employee (Harvard Dataverse doi:10.7910/DVN/6X4ZZL); role split within non-managers, team membership and person ids are synthetic.",
+        "notes": meta.get("notes") or ["Every row is a real trial employee (Harvard Dataverse doi:10.7910/DVN/6X4ZZL); role split within non-managers, team membership and person ids are synthetic.",
                   "Gender is shown because it is in the data; it enters no behavioral function or prompt.",
                   "Teammates (same_manager) are not stored as rows: select a person to see their team."],
         "excluded_from_behavior": ["female"],

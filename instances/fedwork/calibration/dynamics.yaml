@@ -1,0 +1,25 @@
+# Cohort-twin dynamics for the federal workforce (orgsim/worlds/workforce.py). Each twin's monthly separation rates by
+# type (rate_*) and the month-of-year pattern (season_*, as season_<type>_mMM columns) are fitted by the ingest on
+# separations recorded by the cutoff. Policy channels enter only through dated events and offers in the scenario; their
+# magnitudes are priors.yaml values with published sources. No demographic field other than age band, length of service,
+# appointment, schedule and supervisory status enters any expression.
+
+derived:
+  takeup_propensity: "0"
+  voluntary_window: "1 - (1 - voluntary_rate) ** drp_window_months"    # chance of leaving voluntarily within the window
+
+hazards:
+  quit:
+    monthly: "rate_quit * season_quit * where(rto, rto_mult, 1) * where(drp_window, 1 - drp_capture, 1)"
+  retire:
+    monthly: "rate_retire * season_retire * where(rto, rto_mult, 1) * where(drp_window, 1 - drp_capture, 1)"
+  term:
+    monthly: "rate_term * season_term"
+  transfer:
+    monthly: "rate_transfer * season_transfer"
+  other:
+    monthly: "rate_other * season_other"
+
+offers:
+  drp:                             # a one-off paid window: those likely to leave anyway, plus the departures the window induces
+    accept: "minimum(1, (drp_window_mult - 1 + drp_capture) * voluntary_window * drp_reach)"

@@ -1,0 +1,23 @@
+id: baseline
+title: "The experiment as run: four days a week at home for the home group"
+short_title: The experiment as run
+description: >
+  249 volunteer call-centre employees, 6 Dec 2010 to 19 Aug 2011. The home group (131, assigned by an even or odd
+  birthday) works from home Monday to Thursday and comes in on Friday; the office group (118) works in the office five
+  days a week.
+horizon_days: 257
+seeds: [1, 2, 3, 4, 5]
+world:
+  start: "2010-12-06"
+  end: "2011-08-19"
+  arm_field: treat
+  arm_labels: {"0": Office, "1": Home}
+  breakdowns: [order_taker, married, children_ind]
+  policy:
+    type: wfh_offer
+    days: [Mon, Tue, Wed, Thu]
+    who: treat
+  work_events: sample
+  work_events_sample: 0.2
+  priors: sample
+interventions: []

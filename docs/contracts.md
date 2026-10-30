@@ -110,6 +110,23 @@ path, the point prediction), segment prices and model mixes; with a language-mod
 
 Workforce evaluation adds `paired_comparison` and `paired_effects` for matching scenario seeds. Metric `paired_baseline` and chart-series `paired_y` / `paired_band` supply that subset in the alternative panel, while the validation panel uses the full evaluation ensemble. Point predictions are means; `point_path` may select the expected-quit estimator while the realized `path` supplies predictive intervals. The expected-quit estimator is the accumulated hazard while at risk, not an individual probability.
 
+A workforce protocol may name a `kind`, which selects its own scoring module. Both kinds take their other predictions from the instance's `evaluation/comparators.py`. They also write `runs/<id>/value_inputs.json`: `{instance, evaluation, generated, figures: [{name, path, value}]}`, where each `path` is a dotted path inside `evaluation.json`.
+
+- **`kind: experiment`** (`orgsim/worlds/workforce_experiment.py`; `comparators.compute(ctx) -> {id: {label, description, values: {metric id: value}}}`). The evaluation contains:
+  - `metrics` and `metric_index`: `{id, label, kind: level|did|did_pct|attrition_level|attrition_effect, unit, simulated, interval, actual, actual_se, before, comparators, comparator_errors, best_comparator, error_reduction_pct, accuracy_pct?}`;
+  - `headline`, `comparators`, `comparator_labels`, `scenario_comparison`, `population` and `charts`.
+- **`kind: forecast`** (`orgsim/worlds/workforce_forecast.py`; `comparators.compute(ctx, cutoff, months, groups) -> {id: {label, description, pred: DataFrame(group, month, n)}}`, plus `comparators.actual(ctx, cutoff, months)` for scoring). The evaluation contains:
+  - `windows`: `[{cutoff, role: development|held_out, months, n_groups, headcount_start, scores: {source: {group_month_wape, group_total_wape, total_error_pct, total_month_wape, actual_total, predicted_total}}, best_comparator, error_reduction_pct, by_type, monthly, groups}]`;
+  - `accuracy`: `{held_out, development, all}`;
+  - `business_validation`, `scatter` and `scenario_comparison`.
+
+Optional workforce-world blocks are documented in the module docstring of `orgsim/worlds/workforce.py`:
+- dynamics `constants`, `series`, `measures` and `offers`;
+- cohort twins via a `headcount` column, with competing `hazards` given `monthly:` rates;
+- scenario `events`, `offers`, `count_by`, `stock`, `population_file` and `twins_sample`.
+
+Run metrics then add `measures` (`{name: {all: by arm, weekly}}`) and, for cohort twins, `separations` (`{by, groups, months, kinds, expected, realized, headcount_start, pending_at_end}`).
+
 The story's `reference_actual` is the office-only group observed alongside the hybrid group, used to measure policy impact. `before_actual` contains pre-policy observations, including the published division-level historical attrition aggregate; it is distinct from the later randomized employee cohort. Missing pre-policy outcomes are null.
 
 Optional `story.comparator_explanation` contains `{paragraphs, formula, sources: [{label, url}]}` and explains the other prediction methods beside the comparison. Optional `story.level_comparison` contains `{label, unit, actual, simulated, predictions: [{label, value}]}` to distinguish an overall outcome from the policy impact. Trip.com's historical inputs and calculation are sourced in `manifests/pre_policy.yaml` and `evaluation/comparators.yaml`; `comparators` in its evaluation records the calculated values and provenance.

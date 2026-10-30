@@ -1,0 +1,2294 @@
+{
+ "rule": "lowest mean over the development cutoffs of the error in each agency's monthly separations",
+ "development_cutoffs": [
+  "2021-12",
+  "2022-12",
+  "2023-12"
+ ],
+ "candidates": [
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 0,
+    "season": "none",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 28.324,
+     "group_total_wape": 21.137,
+     "total_error_pct": -21.137,
+     "total_month_wape": 22.193,
+     "actual_total": 253341.0,
+     "predicted_total": 199792.325
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 26.882,
+     "group_total_wape": 16.446,
+     "total_error_pct": -3.291,
+     "total_month_wape": 17.171,
+     "actual_total": 216991.0,
+     "predicted_total": 209850.903
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 21.241,
+     "group_total_wape": 11.245,
+     "total_error_pct": -10.225,
+     "total_month_wape": 17.849,
+     "actual_total": 203909.0,
+     "predicted_total": 183059.407
+    }
+   ],
+   "mean_group_month_wape": 25.482
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 0,
+    "season": "none",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 25.526,
+     "group_total_wape": 12.036,
+     "total_error_pct": -5.585,
+     "total_month_wape": 14.113,
+     "actual_total": 253341.0,
+     "predicted_total": 239192.226
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 29.3,
+     "group_total_wape": 17.301,
+     "total_error_pct": 13.262,
+     "total_month_wape": 18.339,
+     "actual_total": 216991.0,
+     "predicted_total": 245768.655
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 21.748,
+     "group_total_wape": 8.529,
+     "total_error_pct": 6.921,
+     "total_month_wape": 12.79,
+     "actual_total": 203909.0,
+     "predicted_total": 218021.978
+    }
+   ],
+   "mean_group_month_wape": 25.525
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 0,
+    "season": "government",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 26.888,
+     "group_total_wape": 19.873,
+     "total_error_pct": -19.86,
+     "total_month_wape": 19.886,
+     "actual_total": 253341.0,
+     "predicted_total": 203026.597
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 21.733,
+     "group_total_wape": 16.289,
+     "total_error_pct": -2.484,
+     "total_month_wape": 12.08,
+     "actual_total": 216991.0,
+     "predicted_total": 211601.892
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 16.476,
+     "group_total_wape": 10.493,
+     "total_error_pct": -9.417,
+     "total_month_wape": 12.63,
+     "actual_total": 203909.0,
+     "predicted_total": 184706.325
+    }
+   ],
+   "mean_group_month_wape": 21.699
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 0,
+    "season": "government",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 25.036,
+     "group_total_wape": 12.5,
+     "total_error_pct": -3.721,
+     "total_month_wape": 13.934,
+     "actual_total": 253341.0,
+     "predicted_total": 243913.202
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 24.837,
+     "group_total_wape": 17.648,
+     "total_error_pct": 14.427,
+     "total_month_wape": 15.497,
+     "actual_total": 216991.0,
+     "predicted_total": 248296.63
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 16.95,
+     "group_total_wape": 9.262,
+     "total_error_pct": 7.812,
+     "total_month_wape": 9.615,
+     "actual_total": 203909.0,
+     "predicted_total": 219839.312
+    }
+   ],
+   "mean_group_month_wape": 22.274
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 0,
+    "season": "agency",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 24.364,
+     "group_total_wape": 20.321,
+     "total_error_pct": -20.321,
+     "total_month_wape": 20.321,
+     "actual_total": 253341.0,
+     "predicted_total": 201860.513
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 19.943,
+     "group_total_wape": 16.407,
+     "total_error_pct": -2.542,
+     "total_month_wape": 7.895,
+     "actual_total": 216991.0,
+     "predicted_total": 211474.54
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 15.728,
+     "group_total_wape": 10.777,
+     "total_error_pct": -9.778,
+     "total_month_wape": 12.422,
+     "actual_total": 203909.0,
+     "predicted_total": 183969.848
+    }
+   ],
+   "mean_group_month_wape": 20.012
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 0,
+    "season": "agency",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 22.024,
+     "group_total_wape": 14.399,
+     "total_error_pct": -3.006,
+     "total_month_wape": 12.137,
+     "actual_total": 253341.0,
+     "predicted_total": 245726.446
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 22.468,
+     "group_total_wape": 19.301,
+     "total_error_pct": 15.865,
+     "total_month_wape": 16.658,
+     "actual_total": 216991.0,
+     "predicted_total": 251417.15
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 16.013,
+     "group_total_wape": 10.871,
+     "total_error_pct": 8.928,
+     "total_month_wape": 10.757,
+     "actual_total": 203909.0,
+     "predicted_total": 222114.36
+    }
+   ],
+   "mean_group_month_wape": 20.168
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 120,
+    "season": "none",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 28.083,
+     "group_total_wape": 20.582,
+     "total_error_pct": -20.563,
+     "total_month_wape": 21.759,
+     "actual_total": 253341.0,
+     "predicted_total": 201246.846
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 26.709,
+     "group_total_wape": 16.024,
+     "total_error_pct": -2.673,
+     "total_month_wape": 17.052,
+     "actual_total": 216991.0,
+     "predicted_total": 211191.057
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 20.968,
+     "group_total_wape": 10.677,
+     "total_error_pct": -9.54,
+     "total_month_wape": 17.466,
+     "actual_total": 203909.0,
+     "predicted_total": 184455.82
+    }
+   ],
+   "mean_group_month_wape": 25.253
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 120,
+    "season": "none",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 25.469,
+     "group_total_wape": 12.048,
+     "total_error_pct": -5.55,
+     "total_month_wape": 14.116,
+     "actual_total": 253341.0,
+     "predicted_total": 239281.83
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 29.183,
+     "group_total_wape": 17.118,
+     "total_error_pct": 13.13,
+     "total_month_wape": 18.254,
+     "actual_total": 216991.0,
+     "predicted_total": 245481.532
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 21.67,
+     "group_total_wape": 8.375,
+     "total_error_pct": 6.782,
+     "total_month_wape": 12.757,
+     "actual_total": 203909.0,
+     "predicted_total": 217738.066
+    }
+   ],
+   "mean_group_month_wape": 25.441
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 120,
+    "season": "government",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 26.575,
+     "group_total_wape": 19.321,
+     "total_error_pct": -19.281,
+     "total_month_wape": 19.431,
+     "actual_total": 253341.0,
+     "predicted_total": 204494.867
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 21.527,
+     "group_total_wape": 15.89,
+     "total_error_pct": -1.863,
+     "total_month_wape": 12.057,
+     "actual_total": 216991.0,
+     "predicted_total": 212949.185
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 16.175,
+     "group_total_wape": 9.919,
+     "total_error_pct": -8.727,
+     "total_month_wape": 12.236,
+     "actual_total": 203909.0,
+     "predicted_total": 186113.292
+    }
+   ],
+   "mean_group_month_wape": 21.426
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 120,
+    "season": "government",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 25.073,
+     "group_total_wape": 12.281,
+     "total_error_pct": -3.793,
+     "total_month_wape": 13.944,
+     "actual_total": 253341.0,
+     "predicted_total": 243732.085
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 24.662,
+     "group_total_wape": 17.54,
+     "total_error_pct": 14.335,
+     "total_month_wape": 15.407,
+     "actual_total": 216991.0,
+     "predicted_total": 248097.191
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 16.848,
+     "group_total_wape": 8.858,
+     "total_error_pct": 7.702,
+     "total_month_wape": 9.545,
+     "actual_total": 203909.0,
+     "predicted_total": 219615.051
+    }
+   ],
+   "mean_group_month_wape": 22.194
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 120,
+    "season": "agency",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 23.968,
+     "group_total_wape": 19.752,
+     "total_error_pct": -19.742,
+     "total_month_wape": 19.742,
+     "actual_total": 253341.0,
+     "predicted_total": 203326.631
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 19.626,
+     "group_total_wape": 15.962,
+     "total_error_pct": -1.923,
+     "total_month_wape": 7.768,
+     "actual_total": 216991.0,
+     "predicted_total": 212818.93
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 15.301,
+     "group_total_wape": 10.158,
+     "total_error_pct": -9.082,
+     "total_month_wape": 11.95,
+     "actual_total": 203909.0,
+     "predicted_total": 185390.59
+    }
+   ],
+   "mean_group_month_wape": 19.632
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 120,
+    "season": "agency",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 21.873,
+     "group_total_wape": 14.193,
+     "total_error_pct": -3.13,
+     "total_month_wape": 12.036,
+     "actual_total": 253341.0,
+     "predicted_total": 245412.664
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 22.148,
+     "group_total_wape": 18.734,
+     "total_error_pct": 15.506,
+     "total_month_wape": 16.315,
+     "actual_total": 216991.0,
+     "predicted_total": 250637.533
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 15.809,
+     "group_total_wape": 10.44,
+     "total_error_pct": 8.819,
+     "total_month_wape": 10.62,
+     "actual_total": 203909.0,
+     "predicted_total": 221892.091
+    }
+   ],
+   "mean_group_month_wape": 19.943
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 1200,
+    "season": "none",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 27.936,
+     "group_total_wape": 19.807,
+     "total_error_pct": -19.743,
+     "total_month_wape": 21.187,
+     "actual_total": 253341.0,
+     "predicted_total": 203322.9
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 26.689,
+     "group_total_wape": 15.69,
+     "total_error_pct": -1.908,
+     "total_month_wape": 16.946,
+     "actual_total": 216991.0,
+     "predicted_total": 212849.963
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 20.764,
+     "group_total_wape": 9.981,
+     "total_error_pct": -8.679,
+     "total_month_wape": 17.022,
+     "actual_total": 203909.0,
+     "predicted_total": 186211.245
+    }
+   ],
+   "mean_group_month_wape": 25.13
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 1200,
+    "season": "none",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 25.487,
+     "group_total_wape": 12.321,
+     "total_error_pct": -5.198,
+     "total_month_wape": 14.145,
+     "actual_total": 253341.0,
+     "predicted_total": 240172.991
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 29.382,
+     "group_total_wape": 17.441,
+     "total_error_pct": 13.546,
+     "total_month_wape": 18.522,
+     "actual_total": 216991.0,
+     "predicted_total": 246385.408
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 21.507,
+     "group_total_wape": 8.208,
+     "total_error_pct": 6.428,
+     "total_month_wape": 12.671,
+     "actual_total": 203909.0,
+     "predicted_total": 217016.163
+    }
+   ],
+   "mean_group_month_wape": 25.459
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 1200,
+    "season": "government",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 26.271,
+     "group_total_wape": 18.537,
+     "total_error_pct": -18.452,
+     "total_month_wape": 18.764,
+     "actual_total": 253341.0,
+     "predicted_total": 206595.435
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 21.501,
+     "group_total_wape": 15.691,
+     "total_error_pct": -1.09,
+     "total_month_wape": 12.071,
+     "actual_total": 216991.0,
+     "predicted_total": 214626.409
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 16.003,
+     "group_total_wape": 9.304,
+     "total_error_pct": -7.862,
+     "total_month_wape": 11.867,
+     "actual_total": 203909.0,
+     "predicted_total": 187877.012
+    }
+   ],
+   "mean_group_month_wape": 21.258
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 1200,
+    "season": "government",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 25.064,
+     "group_total_wape": 12.458,
+     "total_error_pct": -3.399,
+     "total_month_wape": 13.856,
+     "actual_total": 253341.0,
+     "predicted_total": 244730.236
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 24.923,
+     "group_total_wape": 17.97,
+     "total_error_pct": 14.808,
+     "total_month_wape": 15.741,
+     "actual_total": 216991.0,
+     "predicted_total": 249123.128
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 16.962,
+     "group_total_wape": 8.954,
+     "total_error_pct": 7.712,
+     "total_month_wape": 9.532,
+     "actual_total": 203909.0,
+     "predicted_total": 219633.984
+    }
+   ],
+   "mean_group_month_wape": 22.316
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 1200,
+    "season": "agency",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 23.505,
+     "group_total_wape": 18.936,
+     "total_error_pct": -18.92,
+     "total_month_wape": 18.92,
+     "actual_total": 253341.0,
+     "predicted_total": 205408.205
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 19.34,
+     "group_total_wape": 15.603,
+     "total_error_pct": -1.151,
+     "total_month_wape": 7.57,
+     "actual_total": 216991.0,
+     "predicted_total": 214493.948
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 14.918,
+     "group_total_wape": 9.311,
+     "total_error_pct": -8.212,
+     "total_month_wape": 11.432,
+     "actual_total": 203909.0,
+     "predicted_total": 187164.846
+    }
+   ],
+   "mean_group_month_wape": 19.254
+  },
+  {
+   "spec": {
+    "window_months": 12,
+    "shrink": 1200,
+    "season": "agency",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 21.662,
+     "group_total_wape": 14.034,
+     "total_error_pct": -3.057,
+     "total_month_wape": 11.833,
+     "actual_total": 253341.0,
+     "predicted_total": 245597.161
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 22.168,
+     "group_total_wape": 18.673,
+     "total_error_pct": 15.601,
+     "total_month_wape": 16.359,
+     "actual_total": 216991.0,
+     "predicted_total": 250844.377
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 15.273,
+     "group_total_wape": 9.938,
+     "total_error_pct": 8.258,
+     "total_month_wape": 10.135,
+     "actual_total": 203909.0,
+     "predicted_total": 220748.145
+    }
+   ],
+   "mean_group_month_wape": 19.701
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 0,
+    "season": "none",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 31.232,
+     "group_total_wape": 26.776,
+     "total_error_pct": -26.776,
+     "total_month_wape": 26.776,
+     "actual_total": 253341.0,
+     "predicted_total": 185505.887
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 25.257,
+     "group_total_wape": 14.219,
+     "total_error_pct": -5.24,
+     "total_month_wape": 17.384,
+     "actual_total": 216991.0,
+     "predicted_total": 205621.442
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 23.352,
+     "group_total_wape": 12.608,
+     "total_error_pct": -0.245,
+     "total_month_wape": 15.511,
+     "actual_total": 203909.0,
+     "predicted_total": 203408.936
+    }
+   ],
+   "mean_group_month_wape": 26.614
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 0,
+    "season": "none",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 26.911,
+     "group_total_wape": 14.499,
+     "total_error_pct": -13.338,
+     "total_month_wape": 15.962,
+     "actual_total": 253341.0,
+     "predicted_total": 219550.483
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 26.989,
+     "group_total_wape": 14.5,
+     "total_error_pct": 11.295,
+     "total_month_wape": 17.071,
+     "actual_total": 216991.0,
+     "predicted_total": 241500.743
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 27.844,
+     "group_total_wape": 18.13,
+     "total_error_pct": 17.554,
+     "total_month_wape": 19.233,
+     "actual_total": 203909.0,
+     "predicted_total": 239702.599
+    }
+   ],
+   "mean_group_month_wape": 27.248
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 0,
+    "season": "government",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 30.539,
+     "group_total_wape": 26.281,
+     "total_error_pct": -26.281,
+     "total_month_wape": 26.281,
+     "actual_total": 253341.0,
+     "predicted_total": 186761.512
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 19.071,
+     "group_total_wape": 13.875,
+     "total_error_pct": -4.237,
+     "total_month_wape": 7.228,
+     "actual_total": 216991.0,
+     "predicted_total": 207796.777
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 19.697,
+     "group_total_wape": 12.312,
+     "total_error_pct": 0.232,
+     "total_month_wape": 11.269,
+     "actual_total": 203909.0,
+     "predicted_total": 204382.078
+    }
+   ],
+   "mean_group_month_wape": 23.102
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 0,
+    "season": "government",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 25.627,
+     "group_total_wape": 14.455,
+     "total_error_pct": -12.391,
+     "total_month_wape": 16.127,
+     "actual_total": 253341.0,
+     "predicted_total": 221949.885
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 21.537,
+     "group_total_wape": 15.506,
+     "total_error_pct": 12.725,
+     "total_month_wape": 13.922,
+     "actual_total": 216991.0,
+     "predicted_total": 244602.37
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 24.407,
+     "group_total_wape": 18.541,
+     "total_error_pct": 18.013,
+     "total_month_wape": 18.898,
+     "actual_total": 203909.0,
+     "predicted_total": 240638.872
+    }
+   ],
+   "mean_group_month_wape": 23.857
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 0,
+    "season": "agency",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 28.411,
+     "group_total_wape": 25.974,
+     "total_error_pct": -25.974,
+     "total_month_wape": 25.974,
+     "actual_total": 253341.0,
+     "predicted_total": 187537.955
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 17.754,
+     "group_total_wape": 14.023,
+     "total_error_pct": -4.48,
+     "total_month_wape": 6.844,
+     "actual_total": 216991.0,
+     "predicted_total": 207270.388
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 17.426,
+     "group_total_wape": 12.213,
+     "total_error_pct": 0.342,
+     "total_month_wape": 9.126,
+     "actual_total": 203909.0,
+     "predicted_total": 204605.795
+    }
+   ],
+   "mean_group_month_wape": 21.197
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 0,
+    "season": "agency",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 23.899,
+     "group_total_wape": 16.384,
+     "total_error_pct": -10.714,
+     "total_month_wape": 16.326,
+     "actual_total": 253341.0,
+     "predicted_total": 226197.762
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 19.863,
+     "group_total_wape": 16.747,
+     "total_error_pct": 13.859,
+     "total_month_wape": 14.742,
+     "actual_total": 216991.0,
+     "predicted_total": 247062.92
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 23.056,
+     "group_total_wape": 20.312,
+     "total_error_pct": 19.712,
+     "total_month_wape": 19.712,
+     "actual_total": 203909.0,
+     "predicted_total": 244104.263
+    }
+   ],
+   "mean_group_month_wape": 22.273
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 120,
+    "season": "none",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 31.057,
+     "group_total_wape": 26.397,
+     "total_error_pct": -26.395,
+     "total_month_wape": 26.395,
+     "actual_total": 253341.0,
+     "predicted_total": 186472.805
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 25.135,
+     "group_total_wape": 13.918,
+     "total_error_pct": -4.839,
+     "total_month_wape": 17.306,
+     "actual_total": 216991.0,
+     "predicted_total": 206490.909
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 23.261,
+     "group_total_wape": 12.329,
+     "total_error_pct": 0.193,
+     "total_month_wape": 15.433,
+     "actual_total": 203909.0,
+     "predicted_total": 204302.52
+    }
+   ],
+   "mean_group_month_wape": 26.484
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 120,
+    "season": "none",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 26.884,
+     "group_total_wape": 14.46,
+     "total_error_pct": -13.284,
+     "total_month_wape": 15.945,
+     "actual_total": 253341.0,
+     "predicted_total": 219687.003
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 26.934,
+     "group_total_wape": 14.368,
+     "total_error_pct": 11.242,
+     "total_month_wape": 17.037,
+     "actual_total": 216991.0,
+     "predicted_total": 241385.632
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 27.498,
+     "group_total_wape": 17.316,
+     "total_error_pct": 17.013,
+     "total_month_wape": 18.811,
+     "actual_total": 203909.0,
+     "predicted_total": 238599.023
+    }
+   ],
+   "mean_group_month_wape": 27.105
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 120,
+    "season": "government",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 30.296,
+     "group_total_wape": 25.898,
+     "total_error_pct": -25.895,
+     "total_month_wape": 25.895,
+     "actual_total": 253341.0,
+     "predicted_total": 187737.9
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 18.91,
+     "group_total_wape": 13.602,
+     "total_error_pct": -3.832,
+     "total_month_wape": 7.072,
+     "actual_total": 216991.0,
+     "predicted_total": 208676.537
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 19.593,
+     "group_total_wape": 12.029,
+     "total_error_pct": 0.674,
+     "total_month_wape": 11.149,
+     "actual_total": 203909.0,
+     "predicted_total": 205282.771
+    }
+   ],
+   "mean_group_month_wape": 22.933
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 120,
+    "season": "government",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 25.596,
+     "group_total_wape": 14.234,
+     "total_error_pct": -12.317,
+     "total_month_wape": 16.074,
+     "actual_total": 253341.0,
+     "predicted_total": 222136.761
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 21.468,
+     "group_total_wape": 15.276,
+     "total_error_pct": 12.632,
+     "total_month_wape": 13.852,
+     "actual_total": 216991.0,
+     "predicted_total": 244401.787
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 24.293,
+     "group_total_wape": 18.125,
+     "total_error_pct": 17.871,
+     "total_month_wape": 18.784,
+     "actual_total": 203909.0,
+     "predicted_total": 240348.63
+    }
+   ],
+   "mean_group_month_wape": 23.786
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 120,
+    "season": "agency",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 28.112,
+     "group_total_wape": 25.591,
+     "total_error_pct": -25.589,
+     "total_month_wape": 25.589,
+     "actual_total": 253341.0,
+     "predicted_total": 188514.402
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 17.527,
+     "group_total_wape": 13.703,
+     "total_error_pct": -4.07,
+     "total_month_wape": 6.74,
+     "actual_total": 216991.0,
+     "predicted_total": 208158.456
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 17.229,
+     "group_total_wape": 11.921,
+     "total_error_pct": 0.788,
+     "total_month_wape": 9.018,
+     "actual_total": 203909.0,
+     "predicted_total": 205515.298
+    }
+   ],
+   "mean_group_month_wape": 20.956
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 120,
+    "season": "agency",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 23.761,
+     "group_total_wape": 16.176,
+     "total_error_pct": -10.671,
+     "total_month_wape": 16.236,
+     "actual_total": 253341.0,
+     "predicted_total": 226306.897
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 19.676,
+     "group_total_wape": 16.401,
+     "total_error_pct": 13.657,
+     "total_month_wape": 14.55,
+     "actual_total": 216991.0,
+     "predicted_total": 246625.396
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 22.754,
+     "group_total_wape": 19.893,
+     "total_error_pct": 19.512,
+     "total_month_wape": 19.512,
+     "actual_total": 203909.0,
+     "predicted_total": 243694.945
+    }
+   ],
+   "mean_group_month_wape": 22.064
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 1200,
+    "season": "none",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 30.871,
+     "group_total_wape": 25.788,
+     "total_error_pct": -25.782,
+     "total_month_wape": 25.782,
+     "actual_total": 253341.0,
+     "predicted_total": 188023.65
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 25.148,
+     "group_total_wape": 13.591,
+     "total_error_pct": -4.17,
+     "total_month_wape": 17.223,
+     "actual_total": 216991.0,
+     "predicted_total": 207943.503
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 23.257,
+     "group_total_wape": 12.087,
+     "total_error_pct": 0.873,
+     "total_month_wape": 15.351,
+     "actual_total": 203909.0,
+     "predicted_total": 205689.436
+    }
+   ],
+   "mean_group_month_wape": 26.425
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 1200,
+    "season": "none",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 26.842,
+     "group_total_wape": 14.183,
+     "total_error_pct": -13.005,
+     "total_month_wape": 15.866,
+     "actual_total": 253341.0,
+     "predicted_total": 220393.988
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 27.1,
+     "group_total_wape": 14.693,
+     "total_error_pct": 11.511,
+     "total_month_wape": 17.21,
+     "actual_total": 216991.0,
+     "predicted_total": 241968.823
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 27.656,
+     "group_total_wape": 17.689,
+     "total_error_pct": 16.93,
+     "total_month_wape": 18.746,
+     "actual_total": 203909.0,
+     "predicted_total": 238430.872
+    }
+   ],
+   "mean_group_month_wape": 27.199
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 1200,
+    "season": "government",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 29.994,
+     "group_total_wape": 25.284,
+     "total_error_pct": -25.278,
+     "total_month_wape": 25.278,
+     "actual_total": 253341.0,
+     "predicted_total": 189301.291
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 18.872,
+     "group_total_wape": 13.332,
+     "total_error_pct": -3.154,
+     "total_month_wape": 6.958,
+     "actual_total": 216991.0,
+     "predicted_total": 210146.825
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 19.617,
+     "group_total_wape": 11.857,
+     "total_error_pct": 1.355,
+     "total_month_wape": 10.991,
+     "actual_total": 203909.0,
+     "predicted_total": 206671.336
+    }
+   ],
+   "mean_group_month_wape": 22.828
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 1200,
+    "season": "government",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 25.558,
+     "group_total_wape": 14.023,
+     "total_error_pct": -12.045,
+     "total_month_wape": 15.89,
+     "actual_total": 253341.0,
+     "predicted_total": 222825.433
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 21.645,
+     "group_total_wape": 15.567,
+     "total_error_pct": 12.957,
+     "total_month_wape": 14.082,
+     "actual_total": 216991.0,
+     "predicted_total": 245106.545
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 24.418,
+     "group_total_wape": 18.441,
+     "total_error_pct": 17.767,
+     "total_month_wape": 18.741,
+     "actual_total": 203909.0,
+     "predicted_total": 240136.756
+    }
+   ],
+   "mean_group_month_wape": 23.874
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 1200,
+    "season": "agency",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 27.683,
+     "group_total_wape": 24.978,
+     "total_error_pct": -24.973,
+     "total_month_wape": 24.973,
+     "actual_total": 253341.0,
+     "predicted_total": 190074.279
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 17.296,
+     "group_total_wape": 13.308,
+     "total_error_pct": -3.391,
+     "total_month_wape": 6.555,
+     "actual_total": 216991.0,
+     "predicted_total": 209633.344
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 17.056,
+     "group_total_wape": 11.673,
+     "total_error_pct": 1.475,
+     "total_month_wape": 8.874,
+     "actual_total": 203909.0,
+     "predicted_total": 206916.57
+    }
+   ],
+   "mean_group_month_wape": 20.678
+  },
+  {
+   "spec": {
+    "window_months": 24,
+    "shrink": 1200,
+    "season": "agency",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 23.369,
+     "group_total_wape": 15.624,
+     "total_error_pct": -10.674,
+     "total_month_wape": 16.027,
+     "actual_total": 253341.0,
+     "predicted_total": 226300.188
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 19.735,
+     "group_total_wape": 16.403,
+     "total_error_pct": 13.749,
+     "total_month_wape": 14.578,
+     "actual_total": 216991.0,
+     "predicted_total": 246826.028
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 22.558,
+     "group_total_wape": 19.728,
+     "total_error_pct": 18.959,
+     "total_month_wape": 18.959,
+     "actual_total": 203909.0,
+     "predicted_total": 242568.564
+    }
+   ],
+   "mean_group_month_wape": 21.887
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 0,
+    "season": "none",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 31.258,
+     "group_total_wape": 26.549,
+     "total_error_pct": -26.173,
+     "total_month_wape": 26.173,
+     "actual_total": 253341.0,
+     "predicted_total": 187035.081
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 23.613,
+     "group_total_wape": 14.513,
+     "total_error_pct": -10.521,
+     "total_month_wape": 17.65,
+     "actual_total": 216991.0,
+     "predicted_total": 194161.977
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 23.78,
+     "group_total_wape": 13.779,
+     "total_error_pct": 1.198,
+     "total_month_wape": 15.603,
+     "actual_total": 203909.0,
+     "predicted_total": 206352.009
+    }
+   ],
+   "mean_group_month_wape": 26.217
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 0,
+    "season": "none",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 27.133,
+     "group_total_wape": 14.915,
+     "total_error_pct": -12.233,
+     "total_month_wape": 15.645,
+     "actual_total": 253341.0,
+     "predicted_total": 222349.75
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 23.472,
+     "group_total_wape": 9.505,
+     "total_error_pct": 4.715,
+     "total_month_wape": 13.987,
+     "actual_total": 216991.0,
+     "predicted_total": 227221.138
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 28.957,
+     "group_total_wape": 19.544,
+     "total_error_pct": 19.109,
+     "total_month_wape": 20.516,
+     "actual_total": 203909.0,
+     "predicted_total": 242874.775
+    }
+   ],
+   "mean_group_month_wape": 26.521
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 0,
+    "season": "government",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 30.002,
+     "group_total_wape": 25.812,
+     "total_error_pct": -25.433,
+     "total_month_wape": 25.433,
+     "actual_total": 253341.0,
+     "predicted_total": 188909.612
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 18.655,
+     "group_total_wape": 14.137,
+     "total_error_pct": -9.94,
+     "total_month_wape": 9.977,
+     "actual_total": 216991.0,
+     "predicted_total": 195423.107
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 19.203,
+     "group_total_wape": 13.621,
+     "total_error_pct": 1.69,
+     "total_month_wape": 8.898,
+     "actual_total": 203909.0,
+     "predicted_total": 207354.605
+    }
+   ],
+   "mean_group_month_wape": 22.62
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 0,
+    "season": "government",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 25.733,
+     "group_total_wape": 15.22,
+     "total_error_pct": -10.906,
+     "total_month_wape": 14.246,
+     "actual_total": 253341.0,
+     "predicted_total": 225710.405
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 17.356,
+     "group_total_wape": 10.205,
+     "total_error_pct": 5.722,
+     "total_month_wape": 8.727,
+     "actual_total": 216991.0,
+     "predicted_total": 229408.175
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 25.442,
+     "group_total_wape": 20.129,
+     "total_error_pct": 19.727,
+     "total_month_wape": 19.727,
+     "actual_total": 203909.0,
+     "predicted_total": 244134.992
+    }
+   ],
+   "mean_group_month_wape": 22.844
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 0,
+    "season": "agency",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 28.114,
+     "group_total_wape": 25.688,
+     "total_error_pct": -25.413,
+     "total_month_wape": 25.413,
+     "actual_total": 253341.0,
+     "predicted_total": 188959.137
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 17.288,
+     "group_total_wape": 14.164,
+     "total_error_pct": -9.746,
+     "total_month_wape": 9.947,
+     "actual_total": 216991.0,
+     "predicted_total": 195842.254
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 17.57,
+     "group_total_wape": 13.346,
+     "total_error_pct": 1.816,
+     "total_month_wape": 9.349,
+     "actual_total": 203909.0,
+     "predicted_total": 207611.195
+    }
+   ],
+   "mean_group_month_wape": 20.991
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 0,
+    "season": "agency",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 24.664,
+     "group_total_wape": 17.276,
+     "total_error_pct": -9.127,
+     "total_month_wape": 16.24,
+     "actual_total": 253341.0,
+     "predicted_total": 230218.142
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 16.648,
+     "group_total_wape": 11.883,
+     "total_error_pct": 7.381,
+     "total_month_wape": 10.414,
+     "actual_total": 216991.0,
+     "predicted_total": 233006.032
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 24.621,
+     "group_total_wape": 21.888,
+     "total_error_pct": 21.451,
+     "total_month_wape": 21.451,
+     "actual_total": 203909.0,
+     "predicted_total": 247649.164
+    }
+   ],
+   "mean_group_month_wape": 21.978
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 120,
+    "season": "none",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 31.145,
+     "group_total_wape": 26.273,
+     "total_error_pct": -25.874,
+     "total_month_wape": 25.899,
+     "actual_total": 253341.0,
+     "predicted_total": 187792.521
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 23.505,
+     "group_total_wape": 14.246,
+     "total_error_pct": -10.177,
+     "total_month_wape": 17.529,
+     "actual_total": 216991.0,
+     "predicted_total": 194907.4
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 23.737,
+     "group_total_wape": 13.594,
+     "total_error_pct": 1.526,
+     "total_month_wape": 15.546,
+     "actual_total": 203909.0,
+     "predicted_total": 207020.974
+    }
+   ],
+   "mean_group_month_wape": 26.129
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 120,
+    "season": "none",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 27.114,
+     "group_total_wape": 14.794,
+     "total_error_pct": -12.153,
+     "total_month_wape": 15.622,
+     "actual_total": 253341.0,
+     "predicted_total": 222552.978
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 23.467,
+     "group_total_wape": 9.483,
+     "total_error_pct": 4.699,
+     "total_month_wape": 13.986,
+     "actual_total": 216991.0,
+     "predicted_total": 227186.752
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 28.817,
+     "group_total_wape": 19.242,
+     "total_error_pct": 18.823,
+     "total_month_wape": 20.287,
+     "actual_total": 203909.0,
+     "predicted_total": 242290.231
+    }
+   ],
+   "mean_group_month_wape": 26.466
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 120,
+    "season": "government",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 29.825,
+     "group_total_wape": 25.533,
+     "total_error_pct": -25.131,
+     "total_month_wape": 25.131,
+     "actual_total": 253341.0,
+     "predicted_total": 189674.049
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 18.491,
+     "group_total_wape": 13.871,
+     "total_error_pct": -9.591,
+     "total_month_wape": 9.696,
+     "actual_total": 216991.0,
+     "predicted_total": 196180.096
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 19.142,
+     "group_total_wape": 13.432,
+     "total_error_pct": 2.019,
+     "total_month_wape": 8.807,
+     "actual_total": 203909.0,
+     "predicted_total": 208024.921
+    }
+   ],
+   "mean_group_month_wape": 22.486
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 120,
+    "season": "government",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 25.694,
+     "group_total_wape": 15.046,
+     "total_error_pct": -10.88,
+     "total_month_wape": 14.191,
+     "actual_total": 253341.0,
+     "predicted_total": 225778.389
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 17.369,
+     "group_total_wape": 10.16,
+     "total_error_pct": 5.744,
+     "total_month_wape": 8.74,
+     "actual_total": 216991.0,
+     "predicted_total": 229455.757
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 25.388,
+     "group_total_wape": 19.824,
+     "total_error_pct": 19.637,
+     "total_month_wape": 19.637,
+     "actual_total": 203909.0,
+     "predicted_total": 243949.934
+    }
+   ],
+   "mean_group_month_wape": 22.817
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 120,
+    "season": "agency",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 27.888,
+     "group_total_wape": 25.408,
+     "total_error_pct": -25.114,
+     "total_month_wape": 25.114,
+     "actual_total": 253341.0,
+     "predicted_total": 189717.89
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 17.078,
+     "group_total_wape": 13.887,
+     "total_error_pct": -9.395,
+     "total_month_wape": 9.668,
+     "actual_total": 216991.0,
+     "predicted_total": 196604.819
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 17.439,
+     "group_total_wape": 13.153,
+     "total_error_pct": 2.15,
+     "total_month_wape": 9.314,
+     "actual_total": 203909.0,
+     "predicted_total": 208292.042
+    }
+   ],
+   "mean_group_month_wape": 20.802
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 120,
+    "season": "agency",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 24.581,
+     "group_total_wape": 17.129,
+     "total_error_pct": -9.079,
+     "total_month_wape": 16.126,
+     "actual_total": 253341.0,
+     "predicted_total": 230341.272
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 16.607,
+     "group_total_wape": 11.816,
+     "total_error_pct": 7.365,
+     "total_month_wape": 10.385,
+     "actual_total": 216991.0,
+     "predicted_total": 232971.362
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 24.369,
+     "group_total_wape": 21.486,
+     "total_error_pct": 21.251,
+     "total_month_wape": 21.251,
+     "actual_total": 203909.0,
+     "predicted_total": 247241.288
+    }
+   ],
+   "mean_group_month_wape": 21.852
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 1200,
+    "season": "none",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 30.992,
+     "group_total_wape": 25.781,
+     "total_error_pct": -25.371,
+     "total_month_wape": 25.461,
+     "actual_total": 253341.0,
+     "predicted_total": 189064.791
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 23.496,
+     "group_total_wape": 13.919,
+     "total_error_pct": -9.608,
+     "total_month_wape": 17.441,
+     "actual_total": 216991.0,
+     "predicted_total": 196141.436
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 23.803,
+     "group_total_wape": 13.458,
+     "total_error_pct": 2.122,
+     "total_month_wape": 15.483,
+     "actual_total": 203909.0,
+     "predicted_total": 208236.092
+    }
+   ],
+   "mean_group_month_wape": 26.097
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 1200,
+    "season": "none",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 27.082,
+     "group_total_wape": 14.589,
+     "total_error_pct": -11.994,
+     "total_month_wape": 15.577,
+     "actual_total": 253341.0,
+     "predicted_total": 222954.285
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 23.624,
+     "group_total_wape": 9.863,
+     "total_error_pct": 4.95,
+     "total_month_wape": 14.009,
+     "actual_total": 216991.0,
+     "predicted_total": 227732.305
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 28.954,
+     "group_total_wape": 19.584,
+     "total_error_pct": 18.815,
+     "total_month_wape": 20.282,
+     "actual_total": 203909.0,
+     "predicted_total": 242274.148
+    }
+   ],
+   "mean_group_month_wape": 26.553
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 1200,
+    "season": "government",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 29.568,
+     "group_total_wape": 25.039,
+     "total_error_pct": -24.624,
+     "total_month_wape": 24.624,
+     "actual_total": 253341.0,
+     "predicted_total": 190957.447
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 18.336,
+     "group_total_wape": 13.544,
+     "total_error_pct": -9.014,
+     "total_month_wape": 9.232,
+     "actual_total": 216991.0,
+     "predicted_total": 197430.501
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 19.223,
+     "group_total_wape": 13.298,
+     "total_error_pct": 2.614,
+     "total_month_wape": 8.723,
+     "actual_total": 203909.0,
+     "predicted_total": 209238.513
+    }
+   ],
+   "mean_group_month_wape": 22.376
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 1200,
+    "season": "government",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 25.717,
+     "group_total_wape": 14.694,
+     "total_error_pct": -10.8,
+     "total_month_wape": 14.089,
+     "actual_total": 253341.0,
+     "predicted_total": 225979.476
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 17.519,
+     "group_total_wape": 10.422,
+     "total_error_pct": 6.001,
+     "total_month_wape": 8.875,
+     "actual_total": 216991.0,
+     "predicted_total": 230013.436
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 25.505,
+     "group_total_wape": 20.288,
+     "total_error_pct": 19.581,
+     "total_month_wape": 19.581,
+     "actual_total": 203909.0,
+     "predicted_total": 243836.62
+    }
+   ],
+   "mean_group_month_wape": 22.914
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 1200,
+    "season": "agency",
+    "stock": "depleting"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 27.526,
+     "group_total_wape": 24.906,
+     "total_error_pct": -24.606,
+     "total_month_wape": 24.606,
+     "actual_total": 253341.0,
+     "predicted_total": 191004.835
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 16.831,
+     "group_total_wape": 13.523,
+     "total_error_pct": -8.816,
+     "total_month_wape": 9.19,
+     "actual_total": 216991.0,
+     "predicted_total": 197862.135
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 17.337,
+     "group_total_wape": 13.003,
+     "total_error_pct": 2.749,
+     "total_month_wape": 9.279,
+     "actual_total": 203909.0,
+     "predicted_total": 209514.486
+    }
+   ],
+   "mean_group_month_wape": 20.565
+  },
+  {
+   "spec": {
+    "window_months": 36,
+    "shrink": 1200,
+    "season": "agency",
+    "stock": "constant"
+   },
+   "windows": [
+    {
+     "cutoff": "2021-12",
+     "group_month_wape": 24.201,
+     "group_total_wape": 16.551,
+     "total_error_pct": -9.197,
+     "total_month_wape": 15.987,
+     "actual_total": 253341.0,
+     "predicted_total": 230042.076
+    },
+    {
+     "cutoff": "2022-12",
+     "group_month_wape": 16.583,
+     "group_total_wape": 11.81,
+     "total_error_pct": 7.395,
+     "total_month_wape": 10.273,
+     "actual_total": 216991.0,
+     "predicted_total": 233036.989
+    },
+    {
+     "cutoff": "2023-12",
+     "group_month_wape": 24.43,
+     "group_total_wape": 21.673,
+     "total_error_pct": 20.901,
+     "total_month_wape": 20.901,
+     "actual_total": 203909.0,
+     "predicted_total": 246527.915
+    }
+   ],
+   "mean_group_month_wape": 21.738
+  }
+ ],
+ "ets_candidates": [
+  {
+   "params": {
+    "alpha": 0.1,
+    "beta": 0.0,
+    "gamma": 0.1,
+    "phi": 0.9
+   },
+   "mean_group_month_wape": 19.85
+  },
+  {
+   "params": {
+    "alpha": 0.1,
+    "beta": 0.0,
+    "gamma": 0.1,
+    "phi": 1.0
+   },
+   "mean_group_month_wape": 24.924
+  },
+  {
+   "params": {
+    "alpha": 0.1,
+    "beta": 0.0,
+    "gamma": 0.3,
+    "phi": 0.9
+   },
+   "mean_group_month_wape": 18.332
+  },
+  {
+   "params": {
+    "alpha": 0.1,
+    "beta": 0.0,
+    "gamma": 0.3,
+    "phi": 1.0
+   },
+   "mean_group_month_wape": 22.346
+  },
+  {
+   "params": {
+    "alpha": 0.1,
+    "beta": 0.05,
+    "gamma": 0.1,
+    "phi": 0.9
+   },
+   "mean_group_month_wape": 20.344
+  },
+  {
+   "params": {
+    "alpha": 0.1,
+    "beta": 0.05,
+    "gamma": 0.1,
+    "phi": 1.0
+   },
+   "mean_group_month_wape": 22.77
+  },
+  {
+   "params": {
+    "alpha": 0.1,
+    "beta": 0.05,
+    "gamma": 0.3,
+    "phi": 0.9
+   },
+   "mean_group_month_wape": 18.807
+  },
+  {
+   "params": {
+    "alpha": 0.1,
+    "beta": 0.05,
+    "gamma": 0.3,
+    "phi": 1.0
+   },
+   "mean_group_month_wape": 20.936
+  },
+  {
+   "params": {
+    "alpha": 0.3,
+    "beta": 0.0,
+    "gamma": 0.1,
+    "phi": 0.9
+   },
+   "mean_group_month_wape": 20.746
+  },
+  {
+   "params": {
+    "alpha": 0.3,
+    "beta": 0.0,
+    "gamma": 0.1,
+    "phi": 1.0
+   },
+   "mean_group_month_wape": 23.183
+  },
+  {
+   "params": {
+    "alpha": 0.3,
+    "beta": 0.0,
+    "gamma": 0.3,
+    "phi": 0.9
+   },
+   "mean_group_month_wape": 19.295
+  },
+  {
+   "params": {
+    "alpha": 0.3,
+    "beta": 0.0,
+    "gamma": 0.3,
+    "phi": 1.0
+   },
+   "mean_group_month_wape": 21.415
+  },
+  {
+   "params": {
+    "alpha": 0.3,
+    "beta": 0.05,
+    "gamma": 0.1,
+    "phi": 0.9
+   },
+   "mean_group_month_wape": 21.908
+  },
+  {
+   "params": {
+    "alpha": 0.3,
+    "beta": 0.05,
+    "gamma": 0.1,
+    "phi": 1.0
+   },
+   "mean_group_month_wape": 24.29
+  },
+  {
+   "params": {
+    "alpha": 0.3,
+    "beta": 0.05,
+    "gamma": 0.3,
+    "phi": 0.9
+   },
+   "mean_group_month_wape": 20.47
+  },
+  {
+   "params": {
+    "alpha": 0.3,
+    "beta": 0.05,
+    "gamma": 0.3,
+    "phi": 1.0
+   },
+   "mean_group_month_wape": 22.702
+  },
+  {
+   "params": {
+    "alpha": 0.5,
+    "beta": 0.0,
+    "gamma": 0.1,
+    "phi": 0.9
+   },
+   "mean_group_month_wape": 23.35
+  },
+  {
+   "params": {
+    "alpha": 0.5,
+    "beta": 0.0,
+    "gamma": 0.1,
+    "phi": 1.0
+   },
+   "mean_group_month_wape": 25.454
+  },
+  {
+   "params": {
+    "alpha": 0.5,
+    "beta": 0.0,
+    "gamma": 0.3,
+    "phi": 0.9
+   },
+   "mean_group_month_wape": 22.061
+  },
+  {
+   "params": {
+    "alpha": 0.5,
+    "beta": 0.0,
+    "gamma": 0.3,
+    "phi": 1.0
+   },
+   "mean_group_month_wape": 24.044
+  },
+  {
+   "params": {
+    "alpha": 0.5,
+    "beta": 0.05,
+    "gamma": 0.1,
+    "phi": 0.9
+   },
+   "mean_group_month_wape": 25.131
+  },
+  {
+   "params": {
+    "alpha": 0.5,
+    "beta": 0.05,
+    "gamma": 0.1,
+    "phi": 1.0
+   },
+   "mean_group_month_wape": 27.352
+  },
+  {
+   "params": {
+    "alpha": 0.5,
+    "beta": 0.05,
+    "gamma": 0.3,
+    "phi": 0.9
+   },
+   "mean_group_month_wape": 23.98
+  },
+  {
+   "params": {
+    "alpha": 0.5,
+    "beta": 0.05,
+    "gamma": 0.3,
+    "phi": 1.0
+   },
+   "mean_group_month_wape": 26.112
+  }
+ ],
+ "selected": {
+  "window_months": 12,
+  "shrink": 1200,
+  "season": "agency"
+ },
+ "selected_stock": "depleting",
+ "comparators": {
+  "ets": {
+   "alpha": 0.1,
+   "beta": 0.0,
+   "gamma": 0.3,
+   "phi": 0.9
+  }
+ }
+}

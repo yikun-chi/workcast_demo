@@ -1,0 +1,97 @@
+# Ctrip call-centre experiment: ontology bindings (schema: orgsim/ontology/bindings.py docstring).
+# Roles are bound to O*NET-SOC 31.0 occupations; every activity maps to DWA ids of that occupation.
+organization:
+  id: org:ctrip
+  label: Ctrip (Shanghai call centre, airfare and hotel booking, 2010-11)
+  properties:
+    headquarters: Shanghai
+    source: Bloom, Liang, Roberts & Ying, QJE 2015; Harvard Dataverse doi:10.7910/DVN/PZQOB1
+
+locations:
+  - id: loc:shanghai_call_centre
+    label: Shanghai call centre (office)
+    properties: {kind: office, note: "All 249 volunteers worked in the Shanghai office before the experiment"}
+  - id: loc:home
+    label: Employee home (home days)
+    properties: {kind: home, note: "Volunteers needed six months of tenure, broadband and a private room to work in"}
+
+org_units:
+  - id: shanghai_call_centre
+    label: Shanghai call centre
+    location: loc:shanghai_call_centre
+    properties: {function: "Airfare and hotel booking by phone"}
+
+roles:
+  - id: order_taker
+    label: Order taker (phone bookings)
+    onet_code: "43-4181.00"
+    org_unit: shanghai_call_centre
+    properties: {seat: employee, observed: "type 1 in the deposit; weekly calls answered are recorded"}
+  - id: other_agent
+    label: Other call-centre role
+    onet_code: "43-4051.00"
+    org_unit: shanghai_call_centre
+    properties: {seat: employee, observed: "types 2-5 in the deposit; the overall performance score is recorded, calls are not"}
+
+systems:
+  - id: phone_booking
+    label: Phone and booking system
+    capabilities:
+      - {id: cap_answer_call, label: Answer a customer call}
+      - {id: cap_book, label: Make or change a booking}
+      - {id: cap_record, label: Record the order and payment}
+
+artifacts:
+  - {id: booking, label: Completed booking}
+
+activities:
+  - id: answer_booking_call
+    label: Answer a booking call
+    roles: [order_taker]
+    dwa_ids: ["4.A.4.a.1.a.3", "4.A.4.a.5.j.5"]
+    capability: cap_answer_call
+    produces: booking
+    properties: {weight: 0.6, remote_feasible: true}
+  - id: quote_and_take_payment
+    label: Quote prices and take payment
+    roles: [order_taker]
+    dwa_ids: ["4.A.2.b.1.a.7", "4.A.4.c.3.d.1"]
+    capability: cap_book
+    properties: {weight: 0.25, remote_feasible: true}
+  - id: record_order
+    label: Record the order
+    roles: [order_taker]
+    dwa_ids: ["4.A.2.a.2.c.3"]
+    capability: cap_record
+    properties: {weight: 0.15, remote_feasible: true}
+  - id: handle_customer_request
+    label: Handle a customer request or change
+    roles: [other_agent]
+    dwa_ids: ["4.A.4.a.1.a.3", "4.A.4.a.3.c.7"]
+    capability: cap_book
+    properties: {weight: 0.6, remote_feasible: true}
+  - id: verify_records
+    label: Verify booking and payment records
+    roles: [other_agent]
+    dwa_ids: ["4.A.2.a.2.a.9", "4.A.3.b.6.j.3"]
+    capability: cap_record
+    properties: {weight: 0.25, remote_feasible: true}
+  - id: refer_customer
+    label: Refer a customer to the right team
+    roles: [other_agent]
+    dwa_ids: ["4.A.4.a.5.a.1"]
+    capability: cap_answer_call
+    properties: {weight: 0.15, remote_feasible: true}
+
+relationships: []
+relationship_types: []
+
+latent_states:
+  - {id: home_share, label: Share of workdays at home, properties: {scale: "0-1"}}
+  - {id: intensity, label: Home-working intensity relative to four days a week, properties: {scale: "0-1"}}
+
+policies:
+  - id: wfh_four_days
+    label: Work from home Monday to Thursday for the home group
+    affects: [order_taker, other_agent, loc:home]
+    properties: {days: [Mon, Tue, Wed, Thu], arm_field: treat, start: 2010-12-06, end: 2011-08-19}

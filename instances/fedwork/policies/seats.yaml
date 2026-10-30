@@ -1,0 +1,7 @@
+# Seat -> policy adapter. Cohort twins separate through the kernel's binomial draws on the offered hazards, which is
+# the rule seat's choice in aggregate; a language-model seat would need per-person twins.
+default:
+  adapter: rule
+seats:
+  employee:
+    adapter: rule
