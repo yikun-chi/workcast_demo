@@ -1,53 +1,41 @@
-## Worked value case
+## Know what happens before you decide.
 
-The value case uses an illustrative firm of 3,000 employees. Every proof point comes from a scored backtest against real company data. Every dollar figure shows its working. Real client figures will replace the estimates during our scoping conversations.
+WORKCAST rebuilds your organisation as a simulation calibrated to your own data, then tests decisions before you make them. We predict outcomes that really happened, using only data from before they happened, and score ourselves against the methods your team uses today. Each result below is sized for an illustrative 3,000-person firm, with the working shown.
 
-### 1. Skip the pilot. Keep the result.
+### 1. Predict the result of an experiment before you run it. Worth about $2.4 million.
 
-**Classical approach.** Run a pilot, wait six months, then decide. Firms testing several options run several pilots and wait nine months.
+Trip.com ran a six-month randomised trial of hybrid work with 1,612 employees. Classical planning scales up results from earlier studies. Working only from data collected before the trial, our digital twins predicted the effect on attrition at 2.39 points; the trial measured 2.40: **99.6% accuracy, 80% less error** than the published rule of thumb.
 
-**Our result.** Trip.com ran a six-month randomised trial of hybrid work with 1,612 employees. Working only from data collected before the trial, our digital twins predicted the trial's effect on attrition at 2.39 points. The trial measured 2.40. That is **99.6% accuracy**, with **80% less error** than the best published rule of thumb.
+*How we got there.* Deciding in four months instead of nine puts the policy to work five months sooner. 3,000 employees × 2.40 points fewer resignations per six months × five months sooner = 60 resignations avoided. Each costs $40,000, half of an $80,000 salary, the low end of Gallup's estimate of one-half to two times salary: $2,397,100.
 
-**What it saves.** Deciding in four months instead of nine puts the winning intervention to work five months sooner. For a 3,000-person firm, that is **about $2.4 million** in resignations that never happen.
+### 2. Size a change correctly before you fund it. Worth about $12.9 million a year in business-case accuracy.
 
-**How we got there.** 3,000 employees × 2.40 points fewer resignations per six months × five months sooner = 60 resignations avoided. 60 × $40,000 replacement cost = $2,397,100. Replacement cost is half of a $80,000 salary, the low end of Gallup's estimate of one-half to two times salary. Assumes the winning intervention performs like Trip.com's.
+In Ctrip's landmark work-from-home trial, the standard approach borrows the effect size from past research (+0.36 standard deviations of performance). The real effect was +0.20. WORKCAST predicted +0.23: **86% less error**.
 
-### 2. Stop paying for idle AI licences.
+*How we got there.* One standard deviation of performance is valued at $32,000 a year (40% of an $80,000 salary; an assumption your own value replaces). The borrowed estimate misstates the gain by 0.16 SD × $32,000 × 3,000 = $15 million a year; WORKCAST's by 0.02 SD, $2.1 million. The business case lands $12.9 million a year closer to reality: over-investment avoided, or benefit promised to the board that never arrives.
 
-**Classical approach.** License by job title, then discover the idle seats at renewal. Usage forecasts simply carry last month forward.
+### 3. Staff operations to the real bottleneck. Worth about $760,000 a year.
 
-**Our result.** Across 1,600 backtested usage forecasts, our simulation predicted next week's usage at **74% accuracy against 67%** for the standard forecast: **21% less error**. For sporadic, on-and-off users, the ones most likely to leave a seat idle, it cut error by **37%**.
+After a multinational expanded its purchase-to-pay team by 60%, classical forecasts were 81% accurate on on-time completion. WORKCAST was **90% accurate, with 45% less error**, and showed the extra hires did not speed processing: completion stayed at 11.79% with them and 11.78% without.
 
-**What it saves.** **About $90,000 in year one**, by moving low-use seats to the people who will use them.
+*How we got there.* A finance-operations team growing from 25 to 40 adds 15 roles × $50,670, the U.S. median wage for bookkeeping, accounting and auditing clerks (Bureau of Labor Statistics, 2025) = $760,050 in wages that bought no faster processing.
 
-**How we got there.** 3,000 seats × $30 per user per month (Microsoft Copilot list price) × 12 = $1,080,000 a year. Assume one seat in three is low-use: $360,000. Recovering a quarter of that = $90,000.
+### 4. Budget AI spend without surprises. Worth about $134,000 a year.
 
-### 3. Launch leadership programmes that land.
+Carrying last month's AI bill forward missed actual spend by 30%. Across 16 backtests on the 100 largest AI apps on OpenRouter, WORKCAST missed by 16%: **48% less error, 84% accuracy**.
 
-**Classical approach.** Pick leaders by seniority, launch, and find out who changed behaviour from a survey months later.
+*How we got there.* On $650,000 of annual token spend, the classical forecast misses by $196,800 and WORKCAST by $102,200: $95,000 less budget variance. Buying capacity in advance at a 40% discount against our forecast saves $60,594 per $1 million of spend in the backtest: × 0.65 = $39,000 saved outright. Together, about $134,000 a year.
 
-**Our result.** In the Trip.com trial, our twins predicted how many employees would take up the new way of working at **94% accuracy** (55% predicted, 52% actual), working only from data collected before it began. They called the change in work satisfaction to within 0.02 points on a 10-point scale.
+### 5. Provision AI licences as adoption arrives. Worth about $18,000 a year.
 
-**What it saves.** Choosing which leaders join first, in which groups, raises the share of employees showing the target behaviour from 30% to 38%: **about $72,000 a year**.
+Forecasting the share of firms using AI, industry by industry, WORKCAST beat the best standard method by **10%**, at **85% accuracy**.
 
-**How we got there.** 8% of 3,000 employees = 240 more employees showing the behaviour. 240 × $300 of annual value per employee = $72,000. The $300 is a placeholder for the client's own value of the behaviour.
+*How we got there.* Our forecast misses adoption by 1.37 points, the best standard method by 1.52, on an average adoption rate of 9.25%. Buying seats in line with the forecast, that is 14.8% of the licence budget mis-provisioned instead of 16.4%. On 3,000 seats × $30 a month (Microsoft Copilot list price) = $1.1 million a year, the 1.6-point difference is $18,000 less spent on idle seats or lost to late ones.
 
-### 4. Budget AI tokens to the dollar.
+### 6. See demand disruption coming. Worth about $81,000 per $1 million of volume-linked cost.
 
-**Classical approach.** Take last month's token bill and carry it forward. In our backtests, that missed actual AI spend by 30%.
+After ChatGPT launched, WORKCAST forecast the decline in Stack Overflow's question volume with **39% less error** than the best standard forecast, at **87% accuracy**.
 
-**Our result.** Across 16 backtests on the 100 largest AI apps on OpenRouter, our simulation forecast AI spend at **84% accuracy against 70%**: it missed by 16% where the classical forecast missed by 30%. That is **48% less error**.
+*How we got there.* Per 13-week window, our forecast misses by 5,719 questions and the best standard forecast by 9,352, on about 44,700 questions: a gap of 8.1% of volume. For a business whose staffing, moderation or inventory scales with volume, that is $81,000 less mis-planned capacity per $1 million of volume-linked cost.
 
-**What it saves.** On $650,000 of annual token spend, **about $39,000 a year** in commitment discounts captured, and **$95,000 less budget variance**.
-
-**How we got there.** Budget variance: $650,000 × 30.3% = $196,800 classical miss; $650,000 × 15.7% = $102,200 our miss; difference $94,600. Savings: buying committed capacity at a 40% discount against our forecast instead of the classical one saves $60,594 per $1 million of annual spend in the backtest. × 0.65 = $39,400. Unused commitments are lost and overflow pays full price, as with Microsoft's provisioned-throughput reservations.
-
-### 5. Right-size operations before you hire.
-
-**Classical approach.** Staff to volume. When the backlog grows, add people.
-
-**Our result.** A multinational's purchase-to-pay team expanded its workforce by 60%. Our simulation predicted the share of orders completed on time afterwards at **90% accuracy against 81%** for the best classical method: **45% less error**. Run without the expansion, the simulation showed completion unchanged (11.79% with the new hires, 11.78% without). The bottleneck was never headcount.
-
-**What it saves.** For a finance operations team that grew from 25 to 40, **about $760,000 a year** in wages that bought no faster processing.
-
-**How we got there.** 15 added roles × $50,670 median wage for bookkeeping, accounting and auditing clerks (U.S. Bureau of Labor Statistics, 2025 wage data) = $760,050. Wages only; benefits and recruiting would raise it.
+*All results come from backtests on public and published data, scored against standard forecasting methods. Dollar figures apply stated assumptions to an illustrative firm; client figures replace them in scoping.*

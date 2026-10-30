@@ -107,6 +107,29 @@ def main() -> None:
     add("or_spend_actual_mean", sum(w["actual"] for w in ts["windows"]) / len(ts["windows"]), "$M", INTERNAL, f, "mean of business_validation[top_spend].windows[].actual", hi)
     add("or_first_cutoff_year", float(ev["windows"][0]["cutoff"][:4]), "year", INTERNAL, f, "windows[0].cutoff", hi)
 
+    # ---- Ctrip work-from-home trial (Bloom et al. 2015), held-out evaluation
+    f = "ctrip_evaluation.json"
+    ct = json.loads((INTERNAL / f).read_text())["metric_index"]["perf_effect"]
+    add("ctrip_perf_effect_sim", ct["simulated"], "SD", INTERNAL, f, "metric_index.perf_effect.simulated", hi)
+    add("ctrip_perf_effect_actual", ct["actual"], "SD", INTERNAL, f, "metric_index.perf_effect.actual", hi)
+    add("ctrip_perf_effect_literature", ct["comparators"]["literature"], "SD", INTERNAL, f, "metric_index.perf_effect.comparators.literature", hi)
+    best = min(ct["comparator_errors"], key=ct["comparator_errors"].get)
+    add("ctrip_perf_best_comparator_is_literature", float(best == "literature"), "flag", INTERNAL, f, "argmin of metric_index.perf_effect.comparator_errors", hi)
+
+    # ---- BTOS AI use by sector and Stack Overflow questions after ChatGPT (adoption world), held-out cutoffs
+    for inst, scale in (("btos_ai", 100.0), ("so_chatgpt", 1.0)):
+        f = f"{inst}_evaluation.json"
+        h = json.loads((INTERNAL / f).read_text())["accuracy"]["held_out"]["headline"]
+        best = min((k for k in h["mae"] if k != "simulation"), key=h["mae"].get)
+        add(f"{inst}_mae_sim", h["mae"]["simulation"] * scale, "level", INTERNAL, f, "accuracy.held_out.headline.mae.simulation", hi)
+        add(f"{inst}_mae_best", h["mae"][best] * scale, "level", INTERNAL, f, f"accuracy.held_out.headline.mae.{best} (best of {len(h['mae']) - 1} comparators)", hi)
+        add(f"{inst}_mean_actual", h["mean_actual"] * scale, "level", INTERNAL, f, "accuracy.held_out.headline.mean_actual", hi)
+        add(f"{inst}_n_predictions", float(h["n_predictions"]), "count", INTERNAL, f, "accuracy.held_out.headline.n_predictions", hi)
+
+    lab = json.loads((INTERNAL / "so_chatgpt_evaluation.json").read_text())["headline"]["mae"]["label"]
+    m = re.search(r"per (\d+) weeks", lab)
+    add("so_chatgpt_window_weeks", float(m.group(1)), "weeks", INTERNAL, "so_chatgpt_evaluation.json", f"headline.mae.label: '{lab}'", hi)
+
     # ---- external rates
     g = text_of(EXTERNAL / "gallup_replacement_cost.html")
     if "one-half to two times the employee's annual salary" not in g:

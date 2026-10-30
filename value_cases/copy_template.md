@@ -1,53 +1,41 @@
-## Worked value case
+## Know what happens before you decide.
 
-The value case uses an illustrative firm of {{firm_employees}} employees. Every proof point comes from a scored backtest against real company data. Every dollar figure shows its working. Real client figures will replace the estimates during our scoping conversations.
+WORKCAST rebuilds your organisation as a simulation calibrated to your own data, then tests decisions before you make them. We predict outcomes that really happened, using only data from before they happened, and score ourselves against the methods your team uses today. Each result below is sized for an illustrative {{firm_employees}}-person firm, with the working shown.
 
-### 1. Skip the pilot. Keep the result.
+### 1. Predict the result of an experiment before you run it. Worth about {{c1_value}}.
 
-**Classical approach.** Run a pilot, wait {{c1_trial_months}} months, then decide. Firms testing several options run several pilots and wait {{c1_months_classical}} months.
+Trip.com ran a {{c1_trial_months}}-month randomised trial of hybrid work with {{c1_trip_employees}} employees. Classical planning scales up results from earlier studies. Working only from data collected before the trial, our digital twins predicted the effect on attrition at {{c1_effect_sim}} points; the trial measured {{c1_effect_actual}}: **{{c1_accuracy}} accuracy, {{c1_error_reduction}} less error** than the published rule of thumb.
 
-**Our result.** Trip.com ran a {{c1_trial_months}}-month randomised trial of hybrid work with {{c1_trip_employees}} employees. Working only from data collected before the trial, our digital twins predicted the trial's effect on attrition at {{c1_effect_sim}} points. The trial measured {{c1_effect_actual}}. That is **{{c1_accuracy}} accuracy**, with **{{c1_error_reduction}} less error** than the best published rule of thumb.
+*How we got there.* Deciding in {{c1_months_ours}} months instead of {{c1_months_classical}} puts the policy to work {{c1_months_sooner}} months sooner. {{firm_employees}} employees × {{c1_effect_used}} points fewer resignations per {{c1_trial_months}} months × {{c1_months_sooner}} months sooner = {{c1_departures_avoided}} resignations avoided. Each costs {{c1_replacement_cost}}, half of an {{c1_salary}} salary, the low end of Gallup's estimate of {{c1_replacement_low}} to {{c1_replacement_high}} salary: {{c1_value_exact}}.
 
-**What it saves.** Deciding in {{c1_months_ours}} months instead of {{c1_months_classical}} puts the winning intervention to work {{c1_months_sooner}} months sooner. For a {{firm_employees}}-person firm, that is **about {{c1_value}}** in resignations that never happen.
+### 2. Size a change correctly before you fund it. Worth about {{c2_value}} a year in business-case accuracy.
 
-**How we got there.** {{firm_employees}} employees × {{c1_effect_used}} points fewer resignations per {{c1_trial_months}} months × {{c1_months_sooner}} months sooner = {{c1_departures_avoided}} resignations avoided. {{c1_departures_avoided}} × {{c1_replacement_cost}} replacement cost = {{c1_value_exact}}. Replacement cost is half of a {{c1_salary}} salary, the low end of Gallup's estimate of {{c1_replacement_low}} to {{c1_replacement_high}} salary. Assumes the winning intervention performs like Trip.com's.
+In Ctrip's landmark work-from-home trial, the standard approach borrows the effect size from past research ({{c2_effect_literature}} standard deviations of performance). The real effect was {{c2_effect_actual}}. WORKCAST predicted {{c2_effect_sim}}: **{{c2_error_reduction}} less error**.
 
-### 2. Stop paying for idle AI licences.
+*How we got there.* One standard deviation of performance is valued at {{c2_sd_value}} a year ({{c2_sd_share}} of an {{c1_salary}} salary; an assumption your own value replaces). The borrowed estimate misstates the gain by {{c2_gap_literature}} SD × {{c2_sd_value}} × {{firm_employees}} = {{c2_misstated_literature}} a year; WORKCAST's by {{c2_gap_sim}} SD, {{c2_misstated_sim}}. The business case lands {{c2_value}} a year closer to reality: over-investment avoided, or benefit promised to the board that never arrives.
 
-**Classical approach.** License by job title, then discover the idle seats at renewal. Usage forecasts simply carry last month forward.
+### 3. Staff operations to the real bottleneck. Worth about {{c5_value}} a year.
 
-**Our result.** Across {{c2_predictions}} backtested usage forecasts, our simulation predicted next week's usage at **{{c2_acc_sim}} accuracy against {{c2_acc_classical}}** for the standard forecast: **{{c2_error_reduction}} less error**. For sporadic, on-and-off users, the ones most likely to leave a seat idle, it cut error by **{{c2_oneoff_error_reduction}}**.
+After a multinational expanded its purchase-to-pay team by {{c5_expansion}}, classical forecasts were {{c5_acc_classical}} accurate on on-time completion. WORKCAST was **{{c5_acc_sim}} accurate, with {{c5_error_reduction}} less error**, and showed the extra hires did not speed processing: completion stayed at {{c5_completion_observed}} with them and {{c5_completion_no_expansion}} without.
 
-**What it saves.** **About {{c2_value}} in year one**, by moving low-use seats to the people who will use them.
+*How we got there.* A finance-operations team growing from {{c5_team_before}} to {{c5_team_after}} adds {{c5_added}} roles × {{c5_wage}}, the U.S. median wage for bookkeeping, accounting and auditing clerks (Bureau of Labor Statistics, {{c5_wage_year}}) = {{c5_value_exact}} in wages that bought no faster processing.
 
-**How we got there.** {{c2_seats}} seats × {{c2_price}} per user per month (Microsoft Copilot list price) × {{c2_months_per_year}} = {{c2_annual_spend}} a year. Assume {{c2_low_use_share}} is low-use: {{c2_low_use_spend}}. Recovering {{c2_recovered_share}} of that = {{c2_value}}.
+### 4. Budget AI spend without surprises. Worth about {{c4_total}} a year.
 
-### 3. Launch leadership programmes that land.
+Carrying last month's AI bill forward missed actual spend by {{c4_miss_classical}}. Across {{c4_backtests}} backtests on the {{c4_apps}} largest AI apps on OpenRouter, WORKCAST missed by {{c4_miss_sim}}: **{{c4_error_reduction}} less error, {{c4_acc_sim}} accuracy**.
 
-**Classical approach.** Pick leaders by seniority, launch, and find out who changed behaviour from a survey months later.
+*How we got there.* On {{c4_spend}} of annual token spend, the classical forecast misses by {{c4_variance_classical}} and WORKCAST by {{c4_variance_sim}}: {{c4_variance_gap}} less budget variance. Buying capacity in advance at a {{c4_discount}} discount against our forecast saves {{c4_saving_per_million}} per {{c4_one_million}} of spend in the backtest: × {{c4_spend_in_millions}} = {{c4_saving}} saved outright. Together, about {{c4_total}} a year.
 
-**Our result.** In the Trip.com trial, our twins predicted how many employees would take up the new way of working at **{{c3_accuracy}} accuracy** ({{c3_takeup_sim}} predicted, {{c3_takeup_actual}} actual), working only from data collected before it began. They called the change in work satisfaction to within {{c3_satisfaction_gap}} points on a {{c3_scale}}-point scale.
+### 5. Provision AI licences as adoption arrives. Worth about {{c6_value}} a year.
 
-**What it saves.** Choosing which leaders join first, in which groups, raises the share of employees showing the target behaviour from {{c3_share_before}} to {{c3_share_after}}: **about {{c3_value}} a year**.
+Forecasting the share of firms using AI, industry by industry, WORKCAST beat the best standard method by **{{c6_error_reduction}}**, at **{{c6_acc_sim}} accuracy**.
 
-**How we got there.** {{c3_share_gain}} of {{firm_employees}} employees = {{c3_more_employees}} more employees showing the behaviour. {{c3_more_employees}} × {{c3_value_per_employee}} of annual value per employee = {{c3_value}}. The {{c3_value_per_employee}} is a placeholder for the client's own value of the behaviour.
+*How we got there.* Our forecast misses adoption by {{c6_mae_sim}} points, the best standard method by {{c6_mae_best}}, on an average adoption rate of {{c6_mean_actual}}. Buying seats in line with the forecast, that is {{c6_mis_sim}} of the licence budget mis-provisioned instead of {{c6_mis_best}}. On {{c6_seats}} seats × {{c6_price}} a month (Microsoft Copilot list price) = {{c6_budget}} a year, the {{c6_gap_points}}-point difference is {{c6_value}} less spent on idle seats or lost to late ones.
 
-### 4. Budget AI tokens to the dollar.
+### 6. See demand disruption coming. Worth about {{c7_value}} per {{c7_cost}} of volume-linked cost.
 
-**Classical approach.** Take last month's token bill and carry it forward. In our backtests, that missed actual AI spend by {{c4_miss_classical}}.
+After ChatGPT launched, WORKCAST forecast the decline in Stack Overflow's question volume with **{{c7_error_reduction}} less error** than the best standard forecast, at **{{c7_acc_sim}} accuracy**.
 
-**Our result.** Across {{c4_backtests}} backtests on the {{c4_apps}} largest AI apps on OpenRouter, our simulation forecast AI spend at **{{c4_acc_sim}} accuracy against {{c4_acc_classical}}**: it missed by {{c4_miss_sim}} where the classical forecast missed by {{c4_miss_classical}}. That is **{{c4_error_reduction}} less error**.
+*How we got there.* Per {{c7_window}}-week window, our forecast misses by {{c7_mae_sim}} questions and the best standard forecast by {{c7_mae_best}}, on about {{c7_mean_actual}} questions: a gap of {{c7_gap_pct}} of volume. For a business whose staffing, moderation or inventory scales with volume, that is {{c7_value}} less mis-planned capacity per {{c7_cost}} of volume-linked cost.
 
-**What it saves.** On {{c4_spend}} of annual token spend, **about {{c4_saving}} a year** in commitment discounts captured, and **{{c4_variance_gap}} less budget variance**.
-
-**How we got there.** Budget variance: {{c4_spend}} × {{c4_miss_classical_1dp}} = {{c4_variance_classical}} classical miss; {{c4_spend}} × {{c4_miss_sim_1dp}} = {{c4_variance_sim}} our miss; difference {{c4_variance_gap_exact}}. Savings: buying committed capacity at a {{c4_discount}} discount against our forecast instead of the classical one saves {{c4_saving_per_million}} per {{c4_one_million}} of annual spend in the backtest. × {{c4_spend_in_millions}} = {{c4_saving_exact}}. Unused commitments are lost and overflow pays full price, as with Microsoft's provisioned-throughput reservations.
-
-### 5. Right-size operations before you hire.
-
-**Classical approach.** Staff to volume. When the backlog grows, add people.
-
-**Our result.** A multinational's purchase-to-pay team expanded its workforce by {{c5_expansion}}. Our simulation predicted the share of orders completed on time afterwards at **{{c5_acc_sim}} accuracy against {{c5_acc_classical}}** for the best classical method: **{{c5_error_reduction}} less error**. Run without the expansion, the simulation showed completion unchanged ({{c5_completion_observed}} with the new hires, {{c5_completion_no_expansion}} without). The bottleneck was never headcount.
-
-**What it saves.** For a finance operations team that grew from {{c5_team_before}} to {{c5_team_after}}, **about {{c5_value}} a year** in wages that bought no faster processing.
-
-**How we got there.** {{c5_added}} added roles × {{c5_wage}} median wage for bookkeeping, accounting and auditing clerks (U.S. Bureau of Labor Statistics, {{c5_wage_year}} wage data) = {{c5_value_exact}}. Wages only; benefits and recruiting would raise it.
+*All results come from backtests on public and published data, scored against standard forecasting methods. Dollar figures apply stated assumptions to an illustrative firm; client figures replace them in scoping.*

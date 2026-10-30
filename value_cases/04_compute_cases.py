@@ -31,7 +31,8 @@ def put(id_: str, value: float, display: str, formula: str, uses: list[str]) -> 
 def usd(x: float, step: int = 1000) -> str:
     """Dollars rounded to `step` for the copy ($2.4 million style above one million)."""
     if x >= 1e6:
-        return f"${x / 1e6:.1f} million"
+        v = f"{x / 1e6:.1f}"
+        return f"${v[:-2] if v.endswith('.0') else v} million"
     return f"${round(x / step) * step:,.0f}"
 
 
@@ -91,42 +92,55 @@ def main() -> None:
     put("c1_value", dep * rep, usd(dep * rep), "departures avoided x replacement cost", ["trip_attrition_effect_actual", "gallup_replacement_low"])
     put("c1_value_exact", dep * rep, f"${dep * rep:,.0f}", "same, unrounded", [])
 
-    # ---- 2. licences (OpenRouter usage forecasts)
-    put("c2_predictions", inp["or_company_predictions"], f"{inp['or_company_predictions']:,.0f}", "input", ["or_company_predictions"])
-    put("c2_acc_sim", 100 - inp["or_1wk_error_sim"], pct(100 - inp["or_1wk_error_sim"]), "100 - one-week error", ["or_1wk_error_sim"])
-    put("c2_acc_classical", 100 - inp["or_1wk_error_carry_forward"], pct(100 - inp["or_1wk_error_carry_forward"]), "100 - one-week error, carry forward", ["or_1wk_error_carry_forward"])
-    r1 = 100 * (1 - inp["or_1wk_error_sim"] / inp["or_1wk_error_carry_forward"])
-    put("c2_error_reduction", r1, pct(r1), "1 - sim / carry forward", ["or_1wk_error_sim", "or_1wk_error_carry_forward"])
-    r2 = 100 * (1 - inp["or_oneoff_error_sim"] / inp["or_oneoff_error_carry_forward"])
-    put("c2_oneoff_error_reduction", r2, pct(r2), "1 - sim / carry forward, one-off apps", ["or_oneoff_error_sim", "or_oneoff_error_carry_forward"])
-    seats = n * A["licence_seats_share"]
-    put("c2_seats", seats, f"{seats:,.0f}", "firm x seat share", [])
-    put("c2_price", inp["copilot_price_per_user_month"], f"${inp['copilot_price_per_user_month']:.0f}", "input", ["copilot_price_per_user_month"])
-    yearly = seats * inp["copilot_price_per_user_month"] * 12
-    put("c2_months_per_year", 12, "12", "calendar", [])
-    put("c2_annual_spend", yearly, f"${yearly:,.0f}", "seats x price x 12", ["copilot_price_per_user_month"])
-    put("c2_low_use_share", A["licence_low_use_share"], "one seat in three", "assumption", [])
-    low = yearly * A["licence_low_use_share"]
-    put("c2_low_use_spend", low, f"${low:,.0f}", "annual spend x low-use share", [])
-    put("c2_recovered_share", A["licence_recovered_share"], "a quarter", "assumption", [])
-    put("c2_value", low * A["licence_recovered_share"], usd(low * A["licence_recovered_share"]), "low-use spend x recovered share", [])
+    # ---- 2. sizing a change (Ctrip performance effect)
+    es, ea, el = inp["ctrip_perf_effect_sim"], inp["ctrip_perf_effect_actual"], inp["ctrip_perf_effect_literature"]
+    put("c2_effect_sim", es, f"+{es:.2f}", "input", ["ctrip_perf_effect_sim"])
+    put("c2_effect_actual", ea, f"+{ea:.2f}", "input", ["ctrip_perf_effect_actual"])
+    put("c2_effect_literature", el, f"+{el:.2f}", "input (best comparator)", ["ctrip_perf_effect_literature", "ctrip_perf_best_comparator_is_literature"])
+    r2 = 100 * (1 - abs(es - ea) / abs(el - ea))
+    put("c2_error_reduction", r2, pct(r2), "1 - |sim - actual| / |literature - actual|", ["ctrip_perf_effect_sim", "ctrip_perf_effect_actual", "ctrip_perf_effect_literature"])
+    sdv = A["performance_sd_value_share"] * A["average_salary_usd"]
+    put("c2_sd_share", A["performance_sd_value_share"], pct(100 * A["performance_sd_value_share"]), "assumption", [])
+    put("c2_sd_value", sdv, f"${sdv:,.0f}", "share x salary", [])
+    gl, gs = abs(el - ea), abs(es - ea)
+    put("c2_gap_literature", gl, f"{gl:.2f}", "|literature - actual|", ["ctrip_perf_effect_literature", "ctrip_perf_effect_actual"])
+    put("c2_gap_sim", gs, f"{gs:.2f}", "|sim - actual|", ["ctrip_perf_effect_sim", "ctrip_perf_effect_actual"])
+    ml, ms = gl * sdv * n, gs * sdv * n
+    put("c2_misstated_literature", ml, usd(ml, 100000), "gap x SD value x firm", ["ctrip_perf_effect_literature", "ctrip_perf_effect_actual"])
+    put("c2_misstated_sim", ms, usd(ms, 100000), "gap x SD value x firm", ["ctrip_perf_effect_sim", "ctrip_perf_effect_actual"])
+    put("c2_value", ml - ms, usd(ml - ms), "difference", ["ctrip_perf_effect_sim", "ctrip_perf_effect_literature", "ctrip_perf_effect_actual"])
 
-    # ---- 3. leadership reach (Trip.com take-up)
-    put("c3_takeup_sim", 100 * inp["trip_takeup_sim"], pct(100 * inp["trip_takeup_sim"]), "input x 100", ["trip_takeup_sim"])
-    put("c3_takeup_actual", 100 * inp["trip_takeup_actual"], pct(100 * inp["trip_takeup_actual"]), "input x 100", ["trip_takeup_actual"])
-    a3 = accuracy(inp["trip_takeup_sim"], inp["trip_takeup_actual"])
-    put("c3_accuracy", a3, pct(a3), "100 x (1 - |sim - actual| / actual)", ["trip_takeup_sim", "trip_takeup_actual"])
-    sd = abs(inp["trip_satisfaction_sim"] - inp["trip_satisfaction_actual"])
-    put("c3_satisfaction_gap", sd, f"{sd:.2f}", "|sim - actual|", ["trip_satisfaction_sim", "trip_satisfaction_actual"])
-    put("c3_scale", inp["trip_satisfaction_scale_max"], f"{inp['trip_satisfaction_scale_max']:.0f}", "input", ["trip_satisfaction_scale_max"])
-    b0, b1 = A["behaviour_share_before"], A["behaviour_share_after"]
-    put("c3_share_before", 100 * b0, pct(100 * b0), "assumption", [])
-    put("c3_share_after", 100 * b1, pct(100 * b1), "assumption", [])
-    put("c3_share_gain", 100 * (b1 - b0), pct(100 * (b1 - b0)), "after - before", [])
-    more = n * (b1 - b0)
-    put("c3_more_employees", more, f"{more:.0f}", "firm x share gain", [])
-    put("c3_value_per_employee", A["behaviour_value_per_employee_usd"], f"${A['behaviour_value_per_employee_usd']}", "assumption", [])
-    put("c3_value", more * A["behaviour_value_per_employee_usd"], f"${more * A['behaviour_value_per_employee_usd']:,.0f}", "more employees x value each", [])
+    # ---- 5. AI adoption by sector (BTOS)
+    bs, bb, bm = inp["btos_ai_mae_sim"], inp["btos_ai_mae_best"], inp["btos_ai_mean_actual"]
+    rb = 100 * (1 - bs / bb)
+    put("c6_error_reduction", rb, pct(rb), "1 - sim MAE / best comparator MAE", ["btos_ai_mae_sim", "btos_ai_mae_best"])
+    put("c6_acc_sim", 100 * (1 - bs / bm), pct(100 * (1 - bs / bm)), "100 x (1 - MAE / mean actual)", ["btos_ai_mae_sim", "btos_ai_mean_actual"])
+    put("c6_mae_sim", bs, f"{bs:.2f}", "input", ["btos_ai_mae_sim"])
+    put("c6_mae_best", bb, f"{bb:.2f}", "input", ["btos_ai_mae_best"])
+    put("c6_mean_actual", bm, f"{bm:.2f}%", "input", ["btos_ai_mean_actual"])
+    put("c6_mis_sim", 100 * bs / bm, pct(100 * bs / bm, 1), "MAE / mean actual", ["btos_ai_mae_sim", "btos_ai_mean_actual"])
+    put("c6_mis_best", 100 * bb / bm, pct(100 * bb / bm, 1), "best MAE / mean actual", ["btos_ai_mae_best", "btos_ai_mean_actual"])
+    seats = n * A["licence_seats_share"]
+    put("c6_seats", seats, f"{seats:,.0f}", "firm x seat share", [])
+    put("c6_price", inp["copilot_price_per_user_month"], f"${inp['copilot_price_per_user_month']:.0f}", "input", ["copilot_price_per_user_month"])
+    lic = seats * inp["copilot_price_per_user_month"] * 12
+    put("c6_budget", lic, usd(lic, 10000), "seats x price x 12", ["copilot_price_per_user_month"])
+    put("c6_gap_points", 100 * (bb - bs) / bm, f"{100 * (bb - bs) / bm:.1f}", "difference in mis-provisioned share", ["btos_ai_mae_sim", "btos_ai_mae_best", "btos_ai_mean_actual"])
+    v6 = lic * (bb - bs) / bm
+    put("c6_value", v6, usd(v6), "licence budget x difference", ["btos_ai_mae_sim", "btos_ai_mae_best", "btos_ai_mean_actual", "copilot_price_per_user_month"])
+
+    # ---- 6. demand after ChatGPT (Stack Overflow questions)
+    ss, sb, sm = inp["so_chatgpt_mae_sim"], inp["so_chatgpt_mae_best"], inp["so_chatgpt_mean_actual"]
+    put("c7_error_reduction", 100 * (1 - ss / sb), pct(100 * (1 - ss / sb)), "1 - sim MAE / best comparator MAE", ["so_chatgpt_mae_sim", "so_chatgpt_mae_best"])
+    put("c7_acc_sim", 100 * (1 - ss / sm), pct(100 * (1 - ss / sm)), "100 x (1 - MAE / mean actual)", ["so_chatgpt_mae_sim", "so_chatgpt_mean_actual"])
+    put("c7_mae_sim", ss, f"{ss:,.0f}", "input", ["so_chatgpt_mae_sim"])
+    put("c7_mae_best", sb, f"{sb:,.0f}", "input", ["so_chatgpt_mae_best"])
+    put("c7_mean_actual", sm, f"{round(sm / 100) * 100:,.0f}", "input", ["so_chatgpt_mean_actual"])
+    g7 = 100 * (sb - ss) / sm
+    put("c7_gap_pct", g7, pct(g7, 1), "(best MAE - sim MAE) / mean actual", ["so_chatgpt_mae_sim", "so_chatgpt_mae_best", "so_chatgpt_mean_actual"])
+    put("c7_window", inp["so_chatgpt_window_weeks"], f"{inp['so_chatgpt_window_weeks']:.0f}", "input", ["so_chatgpt_window_weeks"])
+    put("c7_cost", A["volume_linked_cost_usd"], "$1 million", "assumption", [])
+    put("c7_value", g7 / 100 * A["volume_linked_cost_usd"], usd(g7 / 100 * A["volume_linked_cost_usd"]), "gap x volume-linked cost", ["so_chatgpt_mae_sim", "so_chatgpt_mae_best", "so_chatgpt_mean_actual"])
 
     # ---- 4. AI token budget (OpenRouter portfolio spend)
     miss_c = 100 * inp["or_spend_mae_best"] / inp["or_spend_actual_mean"]
@@ -156,6 +170,7 @@ def main() -> None:
     put("c4_saving_exact", pm * spend / 1e6, f"${round(pm * spend / 1e6 / 100) * 100:,.0f}", "per million x spend in millions", [])
     put("c4_saving", pm * spend / 1e6, usd(pm * spend / 1e6), "same, rounded", [])
     put("c4_one_million", 1e6, "$1 million", "unit", [])
+    put("c4_total", (vc - vs) + pm * spend / 1e6, usd((vc - vs) + pm * spend / 1e6), "budget variance gap + commitment saving", ["or_spend_mae_sim", "or_spend_mae_best", "or_spend_actual_mean"])
 
     # ---- 5. operations staffing (BPI 2019)
     exp = 100 * (1 / inp["bpi_no_expansion_multiplier"] - 1)
