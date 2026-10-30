@@ -70,6 +70,32 @@ NAMES = {"damped_trend": "damped trend", "astra": "GPT-6 Astra alone", "workcast
          "recent_trend": "recent trend", "market_growth": "market growth"}
 
 
+LABELS = {"combined": "WORKCAST combined (our forecast)", "T3": "Timestral, adjusted by GPT-6 Astra", "damped_trend": "Damped trend",
+          "astra": "GPT-6 Astra alone", "workcast": "WORKCAST simulation alone", "T1": "Timestral alone", "recent_trend": "Recent trend",
+          "carry_forward": "No change", "market_growth": "Market growth", "damped_12w": "Damped trend, last 12 weeks", "damped_full": "Damped trend, full history"}
+# what each method is given at a cutoff; all of it is published before the cutoff (window lengths as in board/combo_study.py and orgsim/worlds/market.py)
+INPUTS = {"combined": "the simulation, Astra and the damped trend, blended with weights fixed on earlier weeks",
+          "T3": "Timestral's and the simulation's forecasts, adjusted by GPT-6 Astra",
+          "damped_trend": "each app's last 12 weeks",
+          "astra": "each app's last 12 weeks, market totals, app names and categories; trained on data to 30 Apr 2026",
+          "workcast": "all data since Jan 2025: apps, models, prices, launches",
+          "T1": "each app's weeks since Jan 2025 (Mistral's time-series foundation model)",
+          "recent_trend": "each app's last 8 weeks", "carry_forward": "each app's last 4 weeks", "market_growth": "each app's last 4 weeks and the market's last 9",
+          "damped_12w": "each app's last 12 weeks", "damped_full": "each app's weeks since Jan 2025"}
+
+
+def table(mean: dict, order: list[str], hz: tuple[str, ...], ours: str | None, note: dict[str, str] | None = None) -> str:
+    head = "".join(f"<th>{h} wk</th>" for h in hz)
+    rows = []
+    for k in order:
+        b = ' style="font-weight:700;color:var(--fg)"' if k == ours else ""
+        cells = "".join(f"<td>{pct(mean[k].get(h))}</td>" for h in hz)
+        extra = f"<td>{mean[k]['sel_mean']:.1f}%</td>" if "sel_mean" in mean[k] else ""
+        rows.append(f'<tr{b}><td>{LABELS.get(k, k)}{(note or {}).get(k, "")}<div class="meta">{INPUTS.get(k, "")}</div></td>{cells}{extra}</tr>')
+    mh = "<th>Mean</th>" if "sel_mean" in mean[order[0]] else ""
+    return f'<table><tr><th>Method · what it sees before the cutoff</th>{head}{mh}</tr>{"".join(rows)}</table>'
+
+
 def page(inner: str) -> str:
     return (f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>Forecast Board · WORKCAST</title><meta name="description" content="Dated, timestamped forecasts of AI demand, scored in public.">'
@@ -117,10 +143,12 @@ def backtest(ev: dict) -> tuple[list[tuple[str, str, float, float]], dict]:
 
 
 def method_details(H: int) -> str:
-    return (f'<details><summary>How it works</summary><p>At each Monday cutoff, WORKCAST carries every leading app forward {H} weeks from data before the cutoff: '
+    return (f'<details><summary>How it works</summary><p>Our forecast blends three forecasts with weights fixed per horizon on earlier weeks: the WORKCAST simulation, '
+            f'GPT-6 Astra and the damped trend. At each Monday cutoff, WORKCAST carries every leading app forward {H} weeks from data before the cutoff: '
             'its growth path, whether it stays among the leaders, and the models its workloads move to as new models launch and prices change. '
-            'The point forecast is the simulation\'s central path; the range is the 5th to 95th percentile of 20 runs. Standard forecasts are made from the same data: '
-            'the last four weeks carried forward, each app\'s recent trend, and market growth. Error is token-weighted across apps (lower is better).</p></details>'
+            'The simulation range is the 5th to 95th percentile of 20 runs. GPT-6 Astra reads each app\'s recent weeks and returns its own forecast. '
+            'The damped trend is the standard statistical forecast for series like these (Holt\'s method): it projects each app\'s current level and growth, '
+            'and lets the growth fade a little each week, capped at 15% a week. Error is token-weighted across apps (lower is better).</p></details>'
             '<details><summary>How to verify a forecast</summary><p>Each forecast is a read-only JSON record carrying the code version and a hash of every input table. '
             'Its SHA-256 is anchored in the Bitcoin blockchain with OpenTimestamps before the weeks it predicts. Download a record and its .ots proof, then run '
             '<span class="mono">ots verify</span>. A forecast published more than two days after its cutoff is skipped, never backdated.</p></details>')
@@ -133,6 +161,8 @@ def main() -> None:
     ap.add_argument("--evaluation", help="runs/openrouter/evaluation.json: the backtest record shown beside the live forecasts")
     ap.add_argument("--astra", help="board astra results.json: GPT-6 Astra on the backtest windows after its knowledge cutoff")
     ap.add_argument("--run3", help="board astra run3_test.json: the combined method's held-out test")
+    ap.add_argument("--run4", help="board astra run4_test.json: Timestral alone and adjusted by Astra, scored later on the same held-out weeks")
+    ap.add_argument("--fair", help="board astra fair_inputs.json: the backtest with the damped trend on two history lengths")
     a = ap.parse_args()
     root, out = Path(a.records), Path(a.out)
     (out / "records").mkdir(parents=True, exist_ok=True)
@@ -148,6 +178,20 @@ def main() -> None:
     ev = json.loads(Path(a.evaluation).read_text()) if a.evaluation and Path(a.evaluation).exists() else None
     bt_rows, bt = backtest(ev) if ev else ([], {})
     H = proofs[-1][0]["horizon_weeks"] if proofs else 8
+    r3 = json.loads(Path(a.run3).read_text()) if a.run3 and Path(a.run3).exists() else None
+    r4 = json.loads(Path(a.run4).read_text()) if a.run4 and Path(a.run4).exists() else None
+    fair = json.loads(Path(a.fair).read_text()) if a.fair and Path(a.fair).exists() else None
+    held = {}
+    if r3:
+        held = {("combined" if k == r3["design"] else k): v for k, v in r3["mean"].items()}
+        if r4:
+            for k in ("T3", "T1"):
+                if k in r4["mean"]:
+                    held[k] = r4["mean"][k]
+            for k in r3["mean"]:                                      # both runs scored the shared standards on the same weeks
+                if k in r4["mean"] and k != r3["design"]:
+                    assert abs(r3["mean"][k]["sel_mean"] - r4["mean"][k]["sel_mean"]) < 1e-9, k
+    held_order = sorted(held, key=lambda k: held[k]["sel_mean"])
     live = sb.get("by_horizon", {})
     # ---- stat strip
     if "1" in live:
@@ -156,8 +200,8 @@ def main() -> None:
         first = (date.fromisoformat(proofs[0][0]["t0"]) + timedelta(days=7)) if proofs else next_monday() + timedelta(days=7)
         live_stat = (f'{first:%-d %b}', "first live score lands")
     stats = [(str(len(proofs)) if proofs else f"{next_monday():%-d %b}", "forecasts published in advance" if proofs else "first forecast publishes"), live_stat]
-    if bt:
-        stats.append((f'{bt["one_week"]:.0f}%', f'less error one week ahead in the backtest ({bt["n"]:,} forecasts)'))
+    if held and held_order[0] == "combined":
+        stats.append((f'{held["combined"]["sel_mean"]:.1f}%', f'mean error on held-out weeks, lowest of {len(held)} methods'))
     inner = [HERO, strip(stats)]
     # ---- this week's call
     if proofs:
@@ -192,7 +236,6 @@ def main() -> None:
     elif live:
         rows = [(f'{h} week{"s" if h != "1" else ""} ahead', f'{v["n_forecasts"]} live forecast{"s" if v["n_forecasts"] != 1 else ""}', v["simulation"], v[v["best_standard"]]) for h, v in live.items()]
         tr.append(f'<p class="sub">Live forecasts, scored as the weeks arrive.</p>{bars(rows)}')
-    r3 = json.loads(Path(a.run3).read_text()) if a.run3 and Path(a.run3).exists() else None
     if r3:
         mm = r3["mean"]
         others = [k for k in mm if k != r3["design"]]
@@ -206,6 +249,21 @@ def main() -> None:
                   f'{len(r3["cutoffs"])} new weekly cutoffs ({r3["cutoffs"][0]} to {r3["cutoffs"][-1]}), all after GPT-6 Astra\'s knowledge cutoff: '
                   f'the lowest mean error of every method ({mm[r3["design"]]["sel_mean"]:.1f}%).{lost_txt} Eight-week results come from the live board.</p>'
                   f'{bars(rows, "GPT-6 Astra alone", "WORKCAST combined")}')
+        note = {k: ' <span class="meta">(tested later on the same weeks)</span>' for k in ("T3", "T1")}
+        tr.append(f'<h2 style="margin-top:44px">Every method on the held-out weeks</h2><p class="sub">Token-weighted error across the leading apps, lower is better. '
+                  f'Cutoffs {r3["cutoffs"][0]} to {r3["cutoffs"][-1]}; the 1, 2 and 4 week columns cover {mm["astra"]["n"]["1"]}, {mm["astra"]["n"]["2"]} and {mm["astra"]["n"]["4"]} cutoffs. '
+                  f'Every method sees only data published before each cutoff.</p>{table(held, held_order, ("1", "2", "4"), "combined", note)}')
+    if fair and bt:
+        fb = fair["summary"]["backtest"]
+        order = sorted((k for k in fb if k != "n_cutoffs"), key=lambda k: fb[k]["1"])
+        dt_wins = [h for h in ("1", "2", "4", "8") if min(fb["damped_12w"][h], fb["damped_full"][h]) < fb["workcast"][h]]
+        simple_lost = [h for h in ("1", "2", "4", "8") if min(fb[k][h] for k in ("carry_forward", "recent_trend", "market_growth")) <= fb["workcast"][h]]
+        verdict = (("The simulation alone beats the three simple standards at every horizon" if not simple_lost else "The simulation alone is mixed against the simple standards")
+                   + (", but the damped trend beats it at every horizon, with either history length." if len(dt_wins) == 4 else
+                      f", and the damped trend beats it at {', '.join(dt_wins)} week{'s' if dt_wins != ['1'] else ''}." if dt_wins else ", and the damped trend too."))
+        tr.append(f'<h2 style="margin-top:44px">Backtest: the simulation on its own</h2><p class="sub">{fb["n_cutoffs"]} cutoffs four weeks apart, {bt["first"]} to {bt["last"]}, '
+                  f'{bt["n"]:,} forecasts. These weeks fall before GPT-6 Astra\'s training cutoff, so Astra and the combined method are not scored here. {verdict} '
+                  f'That is why the published forecast blends the simulation with Astra and the damped trend.</p>{table(fb, order, ("1", "2", "4", "8"), "workcast")}')
     inner.append("".join(tr) + "</section>")
     # ---- folded detail
     if proofs:

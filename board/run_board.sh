@@ -14,4 +14,4 @@ bash ~/bin/ensure_psychdynamics_mounted.sh >/dev/null 2>&1 || true
   || .venv/bin/python board/forecast_openrouter.py --records "$BOARD/records"
 OTS="$BOARD/.otsvenv/bin/ots" bash board/stamp.sh "$BOARD/records"
 .venv/bin/python board/score_openrouter.py --records "$BOARD/records"
-.venv/bin/python board/build_site.py --records "$BOARD/records" --out "$BOARD/site" --evaluation runs/openrouter/evaluation.json --astra "$BOARD/astra/results.json" --run3 "$BOARD/astra/run3_test.json"
+.venv/bin/python board/build_site.py --records "$BOARD/records" --out "$BOARD/site" --evaluation runs/openrouter/evaluation.json --astra "$BOARD/astra/results.json" --run3 "$BOARD/astra/run3_test.json" --run4 "$BOARD/astra/run4_test.json" --fair "$BOARD/astra/fair_inputs.json"
