@@ -147,3 +147,31 @@ Cumulative spend for Runs 1 and 2 is $9.19 (`board/results/astra_ledger.json`). 
   - recent trend;
   - market growth.
 - **Prediction:** the frozen design beats all six on the held-out mean. At one horizon it may lose narrowly to Astra or the damped trend.
+
+### RUN 3 FROZEN DESIGN: D4 (2026-10-30, before any held-out cutoff was forecast or scored)
+
+- **Design:** fixed stacking weights per horizon over (WORKCAST, Astra, damped trend), chosen on the 18 development cutoffs (`board/results/astra_run3_dev.json`):
+
+  | Horizon | WORKCAST | Astra | Damped trend |
+  |---|---:|---:|---:|
+  | 1 week | 0.1 | 0.7 | 0.2 |
+  | 2 weeks | 0.2 | 0.5 | 0.3 |
+  | 4 weeks | 0.2 | 0.3 | 0.5 |
+  | 8 weeks | 0.1 | 0.7 | 0.2 |
+
+- **Development mean error over horizons 1, 2 and 4** (in-sample for D4, which is optimistic):
+
+  | Method | Error |
+  |---|---:|
+  | D4 | 22.44 |
+  | D3 | 22.73 |
+  | D1 | 22.79 |
+  | D2 | 22.98 |
+  | Damped trend | 23.02 |
+  | Astra | 23.30 |
+  | WORKCAST | 26.80 |
+  | Recent trend | 28.83 |
+  | Market growth | 32.82 |
+  | Carry-forward | 32.88 |
+
+- **Prediction for the held-out cutoffs:** D4 has the lowest mean error. Its in-sample margin is small (0.6 points over the damped trend), so a held-out loss at one horizon is plausible.
