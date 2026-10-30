@@ -201,3 +201,21 @@ Caveats:
 - The 8-week claim needs the live board.
 
 Spend for Runs 1-3 is $11.70 (`board/results/astra_ledger.json`).
+
+## Run 4 (frozen 2026-10-30, before any Run 4 forecast or score): Timestral predicts, Astra adjusts
+
+- **Authority:** Sumer, 2026-10-30, "Use timestral for predictions, Astra to adjust try again". Same key; total cap $25 ($12.05 spent before this run).
+- **Base model:** Mistral Timestral 1.0 209M (`mistralai/Timestral-209M`, open weights, Modified MIT licence), zero-shot, on CPU.
+  - Input: each app's full weekly history before the cutoff (from 2025-01-06), on a log scale. A week outside the top 200 enters at half the 200th app's volume.
+  - Output: the weekly median and the 10% and 90% quantiles for 8 weeks; cumulative forecasts are sums of the weekly medians, back on the token scale.
+  - Mistral has not published Timestral's training data or cutoff. OpenRouter app-level series are unlikely to be in it; this is stated as unverified.
+- **Candidate designs:**
+  - T1: Timestral alone.
+  - T2: Astra adjusts Timestral. Astra gets the Run 1 input plus Timestral's cumulative median and 10-90% range for each app, and returns the final cumulative forecast.
+  - T3: as T2, with WORKCAST's cumulative forecast added as a further input.
+  - T4: the mean of T3 and Timestral.
+- **Astra calls:** 1 sample per prompt, to stay within the cap.
+- **Development:** the 18 weekly cutoffs from 2026-05-04 to 2026-08-31. Selection is by the lowest mean error over horizons 1, 2 and 4.
+- **Test:** the 7 weekly cutoffs from 2026-09-07 to 2026-10-19. These were already used as the held-out test for Run 3's D4, so this is a re-used test set, scored once for the frozen Run 4 design and labelled as such. The fully clean test is the live board.
+- **Standards the frozen design must beat:** Timestral alone, Run 3's combined method (D4), the damped trend, Astra alone, WORKCAST alone, carry-forward, recent trend and market growth.
+- **Prediction:** the frozen design beats Timestral alone and every other standard on the mean. Whether it beats the damped trend at 1 week is uncertain.
