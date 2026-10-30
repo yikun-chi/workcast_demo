@@ -56,6 +56,9 @@ def damped_trend(x: np.ndarray) -> np.ndarray:
             if best is None or sse < best[0]:
                 best = (sse, lvl, tr, p)
         _, lvl, tr, p = best
+        # fixed post-first-run: an unbounded trend extrapolated apps re-entering the top 200 to absurd volumes (1,475%
+        # error at 8 weeks); the trend is bounded at +-15% a week, the same bound as the recent-trend standard
+        tr = float(np.clip(tr, -0.15, 0.15))
         steps = np.cumsum([p ** k for k in range(1, H + 1)])
         out[i] = np.exp(lvl + steps * tr)
     return out

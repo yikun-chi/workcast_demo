@@ -83,3 +83,5 @@ The same error metric as each case's validation, on the same targets. The report
 - **Selection:** the candidate with the lowest mean error across horizons 1, 2, 4 and 8 on the development cutoffs. It is then frozen in this file and committed before the held-out cutoffs are scored.
 - **Metric:** the board's token-weighted error (WAPE) on each app's first-h-week tokens. A week outside the top 200 counts at half the 200th app's volume.
 - **Headline:** mean held-out error at 1, 2, 4 and 8 weeks, for the frozen design against every gold standard.
+
+**Run 2 development note (2026-10-30).** In the first development pass, the damped-trend standard's unbounded trend produced 1,475% error at 8 weeks, from apps re-entering the top 200. A broken standard would flatter every other method, so its trend is now bounded at ±15% a week (the bound the recent-trend standard uses), and development was re-scored. All Astra answers were cached, so no new calls were needed. Development was spent $4.20 so far (Run 1 included).
