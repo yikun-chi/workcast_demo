@@ -124,3 +124,26 @@ Source: `board/results/astra_run2_test.json`. Mean error across 1, 2, 4 and 8 we
 - It lost to Astra and the damped trend overall.
 
 Cumulative spend for Runs 1 and 2 is $9.19 (`board/results/astra_ledger.json`). The development choice is not revised after this result. Any new design needs new held-out data: cutoffs after 2026-08-31 at the horizons already observed, or the live board.
+
+## Run 3 (frozen 2026-10-30, before any Run 3 call or score): a combination built to beat every standard
+
+- **Authority:** Sumer, 2026-10-30, "Find a way to beat everything". Same key; total cap $25 ($9.19 spent before this run).
+- **Components** (all available at forecast time):
+  - W: WORKCAST central path.
+  - A: GPT-6 Astra (Run 1 prompt, mean of 2 samples).
+  - D: the bounded damped-trend model.
+- **Candidate designs** (all include W and A):
+  - D1: equal-weight mean of W, A and D.
+  - D2: equal-weight geometric mean of W, A and D.
+  - D3: online inverse-error weights. At each cutoff, each component's weight per horizon is proportional to 1 / its mean error over earlier cutoffs whose horizon had fully elapsed by that cutoff, with equal weights until three such cutoffs exist. Only information available at the cutoff is used.
+  - D4: fixed stacking weights per horizon, chosen on the development cutoffs on a 0.1 simplex grid over (W, A, D), with each weight at least 0.1.
+- **Development:** the 18 weekly cutoffs from 2026-05-04 to 2026-08-31, all seen in Run 2. Selection is by the lowest mean error over horizons 1, 2 and 4 (the horizons the test can score); horizon 8 is reported too.
+- **Held out:** the weekly cutoffs from 2026-09-07 to 2026-10-19, never forecast or scored before. Each is scored at every horizon fully published when the test runs (1, 2 and 4 weeks where available).
+- **Standards the frozen design must beat**, at each horizon and on the mean:
+  - Astra alone;
+  - the damped trend;
+  - WORKCAST alone;
+  - carry-forward;
+  - recent trend;
+  - market growth.
+- **Prediction:** the frozen design beats all six on the held-out mean. At one horizon it may lose narrowly to Astra or the damped trend.
