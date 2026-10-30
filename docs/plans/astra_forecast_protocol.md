@@ -52,3 +52,12 @@ The same error metric as each case's validation, on the same targets. The report
 - **Model settings:** `gpt-6-astra`, reasoning effort medium, 2 samples per window. The forecast is the mean of the two samples.
 - **Score:** the token-weighted error of each app's first-h-week tokens, h = 1, 2, 4, 8 (WAPE). This is the board's metric, on the same actuals (outside top 200 = half the 200th app's volume), compared with WORKCAST's central path and the standard forecasts at the same cutoffs.
 - **Prediction (written before the run):** no strong prior. Astra sees the same history as the carry-forward and trend comparators, plus general knowledge of the apps, and its forecast will likely sit near theirs. WORKCAST's edge in the backtest comes from calibrated drift and survival of one-off apps, which a direct forecast may or may not reproduce.
+
+## Run 1 result (2026-10-30)
+
+- **Run:** 10 calls, $1.91 (`board/results/astra_run1_ledger.json`). Every app was answered in every window.
+- **Results:** in `board/results/astra_run1_results.json`; responses are cached on the iMac in `/Volumes/PsychDynamicsData/workcast_board/astra/responses/`.
+- **Outcome:** GPT-6 Astra had lower mean error than WORKCAST at all four horizons over the five windows, and lower than the best standard forecast at all four. It was not uniform. Astra was far ahead at the 2026-07-06 cutoff and far behind at 2026-08-31.
+- **Caveat:** five windows is a small sample.
+- **Shown:** on sumervaid.com/predict as measured.
+- **Next test, to be pre-registered on the live board:** WORKCAST, Astra and their average, each forecasting the same weeks in advance.
