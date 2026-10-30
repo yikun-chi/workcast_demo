@@ -129,20 +129,41 @@ def chunks(end: date, days: int = 182):
         a = b + timedelta(days=1)
 
 
-def fetch_rankings(f: Fetcher, end: date) -> None:
+SUPERSEDED = RAW / "_superseded"
+
+
+def refresh(path: Path, window_end: date, cutoff: date | None) -> None:
+    """For a live run: a window that was still open when it was last fetched is fetched again. The earlier file is
+    moved under raw/_superseded/<today>/, never deleted, so every forecast's inputs stay recoverable."""
+    if cutoff is not None and window_end >= cutoff and path.exists():
+        dest = SUPERSEDED / date.today().isoformat() / path.relative_to(RAW)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        path.replace(dest)
+
+
+def fetch_live_models(f: Fetcher) -> None:
+    """The current model list (prices, listing dates) saved beside the archived captures, named by fetch time."""
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+    f.get("https://openrouter.ai/api/v1/models", RAW / "wayback" / "models" / f"{stamp}.json", False)
+
+
+def fetch_rankings(f: Fetcher, end: date, cutoff: date | None = None) -> None:
     for a, b in months(START, end):
+        refresh(RAW / "rankings" / "daily" / f"{a:%Y-%m}.json", b, cutoff)
         q = {"period": "day", "start_date": a.isoformat(), "end_date": b.isoformat()}
         f.get(f"{API}/rankings-daily?{urlencode(q)}", RAW / "rankings" / "daily" / f"{a:%Y-%m}.json", True)
     for a, b in chunks(end):
         for cat in CATEGORIES:
+            refresh(RAW / "rankings" / "category" / f"{cat.replace('/', '_')}_{a}.json", b, cutoff)
             q = {"period": "week", "category": cat, "start_date": a.isoformat(), "end_date": b.isoformat()}
             f.get(f"{API}/rankings-daily?{urlencode(q)}", RAW / "rankings" / "category" / f"{cat.replace('/', '_')}_{a}.json", True)
         for lt in LANGUAGE_TYPES:
+            refresh(RAW / "rankings" / "language" / f"{lt}_{a}.json", b, cutoff)
             q = {"period": "week", "language_type": lt, "start_date": a.isoformat(), "end_date": b.isoformat()}
             f.get(f"{API}/rankings-daily?{urlencode(q)}", RAW / "rankings" / "language" / f"{lt}_{a}.json", True)
 
 
-def fetch_apps(f: Fetcher, end: date) -> None:
+def fetch_apps(f: Fetcher, end: date, cutoff: date | None = None) -> None:
     # Weekly panel: Monday-Sunday windows, ranks 1-200 (limit 100, offsets 0 and 100).
     wk = FIRST_MONDAY
     while wk + timedelta(days=6) <= end:
@@ -156,6 +177,7 @@ def fetch_apps(f: Fetcher, end: date) -> None:
         for kind, values in (("category", APP_CATEGORIES), ("subcategory", APP_SUBCATEGORIES)):
             for v in values:
                 for off in (0, 100):
+                    refresh(RAW / "apps" / kind / f"{v}_{a.year}_o{off}.json", b, cutoff)
                     q = {"sort": "popular", kind: v, "start_date": a.isoformat(), "end_date": b.isoformat(), "limit": 100, "offset": off}
                     if f.get(f"{API}/app-rankings?{urlencode(q)}", RAW / "apps" / kind / f"{v}_{a.year}_o{off}.json", True) is None:
                         return
@@ -233,6 +255,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--budget", type=int, default=450, help="authenticated requests allowed in this run (account limit 500/day)")
     ap.add_argument("--only", default="aei,wayback,rankings,apps,session")
+    ap.add_argument("--refresh-days", type=int, default=0, help="live runs: refetch windows ending within this many days of the latest complete day")
     a = ap.parse_args()
     parts = set(a.only.split(","))
     f = Fetcher(a.budget)
@@ -243,10 +266,13 @@ def main() -> None:
     if parts & {"rankings", "apps", "session"}:
         end = latest_complete_day(f)
         print(f"datasets cover {START} .. {end}", flush=True)
+        cutoff = end - timedelta(days=a.refresh_days) if a.refresh_days else None
         if "rankings" in parts:
-            fetch_rankings(f, end)
+            fetch_rankings(f, end, cutoff)
         if "apps" in parts:
-            fetch_apps(f, end)
+            fetch_apps(f, end, cutoff)
+    if "live" in parts:
+        fetch_live_models(f)
         if "session" in parts:
             fetch_session_cost(f)
     write_manifest()
