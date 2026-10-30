@@ -219,3 +219,31 @@ Spend for Runs 1-3 is $11.70 (`board/results/astra_ledger.json`).
 - **Test:** the 7 weekly cutoffs from 2026-09-07 to 2026-10-19. These were already used as the held-out test for Run 3's D4, so this is a re-used test set, scored once for the frozen Run 4 design and labelled as such. The fully clean test is the live board.
 - **Standards the frozen design must beat:** Timestral alone, Run 3's combined method (D4), the damped trend, Astra alone, WORKCAST alone, carry-forward, recent trend and market growth.
 - **Prediction:** the frozen design beats Timestral alone and every other standard on the mean. Whether it beats the damped trend at 1 week is uncertain.
+
+### RUN 4 FROZEN DESIGN: T3 (2026-10-30, before any test cutoff was forecast or scored)
+
+- **Selection:** T3 has the lowest development mean error over horizons 1, 2 and 4 among T1-T4 (`board/results/astra_run4_dev.json`, 18 cutoffs):
+
+  | Method | 1 week | 2 weeks | 4 weeks | 8 weeks | Mean (1, 2, 4) |
+  |---|---:|---:|---:|---:|---:|
+  | D4 (Run 3; weights fitted on these cutoffs, so in-sample) | 18.8 | 21.9 | 26.7 | 35.2 | 22.44 |
+  | **T3** | 18.7 | 22.4 | 27.7 | 35.6 | 22.95 |
+  | Damped trend | 19.7 | 22.2 | 27.2 | 36.5 | 23.02 |
+  | T2 | 18.8 | 22.7 | 27.8 | 36.1 | 23.11 |
+  | Astra | 19.0 | 22.9 | 28.0 | 35.7 | 23.30 |
+  | T4 | 19.5 | 24.7 | 33.2 | 52.9 | 25.79 |
+  | WORKCAST | 22.7 | 25.6 | 32.1 | 44.0 | 26.80 |
+  | Recent trend | 24.9 | 27.9 | 33.6 | 44.1 | 28.83 |
+  | T1 (Timestral alone) | 20.9 | 27.2 | 39.1 | 70.6 | 29.10 |
+  | Market growth | 29.7 | 32.3 | 36.5 | 43.1 | 32.82 |
+  | Carry-forward | 29.4 | 32.1 | 37.1 | 46.7 | 32.88 |
+
+- **What development shows:**
+  - Timestral alone is weak on these series: worse than WORKCAST and the damped trend at every horizon, and far worse at 8 weeks.
+  - Astra's adjustment recovers most of that gap. T3 is 0.35 points better than Astra alone and 0.07 points better than the damped trend.
+  - T3 does not beat D4 in development, though D4's figure is in-sample.
+- **Revised prediction for the test cutoffs (written before them, replacing the Run 4 prediction above):**
+  - T3 beats Timestral alone, WORKCAST, carry-forward, recent trend and market growth.
+  - Against D4, the damped trend and Astra, the margins are within the cutoff-to-cutoff noise, so the test is expected to be close and may be lost.
+- **Spend:** the development calls cost $9.97 (36 calls, at most $0.301 each). The total across all Astra runs is $22.02 against the $25 cap.
+- **Guard change:** for the test stage, the per-call reservation in the cap guard is set to $0.60, which is twice the largest observed call. It was $2.50.
