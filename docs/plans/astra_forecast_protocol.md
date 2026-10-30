@@ -175,3 +175,29 @@ Cumulative spend for Runs 1 and 2 is $9.19 (`board/results/astra_ledger.json`). 
   | Carry-forward | 32.88 |
 
 - **Prediction for the held-out cutoffs:** D4 has the lowest mean error. Its in-sample margin is small (0.6 points over the damped trend), so a held-out loss at one horizon is plausible.
+
+### Run 3 held-out result (7 weekly cutoffs, 2026-09-07 to 2026-10-19, scored once)
+
+Source: `board/results/astra_run3_test.json`. Error is the mean over cutoffs; horizons 1, 2 and 4 have 7, 6 and 4 cutoffs, and no 8-week horizon has elapsed yet.
+
+| Method | 1 week | 2 weeks | 4 weeks | Mean |
+|---|---:|---:|---:|---:|
+| D4 (frozen) | 23.04 | 25.62 | 23.02 | 23.90 |
+| Damped trend | 22.98 | 25.37 | 23.85 | 24.07 |
+| Astra | 23.67 | 26.50 | 23.98 | 24.72 |
+| WORKCAST | 23.61 | 26.97 | 24.03 | 24.87 |
+| Recent trend | 30.4 | 29.6 | 28.1 | 29.37 |
+| Carry-forward | 28.4 | 30.2 | 34.7 | 31.08 |
+| Market growth | 31.9 | 32.8 | 33.7 | 32.79 |
+
+The result matches the prediction:
+- D4 has the lowest mean error of all methods.
+- It beats Astra, WORKCAST, recent trend, carry-forward and market growth at every horizon.
+- It loses narrowly to the damped trend at 1 week (+0.06) and 2 weeks (+0.25), and beats it at 4 weeks (-0.83) and on the mean.
+
+Caveats:
+- The sample is small, with overlapping windows.
+- At 1 week, D4 minus the damped trend ranges from -4.3 to +6.5 points across cutoffs.
+- The 8-week claim needs the live board.
+
+Spend for Runs 1-3 is $11.70 (`board/results/astra_ledger.json`).
