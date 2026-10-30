@@ -25,7 +25,7 @@
 ## The scientist's footnote
 
 - **All results are backtests.** For the Ctrip, Census and Stack Overflow tests, the design was fixed in writing and the held-out periods were scored once. The Trip.com, purchase-to-pay and AI-spend tests are retrospective: their designs were settled with the outcome periods available.
-- **The strongest tests had the hardest comparators.** The method was scored against trend, seasonal, adoption-curve and research-based benchmarks, not only "no change".
+- **Benchmarks go beyond "no change".** Across the six tests, the comparators include trend, seasonal, adoption-curve and research-based benchmarks; each test's full set is listed in its validation record, and each result is against the best of that set.
 - **Some results are published as losses.** In a few further tests the simulation did not beat the strongest benchmark, and those results are published alongside these. Where WORKCAST wins most clearly is calibrated forecasting of operations, spend and adoption. Its digital-twin predictions of behaviour are proven on the Trip.com trial and are the next frontier.
 - **Dollar figures are illustrations.** Each applies stated assumptions (salary, licence price, token spend) to an illustrative firm; a client's own figures replace them in scoping.
 - **Every number traces to a sealed record.** Each figure links to its source file and calculation in the accompanying provenance record.
