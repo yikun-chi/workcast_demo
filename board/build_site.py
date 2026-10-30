@@ -12,6 +12,7 @@ import hashlib
 import html
 import json
 import shutil
+from datetime import date, timedelta
 from pathlib import Path
 
 
@@ -45,6 +46,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--records", required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--evaluation", help="runs/openrouter/evaluation.json: the backtest record shown beside the live forecasts")
     a = ap.parse_args()
     root, out = Path(a.records), Path(a.out)
     (out / "records").mkdir(parents=True, exist_ok=True)
@@ -57,6 +59,11 @@ def main() -> None:
         if Path(str(f) + ".ots").exists():
             shutil.copy2(str(f) + ".ots", out / "records" / (f.name + ".ots"))
         proofs.append((json.loads(f.read_text()), hashlib.sha256(f.read_bytes()).hexdigest(), f.name))
+    bt = backtest_html(json.loads(Path(a.evaluation).read_text())) if a.evaluation and Path(a.evaluation).exists() else ""
+    if not proofs:
+        (out / "index.html").write_text(launch_page(bt))
+        print(f"built {out / 'index.html'} (launch page: no forecast published yet)")
+        return
     latest, latest_sha, latest_name = proofs[-1]
     H = latest["horizon_weeks"]
     # ---- latest forecast: predicted growth over the horizon against each app's recent weekly level
@@ -96,12 +103,37 @@ def main() -> None:
 <h2>Forecast to grow most</h2><div class="wrap"><table><tr><th>App</th><th>Category</th><th>Recent week</th><th>Next {H} weeks</th><th>90% range</th><th>vs recent pace</th><th>Share</th></tr>{rows_m(list(reversed(movers[-10:])))}</table></div>
 <h2>Forecast to shrink most</h2><div class="wrap"><table><tr><th>App</th><th>Category</th><th>Recent week</th><th>Next {H} weeks</th><th>90% range</th><th>vs recent pace</th><th>Share</th></tr>{rows_m(movers[:10])}</table></div>
 <p class="note">Established apps only (ranked in all eight weeks before the cutoff). "vs recent pace" compares the forecast total with {H} times the app's average week over the four weeks before the cutoff.</p>
+{bt}
 <h2>Every forecast, scored as the weeks arrive</h2>
 <div class="wrap"><table><tr><th>Cutoff</th><th>Weeks published</th><th>1 wk: ours / best standard</th><th>2 wk</th><th>4 wk</th><th>8 wk</th><th>Record (SHA-256)</th></tr>{hist}</table></div>
 <p class="note">Error is the token-weighted error in each app's tokens over the first weeks after the cutoff (lower is better), against the best of: last four weeks carried forward, each app's recent trend, and market growth. Data: OpenRouter Datasets API (CC BY 4.0). Before this board, the same method was backtested at 16 cutoffs from July 2025 to August 2026. To verify a record: download it, compute its SHA-256, and run <span class="mono">ots verify</span> on its proof.</p>
 </main><script>function share(b){{navigator.clipboard&&navigator.clipboard.writeText(b.dataset.t);b.textContent="copied";setTimeout(()=>b.textContent="copy",1200)}}</script></body></html>"""
     (out / "index.html").write_text(page)
     print(f"built {out / 'index.html'} from {len(proofs)} records")
+
+
+def backtest_html(ev: dict) -> str:
+    """The method's retrospective record: 16 cutoffs scored before this board started (numbers read from the evaluation)."""
+    acc = ev["accuracy"]; labels = ev["comparator_labels"]
+    h1 = acc["by_horizon"]["1"]; b1 = min(labels, key=lambda k: h1[k])
+    ts = next(b for b in ev["business_validation"] if b["id"] == "top_spend")
+    wins = ev["windows"]
+    return (f'<h2>Before the board: the backtest</h2><div class="grid">'
+            f'<div class="card"><div class="v">{100 * (1 - h1["simulation"] / h1[b1]):.0f}%</div><div class="l">less error one week ahead than the best standard forecast ({h1["simulation"]:.1f}% vs {h1[b1]:.1f}%)</div></div>'
+            f'<div class="card"><div class="v">{ts["error_reduction_pct"]:.0f}%</div><div class="l">less error on the leading apps\' combined {ev["protocol"]["horizon_weeks"]}-week spend</div></div>'
+            f'<div class="card"><div class="v">{sum(w["n_apps"] for w in wins):,}</div><div class="l">company forecasts at {len(wins)} cutoffs, {wins[0]["cutoff"]} to {wins[-1]["cutoff"]}</div></div></div>'
+            f'<p class="note">Retrospective: the method was designed with these periods available, which is why the board now publishes forecasts in advance.</p>')
+
+
+def launch_page(bt: str) -> str:
+    nxt = date.today() + timedelta(days=(7 - date.today().weekday()) % 7 or 7)
+    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WORKCAST Forecast Board</title><style>{CSS}</style></head><body><main>
+<h1>AI demand, forecast before it happens.</h1>
+<p class="lede">Every week WORKCAST will publish a dated forecast of how many AI tokens the leading apps on OpenRouter will use over the next eight weeks, next to the standard forecasts made from the same data. Each forecast is hashed and anchored with OpenTimestamps before the weeks it predicts, then scored in public as the weeks arrive. Misses stay on the board.</p>
+<div class="grid"><div class="card"><div class="v">{nxt:%d %b %Y}</div><div class="l">first forecast publishes, within two days of its cutoff</div></div></div>
+{bt}
+</main></body></html>"""
 
 
 def share_text(x: dict, g: float, rec: dict, digest: str) -> str:
