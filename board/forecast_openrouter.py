@@ -27,6 +27,7 @@ from orgsim.store import RunWriter
 from orgsim.worlds import market as M
 
 SEEDS = range(1, 21)
+MAX_LAG_DAYS = 2
 
 
 def sha(path: Path) -> str:
@@ -41,6 +42,11 @@ def main() -> None:
     d = M.load_data(ctx)
     t0 = pd.Timestamp(d.aw.week.max()) + M.WEEK
     H = int(ctx.yaml("evaluation/protocol.yaml").get("horizon_weeks", 8))
+    lag = pd.Timestamp.now(tz="UTC").tz_localize(None) - t0
+    if lag > pd.Timedelta(days=MAX_LAG_DAYS):
+        # an advance forecast must be published before its first week is under way; a late run is skipped, not backdated
+        print(f"skip: cutoff {t0.date()} is {lag.days} days old (limit {MAX_LAG_DAYS}); waiting for the next complete week")
+        return
     out = Path(a.records) / "openrouter" / f"{t0.date()}.json"
     if out.exists():
         print(f"forecast for {t0.date()} already recorded: {out}")
@@ -74,6 +80,7 @@ def main() -> None:
     rec = {
         "board": "openrouter", "t0": str(t0.date()), "weeks": weeks, "horizon_weeks": H,
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "published_hours_after_cutoff": round(lag.total_seconds() / 3600, 1),
         "code_commit": os.environ.get("BOARD_CODE_COMMIT", "unknown"),
         "inputs_sha256": {p.name: sha(p) for p in sorted(ctx.data_normalized.glob("*.parquet"))},
         "method": "WORKCAST market world, baseline scenario: central path (point) and 5th-95th percentile of 20 runs (range). "
