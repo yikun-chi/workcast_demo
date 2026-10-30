@@ -247,3 +247,28 @@ Spend for Runs 1-3 is $11.70 (`board/results/astra_ledger.json`).
   - Against D4, the damped trend and Astra, the margins are within the cutoff-to-cutoff noise, so the test is expected to be close and may be lost.
 - **Spend:** the development calls cost $9.97 (36 calls, at most $0.301 each). The total across all Astra runs is $22.02 against the $25 cap.
 - **Guard change:** for the test stage, the per-call reservation in the cap guard is set to $0.60, which is twice the largest observed call. It was $2.50.
+
+### Run 4 test result (7 re-used weekly cutoffs, 2026-09-07 to 2026-10-19, scored once)
+
+Source: `board/results/astra_run4_test.json`. Horizons 1, 2 and 4 have 7, 6 and 4 cutoffs; no 8-week horizon has elapsed.
+
+| Method | 1 week | 2 weeks | 4 weeks | Mean |
+|---|---:|---:|---:|---:|
+| D4 (Run 3, frozen) | 23.0 | 25.6 | 23.0 | 23.90 |
+| **T3 (frozen)** | 22.9 | 25.6 | 23.6 | 24.05 |
+| Damped trend | 23.0 | 25.4 | 23.9 | 24.07 |
+| Astra | 23.7 | 26.5 | 24.0 | 24.72 |
+| WORKCAST | 23.6 | 27.0 | 24.0 | 24.87 |
+| T1 (Timestral alone) | 23.7 | 27.5 | 27.3 | 26.18 |
+| Recent trend | 30.4 | 29.6 | 28.1 | 29.37 |
+| Carry-forward | 28.4 | 30.2 | 34.7 | 31.08 |
+| Market growth | 31.9 | 32.8 | 33.7 | 32.79 |
+
+The result matches the revised prediction:
+- T3 beats Timestral alone, Astra, WORKCAST, recent trend, carry-forward and market growth on the mean.
+- T3 beats the damped trend by 0.02 points, which is a tie.
+- T3 loses to D4 on the mean by 0.15 points, all of it at 4 weeks. It has the lowest 1-week error of any method (22.9).
+
+Conclusion: a Timestral base does not improve on Run 3's combination. The board keeps D4. Timestral alone is the weakest of the model-based forecasts here: on these series, the zero-shot foundation model is beaten by a bounded damped trend.
+
+Spend: the test calls cost $2.00. The total across all Astra runs is $24.02 against the $25 cap ($23.67 in `board/results/astra_ledger.json`, plus $0.35 in the live dry-run ledger).
