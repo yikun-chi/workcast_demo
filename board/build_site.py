@@ -30,8 +30,8 @@ def pct(x: float | None, d: int = 1) -> str:
 
 
 CSS = """
-:root{--bg:#fbfbf9;--fg:#111316;--mut:#6b7078;--soft:#f1f2ee;--line:#e6e7e2;--acc:#0f9f6e;--acc-soft:#e3f5ed;--neg:#d4493f;--neg-soft:#fbe9e7;--bar:#c9ccc6}
-@media (prefers-color-scheme: dark){:root:not([data-theme=light]){--bg:#0c0e10;--fg:#eceee9;--mut:#8d939a;--soft:#15181b;--line:#23272b;--acc:#34d399;--acc-soft:#0f2a20;--neg:#f2766b;--neg-soft:#2c1614;--bar:#3a4046}}
+:root{--bg:#fbfbf9;--fg:#111316;--mut:#6b7078;--soft:#f1f2ee;--line:#e6e7e2;--acc:#0f9f6e;--acc-soft:#e3f5ed;--neg:#d4493f;--neg-soft:#fbe9e7;--bar:#c9ccc6;--ast:#6366f1}
+@media (prefers-color-scheme: dark){:root:not([data-theme=light]){--bg:#0c0e10;--fg:#eceee9;--mut:#8d939a;--soft:#15181b;--line:#23272b;--acc:#34d399;--acc-soft:#0f2a20;--neg:#f2766b;--neg-soft:#2c1614;--bar:#3a4046;--ast:#818cf8}}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 main{max-width:920px;margin:0 auto;padding:56px 16px 96px}
@@ -53,7 +53,7 @@ section{margin:0 0 64px}
 .bars{display:grid;gap:18px}.hz{display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:center}
 .hz .lab{font-size:14px;font-weight:600}.hz .lab span{display:block;font-weight:400;color:var(--mut);font-size:12px}
 .b{display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:13px;color:var(--mut);font-variant-numeric:tabular-nums}
-.b i{display:block;height:10px;border-radius:6px;background:var(--bar)}.b.us i{background:var(--acc)}.b.us{color:var(--fg);font-weight:600}
+.b i{display:block;height:10px;border-radius:6px;background:var(--bar)}.b.us i{background:var(--acc)}.b.as i{background:var(--ast)}.b.us{color:var(--fg);font-weight:600}
 .legend{display:flex;gap:18px;font-size:13px;color:var(--mut);margin:0 0 18px}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 details{border-top:1px solid var(--line);padding:16px 0}details:last-of-type{border-bottom:1px solid var(--line)}
 summary{cursor:pointer;font-weight:600;list-style:none}summary::-webkit-details-marker{display:none}summary:after{content:"+";float:right;color:var(--mut)}details[open] summary:after{content:"–"}
@@ -81,13 +81,19 @@ def strip(stats: list[tuple[str, str]]) -> str:
     return '<div class="strip">' + "".join(f'<div><div class="big">{v}</div><div class="cap">{c}</div></div>' for v, c in stats) + "</div>"
 
 
-def bars(rows: list[tuple[str, str, float, float]]) -> str:
-    """Paired bars per horizon: our error and the best standard forecast's error (shorter is better)."""
-    top = (max(max(r[2], r[3]) for r in rows) or 1) / 0.78            # longest bar at 78% leaves room for its label
-    out = ['<div class="legend"><span><i style="background:var(--acc)"></i>WORKCAST</span><span><i style="background:var(--bar)"></i>Best standard forecast</span></div><div class="bars">']
-    for lab, sub, ours, std in rows:
+def bars(rows: list[tuple], third: str | None = None) -> str:
+    """Bars per horizon: our error, the best standard forecast's error and, when given, a third forecaster's
+    (shorter is better). rows: (label, sublabel, ours, standard[, third])."""
+    top = (max(max(r[2:]) for r in rows) or 1) / 0.78                 # longest bar at 78% leaves room for its label
+    leg = '<span><i style="background:var(--acc)"></i>WORKCAST</span>'
+    if third:
+        leg += f'<span><i style="background:var(--ast)"></i>{third}</span>'
+    out = [f'<div class="legend">{leg}<span><i style="background:var(--bar)"></i>Best standard forecast</span></div><div class="bars">']
+    for r in rows:
+        lab, sub, ours, std = r[:4]
+        ast = f'<div class="b as"><i style="width:{r[4] / top * 100:.1f}%"></i>{r[4]:.1f}%</div>' if third else ""
         out.append(f'<div class="hz"><div class="lab">{lab}<span>{sub}</span></div><div>'
-                   f'<div class="b us"><i style="width:{ours / top * 100:.1f}%"></i>{ours:.1f}% error</div>'
+                   f'<div class="b us"><i style="width:{ours / top * 100:.1f}%"></i>{ours:.1f}% error</div>{ast}'
                    f'<div class="b"><i style="width:{std / top * 100:.1f}%"></i>{std:.1f}%</div></div></div>')
     return "".join(out) + "</div>"
 
@@ -120,6 +126,7 @@ def main() -> None:
     ap.add_argument("--records", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--evaluation", help="runs/openrouter/evaluation.json: the backtest record shown beside the live forecasts")
+    ap.add_argument("--astra", help="board astra results.json: GPT-6 Astra on the backtest windows after its knowledge cutoff")
     a = ap.parse_args()
     root, out = Path(a.records), Path(a.out)
     (out / "records").mkdir(parents=True, exist_ok=True)
@@ -175,6 +182,18 @@ def main() -> None:
     if bt_rows:
         tr.append(f'<p class="sub" style="margin-top:28px">Backtest before the board: {bt["n"]:,} company forecasts at {bt["cutoffs"]} cutoffs, {bt["first"]} to {bt["last"]}. '
                   f'Retrospective, which is why we now publish in advance.</p>{bars(bt_rows)}')
+    ast = json.loads(Path(a.astra).read_text()) if a.astra and Path(a.astra).exists() else None
+    if ast:
+        labels = ast["comparator_labels"]
+        arows = []
+        for h, v in ast["by_horizon"].items():
+            best = min(labels, key=lambda k: v[k])
+            arows.append((f'{h} week{"s" if h != "1" else ""} ahead', f'best standard: {labels[best].split(":")[0].lower()}', v["simulation"], v[best], v["astra"]))
+        wins = sum(r[4] < r[2] for r in arows)
+        tr.append(f'<h2 style="margin-top:44px">Head to head: GPT-6 Astra</h2><p class="sub">OpenAI\'s GPT-6 Astra (knowledge cutoff {ast["knowledge_cutoff"]}) forecast the same apps '
+                  f'from the same history at the {len(ast["cutoffs"])} backtest cutoffs after its cutoff ({ast["cutoffs"][0]} to {ast["cutoffs"][-1]}), so it could not have seen the outcomes. '
+                  f'Astra had lower error than WORKCAST at {wins} of {len(arows)} horizons. Mean of {ast["samples"]} samples per cutoff; '
+                  f'protocol fixed before the run. These are retrospective windows, now shown as measured.</p>{bars(arows, "GPT-6 Astra")}')
     inner.append("".join(tr) + "</section>")
     # ---- folded detail
     if proofs:
