@@ -20,6 +20,13 @@ calibration, scenarios, evaluation protocol and report builder. The three world 
   newly listed model. Calibrated at every cutoff from backtests that end before it, with the specification chosen per
   persistence class; the central path (every shock at its median) is the point prediction and the runs give the ranges.
   Used by `openrouter`.
+- **adoption** (`orgsim/worlds/adoption.py`): populations of agents in groups (sectors, roles, a whole site) taking up
+  a technology. Each period non-users may start and users may stop, with hazards that move each group's expected share
+  along a diffusion path (logistic imitation or a constant external hazard; growth shared across groups, damped). The
+  outcome is the share itself or a volume the adoption displaces (baseline trend and seasonality fitted before the change,
+  times the share not yet switched). Calibrated at each cutoff from backtests that end before it; comparators include
+  carry-forward, recent average, linear trend, damped-trend smoothing and a Bass diffusion fit. Used by `btos_ai`, `aei_tasks` and
+  `so_chatgpt`.
 
 A world type exposes three functions: `World` (the simulation), `evaluate(ctx, scenario_ids)` (scores the
 baseline against ground truth and writes `runs/<id>/evaluation.json`) and `results_view(ctx)` (the document the

@@ -1,0 +1,7 @@
+# Seat -> policy adapter. Each simulated asker is offered "start" (switch to an AI assistant) or "stop" (come back)
+# with the kernel's hazards; the rule draws from those weights.
+default:
+  adapter: rule
+seats:
+  adopter:
+    adapter: rule

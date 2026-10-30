@@ -1,0 +1,24 @@
+# Adoption world settings. The diffusion specification (starting window, drift weight, pooling weight, damping and
+# hazard form) is chosen at every cutoff from backtests whose targets fall before it (orgsim/worlds/adoption.py);
+# the values below are fixed settings, none fitted on the periods that are scored.
+outcome: share
+aggregate_group: _all          # the national share: the economy-wide adoption every sector imitates
+agents_per_group: 1000         # simulated firms per sector (the ranges come from backtest errors)
+period_days: 14                # biweekly survey periods
+slope_periods: 0               # periods behind each growth estimate (0: every period since the series began)
+inner_cutoffs: 10              # earlier backtests at each cutoff
+inner_step: 2                  # periods between backtests
+min_history: 6                 # periods a backtest needs before its own cutoff
+# Specification: fixed on the development cutoffs. Per-cutoff selection among richer grids (flat level, damping,
+# own-sector growth, constant-hazard form) was tried there and chose the flat level or damping every time, because
+# the backtests available at those cutoffs cover the flat first months of the series; it raised the development error
+# from 1.01 to 1.10-1.51 points (scripts/adoption_dev_grid.py). The backtests still set the range widths.
+grid:
+  k_level: [6]                 # periods averaged for the starting level (survey estimates are noisy)
+  drift: [1.0]                 # full weight on the long-run growth
+  w: [0.0]                     # growth from the national share: every sector imitates economy-wide adoption
+  phi: [1.0]                   # undamped
+  form: [imitation]            # logistic diffusion
+default_spec: {k_level: 6, drift: 1.0, w: 0.0, phi: 1.0, form: imitation}
+shock_common_share: 0.5        # share of each run's shock that is common to all sectors
+default_sigma: 0.15

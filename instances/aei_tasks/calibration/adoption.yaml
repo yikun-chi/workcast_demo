@@ -1,0 +1,20 @@
+# Adoption world settings for occupation shares of AI conversations. Each group's use follows a diffusion path chosen
+# at every cutoff from backtests on earlier releases (orgsim/worlds/adoption.py); shares are rescaled to sum to one.
+outcome: share
+normalize: true                # the 22 groups split all classified conversations
+aggregate_group: null          # shares of one whole: no economy-wide signal to imitate
+agents_per_group: 1000
+period_days: 91                # releases are irregular (1.5 to 6 months apart); one period is one release
+slope_periods: 0               # every earlier release
+inner_cutoffs: 3
+inner_step: 1
+min_history: 2
+grid:
+  k_level: [1, 2]
+  drift: [0.0, 0.5, 1.0]
+  w: [1.0]                     # each group's own growth
+  phi: [1.0, 0.5]
+  form: [imitation]
+default_spec: {k_level: 1, drift: 0.0, w: 1.0, phi: 1.0, form: imitation}   # the last release's shares carried forward
+shock_common_share: 0.0
+default_sigma: 0.15

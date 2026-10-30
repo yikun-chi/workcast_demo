@@ -1,0 +1,373 @@
+{
+ "title": "Which occupations' work goes to AI next (Anthropic Economic Index)",
+ "subtitle": "Can we predict each occupation group's share of AI conversations in the next Economic Index release?",
+ "generated": "2026-10-28T15:40:00+00:00",
+ "takeaways": [
+  "On 2 held-out cutoffs (44 predictions) the simulation's error was 0.86 pp, equal to the best standard method (no change, 0.86 pp): 0.0% less error.",
+  "Accuracy, 100 x (1 - error / mean actual): 81.2% for the simulation and 81.2% for no change.",
+  "Over all 4 cutoffs, including the 2 used to design it: 0.73 pp against 0.73 pp (no change).",
+  "The next release: 0.86 pp for the simulation, 0.86 pp for no change; 82% of actual outcomes inside the simulation's 90% range."
+ ],
+ "sections": [
+  {
+   "heading": "What was predicted",
+   "body": "Rebuilds Claude.ai use as 22 occupation groups, each a population of simulated workers whose use of the assistant follows a diffusion path; each group's share of conversations is its use relative to every other group's. From each release the simulation predicts every group's share in the next release, and is scored against what the next release reported. The alternative asks how the mix would shift if office and administrative workers took up the assistant twice as fast.",
+   "charts": [],
+   "metrics": []
+  },
+  {
+   "heading": "Accuracy on the held-out cutoffs",
+   "body": "On 2 held-out cutoffs (44 predictions) the simulation's error was 0.86 pp, equal to the best standard method (no change, 0.86 pp): 0.0% less error. Accuracy, 100 x (1 - error / mean actual): 81.2% for the simulation and 81.2% for no change.",
+   "charts": [
+    "level_next",
+    "error_next"
+   ],
+   "metrics": []
+  }
+ ],
+ "charts": [
+  {
+   "id": "level_next",
+   "type": "line",
+   "title": "Outcome, the next release, by cutoff",
+   "x": [
+    "2025-09-15",
+    "2026-01-15",
+    "2026-03-24",
+    "2026-06-26"
+   ],
+   "x_label": "cutoff",
+   "y_label": "pp",
+   "series": [
+    {
+     "name": "Actual outcome",
+     "y": [
+      4.545454545454545,
+      4.545454545454546,
+      4.545454545454546,
+      4.545454545454544
+     ],
+     "source": "actual"
+    },
+    {
+     "name": "Simulation prediction",
+     "y": [
+      4.545454545454546,
+      4.545454545454546,
+      4.545454545454546,
+      4.545454545454545
+     ],
+     "source": "baseline",
+     "band": [
+      [
+       3.6989525818870113,
+       3.721683581855232,
+       3.288981018376748,
+       3.21626499281164
+      ],
+      [
+       5.356040367435482,
+       5.339986584648663,
+       5.753323409980348,
+       5.892745261014454
+      ]
+     ]
+    },
+    {
+     "name": "No change",
+     "y": [
+      4.545454545454546,
+      4.545454545454545,
+      4.545454545454546,
+      4.545454545454546
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Recent average",
+     "y": [
+      4.545454545454546,
+      4.545454545454545,
+      4.545454545454546,
+      4.545454545454546
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Linear trend",
+     "y": [
+      4.545454545454543,
+      4.545454545454542,
+      4.545454545454543,
+      4.548144912276107
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Damped trend",
+     "y": [
+      4.545454545454546,
+      4.545454545454545,
+      4.526242523787389,
+      4.584714888659211
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Bass diffusion",
+     "y": [
+      4.545454545454546,
+      4.545454545454545,
+      4.545454545454546,
+      4.996399504955569
+     ],
+     "source": "actual",
+     "dashed": true
+    }
+   ],
+   "note": "Averages over the scored groups at each cutoff."
+  },
+  {
+   "id": "error_next",
+   "type": "line",
+   "title": "Error, the next release, by cutoff",
+   "x": [
+    "2025-09-15",
+    "2026-01-15",
+    "2026-03-24",
+    "2026-06-26"
+   ],
+   "x_label": "cutoff",
+   "y_label": "pp",
+   "series": [
+    {
+     "name": "Simulation prediction",
+     "y": [
+      0.545930411136784,
+      0.6461030090664936,
+      0.6239418447784129,
+      1.0872486718750694
+     ],
+     "source": "baseline"
+    },
+    {
+     "name": "No change",
+     "y": [
+      0.5461694997335211,
+      0.6461030090664936,
+      0.6239418447784129,
+      1.0872486718750696
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Recent average",
+     "y": [
+      0.6402139403176549,
+      0.7520957276253787,
+      0.7360761469262517,
+      1.2622195248547705
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Linear trend",
+     "y": [
+      0.6489752857561749,
+      0.7793646302082397,
+      0.893551609551044,
+      1.440536947077327
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Damped trend",
+     "y": [
+      0.5461694997335211,
+      0.6461030090664936,
+      0.9310264299857542,
+      1.2825573844337304
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Bass diffusion",
+     "y": [
+      0.5461694997335211,
+      0.6461030090664936,
+      0.6239418447784129,
+      1.4115870018483119
+     ],
+     "source": "actual",
+     "dashed": true
+    }
+   ],
+   "note": "Lower is better."
+  },
+  {
+   "id": "by_group",
+   "type": "hbar",
+   "title": "Error by group, held-out cutoffs",
+   "x": [
+    "Computer and Mathematical",
+    "Educational Instruction and Library",
+    "Arts, Design, Entertainment, Sports, and Media",
+    "Office and Administrative Support",
+    "Sales and Related",
+    "Life, Physical, and Social Science",
+    "Business and Financial Operations",
+    "Management",
+    "Healthcare Practitioners and Technical",
+    "Community and Social Service",
+    "Architecture and Engineering",
+    "Personal Care and Service",
+    "Production",
+    "Legal",
+    "Installation, Maintenance, and Repair",
+    "Food Preparation and Serving Related",
+    "Healthcare Support",
+    "Protective Service",
+    "Farming, Fishing, and Forestry",
+    "Transportation and Material Moving",
+    "Construction and Extraction",
+    "Building and Grounds Cleaning and Maintenance"
+   ],
+   "x_label": "",
+   "y_label": "pp",
+   "series": [
+    {
+     "name": "Simulation prediction",
+     "y": [
+      5.129613591580018,
+      1.6290624118158958,
+      1.6781725005061496,
+      0.9743737187920237,
+      3.1712119649985397,
+      1.2177194956654245,
+      1.04049169369282,
+      1.1433359176858369,
+      0.2441081831398184,
+      0.4559708863724074,
+      0.5161613173021042,
+      0.24142653507272516,
+      0.16739549674979337,
+      0.16251323124932357,
+      0.07305024436145297,
+      0.3044310830767163,
+      0.09512058182131009,
+      0.10156730834906134,
+      0.2669201704463662,
+      0.04671168199168633,
+      0.09604980558052022,
+      0.0676878629383122
+     ],
+     "source": "baseline"
+    },
+    {
+     "name": "Best other prediction (No change)",
+     "y": [
+      5.1296135915800205,
+      1.6290624118158972,
+      1.678172500506147,
+      0.9743737187920237,
+      3.171211964998539,
+      1.2177194956654247,
+      1.04049169369282,
+      1.1433359176858366,
+      0.24410818313981875,
+      0.45597088637240724,
+      0.5161613173021041,
+      0.2414265350727249,
+      0.16739549674979334,
+      0.16251323124932354,
+      0.0730502443614531,
+      0.30443108307671646,
+      0.09512058182130997,
+      0.10156730834906151,
+      0.26692017044636623,
+      0.046711681991686266,
+      0.09604980558052031,
+      0.06768786293831218
+     ],
+     "source": "actual"
+    }
+   ],
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "id": "mae_next_held_out",
+   "label": "Mean absolute error, the next release (held-out cutoffs; 44 predictions)",
+   "unit": "pp",
+   "better": "lower",
+   "values": {
+    "actual": null,
+    "baseline": 0.8555952583267412,
+    "alternative": null
+   },
+   "intervals": {},
+   "note": "No change: 0.86 \u00b7 Recent average: 1.00 \u00b7 Linear trend: 1.17 \u00b7 Damped trend: 1.11 \u00b7 Bass diffusion: 1.02 \u00b7 best other: No change"
+  },
+  {
+   "id": "acc_next_held_out",
+   "label": "Accuracy, the next release (held-out cutoffs)",
+   "unit": "%",
+   "better": "higher",
+   "values": {
+    "actual": null,
+    "baseline": 81.17690431681169,
+    "alternative": null
+   },
+   "intervals": {},
+   "note": "No change: 81.2% \u00b7 Recent average: 78.0% \u00b7 Linear trend: 74.3% \u00b7 Damped trend: 75.7% \u00b7 Bass diffusion: 77.6%"
+  },
+  {
+   "id": "mae_next_all",
+   "label": "Mean absolute error, the next release (all cutoffs; 88 predictions)",
+   "unit": "pp",
+   "better": "lower",
+   "values": {
+    "actual": null,
+    "baseline": 0.7258059842141901,
+    "alternative": null
+   },
+   "intervals": {},
+   "note": "No change: 0.73 \u00b7 Recent average: 0.85 \u00b7 Linear trend: 0.94 \u00b7 Damped trend: 0.85 \u00b7 Bass diffusion: 0.81 \u00b7 best other: No change"
+  },
+  {
+   "id": "acc_next_all",
+   "label": "Accuracy, the next release (all cutoffs)",
+   "unit": "%",
+   "better": "higher",
+   "values": {
+    "actual": null,
+    "baseline": 84.03226834728783,
+    "alternative": null
+   },
+   "intervals": {},
+   "note": "No change: 84.0% \u00b7 Recent average: 81.4% \u00b7 Linear trend: 79.3% \u00b7 Damped trend: 81.3% \u00b7 Bass diffusion: 82.2%"
+  },
+  {
+   "id": "alt_end_level",
+   "label": "Outcome at the end of the horizon (simulated)",
+   "unit": "pp",
+   "better": "",
+   "values": {
+    "actual": null,
+    "baseline": 4.545454545454545,
+    "alternative": 4.545454545454545
+   },
+   "intervals": {},
+   "note": "Simulated only; matching cutoffs and seeds."
+  }
+ ]
+}

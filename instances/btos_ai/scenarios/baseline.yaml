@@ -1,0 +1,12 @@
+id: baseline
+title: "AI adoption as it happened: every sector carried forward from the cutoff"
+short_title: As it happened
+description: >
+  From each cutoff, carry each sector's firms forward for six months: non-users start using AI and users stop with the
+  hazards of the diffusion path calibrated on the periods before the cutoff. Nothing after the cutoff is known to the
+  simulation.
+seeds: [1, 2, 3, 4, 5]
+world:
+  cutoff: 40
+  horizon_periods: 13
+interventions: []
