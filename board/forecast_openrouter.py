@@ -41,13 +41,14 @@ def sha(path: Path) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--records", required=True)
+    ap.add_argument("--allow-late", action="store_true", help="dry runs into a test folder only: skip the publication-lag rule")
     a = ap.parse_args()
     ctx = get_instance("openrouter")
     d = M.load_data(ctx)
     t0 = pd.Timestamp(d.aw.week.max()) + M.WEEK
     H = int(ctx.yaml("evaluation/protocol.yaml").get("horizon_weeks", 8))
     lag = pd.Timestamp.now(tz="UTC").tz_localize(None) - t0
-    if lag > pd.Timedelta(days=MAX_LAG_DAYS):
+    if lag > pd.Timedelta(days=MAX_LAG_DAYS) and not (a.allow_late and "test" in a.records):
         # an advance forecast must be published before its first week is under way; a late run is skipped, not backdated
         print(f"skip: cutoff {t0.date()} is {lag.days} days old (limit {MAX_LAG_DAYS}); waiting for the next complete week")
         return
