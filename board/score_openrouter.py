@@ -54,6 +54,17 @@ def main() -> None:
                                           "error_reduction_pct": 100 * (1 - row["simulation"] / row[best]) if row[best] else None,
                                           "market_tokens_actual": am,
                                           "market_tokens_error_pct": {"simulation": 100 * abs(sum(rec["market_tokens"]["simulation"][:h]) - am) / am}}
+            cf = rec.get("cumulative_1_2_4_8")
+            if cf:
+                cy = np.cumsum(y, axis=1)
+                for j, h in enumerate(HORIZONS):
+                    if h > len(weeks):
+                        continue
+                    act = cy[:, h - 1]
+                    row = {k: M.wape(np.array(v, dtype=float)[:, j], act) for k, v in cf.items()}
+                    best = min((k for k in row if k not in ("combined",)), key=row.get)
+                    sc["horizons"].setdefault(str(h), {})["methods_wape"] = row
+                    sc["horizons"][str(h)]["best_other"] = best
             if len(weeks) >= rec["horizon_weeks"]:
                 tot = y.sum(1)
                 lo = np.array([x["tokens_total_range90"][0] for x in rec["apps"]]); hi = np.array([x["tokens_total_range90"][1] for x in rec["apps"]])
@@ -72,6 +83,15 @@ def main() -> None:
             best = min((k for k in agg[h] if k not in ("simulation", "n_forecasts")), key=agg[h].get)
             agg[h]["best_standard"] = best
             agg[h]["error_reduction_pct"] = 100 * (1 - agg[h]["simulation"] / agg[h][best])
+    agg_m = {}
+    for h in map(str, HORIZONS):
+        rows = [s["horizons"][h]["methods_wape"] for s in board if h in s["horizons"] and "methods_wape" in s["horizons"][h]]
+        if rows:
+            agg_m[h] = {"n_forecasts": len(rows), **{k: float(np.mean([r[k] for r in rows if k in r])) for k in rows[0]}}
+            best = min((k for k in agg_m[h] if k not in ("combined", "n_forecasts")), key=agg_m[h].get)
+            agg_m[h]["best_other"] = best
+            agg_m[h]["error_reduction_pct"] = 100 * (1 - agg_m[h]["combined"] / agg_m[h][best])
+    (root.parent / "scoreboard_methods.json").write_text(json.dumps(agg_m, indent=1))
     (root.parent / "scoreboard.json").write_text(json.dumps({"latest_data_week": str(last.date()), "forecasts": len(board), "by_horizon": agg, "records": board}, indent=1))
     print(f"scored {len(board)} forecasts; latest data week {last.date()}")
 

@@ -66,6 +66,10 @@ footer{color:var(--mut);font-size:13px;margin-top:48px}
 """
 
 
+NAMES = {"damped_trend": "damped trend", "astra": "GPT-6 Astra alone", "workcast": "WORKCAST simulation alone", "carry_forward": "no change",
+         "recent_trend": "recent trend", "market_growth": "market growth"}
+
+
 def page(inner: str) -> str:
     return (f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>Forecast Board · WORKCAST</title><meta name="description" content="Dated, timestamped forecasts of AI demand, scored in public.">'
@@ -74,18 +78,19 @@ def page(inner: str) -> str:
 
 
 HERO = ('<div class="kicker">WORKCAST · Forecast board</div><h1>AI demand,<br>forecast before it happens.</h1>'
-        '<p class="lede">Every week we publish a dated, tamper-proof forecast of how much AI the leading apps will use over the next eight weeks, then score it in public against the standard forecasts. Misses stay up.</p>')
+        '<p class="lede">Every week we publish a dated, tamper-proof forecast of how much AI the leading apps will use over the next eight weeks, then score it in public against the standard forecasts and against GPT-6 Astra on its own. '
+        'Our forecast combines the WORKCAST simulation with GPT-6 Astra and a statistical trend model. Misses stay up.</p>')
 
 
 def strip(stats: list[tuple[str, str]]) -> str:
     return '<div class="strip">' + "".join(f'<div><div class="big">{v}</div><div class="cap">{c}</div></div>' for v, c in stats) + "</div>"
 
 
-def bars(rows: list[tuple], third: str | None = None) -> str:
+def bars(rows: list[tuple], third: str | None = None, ours: str = "WORKCAST simulation") -> str:
     """Bars per horizon: our error, the best standard forecast's error and, when given, a third forecaster's
     (shorter is better). rows: (label, sublabel, ours, standard[, third])."""
     top = (max(max(r[2:]) for r in rows) or 1) / 0.78                 # longest bar at 78% leaves room for its label
-    leg = '<span><i style="background:var(--acc)"></i>WORKCAST</span>'
+    leg = f'<span><i style="background:var(--acc)"></i>{ours}</span>'
     if third:
         leg += f'<span><i style="background:var(--ast)"></i>{third}</span>'
     out = [f'<div class="legend">{leg}<span><i style="background:var(--bar)"></i>Best standard forecast</span></div><div class="bars">']
@@ -127,6 +132,7 @@ def main() -> None:
     ap.add_argument("--out", required=True)
     ap.add_argument("--evaluation", help="runs/openrouter/evaluation.json: the backtest record shown beside the live forecasts")
     ap.add_argument("--astra", help="board astra results.json: GPT-6 Astra on the backtest windows after its knowledge cutoff")
+    ap.add_argument("--run3", help="board astra run3_test.json: the combined method's held-out test")
     a = ap.parse_args()
     root, out = Path(a.records), Path(a.out)
     (out / "records").mkdir(parents=True, exist_ok=True)
@@ -156,12 +162,15 @@ def main() -> None:
     # ---- this week's call
     if proofs:
         latest, digest, name = proofs[-1]
-        movers = sorted(((sum(x["tokens"]) / (x["recent_weekly_tokens"] * H) - 1, x) for x in latest["apps"]
+        comb = latest.get("cumulative_1_2_4_8", {}).get("combined")
+        for i, x in enumerate(latest["apps"]):
+            x["total_next"] = comb[i][3] if comb else sum(x["tokens"])
+        movers = sorted(((x["total_next"] / (x["recent_weekly_tokens"] * H) - 1, x) for x in latest["apps"]
                          if x["persistence"] == "steady" and x["recent_weekly_tokens"] > 0), key=lambda t: t[0])
         def item(g: float, x: dict) -> str:
             lo, hi = x["tokens_total_range90"]
-            return (f'<div class="row"><div><div class="nm">{html.escape(x["name"])}</div><div class="meta">{fmt_tokens(sum(x["tokens"]))} tokens next {H} weeks · '
-                    f'range {fmt_tokens(lo)}–{fmt_tokens(hi)}</div></div><div><span class="pill {"up" if g >= 0 else "down"}">{g * 100:+.0f}%</span>'
+            return (f'<div class="row"><div><div class="nm">{html.escape(x["name"])}</div><div class="meta">{fmt_tokens(x["total_next"])} tokens next {H} weeks · '
+                    f'simulation range {fmt_tokens(lo)}–{fmt_tokens(hi)}</div></div><div><span class="pill {"up" if g >= 0 else "down"}">{g * 100:+.0f}%</span>'
                     f'<button class="cp" onclick="cp(this)" data-t="{html.escape(share_text(x, g, latest, digest))}">Share</button></div></div>')
         made = latest["generated_utc"][:10]
         inner.append(f'<section><h2>This week\'s call</h2><p class="sub">Made {made} for the {H} weeks from {latest["t0"]}. '
@@ -176,24 +185,27 @@ def main() -> None:
                      f'<div class="cap">as soon as OpenRouter publishes the week, and never more than two days after its cutoff.</div></div></section>')
     # ---- track record
     tr = ['<section><h2>Track record</h2>']
-    if live:
+    lm = json.loads((root.parent / "scoreboard_methods.json").read_text()) if (root.parent / "scoreboard_methods.json").exists() else {}
+    if lm:
+        rows = [(f'{h} week{"s" if h != "1" else ""} ahead', f'{v["n_forecasts"]} live · best other: {NAMES.get(v["best_other"], v["best_other"])}', v["combined"], v[v["best_other"]], v.get("astra", v[v["best_other"]])) for h, v in lm.items()]
+        tr.append(f'<p class="sub">Live forecasts, published in advance and scored as the weeks arrive.</p>{bars(rows, "GPT-6 Astra alone", "WORKCAST combined")}')
+    elif live:
         rows = [(f'{h} week{"s" if h != "1" else ""} ahead', f'{v["n_forecasts"]} live forecast{"s" if v["n_forecasts"] != 1 else ""}', v["simulation"], v[v["best_standard"]]) for h, v in live.items()]
         tr.append(f'<p class="sub">Live forecasts, scored as the weeks arrive.</p>{bars(rows)}')
-    if bt_rows:
-        tr.append(f'<p class="sub" style="margin-top:28px">Backtest before the board: {bt["n"]:,} company forecasts at {bt["cutoffs"]} cutoffs, {bt["first"]} to {bt["last"]}. '
-                  f'Retrospective, which is why we now publish in advance.</p>{bars(bt_rows)}')
-    ast = json.loads(Path(a.astra).read_text()) if a.astra and Path(a.astra).exists() else None
-    if ast:
-        labels = ast["comparator_labels"]
-        arows = []
-        for h, v in ast["by_horizon"].items():
-            best = min(labels, key=lambda k: v[k])
-            arows.append((f'{h} week{"s" if h != "1" else ""} ahead', f'best standard: {labels[best].split(":")[0].lower()}', v["simulation"], v[best], v["astra"]))
-        wins = sum(r[4] < r[2] for r in arows)
-        tr.append(f'<h2 style="margin-top:44px">Head to head: GPT-6 Astra</h2><p class="sub">OpenAI\'s GPT-6 Astra (knowledge cutoff {ast["knowledge_cutoff"]}) forecast the same apps '
-                  f'from the same history at the {len(ast["cutoffs"])} backtest cutoffs after its cutoff ({ast["cutoffs"][0]} to {ast["cutoffs"][-1]}), so it could not have seen the outcomes. '
-                  f'Astra had lower error than WORKCAST at {wins} of {len(arows)} horizons. Mean of {ast["samples"]} samples per cutoff; '
-                  f'protocol fixed before the run. These are retrospective windows, now shown as measured.</p>{bars(arows, "GPT-6 Astra")}')
+    r3 = json.loads(Path(a.run3).read_text()) if a.run3 and Path(a.run3).exists() else None
+    if r3:
+        mm = r3["mean"]
+        others = [k for k in mm if k != r3["design"]]
+        rows = []
+        for h in ("1", "2", "4"):
+            best = min(others, key=lambda k: mm[k][h])
+            rows.append((f'{h} week{"s" if h != "1" else ""} ahead', f'{mm[r3["design"]]["n"][h]} held-out cutoffs · best other: {NAMES.get(best, best)}', mm[r3["design"]][h], mm[best][h], mm["astra"][h]))
+        lost = [r[0].split(" ")[0] for r in rows if r[2] >= r[3]]
+        lost_txt = (f' At {" and ".join(lost)} week{"s" if lost != ["1"] else ""} ahead the damped trend was marginally ahead.' if lost else " Best at every horizon.")
+        tr.append(f'<h2 style="margin-top:44px">Held-out test: the combined method</h2><p class="sub">Weights fixed on earlier weekly cutoffs, then scored once on '
+                  f'{len(r3["cutoffs"])} new weekly cutoffs ({r3["cutoffs"][0]} to {r3["cutoffs"][-1]}), all after GPT-6 Astra\'s knowledge cutoff: '
+                  f'the lowest mean error of every method ({mm[r3["design"]]["sel_mean"]:.1f}%).{lost_txt} Eight-week results come from the live board.</p>'
+                  f'{bars(rows, "GPT-6 Astra alone", "WORKCAST combined")}')
     inner.append("".join(tr) + "</section>")
     # ---- folded detail
     if proofs:
@@ -221,7 +233,7 @@ def next_monday() -> date:
 
 def share_text(x: dict, g: float, rec: dict, digest: str) -> str:
     lo, hi = x["tokens_total_range90"]
-    return (f"WORKCAST forecast, made {rec['generated_utc'][:10]} before the weeks happened: {x['name']} will use {fmt_tokens(sum(x['tokens']))} tokens on OpenRouter "
+    return (f"WORKCAST forecast, made {rec['generated_utc'][:10]} before the weeks happened: {x['name']} will use {fmt_tokens(x.get('total_next', sum(x['tokens'])))} tokens on OpenRouter "
             f"over the next {rec['horizon_weeks']} weeks ({g * 100:+.0f}% vs its recent pace; 90% range {fmt_tokens(lo)}-{fmt_tokens(hi)}). "
             f"Timestamped record {digest[:12]}. Scored in public: sumervaid.com/predict")
 

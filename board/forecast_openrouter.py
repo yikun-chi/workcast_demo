@@ -28,6 +28,10 @@ from orgsim.worlds import market as M
 
 SEEDS = range(1, 21)
 MAX_LAG_DAYS = 2
+# The board's headline method (Run 3 of docs/plans/astra_forecast_protocol.md, frozen 2026-10-30): per-horizon weights
+# over the WORKCAST central path, GPT-6 Astra and the bounded damped trend, for cumulative tokens at 1, 2, 4, 8 weeks.
+D4_WEIGHTS = {"workcast": [0.1, 0.2, 0.2, 0.1], "astra": [0.7, 0.5, 0.3, 0.7], "damped_trend": [0.2, 0.3, 0.5, 0.2]}
+ASTRA_CAP_USD = 10.0                                                   # live-board Astra spend, separate from the backtests
 
 
 def sha(path: Path) -> str:
@@ -77,8 +81,35 @@ def main() -> None:
                      "tokens": [round(v) for v in x["tokens_central"]], "spend_usd": [round(v, 2) for v in x["spend_central"]],
                      "tokens_total_range90": [round(float(np.percentile(T[:, i].sum(1), 5))), round(float(np.percentile(T[:, i].sum(1), 95)))],
                      "comparators_tokens": {k: [round(float(v_)) for v_ in v["tokens"][i]] for k, v in comp.items()}})
+    # ---- cumulative forecasts at 1, 2, 4, 8 weeks: WORKCAST alone, the standards, Astra, and the combined method
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import astra_backtest as A
+    import combo_study as CS
+    hist = [t0 - (A.HISTORY - i) * M.WEEK for i in range(A.HISTORY)]
+    xh, _ = M.app_matrix(d, hist, ids)
+    cumf = {"workcast": CS.cum(np.array([x["tokens_central"] for x in h0["apps"]])), "damped_trend": CS.cum(CS.damped_trend(xh)),
+            **{k: CS.cum(v["tokens"]) for k, v in comp.items()}}
+    astra_note = "ok"
+    try:
+        live = Path(a.records).parent / "astra_live"
+        (live / "responses").mkdir(parents=True, exist_ok=True)
+        ledger_path = live / "ledger.json"
+        ledger = json.loads(ledger_path.read_text()) if ledger_path.exists() else []
+        cumf["astra"] = CS.astra(A.prompt(d, t0, ids), live / "responses", ledger, ASTRA_CAP_USD, ledger_path, ids)
+    except (Exception, SystemExit) as e:                              # no key, cap reached, API down: published without Astra, and said so
+        astra_note = f"Astra unavailable ({type(e).__name__}: {str(e)[:120]}); combined method uses WORKCAST and the damped trend, reweighted"
+    comb = np.zeros_like(cumf["workcast"])
+    for j in range(4):
+        parts = {k: w[j] for k, w in D4_WEIGHTS.items() if k in cumf}
+        tot = sum(parts.values())
+        comb[:, j] = sum(cumf[k][:, j] * wt / tot for k, wt in parts.items())
+    cumf["combined"] = comb
     rec = {
-        "board": "openrouter", "t0": str(t0.date()), "weeks": weeks, "horizon_weeks": H,
+        "board": "openrouter",
+        "headline_method": "combined: WORKCAST simulation, GPT-6 Astra and damped trend with the Run 3 frozen weights",
+        "astra": astra_note,
+        "cumulative_1_2_4_8": {k: [[round(float(v_)) for v_ in row] for row in v] for k, v in cumf.items()}, "t0": str(t0.date()), "weeks": weeks, "horizon_weeks": H,
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "published_hours_after_cutoff": round(lag.total_seconds() / 3600, 1),
         "code_commit": os.environ.get("BOARD_CODE_COMMIT", "unknown"),
