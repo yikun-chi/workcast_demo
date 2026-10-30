@@ -92,7 +92,7 @@ def main() -> None:
 <div class="grid">{head_stat("1")}{head_stat("4")}{head_stat("8")}
 <div class="card"><div class="v">{len(proofs)}</div><div class="l">forecasts published in advance (latest cutoff {latest["t0"]})</div></div></div>
 <h2>This week's forecast: the next {H} weeks from {latest["t0"]}</h2>
-<p class="note">All AI tokens routed through OpenRouter over the {H} weeks: <b>{fmt_tokens(sum(mt))}</b> (simulation). Leading apps' combined spend at list prices: <b>${latest["top_spend_total_usd"]["simulation"] / 1e6:,.1f}M</b> (90% range ${latest["top_spend_total_usd"]["range90"][0] / 1e6:,.1f}M–${latest["top_spend_total_usd"]["range90"][1] / 1e6:,.1f}M).</p>
+<p class="note">All AI tokens routed through OpenRouter over the {H} weeks: <b>{fmt_tokens(sum(mt))}</b> (simulation). The {len(latest["apps"])} leading apps' combined spend at list prices: <b>${latest["top_spend_total_usd"]["simulation"] / 1e6:,.1f}M</b> (the point estimate that cut combined-spend error by about half in the backtests).</p>
 <h2>Forecast to grow most</h2><div class="wrap"><table><tr><th>App</th><th>Category</th><th>Recent week</th><th>Next {H} weeks</th><th>90% range</th><th>vs recent pace</th><th>Share</th></tr>{rows_m(list(reversed(movers[-10:])))}</table></div>
 <h2>Forecast to shrink most</h2><div class="wrap"><table><tr><th>App</th><th>Category</th><th>Recent week</th><th>Next {H} weeks</th><th>90% range</th><th>vs recent pace</th><th>Share</th></tr>{rows_m(movers[:10])}</table></div>
 <p class="note">Established apps only (ranked in all eight weeks before the cutoff). "vs recent pace" compares the forecast total with {H} times the app's average week over the four weeks before the cutoff.</p>
