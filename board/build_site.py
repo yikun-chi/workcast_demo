@@ -14,11 +14,13 @@ import argparse
 import hashlib
 import html
 import json
+import re
 import shutil
 from datetime import date, timedelta
 from pathlib import Path
 
 PAGE = Path(__file__).resolve().parent / "page"
+UNNAMED = re.compile(r"astra|gpt-?6", re.I)                            # the blend's language model stays unnamed on the public site
 
 
 def fmt_tokens(x: float) -> str:
@@ -34,18 +36,25 @@ def pct(x: float | None, d: int = 1) -> str:
     return "–" if x is None else f"{x:.{d}f}%"
 
 
+def public(x):
+    """The frozen result files key this method by its internal name; the page and the records use a generic one."""
+    if isinstance(x, dict):
+        return {("llm" if k == "astra" else k): public(v) for k, v in x.items()}
+    return [public(v) for v in x] if isinstance(x, list) else x
+
+
 def long_date(s: str) -> str:
     return f"{date.fromisoformat(s):%-d %b %Y}"
 
 
-LABELS = {"combined": "WORKCAST combined (our forecast)", "T3": "Timestral, adjusted by GPT-6 Astra", "damped_trend": "Damped trend",
-          "astra": "GPT-6 Astra alone", "workcast": "WORKCAST simulation alone", "T1": "Timestral alone", "recent_trend": "Recent trend",
+LABELS = {"combined": "WORKCAST combined (our forecast)", "T3": "Timestral, adjusted by a language model", "damped_trend": "Damped trend",
+          "llm": "Large language model alone", "workcast": "WORKCAST simulation alone", "T1": "Timestral alone", "recent_trend": "Recent trend",
           "carry_forward": "No change", "market_growth": "Market growth", "damped_12w": "Damped trend, last 12 weeks", "damped_full": "Damped trend, full history"}
 # what each method is given at a cutoff; all published before the cutoff (window lengths as in board/combo_study.py and orgsim/worlds/market.py)
-INPUTS = {"combined": "The simulation, Astra and the damped trend, blended with weights fixed on earlier weeks",
-          "T3": "Timestral's and the simulation's forecasts, adjusted by GPT-6 Astra",
+INPUTS = {"combined": "The simulation, a large language model and the damped trend, blended with weights fixed on earlier weeks",
+          "T3": "Timestral's and the simulation's forecasts, adjusted by a large language model",
           "damped_trend": "Each app's last 12 weeks",
-          "astra": "Each app's last 12 weeks, market totals, app names and categories; trained on data to 30 Apr 2026",
+          "llm": "Each app's last 12 weeks, market totals, app names and categories, plus what the model learned in training",
           "workcast": "All data since Jan 2025: apps, models, prices, launches",
           "T1": "Each app's weeks since Jan 2025 (Mistral's time-series foundation model)",
           "recent_trend": "Each app's last 8 weeks", "carry_forward": "Each app's last 4 weeks", "market_growth": "Each app's last 4 weeks and the market's last 9",
@@ -59,8 +68,8 @@ NAV = ('<header class="nav"><div class="wrap"><a class="brand" href="/">Sumer S.
          '<svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>'
          '</button><a class="btn" href="mailto:svaid@hbs.edu">Contact</a></div></div></header>')
 HERO = ('<span class="badge">WORKCAST forecast board</span><h1>AI demand, forecast in advance<br>and scored in public.</h1>'
-        '<p class="lede">Every week we publish a dated, tamper-evident forecast of how much AI the leading apps will use over the next eight weeks, then score the forecast in public against the standard methods and against GPT-6 Astra alone. '
-        'Our forecast blends the WORKCAST simulation, GPT-6 Astra and a statistical trend model. Misses stay up.</p>')
+        '<p class="lede">Every week we publish a dated, tamper-evident forecast of how much AI the leading apps will use over the next eight weeks, then score the forecast in public against the standard methods and against a large language model alone. '
+        'Our forecast blends the WORKCAST simulation, a large language model and a statistical trend model. Misses stay up.</p>')
 
 
 def page(inner: str, data: dict) -> str:
@@ -94,7 +103,7 @@ def set_copy(sets: dict) -> dict[str, str]:
     rank = f'Lowest mean error of all {len(hm)} methods ({hm["combined"]["mean"]:.1f}%). ' if order[0] == "combined" else f'{LABELS[order[0]]} has the lowest mean error. '
     behind = [h for h in ("1", "2", "4") if min(hm[k][h] for k in hm if k != "combined") < hm["combined"][h]]
     behind_txt = f'At {" and ".join(behind)} week{"s" if behind != ["1"] else ""} ahead another method was marginally ahead. ' if behind else "Best at every horizon. "
-    held = (f'Weights fixed on earlier weeks, then scored once on {ho["n"]} new weekly cutoffs ({long_date(ho["first"])} to {long_date(ho["last"])}), all after GPT-6 Astra\'s knowledge cutoff. '
+    held = (f'Weights fixed on earlier weeks, then scored once on {ho["n"]} new weekly cutoffs ({long_date(ho["first"])} to {long_date(ho["last"])}), all after the language model\'s training cutoff. '
             f'{rank}{behind_txt}The 1, 2 and 4 week columns cover {ho["n_by_horizon"]["1"]}, {ho["n_by_horizon"]["2"]} and {ho["n_by_horizon"]["4"]} cutoffs. '
             'The two Timestral rows were tested later on the same weeks. Eight-week results come from the live board.')
     earlier = (f'The {ea["n"]} weekly cutoffs ({long_date(ea["first"])} to {long_date(ea["last"])}) used to choose designs and fit the combined method\'s weights, so these scores flatter the combined method. '
@@ -104,16 +113,16 @@ def set_copy(sets: dict) -> dict[str, str]:
     verdict = ("The simulation alone beats the three simple standards at every horizon" if not simple_lost else "The simulation alone is mixed against the three simple standards")
     verdict += (", but the damped trend beats the simulation at every horizon, with either history length." if len(wins) == 4 else
                 f", and the damped trend beats the simulation at {', '.join(wins)} weeks." if wins else ", and the damped trend too.")
-    back = (f'{bt["n"]} cutoffs four weeks apart, {long_date(bt["first"])} to {long_date(bt["last"])}, {bt["forecasts"]:,} forecasts. These weeks reach back before GPT-6 Astra\'s training cutoff, '
-            f'so Astra and the combined method are not scored here. {verdict} That result is why the published forecast blends the simulation with Astra and the damped trend.')
+    back = (f'{bt["n"]} cutoffs four weeks apart, {long_date(bt["first"])} to {long_date(bt["last"])}, {bt["forecasts"]:,} forecasts. These weeks reach back before the language model\'s training cutoff, '
+            f'so the language model and the combined method are not scored here. {verdict} That result is why the published forecast blends the simulation with the language model and the damped trend.')
     return {"heldout": held, "earlier": earlier, "backtest": back}
 
 
 def method_details(H: int) -> str:
     return (f'<details><summary>How the forecast works</summary><p>Our forecast blends three forecasts with weights fixed per horizon on earlier weeks: the WORKCAST simulation, '
-            f'GPT-6 Astra and the damped trend. At each Monday cutoff, WORKCAST carries every leading app forward {H} weeks from data before the cutoff: '
+            f'a large language model and the damped trend. At each Monday cutoff, WORKCAST carries every leading app forward {H} weeks from data before the cutoff: '
             'the app\'s growth path, whether the app stays among the leaders, and the models the app\'s workloads move to as new models launch and prices change. '
-            'The simulation range is the 5th to 95th percentile of 20 runs. GPT-6 Astra reads each app\'s recent weeks and returns a forecast of the same quantities. '
+            'The simulation range is the 5th to 95th percentile of 20 runs. The language model reads each app\'s recent weeks and returns a forecast of the same quantities. '
             'The damped trend is the standard statistical forecast for series like these (Holt\'s method): the method projects each app\'s current level and growth, '
             'and lets the growth fade a little each week, capped at 15% a week. Error is token-weighted across apps (lower is better).</p></details>'
             '<details><summary>How to verify a forecast</summary><p>Each forecast is a read-only JSON record carrying the code version and a hash of every input table. '
@@ -139,7 +148,7 @@ def main() -> None:
         if Path(str(f) + ".ots").exists():
             publish(Path(str(f) + ".ots"), out / "records" / (f.name + ".ots"))
         proofs.append((json.loads(f.read_text()), hashlib.sha256(f.read_bytes()).hexdigest(), f.name))
-    retro = json.loads(Path(a.retro).read_text())
+    retro = public(json.loads(Path(a.retro).read_text()))
     sets = retro["sets"]
     market = json.loads(Path(a.market).read_text()) if a.market and Path(a.market).exists() else None
     H = proofs[-1][0]["horizon_weeks"] if proofs else 8
@@ -194,9 +203,9 @@ def main() -> None:
     # ---- live results, once weeks have elapsed
     lm = json.loads((root.parent / "scoreboard_methods.json").read_text()) if (root.parent / "scoreboard_methods.json").exists() else {}
     if lm:
-        rows = "".join(f'<tr><td>{h} week{"s" if h != "1" else ""} ahead<div class="meta">{v["n_forecasts"]} live forecasts</div></td><td>{pct(v["combined"])}</td><td>{pct(v.get("astra"))}</td>'
+        rows = "".join(f'<tr><td>{h} week{"s" if h != "1" else ""} ahead<div class="meta">{v["n_forecasts"]} live forecasts</div></td><td>{pct(v["combined"])}</td><td>{pct(v.get("llm"))}</td>'
                        f'<td>{pct(v[v["best_other"]])}<div class="meta">{LABELS.get(v["best_other"], v["best_other"])}</div></td></tr>' for h, v in lm.items())
-        inner.append(f'<section><h2>Live results</h2><p class="sub">Forecasts published in advance and scored as the weeks arrive.</p><div class="tw"><table><tr><th>Horizon</th><th>Our forecast</th><th>GPT-6 Astra alone</th><th>Best other</th></tr>{rows}</table></div></section>')
+        inner.append(f'<section><h2>Live results</h2><p class="sub">Forecasts published in advance and scored as the weeks arrive.</p><div class="tw"><table><tr><th>Horizon</th><th>Our forecast</th><th>Language model alone</th><th>Best other</th></tr>{rows}</table></div></section>')
     # ---- retrospective results: ranked chart, table and text switch together
     copy = set_copy(sets)
     note = {k: ' <span class="meta">(tested later on the same weeks)</span>' for k in ("T3", "T1")}
@@ -230,7 +239,11 @@ def main() -> None:
             "set_labels": SET_LABELS, "market_alt": f"Area chart of weekly AI tokens on OpenRouter to {last}.",
             "weekly_alt": "Line chart of each method's error at every weekly cutoff; the table view below lists the values.",
             "scatter_alt": "Scatter chart of forecast against actual tokens per app; the table view below lists the values."}
-    (out / "index.html").write_text(page("".join(inner), data))
+    built = page("".join(inner), data)
+    named = [f.name for f in (out / "records").iterdir() if UNNAMED.search(f.read_text(errors="ignore"))] + (["index.html"] if UNNAMED.search(built) else [])
+    if named:
+        raise SystemExit(f"refusing to build: the model is named in {named}")
+    (out / "index.html").write_text(built)
     print(f"built {out / 'index.html'} from {len(proofs)} records")
 
 

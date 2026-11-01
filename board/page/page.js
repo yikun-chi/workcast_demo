@@ -5,7 +5,7 @@
   const $ = s => document.querySelector(s);
   const svg = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a || {}) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
   const el = (t, c, txt, p) => { const e = document.createElement(t); if (c) e.className = c; if (txt != null) e.textContent = txt; if (p) p.appendChild(e); return e; };
-  const COLOR = { combined: 'var(--c-combined)', astra: 'var(--c-astra)', workcast: 'var(--c-sim)', damped_trend: 'var(--c-damped)', damped_12w: 'var(--c-damped)', damped_full: 'var(--c-damped)' };
+  const COLOR = { combined: 'var(--c-combined)', llm: 'var(--c-llm)', workcast: 'var(--c-sim)', damped_trend: 'var(--c-damped)', damped_12w: 'var(--c-damped)', damped_full: 'var(--c-damped)' };
   const color = k => COLOR[k] || 'var(--c-other)';
   const L = D.labels;
   const pct = x => x == null ? '–' : x.toFixed(1) + '%';

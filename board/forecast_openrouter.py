@@ -99,7 +99,7 @@ def main() -> None:
         ledger = json.loads(ledger_path.read_text()) if ledger_path.exists() else []
         cumf["astra"] = CS.astra(A.prompt(d, t0, ids), live / "responses", ledger, ASTRA_CAP_USD, ledger_path, ids)
     except (Exception, SystemExit) as e:                              # no key, cap reached, API down: published without Astra, and said so
-        astra_note = f"Astra unavailable ({type(e).__name__}: {str(e)[:120]}); combined method uses WORKCAST and the damped trend, reweighted"
+        astra_note = f"language model unavailable ({type(e).__name__}); combined method uses WORKCAST and the damped trend, reweighted"
     comb = np.zeros_like(cumf["workcast"])
     for j in range(4):
         parts = {k: w[j] for k, w in D4_WEIGHTS.items() if k in cumf}
@@ -108,9 +108,9 @@ def main() -> None:
     cumf["combined"] = comb
     rec = {
         "board": "openrouter",
-        "headline_method": "combined: WORKCAST simulation, GPT-6 Astra and damped trend with the Run 3 frozen weights",
-        "astra": astra_note,
-        "cumulative_1_2_4_8": {k: [[round(float(v_)) for v_ in row] for row in v] for k, v in cumf.items()}, "t0": str(t0.date()), "weeks": weeks, "horizon_weeks": H,
+        "headline_method": "combined: WORKCAST simulation, a large language model and damped trend with frozen weights",
+        "llm": astra_note,
+        "cumulative_1_2_4_8": {("llm" if k == "astra" else k): [[round(float(v_)) for v_ in row] for row in v] for k, v in cumf.items()}, "t0": str(t0.date()), "weeks": weeks, "horizon_weeks": H,
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "published_hours_after_cutoff": round(lag.total_seconds() / 3600, 1),
         "code_commit": os.environ.get("BOARD_CODE_COMMIT", "unknown"),
