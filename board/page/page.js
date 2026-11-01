@@ -75,62 +75,6 @@
     return d;
   }
 
-  // ---- market: weekly tokens with the live forecast appended
-  function market() {
-    const host = $('#c-market'); if (!host || !D.market) return;
-    const M = D.market, F = D.forecast;
-    let drawn = false;
-    watch(host, W => {
-      host.textContent = '';
-      const H = W < 560 ? 220 : 300, m = { t: 14, r: W < 560 ? 44 : 64, b: 26, l: 44 };
-      const s = svg('svg', { class: 'chart', viewBox: `0 0 ${W} ${H}`, height: H, tabindex: 0, role: 'img', 'aria-label': D.market_alt }, host);
-      const n = M.tokens.length + (F ? F.tokens.length : 0);
-      const all = M.tokens.concat(F ? F.tokens : []);
-      const T = ticks(Math.max(...all), 4), top = T[T.length - 1];
-      const X = i => m.l + i / (n - 1) * (W - m.l - m.r), Y = v => H - m.b - v / top * (H - m.t - m.b);
-      const g = svg('g', { class: 'grid' }, s);
-      T.forEach(v => { svg('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }, g); svg('text', { x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end' }, s).textContent = v ? tok(v) : '0'; });
-      const weeks = M.weeks.concat(F ? F.weeks : []);
-      let last = -99;
-      weeks.forEach((w, i) => { const [y, mo, d] = parts(w); if (d <= 7 && (mo - 1) % 3 === 0 && X(i) - last > 60) { last = X(i); svg('text', { x: X(i), y: H - 6, 'text-anchor': 'middle' }, s).textContent = MONTHS[mo - 1] + ' ' + String(y).slice(2); } });
-      const xs = M.tokens.map((_, i) => X(i)), ys = M.tokens.map(Y), base = Y(0);
-      svg('path', { d: pathOf(xs, ys) + `L${xs[xs.length - 1]} ${base}L${xs[0]} ${base}Z`, fill: 'var(--c-combined)', style: 'fill-opacity:var(--wash)' }, s);
-      const line = svg('path', { d: pathOf(xs, ys), fill: 'none', stroke: 'var(--c-combined)', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', pathLength: 1 }, s);
-      if (!drawn && !reduced()) { line.style.strokeDasharray = '1'; line.style.strokeDashoffset = '1'; line.getBoundingClientRect(); line.style.transition = 'stroke-dashoffset 1.1s ease-out'; line.style.strokeDashoffset = '0'; drawn = true; }
-      const k = M.tokens.length - 1;
-      if (F) {
-        const fx = F.tokens.map((_, i) => X(k + 1 + i)), fy = F.tokens.map(Y);
-        svg('path', { d: `M${xs[k]} ${ys[k]}` + pathOf(fx, fy).replace('M', 'L'), fill: 'none', stroke: 'var(--c-combined)', 'stroke-width': 2, 'stroke-dasharray': '2 5', 'stroke-linecap': 'round' }, s);
-        svg('circle', { cx: fx[fx.length - 1], cy: fy[fy.length - 1], r: 4, fill: 'var(--c-combined)', stroke: 'var(--panel)', 'stroke-width': 2 }, s);
-        svg('text', { x: fx[fx.length - 1] - 10, y: fy[fy.length - 1] + 2, 'text-anchor': 'end', class: 'strong' }, s).textContent = 'Forecast';
-      }
-      svg('circle', { cx: xs[k], cy: ys[k], r: 4, fill: 'var(--c-combined)', stroke: 'var(--panel)', 'stroke-width': 2 }, s);
-      if (!F) svg('text', { x: xs[k] + 8, y: ys[k] + 4, class: 'strong' }, s).textContent = tok(M.tokens[k]);
-      const cross = svg('line', { y1: m.t, y2: H - m.b, stroke: 'var(--pill-hv)', 'stroke-width': 1, opacity: 0 }, s);
-      const mark = svg('circle', { r: 4, fill: 'var(--c-combined)', stroke: 'var(--panel)', 'stroke-width': 2, opacity: 0 }, s);
-      const at = (i, cx, cy) => {
-        const isF = i >= M.tokens.length, v = all[i];
-        cross.setAttribute('x1', X(i)); cross.setAttribute('x2', X(i)); cross.setAttribute('opacity', 1);
-        mark.setAttribute('cx', X(i)); mark.setAttribute('cy', Y(v)); mark.setAttribute('opacity', 1);
-        showTip(cx, cy, 'Week of ' + full(weeks[i]), [{ color: 'var(--c-combined)', value: tok(v), label: isF ? 'simulation forecast' : 'tokens, all apps' }]);
-      };
-      const clear = () => { cross.setAttribute('opacity', 0); mark.setAttribute('opacity', 0); hideTip(); };
-      s.addEventListener('pointermove', e => {
-        const r = s.getBoundingClientRect();
-        const i = Math.max(0, Math.min(n - 1, Math.round((e.clientX - r.left - m.l) / (W - m.l - m.r) * (n - 1))));
-        at(i, e.clientX, e.clientY);
-      });
-      s.addEventListener('pointerleave', clear);
-      let ki = k;
-      s.addEventListener('keydown', e => {
-        if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-        e.preventDefault(); ki = Math.max(0, Math.min(n - 1, ki + (e.key === 'ArrowLeft' ? -1 : 1)));
-        const r = s.getBoundingClientRect(); at(ki, r.left + X(ki), r.top + Y(all[ki]));
-      });
-      s.addEventListener('blur', clear);
-    });
-  }
-
   // ---- hero: accuracy per method on one axis, higher is better. The set and horizon also switch the record table and text below.
   function leaderboard() {
     const host = $('#c-rank'); if (!host) return;
@@ -349,50 +293,59 @@
     });
     update();
   }
-  // ---- spend: actual against forecast, one point per backtest window
-  function spend() {
-    const host = $('#c-spend'); if (!host || !D.spend) return;
-    const SP = D.spend, wins = SP.windows, keys = ['actual', 'simulation', SP.best];
-    const col = { actual: 'var(--fg)', simulation: 'var(--c-combined)' }; col[SP.best] = 'var(--c-damped)';
-    const on = { actual: true, simulation: true }; on[SP.best] = true;
-    const usd = v => '$' + (v >= 10 ? v.toFixed(0) : v.toFixed(1)) + 'M';
-    const leg = $('#leg-spend');
-    keys.forEach(k => {
-      const b = el('button', 'lk', null, leg); b.type = 'button'; b.setAttribute('aria-pressed', 'true');
-      el('i', '', null, b).style.background = col[k]; b.appendChild(document.createTextNode(SP.labels[k]));
-      b.addEventListener('click', () => { on[k] = !on[k]; b.setAttribute('aria-pressed', String(on[k])); draw(width); });
-    });
-    const tb = $('#spend-table');
-    if (tb) {
-      const t = el('table', '', null, tb), hd = el('tr', '', null, t);
-      ['Window from', 'Actual'].concat(Object.keys(wins[0]).filter(k => k !== 'cutoff' && k !== 'actual').map(k => SP.labels[k] || k)).forEach(x => el('th', '', x, hd));
-      wins.forEach(w => { const r = el('tr', '', null, t); el('td', '', full(w.cutoff), r); el('td', '', usd(w.actual), r); Object.keys(w).filter(k => k !== 'cutoff' && k !== 'actual').forEach(k => el('td', '', usd(w[k]), r)); });
+  // ---- the product: what we forecast against what happened, one point per backtest window; tokens or spend
+  function product() {
+    const host = $('#c-product'); if (!host || !D.product) return;
+    const P = D.product; let mid = 'top_spend', width = 0;
+    const keys = () => ['actual', 'simulation', P.measures[mid].best];
+    const col = k => k === 'actual' ? 'var(--fg)' : k === 'simulation' ? 'var(--c-combined)' : 'var(--c-damped)';
+    const on = { actual: true, simulation: true, best: true };
+    const slot = k => k === 'actual' ? 'actual' : k === 'simulation' ? 'simulation' : 'best';
+    const fmt = v => P.measures[mid].unit === '$M' ? '$' + (v >= 10 ? v.toFixed(0) : v.toFixed(1)) + 'M' : (v >= 10 ? v.toFixed(0) : v.toFixed(1)) + 'T';
+    const pm = pills($('#ctl-product'), Object.keys(P.measures).map(v => ({ v, label: P.names[v] })), mid, v => { mid = v; pm.set(v); legend(); draw(width); document.querySelectorAll('[data-measure]').forEach(n => n.classList.toggle('is-hidden', n.dataset.measure !== mid)); });
+    const leg = $('#leg-product');
+    function legend() {
+      leg.textContent = '';
+      keys().forEach(k => {
+        const b = el('button', 'lk', null, leg); b.type = 'button'; b.setAttribute('aria-pressed', String(on[slot(k)]));
+        el('i', '', null, b).style.background = col(k); b.appendChild(document.createTextNode(P.labels[k]));
+        b.addEventListener('click', () => { on[slot(k)] = !on[slot(k)]; b.setAttribute('aria-pressed', String(on[slot(k)])); draw(width); });
+      });
     }
-    let width = 0;
+    Object.keys(P.measures).forEach(m => {
+      const tb = $('#product-table-' + m); if (!tb) return;
+      const wins = P.measures[m].windows, f = v => P.measures[m].unit === '$M' ? '$' + v.toFixed(1) + 'M' : v.toFixed(2) + 'T';
+      const t = el('table', '', null, tb), hd = el('tr', '', null, t);
+      const cols = Object.keys(wins[0]).filter(k => k !== 'cutoff');
+      ['Window from'].concat(cols.map(k => P.labels[k] || k)).forEach(x => el('th', '', x, hd));
+      wins.forEach(w => { const r = el('tr', '', null, t); el('td', '', full(w.cutoff), r); cols.forEach(k => el('td', '', f(w[k]), r)); });
+    });
+    legend();
     function draw(W) {
       if (!W) return; width = W;
       host.textContent = '';
+      const M_ = P.measures[mid], wins = M_.windows, ks = keys();
       const Ht = W < 560 ? 240 : 320, m = { t: 16, r: 14, b: 26, l: 52 };
-      const s = svg('svg', { class: 'chart', viewBox: `0 0 ${W} ${Ht}`, height: Ht, tabindex: 0, role: 'img', 'aria-label': D.spend_alt }, host);
-      const n = wins.length, vals = keys.flatMap(k => wins.map(w => w[k]));
+      const s = svg('svg', { class: 'chart', viewBox: `0 0 ${W} ${Ht}`, height: Ht, tabindex: 0, role: 'img', 'aria-label': D.product_alt }, host);
+      const n = wins.length, vals = ks.flatMap(k => wins.map(w => w[k]));
       const T = ticks(Math.max(...vals), 4), top = T[T.length - 1];
       const X = i => m.l + i / (n - 1) * (W - m.l - m.r), Y = v => Ht - m.b - v / top * (Ht - m.t - m.b);
       const g = svg('g', { class: 'grid' }, s);
-      T.forEach(v => { svg('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }, g); svg('text', { x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end' }, s).textContent = v ? usd(v) : '0'; });
+      T.forEach(v => { svg('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }, g); svg('text', { x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end' }, s).textContent = v ? fmt(v) : '0'; });
       let seen = '', lastX = -99;
       wins.forEach((w, i) => { const [y, mo] = parts(w.cutoff); const k = y + '-' + Math.floor((mo - 1) / 3); if (k !== seen && X(i) - lastX > 50) { seen = k; lastX = X(i); svg('text', { x: X(i), y: Ht - 6, 'text-anchor': 'middle' }, s).textContent = MONTHS[mo - 1] + ' ' + String(y).slice(2); } });
       const xs = wins.map((_, i) => X(i));
-      keys.slice().reverse().forEach(k => {
-        if (!on[k]) return;
-        svg('path', { d: pathOf(xs, wins.map(w => Y(w[k]))), fill: 'none', stroke: col[k], 'stroke-width': k === 'actual' ? 2.5 : 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', opacity: k === 'actual' ? 1 : .9 }, s);
-        wins.forEach((w, i) => svg('circle', { cx: X(i), cy: Y(w[k]), r: 3.5, fill: col[k], stroke: 'var(--panel)', 'stroke-width': 2 }, s));
+      ks.slice().reverse().forEach(k => {
+        if (!on[slot(k)]) return;
+        svg('path', { d: pathOf(xs, wins.map(w => Y(w[k]))), fill: 'none', stroke: col(k), 'stroke-width': k === 'actual' ? 2.5 : 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', opacity: k === 'actual' ? 1 : .9 }, s);
+        wins.forEach((w, i) => svg('circle', { cx: X(i), cy: Y(w[k]), r: 3.5, fill: col(k), stroke: 'var(--panel)', 'stroke-width': 2 }, s));
       });
       const cross = svg('line', { y1: m.t, y2: Ht - m.b, stroke: 'var(--pill-hv)', 'stroke-width': 1, opacity: 0 }, s);
       const at = (i, cx, cy) => {
         cross.setAttribute('x1', X(i)); cross.setAttribute('x2', X(i)); cross.setAttribute('opacity', 1);
         const w = wins[i];
-        showTip(cx, cy, SP.H + ' weeks from ' + full(w.cutoff), keys.filter(k => on[k]).map(k => ({ color: col[k], value: usd(w[k]), label: SP.labels[k] })),
-          'Forecast miss: ' + ((w.simulation / w.actual - 1) * 100).toFixed(0) + '% ours, ' + ((w[SP.best] / w.actual - 1) * 100).toFixed(0) + '% best standard');
+        showTip(cx, cy, P.H + ' weeks from ' + full(w.cutoff), ks.filter(k => on[slot(k)]).map(k => ({ color: col(k), value: fmt(w[k]), label: P.labels[k] })),
+          'Miss: ' + ((w.simulation / w.actual - 1) * 100).toFixed(0) + '% ours, ' + ((w[M_.best] / w.actual - 1) * 100).toFixed(0) + '% best standard');
       };
       const clear = () => { cross.setAttribute('opacity', 0); hideTip(); };
       s.addEventListener('pointermove', e => { const r = s.getBoundingClientRect(); at(Math.max(0, Math.min(n - 1, Math.round((e.clientX - r.left - m.l) / (W - m.l - m.r) * (n - 1)))), e.clientX, e.clientY); });
@@ -403,6 +356,6 @@
     }
     watch(host, draw);
   }
-  [market, leaderboard, weekly, scatter, spend].forEach(f => { try { f(); } catch (e) { console.error(f.name, e); } });
+  [leaderboard, weekly, scatter, product].forEach(f => { try { f(); } catch (e) { console.error(f.name, e); } });
 })();
 function cp(b) { navigator.clipboard && navigator.clipboard.writeText(b.dataset.t); b.textContent = 'Copied'; setTimeout(() => { b.textContent = 'Share'; }, 1400); }

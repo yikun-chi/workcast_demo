@@ -15,4 +15,4 @@ bash ~/bin/ensure_psychdynamics_mounted.sh >/dev/null 2>&1 || true
 OTS="$BOARD/.otsvenv/bin/ots" bash board/stamp.sh "$BOARD/records"
 .venv/bin/python board/score_openrouter.py --records "$BOARD/records"
 .venv/bin/python board/chart_data.py --market "$BOARD/market.json" || echo "market series not refreshed"
-.venv/bin/python board/build_site.py --records "$BOARD/records" --out "$BOARD/site" --retro board/results/charts_retro.json --market "$BOARD/market.json"
+.venv/bin/python board/build_site.py --records "$BOARD/records" --out "$BOARD/site" --retro board/results/charts_retro.json --evaluation runs/openrouter/evaluation.json

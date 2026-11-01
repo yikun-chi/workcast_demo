@@ -129,29 +129,38 @@ def set_copy(sets: dict) -> dict[str, str]:
     return {"heldout": held, "earlier": earlier, "backtest": back}
 
 
-def spend_section(ev: dict) -> dict:
-    """The backtest's forecasts of the leading apps' 8-week spend, window by window, against the standards."""
-    ts = next(b for b in ev["business_validation"] if b["id"] == "top_spend")
+def product_section(ev: dict) -> dict:
+    """What we forecast, against what happened: the 100 leading apps' 8-week tokens and spend, window by window."""
     labels = ev["comparator_labels"]
-    wins = [{"cutoff": w["cutoff"], "actual": w["actual"], "simulation": w["simulated"], **{k: w["baselines"][k] for k in labels}} for w in ts["windows"]]
-    best = ts["best_baseline"]
-    n, H = len(wins), int(ev["protocol"]["horizon_weeks"])
-    mean_actual = sum(w["actual"] for w in wins) / n
-    sim_pct, best_pct = 100 * ts["simulation_mae"] / mean_actual, 100 * ts["baseline_mae"][best] / mean_actual
-    order = sorted(labels, key=lambda k: ts["baseline_mae"][k])
-    rows = "".join(f'<tr{" class=us" if k == "simulation" else ""}><td>{"WORKCAST simulation alone" if k == "simulation" else LABELS[k]}<div class="meta">{INPUTS.get("workcast" if k == "simulation" else k, "")}</div></td>'
-                   f'<td>${(ts["simulation_mae"] if k == "simulation" else ts["baseline_mae"][k]):.1f}M</td><td>{100 * (ts["simulation_mae"] if k == "simulation" else ts["baseline_mae"][k]) / mean_actual:.1f}%</td></tr>'
-                   for k in sorted(["simulation", *labels], key=lambda k: ts["simulation_mae"] if k == "simulation" else ts["baseline_mae"][k]))
-    verdict = (f'The simulation missed by ${ts["simulation_mae"]:.1f}M a window on average ({sim_pct:.0f}% of spend); the best standard forecast, {LABELS[best].lower()}, by ${ts["baseline_mae"][best]:.1f}M ({best_pct:.0f}%).'
-               if ts["beats_best_baseline"] else
-               f'The best standard forecast, {LABELS[best].lower()}, missed by ${ts["baseline_mae"][best]:.1f}M a window on average ({best_pct:.0f}% of spend); the simulation by ${ts["simulation_mae"]:.1f}M ({sim_pct:.0f}%).')
-    html_ = (f'<section id="spend"><h2>AI spend, forecast against actual</h2><p class="sub">What the {ev["protocol"]["n_apps"]} leading apps spent at list prices over each {H}-week window, '
-             f'{long_date(wins[0]["cutoff"])} to {long_date(wins[-1]["cutoff"])}, next to the forecast made at the start of the window from data before it. '
-             f'Average window: ${mean_actual:.0f}M. {verdict} Simulation alone: these windows start before the language model\'s training data ends, so the blend is not scored here.</p>'
-             f'<div class="legend" id="leg-spend"></div><div class="panel"><div id="c-spend"></div></div>'
-             f'<details class="tv"><summary>Table view</summary><div class="tw"><table><tr><th>Method · what the method sees before each cutoff</th><th>Average miss</th><th>Share of spend</th></tr>{rows}</table>'
-             f'<div class="tw" id="spend-table"></div></div></details></section>')
-    return {"html": html_, "data": {"windows": wins, "best": best, "labels": {"simulation": "WORKCAST simulation alone", "actual": "Actual spend", **{k: LABELS[k] for k in labels}}, "H": H}}
+    H, n_apps = int(ev["protocol"]["horizon_weeks"]), ev["protocol"]["n_apps"]
+    measures = {}
+    for mid, unit in (("top_tokens", "T"), ("top_spend", "$M")):
+        b = next(x for x in ev["business_validation"] if x["id"] == mid)
+        wins = [{"cutoff": w["cutoff"], "actual": w["actual"], "simulation": w["simulated"], **{k: w["baselines"][k] for k in labels}} for w in b["windows"]]
+        mean_actual = sum(w["actual"] for w in wins) / len(wins)
+        miss = {"simulation": b["simulation_mae"], **b["baseline_mae"]}
+        measures[mid] = {"unit": unit, "windows": wins, "best": b["best_baseline"], "mean_actual": mean_actual, "miss": miss,
+                         "miss_pct": {k: 100 * v / mean_actual for k, v in miss.items()}, "beats": b["beats_best_baseline"]}
+    sp, tk = measures["top_spend"], measures["top_tokens"]
+    fmt = lambda m, v: (f"${v:.1f}M" if m["unit"] == "$M" else f"{v:.1f}T")
+    line = lambda m, what: (f'{what}: the simulation missed by {fmt(m, m["miss"]["simulation"])} a window on average ({m["miss_pct"]["simulation"]:.0f}%); '
+                            f'the best standard forecast, {LABELS[m["best"]].lower()}, by {fmt(m, m["miss"][m["best"]])} ({m["miss_pct"][m["best"]]:.0f}%).')
+    wins = sp["windows"]
+    sub = (f'The quantity we forecast: what the {n_apps} leading apps used and spent at list prices over each {H}-week window, {long_date(wins[0]["cutoff"])} to {long_date(wins[-1]["cutoff"])}, '
+           f'next to the forecast made at the start of the window from data before it. {line(sp, "Spend")} {line(tk, "Tokens")} '
+           'Simulation alone: these windows start before the language model\'s training data ends, so the blend is not scored here.')
+    tables = ""
+    for mid, m in measures.items():
+        order = sorted(m["miss"], key=m["miss"].get)
+        rows = "".join(f'<tr{" class=us" if k == "simulation" else ""}><td>{"WORKCAST simulation alone" if k == "simulation" else LABELS[k]}<div class="meta">{INPUTS.get("workcast" if k == "simulation" else k, "")}</div></td>'
+                       f'<td>{fmt(m, m["miss"][k])}</td><td>{m["miss_pct"][k]:.1f}%</td></tr>' for k in order)
+        tables += f'<div data-measure="{mid}"{" class=is-hidden" if mid != "top_spend" else ""}><table><tr><th>Method · what the method sees before each cutoff</th><th>Average miss</th><th>Share of actual</th></tr>{rows}</table><div class="tw" id="product-table-{mid}"></div></div>'
+    html_ = (f'<section id="product"><h2>What we forecast, against what happened</h2><p class="sub">{sub}</p>'
+             f'<div class="ctl" id="ctl-product"></div><div class="legend" id="leg-product"></div><div class="panel"><div id="c-product"></div></div>'
+             f'<details class="tv"><summary>Table view</summary><div class="tw">{tables}</div></details></section>')
+    public_labels = {"simulation": "WORKCAST simulation alone", "actual": "Actual", **{k: LABELS[k] for k in labels}}
+    return {"html": html_, "data": {"measures": {k: {"unit": v["unit"], "windows": v["windows"], "best": v["best"]} for k, v in measures.items()}, "labels": public_labels, "H": H,
+                                    "names": {"top_spend": "Spend", "top_tokens": "Tokens"}}}
 
 
 def method_details(H: int) -> str:
@@ -189,7 +198,7 @@ def main() -> None:
     sets = retro["sets"]
     market = json.loads(Path(a.market).read_text()) if a.market and Path(a.market).exists() else None
     ev = json.loads(Path(a.evaluation).read_text()) if a.evaluation and Path(a.evaluation).exists() else None
-    spend = spend_section(ev) if ev else None
+    spend = product_section(ev) if ev else None
     H = proofs[-1][0]["horizon_weeks"] if proofs else 8
     live = sb.get("by_horizon", {})
     # ---- stat strip
@@ -206,18 +215,8 @@ def main() -> None:
     inner = [HERO, strip(stats)]
     inner.append('<section id="accuracy"><div class="ctl" id="ctl-rank"></div><div class="panel"><div class="dir"><b>Forecast accuracy by method</b><span class="up">Higher is better →</span></div><div id="c-rank"></div></div>'
                  '<p class="sub" style="margin-top:10px">Accuracy is 100% minus token-weighted error across the leading apps. The axis zooms in on the range shown and does not start at zero.</p></section>')
-    market_panel = ""
-    # ---- market series, with the latest forecast appended
-    forecast = None
-    if market:
-        if proofs:
-            latest_rec = proofs[-1][0]
-            pairs = [(w, v) for w, v in zip(latest_rec["weeks"], latest_rec["market_tokens"]["simulation"]) if str(w)[:10] > market["weeks"][-1]]
-            if pairs:
-                forecast = {"weeks": [str(w)[:10] for w, _ in pairs], "tokens": [v for _, v in pairs]}
-        multiple = market["tokens"][-1] / market["tokens"][0]
-        market_panel = (f'<section><div class="panel"><div class="panel-head"><b>All AI tokens on OpenRouter, per week</b>'
-                     f'<span>{multiple:,.0f}× since {long_date(market["weeks"][0])}, latest week {fmt_tokens(market["tokens"][-1])}</span></div><div id="c-market"></div></div></section>')
+    if spend:
+        inner.append(spend["html"])
     # ---- this week's call
     if proofs:
         latest, digest, name = proofs[-1]
@@ -242,9 +241,6 @@ def main() -> None:
     else:
         inner.append(f'<section><h2>This week\'s call</h2><div class="call"><div class="cap">First forecast publishes</div><div class="big">{next_monday():%A %-d %B}</div>'
                      f'<div class="cap">as soon as OpenRouter publishes the week, and never more than two days after the cutoff.</div></div></section>')
-    inner.append(market_panel)
-    if spend:
-        inner.append(spend["html"])
     # ---- live results, once weeks have elapsed
     lm = json.loads((root.parent / "scoreboard_methods.json").read_text()) if (root.parent / "scoreboard_methods.json").exists() else {}
     if lm:
@@ -279,10 +275,9 @@ def main() -> None:
             + f'<td class="mono"><a href="records/{n}">{d_[:12]}</a></td></tr>' for r, d_, n in reversed(proofs))
         inner.append(f'<details><summary>Every forecast ({len(proofs)})</summary><div class="tw"><table><tr><th>Cutoff</th><th>Weeks in</th><th>1 wk accuracy</th><th>4 wk</th><th>8 wk</th><th>Record</th></tr>{hist}</table></div></details>')
     inner.append(method_details(H))
-    last = market["weeks"][-1] if market else ""
-    data = {"retro": {"sets": sets, "weekly": retro["weekly"], "scatter": retro["scatter"]}, "market": market, "forecast": forecast, "labels": LABELS, "inputs": INPUTS,
-            "spend": spend["data"] if spend else None, "spend_alt": "Line chart of actual and forecast 8-week spend of the leading apps per backtest window; the table view below lists the values.",
-            "set_labels": SET_LABELS, "market_alt": f"Area chart of weekly AI tokens on OpenRouter to {last}.",
+    data = {"retro": {"sets": sets, "weekly": retro["weekly"], "scatter": retro["scatter"]}, "labels": LABELS, "inputs": INPUTS,
+            "product": spend["data"] if spend else None, "product_alt": "Line chart of actual and forecast 8-week tokens or spend of the leading apps per backtest window; the table view below lists the values.",
+            "set_labels": SET_LABELS,
             "weekly_alt": "Line chart of each method's accuracy at every weekly cutoff; the table view below lists the values.",
             "scatter_alt": "Scatter chart of forecast against actual tokens per app; the table view below lists the values."}
     built = page("".join(inner), data)
