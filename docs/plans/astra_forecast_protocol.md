@@ -290,3 +290,7 @@ Spend: the test calls cost $2.00. The total across all Astra runs is $24.02 agai
 - **Gate:** D4 and T3 errors recomputed from saved forecasts must match Runs 3 and 4; any gap from today's data refresh is reported.
 - **Rule for the live board:** the board stays on D4 unless Sumer decides otherwise. A design that needs T3 also adds a paid weekly call.
 - **Prediction:** a gain of a few tenths of a point at most, within week-to-week noise.
+
+### RUN 5 FROZEN DESIGN: E3 (2026-11-01, before any test cutoff was scored for Run 5)
+
+E3, the mean of the walk-forward stack (W, A, D) and T3, has the lowest development mean among E1-E5: 22.85, against E2 23.06, E1 23.34, E4 24.24 and E5 24.53 (`board/results/astra_run5_dev.json`). The level corrections made results worse. For reference, T3 is 22.95, the damped trend 23.02, and D4 22.44 in-sample. Recomputed D4 and T3 errors match Runs 3 and 4 exactly.
