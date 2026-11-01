@@ -129,6 +129,31 @@ def set_copy(sets: dict) -> dict[str, str]:
     return {"heldout": held, "earlier": earlier, "backtest": back}
 
 
+def spend_section(ev: dict) -> dict:
+    """The backtest's forecasts of the leading apps' 8-week spend, window by window, against the standards."""
+    ts = next(b for b in ev["business_validation"] if b["id"] == "top_spend")
+    labels = ev["comparator_labels"]
+    wins = [{"cutoff": w["cutoff"], "actual": w["actual"], "simulation": w["simulated"], **{k: w["baselines"][k] for k in labels}} for w in ts["windows"]]
+    best = ts["best_baseline"]
+    n, H = len(wins), int(ev["protocol"]["horizon_weeks"])
+    mean_actual = sum(w["actual"] for w in wins) / n
+    sim_pct, best_pct = 100 * ts["simulation_mae"] / mean_actual, 100 * ts["baseline_mae"][best] / mean_actual
+    order = sorted(labels, key=lambda k: ts["baseline_mae"][k])
+    rows = "".join(f'<tr{" class=us" if k == "simulation" else ""}><td>{"WORKCAST simulation alone" if k == "simulation" else LABELS[k]}<div class="meta">{INPUTS.get("workcast" if k == "simulation" else k, "")}</div></td>'
+                   f'<td>${(ts["simulation_mae"] if k == "simulation" else ts["baseline_mae"][k]):.1f}M</td><td>{100 * (ts["simulation_mae"] if k == "simulation" else ts["baseline_mae"][k]) / mean_actual:.1f}%</td></tr>'
+                   for k in sorted(["simulation", *labels], key=lambda k: ts["simulation_mae"] if k == "simulation" else ts["baseline_mae"][k]))
+    verdict = (f'The simulation missed by ${ts["simulation_mae"]:.1f}M a window on average ({sim_pct:.0f}% of spend); the best standard forecast, {LABELS[best].lower()}, by ${ts["baseline_mae"][best]:.1f}M ({best_pct:.0f}%).'
+               if ts["beats_best_baseline"] else
+               f'The best standard forecast, {LABELS[best].lower()}, missed by ${ts["baseline_mae"][best]:.1f}M a window on average ({best_pct:.0f}% of spend); the simulation by ${ts["simulation_mae"]:.1f}M ({sim_pct:.0f}%).')
+    html_ = (f'<section id="spend"><h2>AI spend, forecast against actual</h2><p class="sub">What the {ev["protocol"]["n_apps"]} leading apps spent at list prices over each {H}-week window, '
+             f'{long_date(wins[0]["cutoff"])} to {long_date(wins[-1]["cutoff"])}, next to the forecast made at the start of the window from data before it. '
+             f'Average window: ${mean_actual:.0f}M. {verdict} Simulation alone: these windows start before the language model\'s training data ends, so the blend is not scored here.</p>'
+             f'<div class="legend" id="leg-spend"></div><div class="panel"><div id="c-spend"></div></div>'
+             f'<details class="tv"><summary>Table view</summary><div class="tw"><table><tr><th>Method · what the method sees before each cutoff</th><th>Average miss</th><th>Share of spend</th></tr>{rows}</table>'
+             f'<div class="tw" id="spend-table"></div></div></details></section>')
+    return {"html": html_, "data": {"windows": wins, "best": best, "labels": {"simulation": "WORKCAST simulation alone", "actual": "Actual spend", **{k: LABELS[k] for k in labels}}, "H": H}}
+
+
 def method_details(H: int) -> str:
     return (f'<details><summary>How the forecast works</summary><p>Our forecast blends three forecasts with weights fixed per horizon on earlier weeks: the WORKCAST simulation, '
             f'a large language model and the damped trend. At each Monday cutoff, WORKCAST carries every leading app forward {H} weeks from data before the cutoff: '
@@ -147,6 +172,7 @@ def main() -> None:
     ap.add_argument("--out", required=True)
     ap.add_argument("--retro", required=True, help="board/results/charts_retro.json: the frozen retrospective results")
     ap.add_argument("--market", help="weekly market tokens from board/chart_data.py --market")
+    ap.add_argument("--evaluation", help="runs/openrouter/evaluation.json: the backtest's spend forecasts per window")
     a = ap.parse_args()
     root, out = Path(a.records), Path(a.out)
     (out / "records").mkdir(parents=True, exist_ok=True)
@@ -162,6 +188,8 @@ def main() -> None:
     retro = accuracy(public(json.loads(Path(a.retro).read_text())))
     sets = retro["sets"]
     market = json.loads(Path(a.market).read_text()) if a.market and Path(a.market).exists() else None
+    ev = json.loads(Path(a.evaluation).read_text()) if a.evaluation and Path(a.evaluation).exists() else None
+    spend = spend_section(ev) if ev else None
     H = proofs[-1][0]["horizon_weeks"] if proofs else 8
     live = sb.get("by_horizon", {})
     # ---- stat strip
@@ -215,6 +243,8 @@ def main() -> None:
         inner.append(f'<section><h2>This week\'s call</h2><div class="call"><div class="cap">First forecast publishes</div><div class="big">{next_monday():%A %-d %B}</div>'
                      f'<div class="cap">as soon as OpenRouter publishes the week, and never more than two days after the cutoff.</div></div></section>')
     inner.append(market_panel)
+    if spend:
+        inner.append(spend["html"])
     # ---- live results, once weeks have elapsed
     lm = json.loads((root.parent / "scoreboard_methods.json").read_text()) if (root.parent / "scoreboard_methods.json").exists() else {}
     if lm:
@@ -251,6 +281,7 @@ def main() -> None:
     inner.append(method_details(H))
     last = market["weeks"][-1] if market else ""
     data = {"retro": {"sets": sets, "weekly": retro["weekly"], "scatter": retro["scatter"]}, "market": market, "forecast": forecast, "labels": LABELS, "inputs": INPUTS,
+            "spend": spend["data"] if spend else None, "spend_alt": "Line chart of actual and forecast 8-week spend of the leading apps per backtest window; the table view below lists the values.",
             "set_labels": SET_LABELS, "market_alt": f"Area chart of weekly AI tokens on OpenRouter to {last}.",
             "weekly_alt": "Line chart of each method's accuracy at every weekly cutoff; the table view below lists the values.",
             "scatter_alt": "Scatter chart of forecast against actual tokens per app; the table view below lists the values."}

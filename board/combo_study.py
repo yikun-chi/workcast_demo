@@ -40,28 +40,9 @@ def cum(weekly: np.ndarray) -> np.ndarray:
 
 
 def damped_trend(x: np.ndarray) -> np.ndarray:
-    """Holt's damped trend on log weekly tokens, per app; alpha, beta, phi chosen by one-step squared error on the history."""
-    out = np.empty((x.shape[0], H))
-    grid = [(a, b, p) for a in (0.2, 0.4, 0.6, 0.8) for b in (0.05, 0.1, 0.2) for p in (0.8, 0.9, 0.98)]
-    for i, row in enumerate(np.log(x)):
-        best = None
-        for a, b, p in grid:
-            lvl, tr, sse = row[0], row[1] - row[0], 0.0
-            for y in row[1:]:
-                f = lvl + p * tr
-                sse += (y - f) ** 2
-                new = a * y + (1 - a) * f
-                tr = b * (new - lvl) + (1 - b) * p * tr
-                lvl = new
-            if best is None or sse < best[0]:
-                best = (sse, lvl, tr, p)
-        _, lvl, tr, p = best
-        # fixed post-first-run: an unbounded trend extrapolated apps re-entering the top 200 to absurd volumes (1,475%
-        # error at 8 weeks); the trend is bounded at +-15% a week, the same bound as the recent-trend standard
-        tr = float(np.clip(tr, -0.15, 0.15))
-        steps = np.cumsum([p ** k for k in range(1, H + 1)])
-        out[i] = np.exp(lvl + steps * tr)
-    return out
+    """Holt's damped trend per app on the last 12 weeks; the platform's comparator since it was first used here (orgsim.worlds.market.damped_trend).
+    fixed post-first-run: the trend is bounded at +-15% a week; the unbounded version reached 1,475% error at 8 weeks."""
+    return M.damped_trend(x, H)
 
 
 def astra(user: str, cache: Path, ledger: list, cap: float, ledger_path: Path, ids: list[int]) -> np.ndarray:

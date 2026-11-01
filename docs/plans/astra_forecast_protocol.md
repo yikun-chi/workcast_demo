@@ -309,3 +309,7 @@ Source: `board/results/astra_run5_test.json`. No API calls. Recomputed D4 and T3
 | WORKCAST | 23.61 | 26.97 | 24.03 | 24.87 |
 
 E3 has the lowest mean, by 0.13 points over D4, and the lowest error at 1 week (tied with T3) and 2 weeks. D4 is 0.16 points better at 4 weeks. This is the third use of these weeks and the margin is within week-to-week noise, so the result is weak evidence. The live board stays on D4 until Sumer decides; E3 adds a paid weekly call and a Timestral run.
+
+### Board decision (Sumer, 2026-11-01): publish E3 from the first live forecast
+
+Sumer chose E3 for the board ("do it all", after the Run 5 result and its cost were stated). The board's walk-forward weights at each live cutoff are chosen on the 25 saved backtest cutoffs plus every earlier live record whose horizon has elapsed, the same rule as Run 5. Each live forecast makes two language-model calls (the Run 1 prompt and the T3 adjustment prompt) and one Timestral run; if either step is unavailable the record says so and the blend falls back to the parts available. The damped trend is now also a platform comparator (`orgsim.worlds.market.damped_trend`, identical to the board's function), so the backtest scores it on tokens and spend.

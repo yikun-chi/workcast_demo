@@ -9,7 +9,7 @@
 | Decision | Standard method | WORKCAST | Value for a {{firm_employees}}-person firm |
 |---|---|---|---|
 | Predict an experiment before running it (Trip.com, {{c1_trip_employees}} employees) | Published rule of thumb | **{{c1_accuracy}} accurate**, {{c1_error_reduction}} less error | **{{c1_value}}** from deciding {{c1_months_sooner}} months sooner |
-| Size the effect of a change before funding it (Ctrip trial) | Effect borrowed from earlier research | **{{c2_error_reduction}} less error** | **{{c2_value}} a year** closer business case |
+| Size the effect of a change before funding it (Ctrip trial, performance effect; the trial's calls and quits effects were missed, see the cases) | Effect borrowed from earlier research | **{{c2_error_reduction}} less error** | **{{c2_value}} a year** closer business case |
 | Staff an operation to its real bottleneck (purchase-to-pay) | Historical average, {{c5_acc_classical}} accurate | **{{c5_acc_sim}} accurate**, {{c5_error_reduction}} less error | **{{c5_value}} a year** in hires that would not have helped |
 | Budget AI spend ({{c4_apps}} largest AI apps, {{c4_backtests}} backtests) | Last month carried forward, {{c4_acc_classical}} accurate | **{{c4_acc_sim}} accurate**, {{c4_error_reduction}} less error | **{{c4_total}} a year** on {{c4_spend}} of token spend |
 | Plan AI licences ahead of adoption (U.S. Census survey) | Standard adoption curve | **{{c6_acc_sim}} accurate**, {{c6_error_reduction}} less error | **{{c6_value}} a year** on a {{c6_budget}} licence budget |

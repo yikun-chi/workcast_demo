@@ -28,10 +28,14 @@ from orgsim.worlds import market as M
 
 SEEDS = range(1, 21)
 MAX_LAG_DAYS = 2
-# The board's headline method (Run 3 of docs/plans/astra_forecast_protocol.md, frozen 2026-10-30): per-horizon weights
-# over the WORKCAST central path, GPT-6 Astra and the bounded damped trend, for cumulative tokens at 1, 2, 4, 8 weeks.
-D4_WEIGHTS = {"workcast": [0.1, 0.2, 0.2, 0.1], "astra": [0.7, 0.5, 0.3, 0.7], "damped_trend": [0.2, 0.3, 0.5, 0.2]}
-ASTRA_CAP_USD = 10.0                                                   # live-board Astra spend, separate from the backtests
+# The board's headline method is E3 (Run 5 of docs/plans/astra_forecast_protocol.md, frozen 2026-11-01; chosen for the board
+# by Sumer the same day): the mean of (a) a per-horizon blend of the WORKCAST central path, the language model and the
+# bounded damped trend, weights chosen on every earlier cutoff whose horizon has elapsed, and (b) Timestral's forecast
+# adjusted by the language model with the simulation's forecast in view. Cumulative tokens at 1, 2, 4 and 8 weeks.
+STACK = ("workcast", "astra", "damped_trend")
+ASTRA_CAP_USD = 10.0                                                   # live-board language-model spend, separate from the backtests
+HISTORY_DIR = Path("/Volumes/PsychDynamicsData/workcast_board/astra")  # saved forecasts at the 25 backtest cutoffs
+TIMESTRAL_PY = Path("/Volumes/PsychDynamicsData/workcast_board/.tsvenv/bin/python")
 
 
 def sha(path: Path) -> str:
@@ -42,6 +46,8 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--records", required=True)
     ap.add_argument("--allow-late", action="store_true", help="dry runs into a test folder only: skip the publication-lag rule")
+    ap.add_argument("--history", default=str(HISTORY_DIR), help="saved backtest forecasts the walk-forward weights learn from")
+    ap.add_argument("--timestral-python", default=str(TIMESTRAL_PY))
     a = ap.parse_args()
     ctx = get_instance("openrouter")
     d = M.load_data(ctx)
@@ -82,34 +88,76 @@ def main() -> None:
                      "tokens": [round(v) for v in x["tokens_central"]], "spend_usd": [round(v, 2) for v in x["spend_central"]],
                      "tokens_total_range90": [round(float(np.percentile(T[:, i].sum(1), 5))), round(float(np.percentile(T[:, i].sum(1), 95)))],
                      "comparators_tokens": {k: [round(float(v_)) for v_ in v["tokens"][i]] for k, v in comp.items()}})
-    # ---- cumulative forecasts at 1, 2, 4, 8 weeks: WORKCAST alone, the standards, Astra, and the combined method
+    # ---- cumulative forecasts at 1, 2, 4, 8 weeks: WORKCAST alone, the standards, the language model, Timestral adjusted by
+    # the language model, and the combined method
+    import subprocess
     import sys
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     import astra_backtest as A
+    import combo3 as C3
+    import combo4 as C4
+    import combo5 as C5
     import combo_study as CS
     hist = [t0 - (A.HISTORY - i) * M.WEEK for i in range(A.HISTORY)]
     xh, _ = M.app_matrix(d, hist, ids)
     cumf = {"workcast": CS.cum(np.array([x["tokens_central"] for x in h0["apps"]])), "damped_trend": CS.cum(CS.damped_trend(xh)),
-            **{k: CS.cum(v["tokens"]) for k, v in comp.items()}}
-    astra_note = "ok"
-    try:
-        live = Path(a.records).parent / "astra_live"
-        (live / "responses").mkdir(parents=True, exist_ok=True)
-        ledger_path = live / "ledger.json"
+            **{k: CS.cum(v["tokens"]) for k, v in comp.items() if k != "damped_trend"}}
+    notes = {}
+    live = Path(a.records).parent / "astra_live"
+    (live / "responses").mkdir(parents=True, exist_ok=True)
+    ledger_path = live / "ledger.json"
+
+    def ask(user: str) -> np.ndarray:
         ledger = json.loads(ledger_path.read_text()) if ledger_path.exists() else []
-        cumf["astra"] = CS.astra(A.prompt(d, t0, ids), live / "responses", ledger, ASTRA_CAP_USD, ledger_path, ids)
-    except (Exception, SystemExit) as e:                              # no key, cap reached, API down: published without Astra, and said so
-        astra_note = f"language model unavailable ({type(e).__name__}); combined method uses WORKCAST and the damped trend, reweighted"
-    comb = np.zeros_like(cumf["workcast"])
-    for j in range(4):
-        parts = {k: w[j] for k, w in D4_WEIGHTS.items() if k in cumf}
-        tot = sum(parts.values())
-        comb[:, j] = sum(cumf[k][:, j] * wt / tot for k, wt in parts.items())
-    cumf["combined"] = comb
+        rec = A.call(user, 1, live / "responses", ledger, ASTRA_CAP_USD)
+        ledger_path.write_text(json.dumps(ledger, indent=1))
+        f = json.loads(rec["text"])["forecasts"]
+        return np.array([[float(f.get(str(i), [np.nan] * 4)[k]) for k in range(4)] for i in ids]) * 1e9
+    try:
+        cumf["astra"] = ask(A.prompt(d, t0, ids))
+        notes["llm"] = "ok"
+    except (Exception, SystemExit) as e:                              # no key, cap reached, API down: published without it, and said so
+        notes["llm"] = f"language model unavailable ({type(e).__name__})"
+    try:
+        c = str(t0.date())
+        (live / "timestral_in").mkdir(exist_ok=True)
+        np.savez(live / "timestral_in" / f"{c}.npz", ids=np.array(ids), logx=C4.history(d, t0, ids))
+        subprocess.run([a.timestral_python, str(Path(__file__).resolve().parent / "timestral_run.py"), "--out", str(live)], check=True, capture_output=True,
+                       env={**os.environ, "HF_HOME": "/Volumes/PsychDynamicsData/hf_cache"}, timeout=1800)
+        ts = C4.timestral(live, c, np.array(ids))
+        cumf["timestral"] = ts["median"]
+        if "astra" in cumf:
+            cumf["timestral_llm"] = ask(C4.adjust_prompt(d, t0, ids, ts, cumf["workcast"]))
+            notes["timestral_llm"] = "ok"
+        else:
+            notes["timestral_llm"] = "not asked: language model unavailable"
+    except (Exception, SystemExit) as e:
+        notes["timestral_llm"] = f"Timestral step unavailable ({type(e).__name__})"
+    # walk-forward weights: every saved backtest cutoff and every earlier live record whose horizon has elapsed by t0
+    rows = []
+    for c in C3.DEV + C3.TEST:
+        hids, F = C3.components(c, d, ctx, Path(a.history), 0.0)
+        act, _ = C3.actual(c, d, hids)
+        rows.append({"cutoff": c, "F": {k: F[k] for k in STACK}, "act": act})
+    for p in sorted((Path(a.records) / "openrouter").glob("*.json")):
+        r = json.loads(p.read_text())
+        cf = r.get("cumulative_1_2_4_8", {})
+        if all(k in cf for k in ("workcast", "llm", "damped_trend")):
+            rids = np.array([x["app_id"] for x in r["apps"]])
+            act, _ = C3.actual(r["t0"], d, rids)
+            rows.append({"cutoff": r["t0"], "F": {"workcast": np.array(cf["workcast"], float), "astra": np.array(cf["llm"], float), "damped_trend": np.array(cf["damped_trend"], float)}, "act": act})
+    keys = tuple(k for k in STACK if k in cumf)
+    W = C5.walk_weights(rows, str(t0.date()), keys)
+    e1 = C5.blend(cumf, keys, W)
+    cumf["combined"] = (e1 + cumf["timestral_llm"]) / 2 if "timestral_llm" in cumf else e1
+    notes["combined"] = ("E3: mean of the walk-forward blend and Timestral adjusted by the language model" if "timestral_llm" in cumf
+                         else "walk-forward blend only: " + notes["timestral_llm"])
     rec = {
         "board": "openrouter",
-        "headline_method": "combined: WORKCAST simulation, a large language model and damped trend with frozen weights",
-        "llm": astra_note,
+        "headline_method": "combined: the mean of a walk-forward blend of the WORKCAST simulation, a large language model and the damped trend, "
+                           "and a time-series foundation model's forecast adjusted by the language model",
+        "notes": notes,
+        "walk_forward_weights": {"history_cutoffs": len(rows), "per_horizon_1_2_4_8": {("llm" if k == "astra" else k): [round(float(w), 2) for w in W[i]] for i, k in enumerate(keys)}},
         "cumulative_1_2_4_8": {("llm" if k == "astra" else k): [[round(float(v_)) for v_ in row] for row in v] for k, v in cumf.items()}, "t0": str(t0.date()), "weeks": weeks, "horizon_weeks": H,
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "published_hours_after_cutoff": round(lag.total_seconds() / 3600, 1),

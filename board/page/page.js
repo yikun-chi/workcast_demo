@@ -349,6 +349,60 @@
     });
     update();
   }
-  [market, leaderboard, weekly, scatter].forEach(f => { try { f(); } catch (e) { console.error(f.name, e); } });
+  // ---- spend: actual against forecast, one point per backtest window
+  function spend() {
+    const host = $('#c-spend'); if (!host || !D.spend) return;
+    const SP = D.spend, wins = SP.windows, keys = ['actual', 'simulation', SP.best];
+    const col = { actual: 'var(--fg)', simulation: 'var(--c-combined)' }; col[SP.best] = 'var(--c-damped)';
+    const on = { actual: true, simulation: true }; on[SP.best] = true;
+    const usd = v => '$' + (v >= 10 ? v.toFixed(0) : v.toFixed(1)) + 'M';
+    const leg = $('#leg-spend');
+    keys.forEach(k => {
+      const b = el('button', 'lk', null, leg); b.type = 'button'; b.setAttribute('aria-pressed', 'true');
+      el('i', '', null, b).style.background = col[k]; b.appendChild(document.createTextNode(SP.labels[k]));
+      b.addEventListener('click', () => { on[k] = !on[k]; b.setAttribute('aria-pressed', String(on[k])); draw(width); });
+    });
+    const tb = $('#spend-table');
+    if (tb) {
+      const t = el('table', '', null, tb), hd = el('tr', '', null, t);
+      ['Window from', 'Actual'].concat(Object.keys(wins[0]).filter(k => k !== 'cutoff' && k !== 'actual').map(k => SP.labels[k] || k)).forEach(x => el('th', '', x, hd));
+      wins.forEach(w => { const r = el('tr', '', null, t); el('td', '', full(w.cutoff), r); el('td', '', usd(w.actual), r); Object.keys(w).filter(k => k !== 'cutoff' && k !== 'actual').forEach(k => el('td', '', usd(w[k]), r)); });
+    }
+    let width = 0;
+    function draw(W) {
+      if (!W) return; width = W;
+      host.textContent = '';
+      const Ht = W < 560 ? 240 : 320, m = { t: 16, r: 14, b: 26, l: 52 };
+      const s = svg('svg', { class: 'chart', viewBox: `0 0 ${W} ${Ht}`, height: Ht, tabindex: 0, role: 'img', 'aria-label': D.spend_alt }, host);
+      const n = wins.length, vals = keys.flatMap(k => wins.map(w => w[k]));
+      const T = ticks(Math.max(...vals), 4), top = T[T.length - 1];
+      const X = i => m.l + i / (n - 1) * (W - m.l - m.r), Y = v => Ht - m.b - v / top * (Ht - m.t - m.b);
+      const g = svg('g', { class: 'grid' }, s);
+      T.forEach(v => { svg('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }, g); svg('text', { x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end' }, s).textContent = v ? usd(v) : '0'; });
+      let seen = '', lastX = -99;
+      wins.forEach((w, i) => { const [y, mo] = parts(w.cutoff); const k = y + '-' + Math.floor((mo - 1) / 3); if (k !== seen && X(i) - lastX > 50) { seen = k; lastX = X(i); svg('text', { x: X(i), y: Ht - 6, 'text-anchor': 'middle' }, s).textContent = MONTHS[mo - 1] + ' ' + String(y).slice(2); } });
+      const xs = wins.map((_, i) => X(i));
+      keys.slice().reverse().forEach(k => {
+        if (!on[k]) return;
+        svg('path', { d: pathOf(xs, wins.map(w => Y(w[k]))), fill: 'none', stroke: col[k], 'stroke-width': k === 'actual' ? 2.5 : 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', opacity: k === 'actual' ? 1 : .9 }, s);
+        wins.forEach((w, i) => svg('circle', { cx: X(i), cy: Y(w[k]), r: 3.5, fill: col[k], stroke: 'var(--panel)', 'stroke-width': 2 }, s));
+      });
+      const cross = svg('line', { y1: m.t, y2: Ht - m.b, stroke: 'var(--pill-hv)', 'stroke-width': 1, opacity: 0 }, s);
+      const at = (i, cx, cy) => {
+        cross.setAttribute('x1', X(i)); cross.setAttribute('x2', X(i)); cross.setAttribute('opacity', 1);
+        const w = wins[i];
+        showTip(cx, cy, SP.H + ' weeks from ' + full(w.cutoff), keys.filter(k => on[k]).map(k => ({ color: col[k], value: usd(w[k]), label: SP.labels[k] })),
+          'Forecast miss: ' + ((w.simulation / w.actual - 1) * 100).toFixed(0) + '% ours, ' + ((w[SP.best] / w.actual - 1) * 100).toFixed(0) + '% best standard');
+      };
+      const clear = () => { cross.setAttribute('opacity', 0); hideTip(); };
+      s.addEventListener('pointermove', e => { const r = s.getBoundingClientRect(); at(Math.max(0, Math.min(n - 1, Math.round((e.clientX - r.left - m.l) / (W - m.l - m.r) * (n - 1)))), e.clientX, e.clientY); });
+      s.addEventListener('pointerleave', clear);
+      let ki = n - 1;
+      s.addEventListener('keydown', e => { if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return; e.preventDefault(); ki = Math.max(0, Math.min(n - 1, ki + (e.key === 'ArrowLeft' ? -1 : 1))); const r = s.getBoundingClientRect(); at(ki, r.left + X(ki), r.top + m.t + 40); });
+      s.addEventListener('blur', clear);
+    }
+    watch(host, draw);
+  }
+  [market, leaderboard, weekly, scatter, spend].forEach(f => { try { f(); } catch (e) { console.error(f.name, e); } });
 })();
 function cp(b) { navigator.clipboard && navigator.clipboard.writeText(b.dataset.t); b.textContent = 'Copied'; setTimeout(() => { b.textContent = 'Share'; }, 1400); }
