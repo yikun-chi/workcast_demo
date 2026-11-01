@@ -20,7 +20,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 PAGE = Path(__file__).resolve().parent / "page"
-UNNAMED = re.compile(r"astra|gpt-?6", re.I)                            # the blend's language model stays unnamed on the public site
+UNNAMED = re.compile(r"astra", re.I)                                   # the blend's language model stays unnamed on the public site (other GPT-6 models are data)
 
 
 def fmt_tokens(x: float) -> str:

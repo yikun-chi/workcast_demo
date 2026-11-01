@@ -117,7 +117,8 @@ def main() -> None:
         cumf["astra"] = ask(A.prompt(d, t0, ids))
         notes["llm"] = "ok"
     except (Exception, SystemExit) as e:                              # no key, cap reached, API down: published without it, and said so
-        notes["llm"] = f"language model unavailable ({type(e).__name__})"
+        notes["llm"] = f"language model unavailable ({type(e).__name__}: {str(e)[:60]})"
+        print("language model step failed:", type(e).__name__, str(e)[:300], flush=True)
     try:
         c = str(t0.date())
         (live / "timestral_in").mkdir(exist_ok=True)
@@ -132,7 +133,8 @@ def main() -> None:
         else:
             notes["timestral_llm"] = "not asked: language model unavailable"
     except (Exception, SystemExit) as e:
-        notes["timestral_llm"] = f"Timestral step unavailable ({type(e).__name__})"
+        notes["timestral_llm"] = f"Timestral step unavailable ({type(e).__name__}: {str(e)[:60]})"
+        print("Timestral step failed:", type(e).__name__, str(e)[:300], flush=True)
     # walk-forward weights: every saved backtest cutoff and every earlier live record whose horizon has elapsed by t0
     rows = []
     for c in C3.DEV + C3.TEST:
