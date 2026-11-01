@@ -1,0 +1,7 @@
+# Investor paragraph (2026-11-01)
+
+Every figure traces to `docs/plans/token_results.md`: held-out accuracy and error reductions from `board/results/astra_run5_test.json`; the 1,600-forecast backtest, spend miss and 90%-range coverage from `docs/validation_openrouter.md`; market growth from the board's market series (0.5T to 188T tokens a week, Jan 2025 to Oct 2026). The spend comparison is against carry-forward budgeting; the damped-trend comparison on spend is still being scored.
+
+---
+
+AI token spend is the fastest-growing line item in software, up 377× on OpenRouter since January 2025, and almost every company still budgets it by carrying last month forward. WORKCAST forecasts it. On held-out weeks our blended forecast of what the 100 leading AI apps will use ranked first of nine methods, ahead of a frontier language model, ahead of the textbook statistical forecast, and 24% less error than the carry-forward budget every finance team uses today. Across 1,600 backtested forecasts over fifteen months, we called the 100 apps' combined eight-week spend with a $9.8M average miss against $18.9M for carrying forward, 48% less, with 87% of outcomes landing inside our stated range. And we do it in the open: every forecast is published before the weeks happen, hashed into Bitcoin, and scored in public against the standards, misses included. Nobody else is putting a dated, verifiable number on where AI demand goes next week.
