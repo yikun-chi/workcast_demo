@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
-# Publish the forecast board to sumervaid.com/predict (Cloudflare Pages project sumervaid-predict).
-# The iMac builds the page; this laptop holds the Cloudflare login, so it pulls the page and deploys only when it changed.
-set -euo pipefail
+# The scheduled job behind sumervaid.com/predict. Runs from the laptop because macOS blocks background jobs from the iMac's
+# external drive and from ~/Documents here, while SSH reaches the drive. Install with board/install_laptop_job.sh, which
+# copies this script out of ~/Documents.
+# 1. the iMac refreshes the data, forecasts if a new week is complete, stamps, scores and builds the page
+# 2. this laptop holds the Cloudflare login, so it pulls the page and deploys only when the page changed
+set -uo pipefail
+BOARD=/Volumes/PsychDynamicsData/workcast_board
+echo "$(date -u +%FT%TZ) board run starts"
+ssh -o ServerAliveInterval=30 lab "bash ~/bin/ensure_psychdynamics_mounted.sh >/dev/null 2>&1; /Volumes/PsychDynamicsData/workcast_demo/board/run_board.sh >> $BOARD/logs/board.log 2>&1" \
+  && echo "$(date -u +%FT%TZ) board run ok" || echo "$(date -u +%FT%TZ) BOARD RUN FAILED: see $BOARD/logs/board.log on the iMac"
+set -e
 STAGE="$HOME/.workcast_board_publish"
 mkdir -p "$STAGE"
-rsync -a --delete lab:/Volumes/PsychDynamicsData/workcast_board/site/ "$STAGE/site.new/"
+rsync -a --delete lab:$BOARD/site/ "$STAGE/site.new/"
 if [ -d "$STAGE/site" ] && diff -rq "$STAGE/site" "$STAGE/site.new" >/dev/null; then
   rm -rf "$STAGE/site.new"; echo "$(date -u +%FT%TZ) unchanged"; exit 0
 fi
