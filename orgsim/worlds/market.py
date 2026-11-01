@@ -742,6 +742,34 @@ def actual_window(d: MarketData, t0: pd.Timestamp, H: int, app_ids: list[int], s
             "mix_end": {s: segment_mix(d, s, weeks[-1]) for s in set(segs)}}
 
 
+def damped_trend(x: np.ndarray, H: int) -> np.ndarray:
+    """Holt's damped trend on log weekly tokens, one fit per row; alpha, beta and phi chosen by one-step squared error on
+    the history. The trend is bounded at +-15% a week, the same bound as the recent-trend comparator: unbounded, a
+    company re-entering the top 200 was extrapolated to absurd volumes (1,475% error at 8 weeks in the board's first run)."""
+    out = np.empty((x.shape[0], H))
+    grid = [(a, b, p) for a in (0.2, 0.4, 0.6, 0.8) for b in (0.05, 0.1, 0.2) for p in (0.8, 0.9, 0.98)]
+    for i, row in enumerate(np.log(x)):
+        best = None
+        for a, b, p in grid:
+            lvl, tr, sse = row[0], row[1] - row[0], 0.0
+            for y in row[1:]:
+                f = lvl + p * tr
+                sse += (y - f) ** 2
+                new = a * y + (1 - a) * f
+                tr = b * (new - lvl) + (1 - b) * p * tr
+                lvl = new
+            if best is None or sse < best[0]:
+                best = (sse, lvl, tr, p)
+        _, lvl, tr, p = best
+        tr = float(np.clip(tr, -0.15, 0.15))
+        steps = np.cumsum([p ** k for k in range(1, H + 1)])
+        out[i] = np.exp(lvl + steps * tr)
+    return out
+
+
+DAMPED_WEEKS = 12
+
+
 def comparators(d: MarketData, t0: pd.Timestamp, H: int, app_ids: list[int], segs: np.ndarray, mix0: dict[str, pd.Series]) -> dict[str, dict[str, Any]]:
     """Non-simulation predictions from the same pre-cutoff data and the same published price lists."""
     hist = sorted(w for w in d.aw.week.unique() if t0 - 8 * WEEK <= w < t0)
@@ -762,14 +790,20 @@ def comparators(d: MarketData, t0: pd.Timestamp, H: int, app_ids: list[int], seg
         "recent_trend": np.exp(np.log(last4)[:, None] + slope[:, None] * (hs[None, :] + 1.5)),
         "market_growth": last4[:, None] * np.exp(mslope * (hs[None, :] + 1.5)),
     }
+    hist12 = [t0 - (DAMPED_WEEKS - i) * WEEK for i in range(DAMPED_WEEKS)]
+    x12, _ = app_matrix(d, hist12, app_ids)
+    preds["damped_trend"] = damped_trend(x12, H)
     mk_last4 = float(mk[(mk.index < t0)].iloc[-4:].mean())
-    market = {"carry_forward": mk_last4 * H, "recent_trend": float(np.sum(mk_last4 * np.exp(mslope * (hs + 1.5)))), "market_growth": float(np.sum(mk_last4 * np.exp(mslope * (hs + 1.5))))}
+    mk12 = mk.reindex(hist12).to_numpy()[None, :]
+    market = {"carry_forward": mk_last4 * H, "recent_trend": float(np.sum(mk_last4 * np.exp(mslope * (hs + 1.5)))), "market_growth": float(np.sum(mk_last4 * np.exp(mslope * (hs + 1.5)))),
+              "damped_trend": float(damped_trend(mk12, H).sum())}
     return {k: {"tokens": v, "spend": v * price / 1e6, "market": market[k]} for k, v in preds.items()}
 
 
 COMPARATOR_LABELS = {"carry_forward": "No change: the last four weeks carried forward",
                      "recent_trend": "Recent trend: each company's eight-week growth rate extended (at most 15% a week)",
-                     "market_growth": "Market growth: each company grows at the market's recent rate"}
+                     "market_growth": "Market growth: each company grows at the market's recent rate",
+                     "damped_trend": "Damped trend: Holt's method on each company's last 12 weeks, growth fading each week (at most 15% a week)"}
 
 
 def wape(pred: np.ndarray, act: np.ndarray) -> float:
