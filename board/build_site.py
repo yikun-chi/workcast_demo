@@ -43,6 +43,17 @@ def public(x):
     return [public(v) for v in x] if isinstance(x, list) else x
 
 
+def accuracy(retro: dict) -> dict:
+    """Everything on the page is accuracy: 100% minus token-weighted error, so higher is better."""
+    flip = lambda v: None if v is None else 100 - v
+    for st in retro["sets"].values():
+        st["mean"] = {k: {h: flip(x) for h, x in m.items()} for k, m in st["mean"].items()}
+    retro["weekly"]["series"] = {k: {h: [flip(x) for x in v] for h, v in s_.items()} for k, s_ in retro["weekly"]["series"].items()}
+    for e in retro["scatter"]:
+        e["error"] = {k: {h: flip(x) for h, x in m.items()} for k, m in e["error"].items()}
+    return retro
+
+
 def long_date(s: str) -> str:
     return f"{date.fromisoformat(s):%-d %b %Y}"
 
@@ -92,24 +103,24 @@ def table(mean: dict, order: list[str], hz: tuple[str, ...], ours: str | None, n
     for k in order:
         cells = "".join(f"<td>{pct(mean[k].get(h))}</td>" for h in hz)
         rows.append(f'<tr{" class=us" if k == ours else ""}><td>{LABELS.get(k, k)}{(note or {}).get(k, "")}<div class="meta">{INPUTS.get(k, "")}</div></td>{cells}<td>{pct(mean[k]["mean"])}</td></tr>')
-    return f'<div class="tw"><table><tr><th>Method · what the method sees before each cutoff</th>{head}<th>Mean</th></tr>{"".join(rows)}</table></div>'
+    return f'<div class="tw"><table><tr><th>Method · what the method sees before each cutoff</th>{head}<th>Average</th></tr>{"".join(rows)}</table></div>'
 
 
 def set_copy(sets: dict) -> dict[str, str]:
     """The sentence under the ranked chart for each set of weeks; every claim is tested against the numbers."""
     ho, ea, bt = sets["heldout"], sets["earlier"], sets["backtest"]
     hm, bm = ho["mean"], bt["mean"]
-    order = sorted(hm, key=lambda k: hm[k]["mean"])
-    rank = f'Lowest mean error of all {len(hm)} methods ({hm["combined"]["mean"]:.1f}%). ' if order[0] == "combined" else f'{LABELS[order[0]]} has the lowest mean error. '
-    behind = [h for h in ("1", "2", "4") if min(hm[k][h] for k in hm if k != "combined") < hm["combined"][h]]
+    order = sorted(hm, key=lambda k: -hm[k]["mean"])
+    rank = f'Highest average accuracy of all {len(hm)} methods ({hm["combined"]["mean"]:.1f}%). ' if order[0] == "combined" else f'{LABELS[order[0]]} has the highest average accuracy. '
+    behind = [h for h in ("1", "2", "4") if max(hm[k][h] for k in hm if k != "combined") > hm["combined"][h]]
     behind_txt = f'At {" and ".join(behind)} week{"s" if behind != ["1"] else ""} ahead another method was marginally ahead. ' if behind else "Best at every horizon. "
     held = (f'Weights fixed on earlier weeks, then scored once on {ho["n"]} new weekly cutoffs ({long_date(ho["first"])} to {long_date(ho["last"])}), all after the language model\'s training cutoff. '
             f'{rank}{behind_txt}The 1, 2 and 4 week columns cover {ho["n_by_horizon"]["1"]}, {ho["n_by_horizon"]["2"]} and {ho["n_by_horizon"]["4"]} cutoffs. '
             'The two Timestral rows were tested later on the same weeks. Eight-week results come from the live board.')
     earlier = (f'The {ea["n"]} weekly cutoffs ({long_date(ea["first"])} to {long_date(ea["last"])}) used to choose designs and fit the combined method\'s weights, so these scores flatter the combined method. '
                'Context only, not proof.')
-    wins = [h for h in ("1", "2", "4", "8") if min(bm["damped_12w"][h], bm["damped_full"][h]) < bm["workcast"][h]]
-    simple_lost = [h for h in ("1", "2", "4", "8") if min(bm[k][h] for k in ("carry_forward", "recent_trend", "market_growth")) <= bm["workcast"][h]]
+    wins = [h for h in ("1", "2", "4", "8") if max(bm["damped_12w"][h], bm["damped_full"][h]) > bm["workcast"][h]]
+    simple_lost = [h for h in ("1", "2", "4", "8") if max(bm[k][h] for k in ("carry_forward", "recent_trend", "market_growth")) >= bm["workcast"][h]]
     verdict = ("The simulation alone beats the three simple standards at every horizon" if not simple_lost else "The simulation alone is mixed against the three simple standards")
     verdict += (", but the damped trend beats the simulation at every horizon, with either history length." if len(wins) == 4 else
                 f", and the damped trend beats the simulation at {', '.join(wins)} weeks." if wins else ", and the damped trend too.")
@@ -124,7 +135,7 @@ def method_details(H: int) -> str:
             'the app\'s growth path, whether the app stays among the leaders, and the models the app\'s workloads move to as new models launch and prices change. '
             'The simulation range is the 5th to 95th percentile of 20 runs. The language model reads each app\'s recent weeks and returns a forecast of the same quantities. '
             'The damped trend is the standard statistical forecast for series like these (Holt\'s method): the method projects each app\'s current level and growth, '
-            'and lets the growth fade a little each week, capped at 15% a week. Error is token-weighted across apps (lower is better).</p></details>'
+            'and lets the growth fade a little each week, capped at 15% a week. Accuracy is 100% minus the token-weighted error across the leading apps, so higher is better.</p></details>'
             '<details><summary>How to verify a forecast</summary><p>Each forecast is a read-only JSON record carrying the code version and a hash of every input table. '
             'The record\'s SHA-256 is anchored in the Bitcoin blockchain with OpenTimestamps before the weeks the forecast predicts. Download a record and the .ots proof, then run '
             '<span class="mono">ots verify</span>. A forecast published more than two days after the cutoff is skipped, never backdated.</p></details>')
@@ -148,7 +159,7 @@ def main() -> None:
         if Path(str(f) + ".ots").exists():
             publish(Path(str(f) + ".ots"), out / "records" / (f.name + ".ots"))
         proofs.append((json.loads(f.read_text()), hashlib.sha256(f.read_bytes()).hexdigest(), f.name))
-    retro = public(json.loads(Path(a.retro).read_text()))
+    retro = accuracy(public(json.loads(Path(a.retro).read_text())))
     sets = retro["sets"]
     market = json.loads(Path(a.market).read_text()) if a.market and Path(a.market).exists() else None
     H = proofs[-1][0]["horizon_weeks"] if proofs else 8
@@ -161,10 +172,13 @@ def main() -> None:
         live_stat = (f'{first:%-d %b}', "first live score lands")
     stats = [(str(len(proofs)) if proofs else f"{next_monday():%-d %b}", ("forecast" if len(proofs) == 1 else "forecasts") + " published in advance" if proofs else "first forecast publishes"), live_stat]
     hm = sets["heldout"]["mean"]
-    held_order = sorted(hm, key=lambda k: hm[k]["mean"])
+    held_order = sorted(hm, key=lambda k: -hm[k]["mean"])
     if held_order[0] == "combined":
-        stats.append((f'{hm["combined"]["mean"]:.1f}%', f'mean error on held-out weeks, lowest of {len(hm)} methods'))
+        stats.append((f'{hm["combined"]["mean"]:.1f}%', f'accuracy on held-out weeks, highest of {len(hm)} methods'))
     inner = [HERO, strip(stats)]
+    inner.append('<section id="accuracy"><div class="ctl" id="ctl-rank"></div><div class="panel"><div class="dir"><b>Forecast accuracy by method</b><span class="up">Higher is better →</span></div><div id="c-rank"></div></div>'
+                 '<p class="sub" style="margin-top:10px">Accuracy is 100% minus token-weighted error across the leading apps. The axis zooms in on the range shown and does not start at zero.</p></section>')
+    market_panel = ""
     # ---- market series, with the latest forecast appended
     forecast = None
     if market:
@@ -174,7 +188,7 @@ def main() -> None:
             if pairs:
                 forecast = {"weeks": [str(w)[:10] for w, _ in pairs], "tokens": [v for _, v in pairs]}
         multiple = market["tokens"][-1] / market["tokens"][0]
-        inner.append(f'<section><div class="panel"><div class="panel-head"><b>All AI tokens on OpenRouter, per week</b>'
+        market_panel = (f'<section><div class="panel"><div class="panel-head"><b>All AI tokens on OpenRouter, per week</b>'
                      f'<span>{multiple:,.0f}× since {long_date(market["weeks"][0])}, latest week {fmt_tokens(market["tokens"][-1])}</span></div><div id="c-market"></div></div></section>')
     # ---- this week's call
     if proofs:
@@ -200,11 +214,12 @@ def main() -> None:
     else:
         inner.append(f'<section><h2>This week\'s call</h2><div class="call"><div class="cap">First forecast publishes</div><div class="big">{next_monday():%A %-d %B}</div>'
                      f'<div class="cap">as soon as OpenRouter publishes the week, and never more than two days after the cutoff.</div></div></section>')
+    inner.append(market_panel)
     # ---- live results, once weeks have elapsed
     lm = json.loads((root.parent / "scoreboard_methods.json").read_text()) if (root.parent / "scoreboard_methods.json").exists() else {}
     if lm:
-        rows = "".join(f'<tr><td>{h} week{"s" if h != "1" else ""} ahead<div class="meta">{v["n_forecasts"]} live forecasts</div></td><td>{pct(v["combined"])}</td><td>{pct(v.get("llm"))}</td>'
-                       f'<td>{pct(v[v["best_other"]])}<div class="meta">{LABELS.get(v["best_other"], v["best_other"])}</div></td></tr>' for h, v in lm.items())
+        rows = "".join(f'<tr><td>{h} week{"s" if h != "1" else ""} ahead<div class="meta">{v["n_forecasts"]} live forecasts</div></td><td>{pct(100 - v["combined"])}</td><td>{pct(100 - v["llm"] if "llm" in v else None)}</td>'
+                       f'<td>{pct(100 - v[v["best_other"]])}<div class="meta">{LABELS.get(v["best_other"], v["best_other"])}</div></td></tr>' for h, v in lm.items())
         inner.append(f'<section><h2>Live results</h2><p class="sub">Forecasts published in advance and scored as the weeks arrive.</p><div class="tw"><table><tr><th>Horizon</th><th>Our forecast</th><th>Language model alone</th><th>Best other</th></tr>{rows}</table></div></section>')
     # ---- retrospective results: ranked chart, table and text switch together
     copy = set_copy(sets)
@@ -214,11 +229,11 @@ def main() -> None:
         m = sets[key]["mean"]
         hz = tuple(h for h in ("1", "2", "4", "8") if any(m[k].get(h) is not None for k in m))
         hidden = "" if key == "heldout" else " is-hidden"
-        blocks.append(f'<div class="set{hidden}" data-set="{key}"><div class="tw-in">{table(m, sorted(m, key=lambda k: m[k]["mean"]), hz, "combined", note if key != "backtest" else None)}</div></div>')
+        blocks.append(f'<div class="set{hidden}" data-set="{key}"><div class="tw-in">{table(m, sorted(m, key=lambda k: -m[k]["mean"]), hz, "combined", note if key != "backtest" else None)}</div></div>')
     subs = "".join(f'<p class="sub{"" if k == "heldout" else " is-hidden"}" data-set="{k}">{copy[k]}</p>' for k, _ in SET_LABELS)
-    inner.append(f'<section id="record"><h2>Every method, ranked</h2>{subs}<div class="ctl" id="ctl-rank"></div><div class="panel"><div id="c-rank" class="lbs"></div></div>{"".join(blocks)}</section>')
-    inner.append('<section><h2>Week by week</h2><p class="sub">Each point is the error at one weekly cutoff. The leading methods trade places from week to week, so a small gap in the mean is not decisive. '
-                 'Move across the chart for every method\'s error, or click a name to hide a line.</p><div class="ctl" id="ctl-weekly"></div><div class="legend" id="leg-weekly"></div>'
+    inner.append(f'<section id="record"><h2>The full record</h2><div class="ctl" id="ctl-record"></div>{subs}{"".join(blocks)}</section>')
+    inner.append('<section><h2>Week by week</h2><p class="sub">Each point is the accuracy at one weekly cutoff; higher is better. The leading methods trade places from week to week, so a small gap in the average is not decisive. '
+                 'Move across the chart for every method\'s accuracy, or click a name to hide a line.</p><div class="ctl" id="ctl-weekly"></div><div class="legend" id="leg-weekly"></div>'
                  '<div class="panel"><div id="c-weekly"></div></div><p class="sub" id="note-weekly" style="margin-top:10px"></p>'
                  '<details class="tv"><summary>Table view</summary><div class="tw" id="weekly-table"></div></details></section>')
     inner.append('<section><h2>Forecast against actual</h2><p class="sub">Held-out weeks only. Every dot is one app. Dots on the line were forecast exactly; the further from the line, the bigger the miss. '
@@ -230,14 +245,14 @@ def main() -> None:
     if proofs:
         hist = "".join(
             f'<tr><td>{r["t0"]}</td><td>{scored.get(r["t0"], {}).get("weeks_published", 0)}/{r["horizon_weeks"]}</td>'
-            + "".join(f'<td>{pct((scored.get(r["t0"], {}).get("horizons", {}).get(h) or {}).get("company_tokens_wape", {}).get("simulation"))}</td>' for h in ("1", "4", "8"))
+            + "".join(f'<td>{pct((lambda e: None if e is None else 100 - e)((scored.get(r["t0"], {}).get("horizons", {}).get(h) or {}).get("company_tokens_wape", {}).get("simulation")))}</td>' for h in ("1", "4", "8"))
             + f'<td class="mono"><a href="records/{n}">{d_[:12]}</a></td></tr>' for r, d_, n in reversed(proofs))
-        inner.append(f'<details><summary>Every forecast ({len(proofs)})</summary><div class="tw"><table><tr><th>Cutoff</th><th>Weeks in</th><th>1 wk error</th><th>4 wk</th><th>8 wk</th><th>Record</th></tr>{hist}</table></div></details>')
+        inner.append(f'<details><summary>Every forecast ({len(proofs)})</summary><div class="tw"><table><tr><th>Cutoff</th><th>Weeks in</th><th>1 wk accuracy</th><th>4 wk</th><th>8 wk</th><th>Record</th></tr>{hist}</table></div></details>')
     inner.append(method_details(H))
     last = market["weeks"][-1] if market else ""
     data = {"retro": {"sets": sets, "weekly": retro["weekly"], "scatter": retro["scatter"]}, "market": market, "forecast": forecast, "labels": LABELS, "inputs": INPUTS,
             "set_labels": SET_LABELS, "market_alt": f"Area chart of weekly AI tokens on OpenRouter to {last}.",
-            "weekly_alt": "Line chart of each method's error at every weekly cutoff; the table view below lists the values.",
+            "weekly_alt": "Line chart of each method's accuracy at every weekly cutoff; the table view below lists the values.",
             "scatter_alt": "Scatter chart of forecast against actual tokens per app; the table view below lists the values."}
     built = page("".join(inner), data)
     named = [f.name for f in (out / "records").iterdir() if UNNAMED.search(f.read_text(errors="ignore"))] + (["index.html"] if UNNAMED.search(built) else [])

@@ -131,49 +131,58 @@
     });
   }
 
-  // ---- ranked error bars; the set and the horizon also switch the table and the text below
+  // ---- hero: accuracy per method on one axis, higher is better. The set and horizon also switch the record table and text below.
   function leaderboard() {
     const host = $('#c-rank'); if (!host) return;
     const state = { set: 'heldout', h: 'mean' };
-    const SETS = D.retro.sets, ROW = () => (host.clientWidth < 560 ? 44 : 32), rows = {};
-    const hz = [{ v: 'mean', label: 'Mean' }, { v: '1', label: '1 week' }, { v: '2', label: '2 weeks' }, { v: '4', label: '4 weeks' }, { v: '8', label: '8 weeks' }];
-    const c = $('#ctl-rank');
-    const ps = pills(c, D.set_labels.map(([v, label]) => ({ v, label })), state.set, v => { state.set = v; if (state.h === '8' && !has8()) state.h = 'mean'; draw(); });
+    const SETS = D.retro.sets, rows = {};
+    const hz = [{ v: 'mean', label: 'Average' }, { v: '1', label: '1 week' }, { v: '2', label: '2 weeks' }, { v: '4', label: '4 weeks' }, { v: '8', label: '8 weeks' }];
+    const c = $('#ctl-rank'), c2 = $('#ctl-record');
+    const setOpts = D.set_labels.map(([v, label]) => ({ v, label }));
+    const pickSet = v => { state.set = v; if (state.h === '8' && !has8()) state.h = 'mean'; draw(); };
+    const ps = pills(c, setOpts, state.set, pickSet), ps2 = pills(c2, setOpts, state.set, pickSet);
     el('span', 'gap', null, c);
     const ph = pills(c, hz, state.h, v => { state.h = v; draw(); });
     const has8 = () => Object.values(SETS[state.set].mean).some(v => v['8'] != null);
+    const axis = el('div', 'ax', null, host), body = el('div', 'dots', null, host);
     function draw() {
-      ps.set(state.set); ph.set(state.h); ph.disable(v => v === '8' && !has8());
+      ps.set(state.set); ps2.set(state.set); ph.set(state.h); ph.disable(v => v === '8' && !has8());
       document.querySelectorAll('[data-set]').forEach(n => n.classList.toggle('is-hidden', n.dataset.set !== state.set));
-      const key = state.h === 'mean' ? 'mean' : state.h, mean = SETS[state.set].mean;
-      const order = Object.keys(mean).filter(k => mean[k][key] != null).sort((a, b) => mean[a][key] - mean[b][key]);
-      const max = Math.max(...order.map(k => mean[k][key])) || 1, rh = ROW();
-      Object.keys(rows).forEach(k => { if (!mean[k]) { rows[k].root.remove(); delete rows[k]; } });
+      const mean = SETS[state.set].mean, key = state.h;
+      const order = Object.keys(mean).filter(k => mean[k][key] != null).sort((x, y) => mean[y][key] - mean[x][key]);
+      const vals = order.map(k => mean[k][key]);
+      const lo = Math.floor((Math.min(...vals) - 1) / 5) * 5, hi = Math.ceil((Math.max(...vals) + 1) / 5) * 5;
+      const narrow = host.clientWidth < 620, rh = narrow ? 46 : 36, labelW = narrow ? 0 : 290, W = host.clientWidth - labelW, valueRoom = 58;
+      const X = v => (v - lo) / (hi - lo) * (W - valueRoom - 8) + 8;
+      axis.textContent = ''; axis.style.marginLeft = labelW + 'px';
+      for (let t = lo; t <= hi; t += 5) { const n = el('span', 'tick', t + '%', axis); n.style.left = X(t) + 'px'; }
+      body.querySelectorAll('.gl').forEach(n => n.remove());
+      for (let t = lo; t <= hi; t += 5) { const g = el('i', 'gl', null, body); g.style.left = (labelW + X(t)) + 'px'; }
+      Object.keys(rows).forEach(k => { if (!order.includes(k)) rows[k].root.classList.add('is-hidden'); });
       order.forEach((k, i) => {
         if (!rows[k]) {
-          const root = el('div', 'lb' + (k === 'combined' ? ' us' : ''), null, host); root.tabIndex = 0;
+          const root = el('div', 'lb' + (k === 'combined' ? ' us' : ''), null, body); root.tabIndex = 0;
           el('div', 'nm', L[k] || k, root);
-          const tr = el('div', 'tr', null, root), bar = el('div', 'bar', null, tr), val = el('span', '', '', tr);
-          bar.style.background = color(k); bar.style.width = '0';
+          const tr = el('div', 'tr', null, root), dot = el('i', 'pt', null, tr), val = el('span', 'vl', '', tr);
+          dot.style.background = color(k);
           const show = (x, y) => {
             const m = SETS[state.set].mean[k];
-            showTip(x, y, L[k] || k, ['1', '2', '4', '8'].filter(h => m[h] != null).map(h => ({ value: pct(m[h]), label: h + (h === '1' ? ' week ahead' : ' weeks ahead') })).concat([{ value: pct(m.mean), label: 'mean of 1, 2 and 4 weeks' }]), D.inputs[k]);
+            showTip(x, y, L[k] || k, ['1', '2', '4', '8'].filter(h => m[h] != null).map(h => ({ value: pct(m[h]), label: h + (h === '1' ? ' week ahead' : ' weeks ahead') })).concat([{ value: pct(m.mean), label: 'average of 1, 2 and 4 weeks' }]), D.inputs[k]);
           };
           root.addEventListener('pointermove', e => show(e.clientX, e.clientY));
           root.addEventListener('pointerleave', hideTip);
           root.addEventListener('focus', () => { const r = root.getBoundingClientRect(); show(r.left + 40, r.bottom); });
           root.addEventListener('blur', hideTip);
-          rows[k] = { root, bar, val };
+          rows[k] = { root, dot, val };
         }
-        const r = rows[k];
+        const r = rows[k], x = X(mean[k][key]);
         r.root.classList.remove('is-hidden');
         r.root.style.top = (i * rh) + 'px'; r.root.style.height = rh + 'px';
+        r.root.style.gridTemplateColumns = narrow ? '1fr' : labelW + 'px 1fr';
+        r.dot.style.left = x + 'px'; r.val.style.left = (x + 12) + 'px';
         r.val.textContent = pct(mean[k][key]);
-        const room = host.clientWidth < 560 ? host.clientWidth - 60 : host.clientWidth - 240 - 12 - 60;
-        requestAnimationFrame(() => { r.bar.style.width = (mean[k][key] / max * Math.max(room, 40)).toFixed(1) + 'px'; });
       });
-      Object.keys(rows).forEach(k => { if (mean[k] && !order.includes(k)) rows[k].root.classList.add('is-hidden'); });
-      host.style.height = (order.length * rh) + 'px';
+      body.style.height = (order.length * rh) + 'px';
     }
     watch(host, () => draw());
   }
@@ -194,7 +203,7 @@
     const noteEl = $('#note-weekly');
     function note() {
       const v = W_.series.combined[h].filter(x => x != null);
-      noteEl.textContent = `Across the ${v.length} scored weeks, the combined method's ${h}-week error ranged from ${Math.min(...v).toFixed(1)}% to ${Math.max(...v).toFixed(1)}%.`;
+      noteEl.textContent = `Across the ${v.length} scored weeks, the combined method's ${h}-week accuracy ranged from ${Math.min(...v).toFixed(1)}% to ${Math.max(...v).toFixed(1)}%.`;
       const tb = $('#weekly-table'); tb.textContent = '';
       const t = el('table', '', null, tb), hd = el('tr', '', null, t);
       ['Cutoff'].concat(keys.map(k => L[k])).forEach(x => el('th', '', x, hd));
@@ -207,8 +216,8 @@
       const Ht = W < 560 ? 260 : 340, m = { t: 22, r: 12, b: 26, l: 38 };
       const s = svg('svg', { class: 'chart', viewBox: `0 0 ${W} ${Ht}`, height: Ht, tabindex: 0, role: 'img', 'aria-label': D.weekly_alt }, host);
       const n = W_.cutoffs.length, vals = keys.flatMap(k => W_.series[k][h]).filter(x => x != null);
-      const T = ticks(Math.max(...vals), 4), top = T[T.length - 1];
-      const X = i => m.l + i / (n - 1) * (W - m.l - m.r), Y = v => Ht - m.b - v / top * (Ht - m.t - m.b);
+      const base = Math.floor(Math.min(...vals) / 20) * 20, T = []; for (let v = base; v <= 100; v += 20) T.push(v);
+      const X = i => m.l + i / (n - 1) * (W - m.l - m.r), Y = v => Ht - m.b - (v - base) / (100 - base) * (Ht - m.t - m.b);
       const b0 = W_.cutoffs.indexOf(W_.heldout_from);
       svg('rect', { x: X(b0) - (X(1) - X(0)) / 2, y: m.t - 18, width: W - m.r - X(b0) + (X(1) - X(0)) / 2, height: Ht - m.b - m.t + 18, fill: 'var(--band)', rx: 6 }, s);
       svg('text', { x: X(b0) - (X(1) - X(0)) / 2 + 8, y: m.t - 5, class: 'strong' }, s).textContent = 'Held-out weeks';
@@ -228,7 +237,7 @@
       const at = (i, cx, cy) => {
         cross.setAttribute('x1', X(i)); cross.setAttribute('x2', X(i)); cross.setAttribute('opacity', 1);
         marks.textContent = '';
-        const rows = keys.filter(k => on[k] && W_.series[k][h][i] != null).map(k => ({ k, v: W_.series[k][h][i] })).sort((a, b) => a.v - b.v);
+        const rows = keys.filter(k => on[k] && W_.series[k][h][i] != null).map(k => ({ k, v: W_.series[k][h][i] })).sort((a, b) => b.v - a.v);
         rows.forEach(r => svg('circle', { cx: X(i), cy: Y(r.v), r: 4, fill: color(r.k), stroke: 'var(--panel)', 'stroke-width': 2 }, marks));
         showTip(cx, cy, 'Cutoff ' + full(W_.cutoffs[i]) + (i >= b0 ? ' · held out' : ''), rows.length ? rows.map(r => ({ color: color(r.k), value: pct(r.v), label: L[r.k] })) : [], rows.length ? '' : `The ${h}-week result for this cutoff has not elapsed.`);
       };
@@ -269,7 +278,7 @@
       pm.set(st.m); ph.set(st.h); pc.set(st.c);
       ph.disable(h => !S[st.c].actual[h]);
       const e = S[st.c];
-      out.textContent = `${L[st.m]}, ${st.h}-week forecast from ${full(e.cutoff)}: ${pct(e.error[st.m][st.h])} token-weighted error.`;
+      out.textContent = `${L[st.m]}, ${st.h}-week forecast from ${full(e.cutoff)}: ${pct(e.error[st.m][st.h])} accuracy.`;
       const pts = points();
       if (parts_) parts_.place(pts);
       tb.textContent = '';
