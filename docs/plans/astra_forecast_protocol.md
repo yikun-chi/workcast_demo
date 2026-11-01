@@ -294,3 +294,18 @@ Spend: the test calls cost $2.00. The total across all Astra runs is $24.02 agai
 ### RUN 5 FROZEN DESIGN: E3 (2026-11-01, before any test cutoff was scored for Run 5)
 
 E3, the mean of the walk-forward stack (W, A, D) and T3, has the lowest development mean among E1-E5: 22.85, against E2 23.06, E1 23.34, E4 24.24 and E5 24.53 (`board/results/astra_run5_dev.json`). The level corrections made results worse. For reference, T3 is 22.95, the damped trend 23.02, and D4 22.44 in-sample. Recomputed D4 and T3 errors match Runs 3 and 4 exactly.
+
+### Run 5 test result (7 re-used weekly cutoffs, scored once for E3)
+
+Source: `board/results/astra_run5_test.json`. No API calls. Recomputed D4 and T3 errors match Runs 3 and 4 exactly.
+
+| Method | 1 week | 2 weeks | 4 weeks | Mean |
+|---|---:|---:|---:|---:|
+| **E3 (frozen)** | 22.88 | 25.23 | 23.18 | 23.77 |
+| D4 | 23.04 | 25.62 | 23.02 | 23.90 |
+| T3 | 22.88 | 25.63 | 23.63 | 24.05 |
+| Damped trend | 22.98 | 25.37 | 23.85 | 24.07 |
+| Astra | 23.67 | 26.50 | 23.98 | 24.72 |
+| WORKCAST | 23.61 | 26.97 | 24.03 | 24.87 |
+
+E3 has the lowest mean, by 0.13 points over D4, and the lowest error at 1 week (tied with T3) and 2 weeks. D4 is 0.16 points better at 4 weeks. This is the third use of these weeks and the margin is within week-to-week noise, so the result is weak evidence. The live board stays on D4 until Sumer decides; E3 adds a paid weekly call and a Timestral run.
