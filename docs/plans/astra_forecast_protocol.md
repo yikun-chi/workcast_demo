@@ -272,3 +272,21 @@ The result matches the revised prediction:
 Conclusion: a Timestral base does not improve on Run 3's combination. The board keeps D4. Timestral alone is the weakest of the model-based forecasts here: on these series, the zero-shot foundation model is beaten by a bounded damped trend.
 
 Spend: the test calls cost $2.00. The total across all Astra runs is $24.02 against the $25 cap ($23.67 in `board/results/astra_ledger.json`, plus $0.35 in the live dry-run ledger).
+
+## Run 5 (frozen 2026-11-01, before any Run 5 forecast or score): the most accuracy from forecasts already paid for
+
+- **Authority:** Sumer, 2026-11-01, "max out the prediction". No API calls: only saved forecasts are recombined, and the script has no key.
+- **Components:** WORKCAST (W), the language model (A), the damped trend (D) and Run 4's T3, all saved per cutoff. T3 is read from the saved responses by ledger position; the gate below checks the position.
+- **Every design is walk-forward:** at a cutoff, the weights and corrections use only earlier cutoffs whose horizon had fully elapsed by that cutoff. Before three such cutoffs exist, weights are equal and no correction applies.
+- **Candidate designs:**
+  - E1: per-horizon stack over W, A, D, on a 0.1 weight grid.
+  - E2: as E1 over W, A, D, T3.
+  - E3: the mean of E1 and T3.
+  - E4: E2 with a level correction: half the log ratio of total actual to total forecast over the last four elapsed cutoffs.
+  - E5: E1 with the same level correction.
+- **Selection:** lowest mean error over horizons 1, 2 and 4 on the 18 development cutoffs. D4's development score is in-sample, so D4 is not a selection candidate.
+- **Test:** the same 7 weekly cutoffs, scored once for the frozen design. This is the third use of these weeks, so the result is labelled as re-used and is weak evidence.
+- **Standards:** D4, T3, damped trend, language model alone, WORKCAST alone, Timestral alone, carry-forward, recent trend, market growth.
+- **Gate:** D4 and T3 errors recomputed from saved forecasts must match Runs 3 and 4; any gap from today's data refresh is reported.
+- **Rule for the live board:** the board stays on D4 unless Sumer decides otherwise. A design that needs T3 also adds a paid weekly call.
+- **Prediction:** a gain of a few tenths of a point at most, within week-to-week noise.
