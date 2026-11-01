@@ -11,19 +11,19 @@ Interviews describe simulated agents, not statements from real employees.
 
 Backtested on real AI usage on OpenRouter from July 2025 to October 2026: 1,600 company predictions at 16 cutoffs, each made only from data before its cutoff.
 
-- **48% less error** forecasting the combined 8-week AI spend of the 100 leading apps than the best standard forecast (mean absolute error $9.8M vs $18.9M, no change).
-- **$9.1M closer** to the actual spend in each 8-week window, about **$59M a year** of forecast error avoided: on $62.6M of 8-week spend on average, the forecast misses by 16% instead of 30% (list prices).
-- **3.7% of AI spend saved** by a company that buys committed capacity (reserved units at a discount; unused units are lost, extra use pays the full rate) against this forecast instead of the best standard forecast, at a 40% commitment discount; 1.2% to 6.1% at 20% to 60% discounts. The cost of forecast error falls by 17%. In dollars: **$37K a year for every $1M of annual AI spend** ($12K to $61K), about $15M a year across the 100 leading apps.
-- **One week ahead**, each company's tokens with 25.8% error vs 32.7% for the best standard forecast (21% less error).
-- **8 weeks ahead**, each company's spend with 36.3% error vs 41.6% (no change).
-- **Growth or decline** called correctly for 69% of companies (65% for the best standard forecast); 87% of actual outcomes inside the simulation's 90% range.
+- **17% less error** forecasting the combined 8-week AI spend of the 100 leading apps than the best standard forecast (mean absolute error $9.9M vs $11.9M, damped trend).
+- **$2.1M closer** to the actual spend in each 8-week window, about **$13M a year** of forecast error avoided: on $63.0M of 8-week spend on average, the forecast misses by 16% instead of 19% (list prices).
+- **3.4% of AI spend saved** by a company that buys committed capacity (reserved units at a discount; unused units are lost, extra use pays the full rate) against this forecast instead of the best standard forecast, at a 40% commitment discount; 0.9% at a 20% discount and 0.6% at 60%. The cost of forecast error falls by 16%. In dollars: **$34K a year for every $1M of annual AI spend** ($9K at 20%, $6K at 60%), about $14M a year across the 100 leading apps.
+- **One week ahead**, each company's tokens with 25.8% error vs 22.5% for the best standard forecast (the damped trend wins here, with 13% less error).
+- **8 weeks ahead**, each company's spend with 36.8% error vs 41.6% (no change).
+- **Growth or decline** called correctly for 69% of companies (70% for the best standard forecast, the damped trend); 87% of actual outcomes inside the simulation's 90% range.
 
 Retrospective: the model's structure was chosen with these periods available. Details, including where the simulation loses, in [validation](docs/validation_openrouter.md).
 <!-- openrouter-hero:end -->
 
 | Instance | Company and decision | Headline (computed, see `docs/validation.md`) |
 |---|---|---|
-| `openrouter` | AI apps on OpenRouter: predict each company's tokens and spend 8 weeks ahead | 1,600 company predictions: token error 43.6% vs 45.1% for the best standard forecast, spend error 36.3% vs 41.6%, 87.2% inside the 90% range; details in [validation](docs/validation_openrouter.md) |
+| `openrouter` | AI apps on OpenRouter: predict each company's tokens and spend 8 weeks ahead | 1,600 company predictions: token error 43.6% vs 42.1% for the best standard forecast, spend error 36.8% vs 41.6%, 87.2% inside the 90% range; details in [validation](docs/validation_openrouter.md) |
 | `trip` | Trip.com: two work-from-home days a week? | Attrition effect -2.39 pp predicted vs -2.40 pp actual; retrospective evaluation; neither group's post-change outcomes used for calibration |
 | `bpi19` | Purchase-to-pay: predict operations after the workforce expansion | Lower error across prediction windows than the best non-simulation comparator on 3 of 5 business outcomes; details in [validation](docs/validation.md) |
 
