@@ -10,12 +10,12 @@ Actual spend is each company's tokens times the blended list price of its use-ca
 
 ## Company-level accuracy
 
-| Measure | Simulation | No change | Recent trend | Market growth |
-|---|---:|---:|---:|---:|
-| Error in each company's 8-week tokens (token-weighted) | 43.6% | 45.1% | 65.8% | 53.1% |
-| Error in each company's 8-week spend (spend-weighted) | 36.3% | 41.6% | 74.2% | 55.7% |
-| Median company's error | 33.7% | 35.5% | 59.6% | 53.8% |
-| Growth or decline called correctly (higher is better) | 68.8% | 64.9% | 65.4% | 61.2% |
+| Measure | Simulation | No change | Recent trend | Market growth | Damped trend |
+|---|---:|---:|---:|---:|---:|
+| Error in each company's 8-week tokens (token-weighted) | 43.6% | 45.1% | 65.8% | 53.1% | 42.1% |
+| Error in each company's 8-week spend (spend-weighted) | 36.8% | 41.6% | 73.4% | 55.1% | 44.2% |
+| Median company's error | 33.7% | 35.5% | 59.6% | 53.8% | 39.0% |
+| Growth or decline called correctly (higher is better) | 68.8% | 64.9% | 65.4% | 61.2% | 69.8% |
 
 The simulation's 90% range contained the actual 8-week tokens of 87.2% of companies.
 
@@ -23,22 +23,22 @@ The simulation's 90% range contained the actual 8-week tokens of 87.2% of compan
 
 The same runs scored on each company's tokens over the first weeks after the cutoff (token-weighted error).
 
-| Weeks ahead | Simulation | No change | Recent trend | Market growth |
-|---|---:|---:|---:|---:|
-| 1 | 25.8% | 32.7% | 33.1% | 34.3% |
-| 2 | 29.0% | 35.0% | 35.7% | 36.8% |
-| 4 | 34.8% | 39.7% | 44.4% | 43.2% |
-| 8 | 43.6% | 45.1% | 65.8% | 53.1% |
+| Weeks ahead | Simulation | No change | Recent trend | Market growth | Damped trend |
+|---|---:|---:|---:|---:|---:|
+| 1 | 25.8% | 32.7% | 33.1% | 34.3% | 22.5% |
+| 2 | 29.0% | 35.0% | 35.7% | 36.8% | 25.5% |
+| 4 | 34.9% | 39.7% | 44.4% | 43.2% | 31.2% |
+| 8 | 43.6% | 45.1% | 65.8% | 53.1% | 42.1% |
 
 ## Established companies and one-off jobs
 
 Each company's group is set from the eight weeks before the cutoff. Error in its 8-week tokens (token-weighted).
 
-| Group | Predictions | Simulation | No change | Recent trend | Market growth |
-|---|---:|---:|---:|---:|---:|
-| Established (ranked all 8 weeks before the cutoff) | 1,114 | 40.6% | 41.2% | 63.0% | 52.5% |
-| Recurring (ranked 4-7 of those weeks) | 320 | 73.7% | 71.1% | 157.9% | 83.7% |
-| One-off jobs (ranked 1-3 of those weeks) | 166 | 84.4% | 134.1% | 255.8% | 164.6% |
+| Group | Predictions | Simulation | No change | Recent trend | Market growth | Damped trend |
+|---|---:|---:|---:|---:|---:|---:|
+| Established (ranked all 8 weeks before the cutoff) | 1,114 | 40.6% | 41.2% | 63.0% | 52.5% | 37.5% |
+| Recurring (ranked 4-7 of those weeks) | 320 | 73.7% | 71.1% | 157.9% | 83.7% | 110.7% |
+| One-off jobs (ranked 1-3 of those weeks) | 166 | 84.4% | 134.1% | 255.8% | 164.6% | 202.6% |
 
 ## Where the tokens go: each segment's model mix
 
@@ -57,31 +57,31 @@ Models first listed after the cutoff carried 35.7% of a segment's tokens in week
 
 | Outcome | Simulation MAE | Best non-simulation MAE | Error reduction |
 |---|---:|---:|---:|
-| Tokens of the leading companies, 8 weeks (trillions) | 23.13 | 20.32 (Market growth) | -13.8% |
-| Their spend at list prices, 8 weeks ($ millions) | 9.84 | 18.95 (No change) | 48.1% |
+| Tokens of the leading companies, 8 weeks (trillions) | 23.14 | 20.32 (Market growth) | -13.9% |
+| Their spend at list prices, 8 weeks ($ millions) | 9.86 | 11.92 (Damped trend) | 17.2% |
 | All tokens on OpenRouter, 8 weeks (trillions) | 40.61 | 45.52 (Recent trend) | 10.8% |
 
 Negative error reduction means the simulation loses.
 
-In dollars: the leading companies spent $62.6M per 8-week window on average at list prices. The simulation's spend forecast missed by 15.7% of that and the best standard forecast by 30.3%, so the simulation landed $9.11M closer per window, about $59M a year (6.5 windows). This is forecast error avoided, not spending saved; spend grew over the period, so later windows weigh more in dollars.
+In dollars: the leading companies spent $63.0M per 8-week window on average at list prices. The simulation's spend forecast missed by 15.7% of that and the best standard forecast by 18.9%, so the simulation landed $2.06M closer per window, about $13M a year (6.5 windows). This is forecast error avoided, not spending saved; spend grew over the period, so later windows weigh more in dollars.
 
 ## What the lower error is worth to a company
 
 A company that buys committed capacity (reserved units at a discount, as with provisioned-throughput reservations: unused reserved units are lost and use above the reservation pays the pay-as-you-go rate; [mechanics](https://learn.microsoft.com/en-us/azure/cost-management-billing/reservations/azure-openai)) and commits to a forecast of its 8-week spend loses (1 - discount) on every dollar over-committed and the discount on every dollar it had to buy at the full rate. Each forecast commits to its own point prediction; losses are a percent of actual spend over every company and cutoff. Discounts vary by provider, model and term, so three are shown.
 
-| Commitment discount | Simulation | No change | Recent trend | Market growth | Saved vs best standard (% of spend) | Lower cost of error | Saved per $1M of annual spend | Saved across the 100 apps per year |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 20% | 15.0% | 16.2% | 46.0% | 34.2% | 1.2 | 8% | $12,219 | $5.0M |
-| 40% | 17.6% | 21.3% | 39.2% | 30.9% | 3.7 | 17% | $36,560 | $14.9M |
-| 60% | 20.2% | 26.3% | 32.3% | 27.5% | 6.1 | 23% | $60,900 | $24.8M |
+| Commitment discount | Simulation | No change | Recent trend | Market growth | Damped trend | Saved vs best standard (% of spend) | Lower cost of error | Saved per $1M of annual spend | Saved across the 100 apps per year |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 20% | 15.1% | 16.1% | 45.2% | 33.7% | 23.7% | 0.9 | 6% | $9,433 | $3.9M |
+| 40% | 17.8% | 21.1% | 38.6% | 30.4% | 22.4% | 3.4 | 16% | $33,765 | $13.8M |
+| 60% | 20.4% | 26.2% | 31.9% | 27.1% | 21.0% | 0.6 | 3% | $6,360 | $2.6M |
 
-For one buyer of the leading apps' combined spend (one commitment per 8-week window on the forecast total), where the forecast misses by 15.7% instead of 30.3%:
+For one buyer of the leading apps' combined spend (one commitment per 8-week window on the forecast total), where the forecast misses by 15.7% instead of 18.9%:
 
-| Commitment discount | Simulation | No change | Recent trend | Market growth | Saved vs best standard (% of spend) | Saved per $1M of annual spend |
-|---|---:|---:|---:|---:|---:|---:|
-| 20% | 4.0% | 7.6% | 31.3% | 21.2% | 3.6 | $36,254 |
-| 40% | 6.6% | 12.6% | 24.4% | 17.8% | 6.1 | $60,594 |
-| 60% | 9.2% | 17.7% | 17.6% | 14.5% | 5.3 | $53,375 |
+| Commitment discount | Simulation | No change | Recent trend | Market growth | Damped trend | Saved vs best standard (% of spend) | Saved per $1M of annual spend |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 20% | 3.9% | 7.5% | 30.2% | 20.5% | 11.5% | 3.7 | $36,565 |
+| 40% | 6.5% | 12.6% | 23.5% | 17.2% | 10.1% | 3.6 | $36,129 |
+| 60% | 9.1% | 17.7% | 16.8% | 13.9% | 8.8% | -0.3 | $-3,485 |
 
 ## Limitations
 

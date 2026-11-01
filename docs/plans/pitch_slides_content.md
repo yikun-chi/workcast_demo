@@ -1,6 +1,6 @@
 # Pitch slides: content for Claude Design (2026-11-01)
 
-Sources for every number: `docs/plans/token_results.md`. Spend comparison is against carry-forward budgeting. Claims marked (positioning) are not verified facts.
+Sources for every number: `docs/plans/token_results.md` (re-scored 2026-11-01). "Half the error" is against carry-forward budgeting ($9.9M against $19.1M); against the best statistical forecast (damped trend, $11.9M) it is 17% less error, so the deck must say "carry-forward budgeting" wherever it says half. Claims marked (positioning) are not verified facts.
 
 ---
 
@@ -17,7 +17,7 @@ Sources for every number: `docs/plans/token_results.md`. Spend comparison is aga
 **Bullets:**
 - AI usage grew 377× on OpenRouter since January 2025. It is now the fastest-growing cost line in software.
 - Every finance team budgets it the same way: last month's number, carried forward.
-- That method is wrong by a third. On the 100 leading AI apps, carry-forward missed 8-week spend by $18.9M a window.
+- That method is wrong by a third. On the 100 leading AI apps, carry-forward missed 8-week spend by $19.1M a window.
 **Big stat:** 377×
 
 ## Slide 3 — What we do
@@ -32,7 +32,7 @@ Sources for every number: `docs/plans/token_results.md`. Spend comparison is aga
 
 **Title:** Half the error. First of nine. Right nine times in ten.
 **Three tiles:**
-- **½** — We cut AI spend forecast error in half: a $9.8M miss against $18.9M for carry-forward budgeting, across 1,600 forecasts over 15 months.
+- **½** — We cut AI spend forecast error in half: a $9.9M miss against $19.1M for carry-forward budgeting, across 1,600 forecasts over 15 months.
 - **#1 of 9** — On unseen weeks our forecast beat eight rival methods, including a frontier language model and the textbook statistical forecast.
 - **87%** — Actual outcomes landed inside our stated range nine times in ten.
 **Footer:** Backtested July 2025 to October 2026 on public OpenRouter data.
@@ -51,7 +51,7 @@ Sources for every number: `docs/plans/token_results.md`. Spend comparison is aga
 **Title:** The first verifiable track record in AI demand forecasting.
 **Bullets:**
 - Compute is the scarcest input in AI; whoever calls demand right buys cheaper and sells smarter.
-- Committed-capacity buying against our forecast instead of today's budget saves up to $60,900 per $1M of spend (backtest, 60% discount tier).
+- Committed-capacity buying against our forecast instead of the best statistical forecast saves about $36,000 per $1M of spend (backtest, one buyer of the combined spend, 20% to 40% discount tiers).
 - A live, growing public record that compounds every week.
 
 ## Slide 7 — The product and the ask
@@ -65,4 +65,4 @@ Sources for every number: `docs/plans/token_results.md`. Spend comparison is aga
 
 ---
 
-Speaker notes: "first of nine" and "half the error" name their comparisons; the lead over the statistical forecast is small, so say "ahead of", not "beats by a wide margin". The $60,900 figure is the 60% commitment-discount row of the backtest's commitment table (`docs/validation_openrouter.md`); the 40% row is $36,560.
+Speaker notes: "first of nine" and "half the error" name their comparisons; the lead over the statistical forecast is small on tokens (within noise) and 17% on spend, so say "ahead of", not "beats by a wide margin". The $36,000 figure is the portfolio commitment table in `docs/validation_openrouter.md`: $36,565 at a 20% discount and $36,129 at 40% against the damped trend; at 60% the forecast saves nothing (a $3,485 loss), so do not quote the 60% tier.

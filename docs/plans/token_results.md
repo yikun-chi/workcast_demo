@@ -12,13 +12,13 @@ As of 2026-11-01. All figures were read from the files named in each section. Er
 
 Cutoffs four weeks apart, 2025-07-07 to 2026-08-31. Sources: `docs/validation_openrouter.md`, `board/results/fair_inputs.json`. Retrospective: the model's structure was chosen with these periods available.
 
-Token error by horizon (the damped trend rows come from `fair_inputs.json`; the rest from the validation record):
+Token error by horizon (the damped trend rows come from `fair_inputs.json`; the rest from the validation record, re-scored 2026-11-01 with the damped trend as a platform comparator, which moved the simulation's 4-week figure from 34.8 to 34.9):
 
 | Method | 1 wk | 2 wk | 4 wk | 8 wk |
 |---|---:|---:|---:|---:|
 | Damped trend, full history | 22.2 | 25.4 | 31.2 | 42.6 |
 | Damped trend, last 12 weeks | 22.5 | 25.5 | 31.2 | 42.1 |
-| WORKCAST simulation | 25.8 | 29.0 | 34.8 | 43.6 |
+| WORKCAST simulation | 25.8 | 29.0 | 34.9 | 43.6 |
 | No change | 32.7 | 35.0 | 39.7 | 45.1 |
 | Recent trend | 33.1 | 35.7 | 44.4 | 65.8 |
 | Market growth | 34.3 | 36.8 | 43.2 | 53.1 |
@@ -29,18 +29,18 @@ Company-level results over 8 weeks (simulation vs the best of no change, recent 
 
 | Measure | Simulation | Best standard |
 |---|---:|---:|
-| Error in each company's 8-week tokens | 43.6% | 45.1% (no change) |
-| Error in each company's 8-week spend | 36.3% | 41.6% (no change) |
-| Median company's error | 33.7% | 35.5% |
-| Growth or decline called correctly | 68.8% | 64.9% |
+| Error in each company's 8-week tokens | 43.6% | 42.1% (damped trend) |
+| Error in each company's 8-week spend | 36.8% | 41.6% (no change; damped trend 44.2%) |
+| Median company's error | 33.7% | 35.5% (no change; damped trend 39.0%) |
+| Growth or decline called correctly | 68.8% | 69.8% (damped trend) |
 | Actual tokens inside the simulation's 90% range | 87.2% | – |
 
 Combined 8-week spend of the 100 leading apps (business validation):
 
-- Average actual spend per window: $62.6M at list prices.
-- Simulation mean absolute error $9.84M (15.7% of spend); best standard (no change) $18.95M (30.3%): 48.1% less error.
-- Committed-capacity saving against this forecast instead of the best standard, per $1M of annual spend: $12,219 at a 20% discount, $36,560 at 40%, $60,900 at 60%.
-- **Not yet scored against the damped trend.** The re-scoring with the damped trend as a platform comparator is running (`logs/evaluate_damped.log`); the spend figures above may change.
+- Average actual spend per window: $63.0M at list prices (the price snapshots were refreshed on 2026-11-01, which moved the spend figures of the recent windows).
+- Simulation mean absolute error $9.86M (15.7% of spend); best standard, now the damped trend, $11.92M (18.9%): 17.2% less error. Against no change ($19.07M, 30.3%) the reduction is 48.3%.
+- Committed-capacity saving against this forecast instead of the best standard (damped trend), per $1M of annual spend, company by company: $9,433 at a 20% discount, $33,765 at 40%, $6,360 at 60%. For one buyer of the combined spend: $36,565 at 20%, $36,129 at 40%, a loss of $3,485 at 60%.
+- Scored against the damped trend on 2026-11-01 (`runs/openrouter/evaluation.json`, `docs/validation_openrouter.md`).
 
 Model mix (which models an app's workload moves to), from `evaluation.json` accuracy.model_shares:
 
@@ -144,10 +144,12 @@ Settled:
 - The simulation alone loses to the damped trend on tokens in the 1,600-forecast backtest.
 - Blends that include the language model and the damped trend have the best held-out mean, by a small margin.
 
+Settled on 2026-11-01:
+- Combined 8-week spend against the damped trend: the simulation wins by 17.2% ($9.86M against $11.92M). Against carry-forward budgeting the gap is 48.3%.
+
 Not settled:
-- Whether the blend beats the damped trend: the margin is inside week-to-week noise.
-- Spend against the damped trend: re-scoring in progress.
+- Whether the blend beats the damped trend on tokens: the margin is inside week-to-week noise.
 - The 8-week horizon for any blend: only the live board will show it.
 - Model-mix prediction: the simulation captures 8 of the 36 points of share that went to new models.
 
-Claims to retire or re-state once the re-scoring lands: "21% less error one week ahead" (README, PR #1) and the AI-spend figures (48%, $134K a year), both measured against the three simple standards only.
+Claims retired on 2026-11-01: "21% less error one week ahead" (the README now says the damped trend wins there; PR #1 still carries it until updated) and the AI-spend figures (48%, $134K a year), which hold only against carry-forward budgeting. The README and value case now say 17% and $45K against the damped trend.

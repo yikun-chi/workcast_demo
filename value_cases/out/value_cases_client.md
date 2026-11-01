@@ -14,17 +14,19 @@ In Ctrip's landmark work-from-home trial, the standard approach borrows the effe
 
 *How we got there.* One standard deviation of performance is valued at $32,000 a year (40% of an $80,000 salary; an assumption your own value replaces). The borrowed estimate misstates the gain by 0.16 SD × $32,000 × 3,000 = $15 million a year; WORKCAST's by 0.02 SD, $2.1 million. The business case lands $12.9 million a year closer to reality: over-investment avoided, or benefit promised to the board that never arrives.
 
+*Where the same trial beat us.* The trial measured two other effects, and on both the simulation did worse than earlier research. Calls answered rose 13.4%; we predicted a rise of 7.6%, earlier research 16.6%. Quits fell 18.7 points; we predicted a fall of 1.3 points, missing 93% of the effect. The performance result above is the one the simulation got right, and the value figure rests on it alone.
+
 ### 3. Staff operations to the real bottleneck. Worth about $760,000 a year.
 
 After a multinational expanded its purchase-to-pay team by 60%, classical forecasts were 81% accurate on on-time completion. WORKCAST was **90% accurate, with 45% less error**, and showed the extra hires did not speed processing: completion stayed at 11.79% with them and 11.78% without.
 
 *How we got there.* A finance-operations team growing from 25 to 40 adds 15 roles × $50,670, the U.S. median wage for bookkeeping, accounting and auditing clerks (Bureau of Labor Statistics, 2025) = $760,050 in wages that bought no faster processing.
 
-### 4. Budget AI spend without surprises. Worth about $134,000 a year.
+### 4. Budget AI spend without surprises. Worth about $45,000 a year.
 
-Carrying last month's AI bill forward missed actual spend by 30%. Across 16 backtests on the 100 largest AI apps on OpenRouter, WORKCAST missed by 16%: **48% less error, 84% accuracy**.
+The best standard forecast of the AI bill (a damped trend fitted to each app's recent weeks) missed actual spend by 19%. Across 16 backtests on the 100 largest AI apps on OpenRouter, WORKCAST missed by 16%: **17% less error, 84% accuracy**.
 
-*How we got there.* On $650,000 of annual token spend, the classical forecast misses by $196,800 and WORKCAST by $102,200: $95,000 less budget variance. Buying capacity in advance at a 40% discount against our forecast saves $60,594 per $1 million of spend in the backtest: × 0.65 = $39,000 saved outright. Together, about $134,000 a year.
+*How we got there.* On $650,000 of annual token spend, the classical forecast misses by $123,000 and WORKCAST by $101,800: $21,000 less budget variance. Buying capacity in advance at a 40% discount against our forecast saves $36,129 per $1 million of spend in the backtest: × 0.65 = $23,000 saved outright. Together, about $45,000 a year.
 
 ### 5. Provision AI licences as adoption arrives. Worth about $18,000 a year.
 

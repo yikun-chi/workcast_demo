@@ -29,6 +29,14 @@ c2_gap_sim,0.021400000000000002,0.02,|sim - actual|,ctrip_perf_effect_sim ctrip_
 c2_misstated_literature,14976000.0,$15 million,gap x SD value x firm,ctrip_perf_effect_literature ctrip_perf_effect_actual
 c2_misstated_sim,2054400.0000000002,$2.1 million,gap x SD value x firm,ctrip_perf_effect_sim ctrip_perf_effect_actual
 c2_value,12921600.0,$12.9 million,difference,ctrip_perf_effect_sim ctrip_perf_effect_literature ctrip_perf_effect_actual
+c2_calls_sim,7.6161,7.6%,input,ctrip_calls_effect_sim
+c2_calls_actual,13.3647,13.4%,input,ctrip_calls_effect_actual
+c2_calls_literature,16.5861,16.6%,input,ctrip_calls_effect_literature
+c2_calls_missed_share,43.01331118543626,43%,|sim - actual| / |actual|,ctrip_calls_effect_sim ctrip_calls_effect_actual
+c2_quits_sim,-1.2548,1.3 points,input,ctrip_quits_effect_sim
+c2_quits_actual,-18.7153,18.7 points,input,ctrip_quits_effect_actual
+c2_quits_literature,-1.6021,1.6 points,input,ctrip_quits_effect_literature
+c2_quits_missed_share,93.29532521519826,93%,|sim - actual| / |actual|,ctrip_quits_effect_sim ctrip_quits_effect_actual
 c6_error_reduction,9.89412199390033,10%,1 - sim MAE / best comparator MAE,btos_ai_mae_sim btos_ai_mae_best
 c6_acc_sim,85.20287822017707,85%,100 x (1 - MAE / mean actual),btos_ai_mae_sim btos_ai_mean_actual
 c6_mae_sim,1.3682985551695093,1.37,input,btos_ai_mae_sim
@@ -52,25 +60,25 @@ c7_cost,1000000,$1 million,assumption,
 c7_value,81276.93409732547,"$81,000",gap x volume-linked cost,so_chatgpt_mae_sim so_chatgpt_mae_best so_chatgpt_mean_actual
 c4_backtests,16.0,16,input,or_cutoffs
 c4_apps,100.0,100,input,or_apps_per_cutoff
-c4_miss_classical,30.28037973602061,30%,best standard MAE / mean actual spend,or_spend_mae_best or_spend_actual_mean
-c4_miss_sim,15.727442640628466,16%,simulation MAE / mean actual spend,or_spend_mae_sim or_spend_actual_mean
-c4_miss_classical_1dp,30.28037973602061,30.3%,"same, one decimal",or_spend_mae_best or_spend_actual_mean
-c4_miss_sim_1dp,15.727442640628466,15.7%,"same, one decimal",or_spend_mae_sim or_spend_actual_mean
-c4_acc_sim,84.27255735937153,84%,100 - simulation miss,or_spend_mae_sim or_spend_actual_mean
-c4_acc_classical,69.7196202639794,70%,100 - classical miss,or_spend_mae_best or_spend_actual_mean
-c4_error_reduction,48.06061622166652,48%,1 - simulation MAE / best standard MAE,or_spend_mae_sim or_spend_mae_best
+c4_miss_classical,18.925478555988374,19%,best standard MAE / mean actual spend,or_spend_mae_best or_spend_actual_mean
+c4_miss_sim,15.661142730156085,16%,simulation MAE / mean actual spend,or_spend_mae_sim or_spend_actual_mean
+c4_miss_classical_1dp,18.925478555988374,18.9%,"same, one decimal",or_spend_mae_best or_spend_actual_mean
+c4_miss_sim_1dp,15.661142730156085,15.7%,"same, one decimal",or_spend_mae_sim or_spend_actual_mean
+c4_acc_sim,84.33885726984391,84%,100 - simulation miss,or_spend_mae_sim or_spend_actual_mean
+c4_acc_classical,81.07452144401162,81%,100 - classical miss,or_spend_mae_best or_spend_actual_mean
+c4_error_reduction,17.248366091114733,17%,1 - simulation MAE / best standard MAE,or_spend_mae_sim or_spend_mae_best
 c4_spend,650000,"$650,000",assumption,
-c4_variance_classical,196822.46828413397,"$196,800",spend x classical miss,or_spend_mae_best or_spend_actual_mean
-c4_variance_sim,102228.37716408502,"$102,200",spend x simulation miss,or_spend_mae_sim or_spend_actual_mean
-c4_variance_gap_exact,94594.09112004895,"$94,600",difference,
-c4_variance_gap,94594.09112004895,"$95,000","difference, rounded",
+c4_variance_classical,123015.61061392444,"$123,000",spend x classical miss,or_spend_mae_best or_spend_actual_mean
+c4_variance_sim,101797.42774601455,"$101,800",spend x simulation miss,or_spend_mae_sim or_spend_actual_mean
+c4_variance_gap_exact,21218.182867909883,"$21,200",difference,
+c4_variance_gap,21218.182867909883,"$21,000","difference, rounded",
 c4_discount,0.4,40%,assumption,
-c4_saving_per_million,60594.37467426064,"$60,594","commitment loss of best standard minus simulation, per $1M (portfolio)",or_spend_mae_sim
+c4_saving_per_million,36128.505911525426,"$36,129","commitment loss of best standard minus simulation, per $1M (portfolio)",or_spend_mae_sim
 c4_spend_in_millions,0.65,0.65,"spend / 1,000,000",
-c4_saving_exact,39386.343538269415,"$39,400",per million x spend in millions,
-c4_saving,39386.343538269415,"$39,000","same, rounded",
+c4_saving_exact,23483.528842491527,"$23,500",per million x spend in millions,
+c4_saving,23483.528842491527,"$23,000","same, rounded",
 c4_one_million,1000000.0,$1 million,unit,
-c4_total,133980.43465831835,"$134,000",budget variance gap + commitment saving,or_spend_mae_sim or_spend_mae_best or_spend_actual_mean
+c4_total,44701.71171040141,"$45,000",budget variance gap + commitment saving,or_spend_mae_sim or_spend_mae_best or_spend_actual_mean
 c5_expansion,60.00000000000001,60%,1 / no-expansion multiplier - 1,bpi_no_expansion_multiplier
 c5_acc_sim,89.72154595252587,90%,1 - simulation MAE / after-period completion,bpi_completion_mae_sim bpi_completion_after_actual
 c5_acc_classical,81.23097991479003,81%,1 - best other MAE / after-period completion,bpi_completion_mae_best bpi_completion_after_actual

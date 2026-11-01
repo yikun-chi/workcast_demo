@@ -3,7 +3,7 @@
   "file": "bpi19_no_expansion.yaml",
   "copied_from": "instances/bpi19/scenarios/no_expansion.yaml",
   "last_commit_of_original": "77e3f073e2e37ef779c46527a55322d95e770886",
-  "copied_utc": "2026-10-30T17:35:29+00:00",
+  "copied_utc": "2026-11-01T22:20:29+00:00",
   "bytes": 768,
   "sha256": "7882b780a2f8ee8b7bc716eee6cf31bedd2397f0ed89862cf213b58b6867fe55"
  },
@@ -11,7 +11,7 @@
   "file": "btos_ai_evaluation.json",
   "copied_from": "runs/btos_ai/evaluation.json, iMac /Volumes/PsychDynamicsData/workcast_adoption (branch adoption-retrodiction)",
   "last_commit_of_original": null,
-  "copied_utc": "2026-10-30T17:35:29+00:00",
+  "copied_utc": "2026-11-01T22:20:29+00:00",
   "bytes": 198613,
   "sha256": "512ae36451a152fe14760135453f17d87b1f03874f00deabcc0cf739a93b8d55"
  },
@@ -19,7 +19,7 @@
   "file": "ctrip_evaluation.json",
   "copied_from": "runs/ctrip/evaluation.json, iMac /Volumes/PsychDynamicsData/workcast_workforce (branch workforce-retrodiction)",
   "last_commit_of_original": null,
-  "copied_utc": "2026-10-30T17:35:29+00:00",
+  "copied_utc": "2026-11-01T22:20:29+00:00",
   "bytes": 73981,
   "sha256": "e5f0999762855d7b511cc7c8221bbeb77d76565a66cb74ce0c0a2f0ba12efe75"
  },
@@ -27,15 +27,15 @@
   "file": "openrouter_evaluation.json",
   "copied_from": "runs/openrouter/evaluation.json on the iMac checkout (git-ignored run output)",
   "last_commit_of_original": null,
-  "copied_utc": "2026-10-30T17:35:29+00:00",
-  "bytes": 838303,
-  "sha256": "09243383e7e55156ef1546a30d92cbb695549aeaa92a941e84179aa2a3809c45"
+  "copied_utc": "2026-11-01T22:20:29+00:00",
+  "bytes": 921291,
+  "sha256": "a762097075c9b17a938c438e280c770c94dcc7ddc069cb98be5a50e0555abcad"
  },
  {
   "file": "so_chatgpt_evaluation.json",
   "copied_from": "runs/so_chatgpt/evaluation.json, iMac /Volumes/PsychDynamicsData/workcast_adoption (branch adoption-retrodiction)",
   "last_commit_of_original": null,
-  "copied_utc": "2026-10-30T17:35:29+00:00",
+  "copied_utc": "2026-11-01T22:20:29+00:00",
   "bytes": 192789,
   "sha256": "0e4f2f70ddbe1ea56c53977db4230ef9a7270141beb4a94c025b38c87c73341a"
  },
@@ -43,7 +43,7 @@
   "file": "trip_instance.yaml",
   "copied_from": "instances/trip/instance.yaml",
   "last_commit_of_original": "77e3f073e2e37ef779c46527a55322d95e770886",
-  "copied_utc": "2026-10-30T17:35:29+00:00",
+  "copied_utc": "2026-11-01T22:20:29+00:00",
   "bytes": 2786,
   "sha256": "d5a585d025277ff37024a7b738ae1aeeacb9623e232872342fc1570bc9b97878"
  },
@@ -51,7 +51,7 @@
   "file": "validation_trip_bpi19.md",
   "copied_from": "docs/validation.md",
   "last_commit_of_original": "d2bacc4e950ed101162fb5edb236f94b3eaebced",
-  "copied_utc": "2026-10-30T17:35:29+00:00",
+  "copied_utc": "2026-11-01T22:20:29+00:00",
   "bytes": 6911,
   "sha256": "bb91e2f6c7b8107d1882c288c5245048c6b7763043f03bc1a5e8423acc4e5261"
  }

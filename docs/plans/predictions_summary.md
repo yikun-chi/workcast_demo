@@ -12,8 +12,8 @@ As of 2026-11-01. Every figure was read from the record named beside it. All res
 
 | Method | 1 wk | 2 wk | 4 wk | Average | Status |
 |---|---:|---:|---:|---:|---|
-| E3: walk-forward blend with Timestral + Astra | 77.1 | 74.8 | 76.8 | 76.2 | Best found; third use of these weeks; not live |
-| D4: simulation + Astra + damped trend | 77.0 | 74.4 | 77.0 | 76.1 | **What the board publishes**; first scored on these weeks |
+| E3: walk-forward blend with Timestral + Astra | 77.1 | 74.8 | 76.8 | 76.2 | **What the board publishes**; third use of these weeks |
+| D4: simulation + Astra + damped trend | 77.0 | 74.4 | 77.0 | 76.1 | First scored on these weeks |
 | T3: Timestral adjusted by Astra | 77.1 | 74.4 | 76.4 | 76.0 | Second use of these weeks |
 | Damped trend | 77.0 | 74.6 | 76.1 | 75.9 | Strongest standard method |
 | GPT-6 Astra alone | 76.3 | 73.5 | 76.0 | 75.3 | |
@@ -39,7 +39,7 @@ Limits:
 
 **The simulation loses to the damped trend at every horizon here.** Its advantage over no change is real. Its lead over standard methods is not, once the damped trend is included.
 
-**Spend** (`docs/validation_openrouter.md`): combined 8-week spend error $9.84M against $18.95M for no change, 48.1% less. Each company's spend error 36.3% against 41.6%. The 90% range contained 87.2% of outcomes. The damped trend has not been scored on spend.
+**Spend** (`docs/validation_openrouter.md`, re-scored 2026-11-01 with the damped trend as a platform comparator and the price snapshots refreshed): combined 8-week spend error $9.86M against $11.92M for the damped trend, 17.2% less; against no change ($19.07M), 48.3% less. Each company's spend error 36.8% against 41.6% for no change (the damped trend is worse here, 44.2%). The 90% range contained 87.2% of outcomes. On combined tokens the simulation loses to market growth (23.1T against 20.3T) and on company tokens to the damped trend (43.6% against 42.1%).
 
 ## 2. Other retrodictions
 
@@ -63,12 +63,12 @@ Records: `docs/validation_*.md` and `value_cases/` on branch `value-cases` (PR #
 
 ## 3. Value cases in the client copy
 
-Illustrative figures for a 3,000-person firm (`value_cases/out/value_cases_client.md`): Trip.com $2.4M; Ctrip $12.9M a year; purchase-to-pay $760K a year; AI spend $134K a year; licences $18K a year; Stack Overflow $81K per $1M of volume-linked cost.
+Illustrative figures for a 3,000-person firm (`value_cases/out/value_cases_client.md`): Trip.com $2.4M; Ctrip $12.9M a year; purchase-to-pay $760K a year; AI spend $45K a year (was $134K before the damped trend was scored on spend); licences $18K a year; Stack Overflow $81K per $1M of volume-linked cost.
 
 ## 4. Fix before investors see these
 
-1. **"21% less error"** in the README and PR #1 is wrong once the damped trend is included. Removed from the website only.
-2. **The AI-spend claims** (48%, $134K) have not been tested against the damped trend.
+1. **"21% less error"** is gone from the README (regenerated 2026-11-01: the damped trend wins one week ahead, 22.5% against 25.8%). PR #1's title and body still carry it until updated.
+2. **The AI-spend claims** are now scored against the damped trend: 17% less error, not 48%; $45K a year in the value case, not $134K. The 48% figure is true only against carry-forward budgeting and must be labelled so.
 3. **The Ctrip headline** needs the two losing effects beside it, or the $12.9M dropped. That figure also rests on an assumed 40% of salary.
 4. **The one-pager says** each result is against "the best of that set". Check that against item 2 before reuse.
 5. **Licences:** confirm the Trip.com data licence and the Stack Exchange API terms.
