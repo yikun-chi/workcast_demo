@@ -44,7 +44,13 @@ Each instance has three primary tabs, in this order:
    Keep metrics, history and interviews tied to the same saved run; label its population
    and period, and distinguish a single run from evaluation averages. Never insert
    cross-scenario comparisons here. Playback shows recorded time steps; do not invent
-   hourly/person histories for models that only save aggregate periods. Support click
+   hourly/person histories for models that only save aggregate periods. Recorded events
+   default to Animation, paused until Play: show exact saved timestamps, counts and
+   bounded event examples, with an Event table switch. Keep the entity scope
+   consistent; activity selection passes exact time/activity/action filters to
+   the table. Manual table filters apply to that view. Pause on tab/view changes,
+   hidden pages and navigation; respect reduced motion. Quiet gaps are skipped explicitly, never
+   filled with invented events. Empty or single-time logs must say so. Support click
    and keyboard controls; double-click zoom must have a visible button equivalent.
 
 Model internals follow as **Input**, **Data**, **Ontology**. Input describes schemas
@@ -185,11 +191,12 @@ a second guide. Update links when moving content.
 | Shared clock, scheduling and capacity primitives | `orgsim/kernel/` |
 | Scientific model, world-specific metrics and evaluation comparison presentation | `orgsim/worlds/`; workforce, process, market, adoption and supporting survival code |
 | Seat-policy integrations | `orgsim/policies/`; per-instance choices in `instances/<id>/policies/seats.yaml` |
-| Concise comparison summaries, scenario card metadata and saved-run history projections | `orgsim/evaluation/presentation.py`, `history.py`; authored labels in `instances/<id>/ui/presentation.yaml`, computed numbers in artifacts |
+| Concise comparison summaries, scenario card metadata and saved-run history projections | `orgsim/evaluation/presentation.py`, `history.py`, `replay.py`; authored labels in `instances/<id>/ui/presentation.yaml`, computed numbers in artifacts |
 | Shared ontology, scenarios, evaluation, interviews and run storage | Corresponding `orgsim/ontology/`, `scenarios/`, `evaluation/`, `insights/`, `store/` |
 | HTTP routes and shared browser pages | `orgsim/server/app.py`, `ui/`; routing in `ui/app.js`, tokens in `ui/theme.css` |
 | Input schemas, record viewing and concept relations | `ui/pages/input.js`, `ui/pages/data*.js`, `ui/pages/ontology*.js`; existing `data_edit.js` and `ontology_edit.js` editors are hosted by Input |
-| Static table paging/search/sort and worker | `ui/data/`; keep the query contract aligned with the live table API, verify in `tests/js/` |
+| Static table paging/search/sort, entity replay aggregation and worker | `ui/data/`; align with live trace/replay APIs and verify in `tests/js/` |
+| Recorded-event Animation/Table component | `ui/components/event_viewer.js`; view-only playback, no simulation calls or invented transitions |
 | Instance metadata, sources, ingest, bindings, calibration, scenarios and report builder | `instances/<id>/`; checklist in `instances/_template/README.md` |
 | Repository acquisition and report-generation tools | `scripts/`; avoid workstation-specific paths in normal workflows |
 | Verification | `tests/`; dataset-dependent checks carry the `data` marker |
@@ -274,7 +281,8 @@ including the anonymized employee records already present in the released datase
 Export these as compressed chunks with checksums; load pages on demand and run
 whole-table searches/sorts in a worker. Input retains schemas and Ontology retains
 concept relations. Results publishes one selected completed run per named scenario,
-including compressed history and chunked saved event records. Prefer the run referenced
+including compressed history, overview replay frames and chunked saved event records.
+Entity replay is derived from those same records in a worker. Prefer the run referenced
 by saved interviews so those records agree. Bulk ensembles and raw source archives
 belong in release attachments; never publish credentials in the website bundle.
 A static site remains read-only even when viewing detailed data.

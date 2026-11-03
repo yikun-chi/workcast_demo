@@ -215,3 +215,32 @@ def test_public_history_identity_and_trace_integrity(tmp_path):
     (source/trace['chunks'][1]).write_bytes(b'broken')
     with pytest.raises(ValueError,match='checksum'):
         module.validate_snapshot(source)
+
+
+def test_public_replay_rejects_wrong_totals_and_escaping_paths(tmp_path):
+    module, source = public_fixture(tmp_path)
+    prefix = Path('runs/demo/baseline/run1')
+    (source / prefix).mkdir(parents=True)
+    history = prefix / 'history.json.gz'
+    replay_path = prefix / 'replay.json.gz'
+    (source/history).write_bytes(gzip.compress(json.dumps({'scenario':'baseline','run_id':'run1','trace_rows':0}).encode()))
+    replay={'scenario':'baseline','run_id':'run1','agent':'','total':0,'frames':[]}
+    (source/replay_path).write_bytes(gzip.compress(json.dumps(replay).encode()))
+    bundle=json.loads((source/'demo.json').read_text())
+    bundle['responses']['/scenario-results']=[{'run':{'scenario':'baseline','run_id':'run1'}}]
+    run={'history':history.as_posix(),'replay':replay_path.as_posix(),'trace':{'name':'trace','columns':[],'total':0,'chunk_size':10000,'chunks':[]}}
+    bundle['run_data']={'baseline/run1':run}
+    def save():
+        module.write_json(source/'demo.json',bundle)
+        index=json.loads((source/'index.json').read_text())
+        index['files']={p.relative_to(source).as_posix():module.digest(p) for p in source.rglob('*') if p.is_file() and p.name!='index.json'}
+        module.write_json(source/'index.json',index)
+    save();module.validate_snapshot(source)
+    replay['total']=1
+    (source/replay_path).write_bytes(gzip.compress(json.dumps(replay).encode()))
+    save()
+    with pytest.raises(ValueError,match='Replay identity or event count'):
+        module.validate_snapshot(source)
+    run['replay']='../escape.json.gz';save()
+    with pytest.raises(ValueError,match='Invalid replay path'):
+        module.validate_snapshot(source)

@@ -473,3 +473,51 @@ label.field > .input, label.field > .select { color: var(--text); font-weight: 4
   .alternative-outcome { flex-wrap:wrap; gap:4px 10px; }
   .select { max-width:100%; }
 }
+
+/* Recorded-event replay: motion encodes activity at one saved time, not people. */
+.event-viewer { min-width:0; }
+.event-viewer-tabs { margin-bottom:14px; gap:0; }
+.event-viewer-tabs .btn:first-child { border-radius:8px 0 0 8px; }
+.event-viewer-tabs .btn:last-child { border-radius:0 8px 8px 0; }
+.event-viewer-tabs .active { background:var(--accent-soft); border-color:var(--accent); color:var(--text); }
+.replay-controls { margin-bottom:4px; }
+.replay-play { min-width:110px; min-height:42px; }
+.replay-stage { position:relative; overflow:hidden; padding:24px; border:1px solid var(--border); border-radius:14px; background:radial-gradient(ellipse at 10% 0%,color-mix(in srgb,var(--accent) 11%,transparent),transparent 60%),var(--surface); }
+.replay-stage-head { display:flex; justify-content:space-between; align-items:center; gap:20px; margin-bottom:20px; }
+.replay-clock { font-variant-numeric:tabular-nums; font-size:clamp(22px,3vw,34px); font-weight:650; letter-spacing:-.04em; margin-top:8px; }
+.replay-gap { min-height:18px; margin-top:4px; }
+.replay-counts { display:flex; gap:28px; text-align:right; }
+.replay-counts strong { display:block; font-size:28px; font-variant-numeric:tabular-nums; }
+.replay-counts span { display:block; font-size:12px; color:var(--muted); }
+.replay-track { position:relative; height:68px; margin-bottom:4px; }
+.replay-timeline { height:48px; opacity:.58; }
+.replay-timeline svg { width:100%; height:48px; fill:var(--accent); }
+.replay-cursor { position:absolute; top:0; height:48px; width:2px; background:var(--accent); box-shadow:0 0 9px var(--accent); pointer-events:none; }
+.replay-track input { position:absolute; inset:auto 0 0; width:100%; margin:0; accent-color:var(--accent); cursor:pointer; }
+.replay-activities { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:10px; margin-top:20px; max-height:350px; overflow-y:auto; }
+.replay-activity { position:relative; display:flex; align-items:center; gap:12px; text-align:left; padding:15px; min-height:76px; border:1px solid var(--border); border-radius:10px; background:var(--surface-2,var(--surface)); color:var(--text); cursor:pointer; overflow:hidden; }
+.replay-activity:hover { border-color:var(--accent); }
+.replay-activity:focus-visible,.replay-event:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+.activity-pulse { flex:0 0 9px; height:9px; border-radius:50%; background:var(--accent); }
+.activity-label { flex:1; min-width:0; }
+.activity-label strong { display:block; font-size:13px; line-height:1.35; }
+.activity-label > span { display:block; margin-top:5px; }
+.activity-count { font-size:21px; font-weight:650; font-variant-numeric:tabular-nums; }
+.replay-activity[data-action="decide"] .activity-pulse { background:var(--s3); }
+.replay-activity[data-action="state"] .activity-pulse { background:var(--s4); }
+.replay-activity[data-action="handoff"] .activity-pulse { background:var(--s2); }
+.animate-frame .replay-activity { animation:recorded-flash .65s ease-out both; }
+.animate-frame .activity-pulse { animation:recorded-pulse .65s ease-out; }
+.replay-feed { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr)); gap:10px; }
+.replay-event { display:flex; gap:12px; padding:15px; border:1px solid var(--border); border-radius:10px; color:var(--text); background:var(--surface); text-align:left; cursor:pointer; }
+.replay-event:hover { border-color:var(--accent); }
+.replay-event > span:last-child { min-width:0; overflow-wrap:anywhere; }
+.replay-event strong,.replay-event .small { display:block; }
+.replay-event .small { margin-top:5px; line-height:1.5; }
+.replay-event-dot { flex:0 0 5px; height:5px; margin-top:6px; border-radius:50%; background:var(--muted); }
+.is-playing .replay-event { animation:recorded-arrival .3s ease-out both; }
+@keyframes recorded-flash { from { border-color:var(--accent); background:color-mix(in srgb,var(--accent) 12%,var(--surface)); } to { border-color:var(--border); } }
+@keyframes recorded-pulse { from { box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 50%,transparent); } to { box-shadow:0 0 0 12px transparent; } }
+@keyframes recorded-arrival { from { opacity:.35; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+@media(max-width:600px) { .replay-stage { padding:14px; }.replay-stage-head { align-items:flex-start; flex-direction:column; gap:10px; }.replay-counts { text-align:left; }.replay-counts strong { font-size:22px; }.replay-controls { gap:6px; }.replay-activities { max-height:430px; } }
+@media(prefers-reduced-motion:reduce) { .animate-frame .replay-activity,.animate-frame .activity-pulse,.is-playing .replay-event { animation:none; } .replay-cursor { box-shadow:none; } }

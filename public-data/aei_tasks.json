@@ -11220,6 +11220,7 @@
  "run_data": {
   "baseline/20261103T071234-ccf6": {
    "history": "runs/aei_tasks/baseline/20261103T071234-ccf6/history.json.gz",
+   "replay": "runs/aei_tasks/baseline/20261103T071234-ccf6/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [
@@ -11245,6 +11246,7 @@
   },
   "office_uptake/20261103T071313-fffc": {
    "history": "runs/aei_tasks/office_uptake/20261103T071313-fffc/history.json.gz",
+   "replay": "runs/aei_tasks/office_uptake/20261103T071313-fffc/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [

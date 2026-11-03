@@ -21655,6 +21655,7 @@
  "run_data": {
   "baseline/20261103T071939-46d9": {
    "history": "runs/fedwork/baseline/20261103T071939-46d9/history.json.gz",
+   "replay": "runs/fedwork/baseline/20261103T071939-46d9/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [
@@ -21681,6 +21682,7 @@
   },
   "no_resignation_offer/20261103T071825-0fd7": {
    "history": "runs/fedwork/no_resignation_offer/20261103T071825-0fd7/history.json.gz",
+   "replay": "runs/fedwork/no_resignation_offer/20261103T071825-0fd7/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [

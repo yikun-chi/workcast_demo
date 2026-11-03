@@ -62199,6 +62199,7 @@
  "run_data": {
   "baseline/20261103T074424-a268": {
    "history": "runs/openrouter/baseline/20261103T074424-a268/history.json.gz",
+   "replay": "runs/openrouter/baseline/20261103T074424-a268/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [
@@ -62224,6 +62225,7 @@
   },
   "leader_price_double/20261103T074608-a8ce": {
    "history": "runs/openrouter/leader_price_double/20261103T074608-a8ce/history.json.gz",
+   "replay": "runs/openrouter/leader_price_double/20261103T074608-a8ce/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [

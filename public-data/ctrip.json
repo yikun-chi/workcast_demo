@@ -18344,6 +18344,7 @@
  "run_data": {
   "baseline/20261103T071613-85b4": {
    "history": "runs/ctrip/baseline/20261103T071613-85b4/history.json.gz",
+   "replay": "runs/ctrip/baseline/20261103T071613-85b4/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [
@@ -18379,6 +18380,7 @@
   },
   "two_days_home/20261103T071157-c60e": {
    "history": "runs/ctrip/two_days_home/20261103T071157-c60e/history.json.gz",
+   "replay": "runs/ctrip/two_days_home/20261103T071157-c60e/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [

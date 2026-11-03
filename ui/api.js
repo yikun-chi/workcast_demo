@@ -157,7 +157,7 @@ async function staticFetch(path, opts = {}) {
     const match = route.match(/^\/instances\/([^/]+)(.*)$/);
     if (match && index.instances.some(i => i.id === match[1])) {
       const snapshot = await snapshotFile(match[1]);
-      const runMatch = match[2].match(/^\/runs\/([^/]+)\/([^/]+)\/(history|trace)$/);
+      const runMatch = match[2].match(/^\/runs\/([^/]+)\/([^/]+)\/(history|trace|replay)$/);
       if (runMatch) {
         const run = snapshot.run_data?.[`${runMatch[1]}/${runMatch[2]}`];
         if (!run) throw new ApiError(404, "This run is not included in the public snapshot. Choose a published scenario run.", path);
@@ -165,13 +165,19 @@ async function staticFetch(path, opts = {}) {
           const {queryTable} = await import("./data/client.js");
           return queryTable(run.trace, Object.fromEntries(url.searchParams), assetUrl("public-data/"), index.files, opts.onProgress);
         }
-        const resource = assetUrl(`public-data/${run.history}`);
+        if (runMatch[3] === "replay" && (url.searchParams.get("agent") || !run.replay)) {
+          const {queryReplay} = await import("./data/client.js");
+          const replay = await queryReplay(run.trace, Object.fromEntries(url.searchParams), assetUrl("public-data/"), index.files, opts.onProgress);
+          return {...replay, scenario: runMatch[1], run_id: runMatch[2], note: "Saved events at recorded times. Quiet gaps are skipped; preview cards are examples and counts include all matching events."};
+        }
+        const relative = run[runMatch[3]];
+        const resource = assetUrl(`public-data/${relative}`);
         if (!staticCache.has(resource)) staticCache.set(resource, (async () => {
           const response = await fetch(resource);
           if (!response.ok) throw new ApiError(response.status, "Cannot load saved history", resource);
           const bytes = await response.arrayBuffer();
           const hash = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))].map(x => x.toString(16).padStart(2, "0")).join("");
-          if (hash !== index.files[run.history]) throw new Error("The saved history changed. Reload the page.");
+          if (hash !== index.files[relative]) throw new Error("The saved history changed. Reload the page.");
           return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"))).json();
         })().catch(e => { staticCache.delete(resource); throw e; }));
         return structuredClone(await staticCache.get(resource));

@@ -14352,6 +14352,7 @@
  "run_data": {
   "baseline/20261103T073155-aa30": {
    "history": "runs/bpi19/baseline/20261103T073155-aa30/history.json.gz",
+   "replay": "runs/bpi19/baseline/20261103T073155-aa30/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [
@@ -14414,6 +14415,7 @@
   },
   "no_expansion/20261026T053139-b1c5": {
    "history": "runs/bpi19/no_expansion/20261026T053139-b1c5/history.json.gz",
+   "replay": "runs/bpi19/no_expansion/20261026T053139-b1c5/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [
@@ -14476,6 +14478,7 @@
   },
   "ai_assistant/20261103T073315-632b": {
    "history": "runs/bpi19/ai_assistant/20261103T073315-632b/history.json.gz",
+   "replay": "runs/bpi19/ai_assistant/20261103T073315-632b/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [

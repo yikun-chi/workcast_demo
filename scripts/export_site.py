@@ -122,7 +122,10 @@ def export_snapshot(destination: Path) -> None:
                     trace_path = ROOT / "runs" / iid / sid / rid / "trace.parquet"
                     trace = pq.ParquetFile(trace_path)
                     metadata = {"name": "trace", "columns": trace.schema_arrow.names, "rows": trace.metadata.num_rows}
-                    run_data[f"{sid}/{rid}"] = {"history": relative.as_posix(), "trace": export_table(trace_path, staging, iid, metadata, prefix=prefix / "trace")}
+                    replay_path = prefix / "replay.json.gz"
+                    replay = get(client, f"/instances/{iid}/runs/{sid}/{rid}/replay")
+                    (staging / replay_path).write_bytes(gzip.compress(json.dumps(replay, ensure_ascii=False, allow_nan=False, separators=(",", ":")).encode(), compresslevel=6, mtime=0))
+                    run_data[f"{sid}/{rid}"] = {"history": relative.as_posix(), "replay": replay_path.as_posix(), "trace": export_table(trace_path, staging, iid, metadata, prefix=prefix / "trace")}
                 write_json(staging / f"{iid}.json", {"instance": iid, "evaluation_sha256": digest(evaluation),
                                                     "responses": responses, "tables": table_data, "run_data": run_data})
                 print(f"Exported {iid}", flush=True)
@@ -191,6 +194,22 @@ def validate_snapshot(source: Path) -> dict:
             if not re.fullmatch(r"[a-z][a-z0-9_-]*/[A-Za-z0-9_-]+", key):
                 raise ValueError("Invalid run key")
             prefix = f"runs/{iid}/{key}"
+            if run.get("replay"):
+                relative = run["replay"]
+                if relative != f"{prefix}/replay.json.gz" or relative in expected_files:
+                    raise ValueError("Invalid replay path")
+                expected_files.add(relative)
+                path = source / relative
+                if path.is_symlink() or not path.resolve().is_relative_to(source.resolve()) or digest(path) != index["files"].get(relative):
+                    raise ValueError(f"Snapshot checksum mismatch: {relative}")
+                replay = json.loads(gzip.decompress(path.read_bytes()))
+                if f"{replay['scenario']}/{replay['run_id']}" != key or replay.get("agent") or replay["total"] != run["trace"]["total"]:
+                    raise ValueError("Replay identity or event count mismatch")
+                frames = replay["frames"]
+                if sum(f["total"] for f in frames) != replay["total"] or any(sum(a["count"] for a in f["activities"]) != f["total"] for f in frames):
+                    raise ValueError("Incomplete replay counts")
+                if any(a["tick"] >= b["tick"] for a, b in zip(frames, frames[1:])):
+                    raise ValueError("Replay times must increase")
             if run["history"] != f"{prefix}/history.json.gz":
                 raise ValueError("Invalid history path")
             table = run["trace"]

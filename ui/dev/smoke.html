@@ -56,9 +56,13 @@
       const detail=stage("result-detail"); const cleanup=await m.render(detail,ctx(primary,["baseline"]));
       assert(detail.querySelector(".result-metrics") && detail.querySelector("canvas"), "selected-run metrics and trend");
       const history=[...detail.querySelectorAll("details")].find(d=>d.querySelector("summary").textContent==="Explore simulation history"); history.open=true;
+      const state=[...detail.querySelectorAll("details")].find(d=>d.querySelector("summary").textContent==="State trends and snapshots");state.open=true;
       const select=detail.querySelector('[aria-label="History entity"]'); select.selectedIndex=1; select.dispatchEvent(new Event("change"));
       assert(detail.textContent.includes("Entity details"), "entity history and fields");
       const events=[...detail.querySelectorAll("details")].find(d=>d.querySelector("summary").textContent.startsWith("Recorded events")); events.open=true;
+      assert(await until(()=>events.querySelector(".replay-clock time"),30000), "recorded replay loaded");
+      assert(events.querySelector('[role="tab"][aria-selected="true"]').textContent==="Animation", "animation is the default event view");
+      [...events.querySelectorAll('[role="tab"]')].find(b=>b.textContent==="Event table").click();
       assert(await until(()=>events.querySelector("tbody tr"),20000), "selected entity event records");
       events.querySelector("tbody tr").click(); assert(document.querySelector("#drawer-body").textContent.includes("attributes"), "complete event drawer");drawer.close();
       const interviews=[...detail.querySelectorAll("details")].find(d=>d.querySelector("summary").textContent==="Simulated interviews");interviews.open=true;

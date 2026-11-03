@@ -5,7 +5,7 @@ Insights comparisons, scenario summaries, saved-run results and simulated interv
 ontology concepts and the data needed by the detailed result views. They exclude
 raw source archives and bulk evaluation ensembles. `tables/` contains all normalized input
 records as compressed chunks; `runs/` holds one selected completed run per named
-scenario (history plus saved event records). The Data tab browses input records;
+scenario (history, overview replay frames and saved event records). The Data tab browses input records;
 Results browses saved simulation history. Both load records on demand, search/sort
 the full selected table, and open every field of a selected row.
 

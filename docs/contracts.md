@@ -345,7 +345,26 @@ Public `run_data["<scenario>/<run>"]` holds `history` (a gzip JSON path) and `tr
 Every resource is checksummed. The validator checks run identity, row counts,
 chunk order, path confinement and all referenced files. Static trace queries share
 paging/search/sort with input records and add exact `agent`, `case`, `activity`,
-`from_tick` and `to_tick` filters. Only published runs are accessible in static mode.
+`action` (action type), `from_tick` and `to_tick` filters. Only published runs are accessible in static mode.
+
+Recorded-event playback uses `/runs/{scenario}/{run}/replay?agent=<exact-id>`.
+Its shape is `{run_id, scenario, agent, total, frames, note}`, where each ordered
+frame has `{tick, time, total, entities, activities, samples}`. Activities contain
+`{activity, action_type, count}`. Counts cover every matching saved event; `entities`
+counts distinct nonempty agent IDs. Up to eight samples preserve full records, one
+per most frequent activity/action pair. Frames only exist at recorded ticks; ties
+in activity counts sort by activity then action. Empty logs have `frames: []`.
+
+Public schema 3 optionally adds `run_data[key].replay`, a checksummed
+`runs/<instance>/<scenario>/<run>/replay.json.gz` overview resource. Newly exported
+snapshots include it. The validator checks identity, event totals, frame ordering
+and activity counts. For an entity filter (or an older snapshot without this
+resource), the browser worker streams the saved trace chunks and builds the same
+frames. This fallback never calls a backend or runs a simulation. The Animation
+view and table use the same entity scope. Clicking an activity passes its exact
+time/activity/action filters into the table; manual table filters apply only to
+the table. Display speed changes wall-clock playback only, not saved simulation
+time or event counts.
 
 `scripts/export_site.py snapshot` reads prepared local application responses and
 rejects stale/missing AI alternatives. `build` verifies the index and copies only

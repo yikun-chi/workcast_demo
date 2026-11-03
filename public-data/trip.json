@@ -22659,6 +22659,7 @@
  "run_data": {
   "baseline/20261103T072851-8b60": {
    "history": "runs/trip/baseline/20261103T072851-8b60/history.json.gz",
+   "replay": "runs/trip/baseline/20261103T072851-8b60/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [
@@ -22708,6 +22709,7 @@
   },
   "hybrid_for_all/20261026T051710-05db": {
    "history": "runs/trip/hybrid_for_all/20261026T051710-05db/history.json.gz",
+   "replay": "runs/trip/hybrid_for_all/20261026T051710-05db/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [
@@ -22930,6 +22932,7 @@
   },
   "ai_assistant/20261103T072856-0db9": {
    "history": "runs/trip/ai_assistant/20261103T072856-0db9/history.json.gz",
+   "replay": "runs/trip/ai_assistant/20261103T072856-0db9/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [

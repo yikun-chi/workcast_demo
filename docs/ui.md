@@ -21,11 +21,16 @@ same layout. The landing page selects an instance and opens **Insights**.
    **Compare with current policy** action; this refreshes the comparison in Insights.
 3. **Results** starts with scenario cards. A selected scenario shows key metrics
    and a trend for one saved run. Expand **Explore simulation history** to select
-   the whole simulation or an entity, play/step through saved states, select chart
-   points and zoom. A button provides the same zoom action as double-clicking.
-   Recorded events support search, sorting, entity/time filtering and a complete
-   event drawer. Interviews, entity fields, all metrics and configuration are
-   expandable. Comparisons across scenarios belong in Insights.
+   the whole simulation or one entity. **Recorded events** opens in **Animation**,
+   paused until Play. The clock, timeline cursor, activity pulses and event examples
+   advance through saved timestamps. Play/Pause, speed, previous/next, restart and
+   scrubbing work without running a simulation. Click an activity to open its exact
+   time/activity/action rows in **Event table**; click an example for every field.
+   The table retains full search, sorting and time filtering. **State trends and
+   snapshots** separately shows the model's saved state paths, with trend playback,
+   point selection and zoom. A button also provides double-click zoom. Interviews,
+   entity fields, all metrics and configuration are expandable. Comparisons across
+   scenarios belong in Insights.
 
 Results identifies the run, population and period. Its one-run numbers can differ
 from evaluation averages in Insights. Saved interviews pin the chosen run where
@@ -34,8 +39,14 @@ is labeled simulated. Workforce runs expose saved people/states, procurement exp
 workers and events, markets expose apps/weeks, federal cohorts expose agencies/months,
 and adoption models expose group/period paths. Legacy federal employee-style voices
 do not describe the agency separation paths and are excluded from the interview view.
-Playback never interpolates missing
-person or hourly histories. Sampled work events remain labeled as sampled.
+Event replay preserves native recorded times and explicitly skips quiet gaps.
+Activity counts include all matching records; up to eight example records illustrate
+one time. Pulses represent recorded activity, not individual people moving through
+an invented workflow. State playback never interpolates missing person or hourly
+histories. Sampled work events remain labeled as sampled. Empty and single-time
+logs have explicit states instead of fabricated motion. Playback pauses on view
+changes, collapsed history, navigation or hidden browser tabs. Reduced-motion
+preferences disable decorative pulses; time controls and saved values still work.
 
 ## Model internals
 
@@ -52,7 +63,9 @@ person or hourly histories. Sampled work events remain labeled as sampled.
 The public site rejects mutations and hides run/edit controls. All normalized input
 records and one selected run per named scenario are exported as checksummed gzip
 resources. Paging loads only needed chunks; whole-table searches/sorts run in a
-worker with progress. Expanding a history loads saved outputs; it never reruns a
+worker with progress. Overview replay frames are precomputed for fast loading;
+entity replays aggregate the same checksummed event chunks in the worker. Expanding
+a history loads saved outputs; it never reruns a
 simulation. Bulk ensembles and raw download archives remain release attachments.
 
 ## File ownership
@@ -64,11 +77,13 @@ simulation. Bulk ensembles and raw download archives remain release attachments.
 - `pages/insights.js`, `comparison_details.js`: concise conclusions and lazy evidence.
 - `pages/scenarios.js`: overview cards, creation and scenario editing.
 - `pages/results.js`, `components/scenario_interviews.js`: selected-run exploration.
+- `components/event_viewer.js`: Animation/Table views, playback and lifecycle cleanup.
 - `pages/input.js`, `data*.js`, `ontology*.js`: model internals; Input hosts the
   existing `data_edit` and `ontology_edit` modules.
 - `components/`: shared DOM, drawers, grids, charts, graphs and Markdown.
 - `data/`: static queries, client and worker; verification in `tests/js/`.
-- `orgsim/evaluation/presentation.py`, `history.py`: read-only artifact projections.
+- `orgsim/evaluation/presentation.py`, `history.py`, `replay.py`: read-only artifact
+  projections. `ui/data/replay.js` matches replay aggregation for static entity filters.
   `instances/<id>/ui/presentation.yaml` owns authored labels and metric selection,
   never manually entered result values.
 - `dev/smoke.html?instance=<id>`: live-browser checks; require `DONE errors=0`.

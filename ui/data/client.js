@@ -1,7 +1,7 @@
 let worker, nextId = 0;
 const pending = new Map();
 
-export function queryTable(table, params, base, files, onProgress) {
+export function queryTable(table, params, base, files, onProgress, operation = "query") {
   if (!worker) {
     worker = new Worker(new URL("./worker.js", import.meta.url), {type: "module"});
     worker.onmessage = ({data}) => {
@@ -19,6 +19,8 @@ export function queryTable(table, params, base, files, onProgress) {
   return new Promise((resolve, reject) => {
     const id = ++nextId;
     pending.set(id, {resolve, reject, onProgress});
-    worker.postMessage({id, table, params, base, checksums: table.chunks.map(path => files[path])});
+    worker.postMessage({id, table, params, base, operation, checksums: table.chunks.map(path => files[path])});
   });
 }
+
+export const queryReplay = (table, params, base, files, onProgress) => queryTable(table, params, base, files, onProgress, "replay");

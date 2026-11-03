@@ -16921,6 +16921,7 @@
  "run_data": {
   "baseline/20261103T071428-f63d": {
    "history": "runs/btos_ai/baseline/20261103T071428-f63d/history.json.gz",
+   "replay": "runs/btos_ai/baseline/20261103T071428-f63d/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [
@@ -16944,6 +16945,7 @@
   },
   "adoption_programme/20261103T071444-feba": {
    "history": "runs/btos_ai/adoption_programme/20261103T071444-feba/history.json.gz",
+   "replay": "runs/btos_ai/adoption_programme/20261103T071444-feba/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [

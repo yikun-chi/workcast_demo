@@ -21469,6 +21469,7 @@
  "run_data": {
   "baseline/20261103T071357-f856": {
    "history": "runs/so_chatgpt/baseline/20261103T071357-f856/history.json.gz",
+   "replay": "runs/so_chatgpt/baseline/20261103T071357-f856/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [
@@ -21492,6 +21493,7 @@
   },
   "slower_switch/20261103T071359-f3d9": {
    "history": "runs/so_chatgpt/slower_switch/20261103T071359-f3d9/history.json.gz",
+   "replay": "runs/so_chatgpt/slower_switch/20261103T071359-f3d9/replay.json.gz",
    "trace": {
     "name": "trace",
     "columns": [
