@@ -7,7 +7,7 @@ export function explorationPanel(view, ctx) {
   const panel = h("div", { class: "exploration-panel", "data-scenario": view.id });
   panel.append(h("div", { class: "row", style: { margin: "14px 0 8px" } }, h("h3", null, view.title), badge("Exploratory AI scenario", "accent")),
     h("p", { class: "small", style: { maxWidth: "1000px", lineHeight: "1.6", color: "var(--text-2)" } }, view.description),
-    h("div", { class: "row", style: { marginBottom: "12px" } }, h("a", { class: "btn primary", href: ctx.href(ctx.instanceId, "scenarios", view.id) }, "Adjust AI assumptions and compare →")));
+    h("div", { class: "row", style: { marginBottom: "12px" } }, h("a", { class: "btn primary", href: ctx.href(ctx.instanceId, "scenarios", view.id) }, ctx.readOnly ? "View saved AI assumptions →" : "Adjust AI assumptions and compare →")));
 
   const rows = [];
   for (const iv of view.interventions || []) {

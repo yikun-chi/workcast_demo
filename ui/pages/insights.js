@@ -12,8 +12,8 @@ export async function render(root, ctx) {
   const st = { role: "baseline" };
   const selectScenario = () => { st.role = Object.entries(d?.scenarios || {}).find(([, b]) => b?.interviews && !b.error)?.[0] || "baseline"; };
   selectScenario();
-  const regen = h("button", { class: "btn sm", onClick: async () => { regen.disabled = true; regen.textContent = "Interviewing…"; try { d = await api.buildInsights(instanceId, { n: 24 }); selectScenario(); toast("Insights rebuilt", "good"); draw(); } catch (e) { toast(e.message, "bad"); } regen.disabled = false; regen.textContent = "Re-interview"; } }, d ? "Re-interview" : "Interview the agents");
-  if (!d) { replace(body, emptyState("No interviews yet.", h("span", null, "Interview the agents of the latest baseline and alternative runs. ", regen))); return; }
+  const regen = ctx.readOnly ? null : h("button", { class: "btn sm", onClick: async () => { regen.disabled = true; regen.textContent = "Interviewing…"; try { d = await api.buildInsights(instanceId, { n: 24 }); selectScenario(); toast("Insights rebuilt", "good"); draw(); } catch (e) { toast(e.message, "bad"); } regen.disabled = false; regen.textContent = "Re-interview"; } }, d ? "Re-interview" : "Interview the agents");
+  if (!d) { replace(body, emptyState("No interviews yet.", h("span", null, ctx.readOnly ? "No interviews were included in this snapshot." : "Interview the agents of the latest baseline and alternative runs. ", regen))); return; }
 
   function draw() {
     const blocks = Object.entries(d.scenarios || {}).filter(([, b]) => b && !b.error && b.interviews);
@@ -24,7 +24,7 @@ export async function render(root, ctx) {
     const b = d.scenarios[st.role];
     replace(body, sel);
     if (!b || b.error || !b.interviews) { body.append(emptyState(`No interviews for the ${st.role}.`, b?.error || "Run the scenario first, then re-interview.")); return; }
-    const runLink = b.run_id ? h("a", { href: href(instanceId, "runs", b.scenario, b.run_id) }, `run ${b.run_id}`) : null;
+    const runLink = b.run_id && !ctx.readOnly ? h("a", { href: href(instanceId, "runs", b.scenario, b.run_id) }, `run ${b.run_id}`) : null;
     body.append(h("div", { class: "row small muted", style: { marginBottom: "10px" } }, `${b.n_interviews} interviews from `, runLink, ` · groups: ${Object.entries(b.groups || {}).map(([g, n]) => `${g} ${n}`).join(", ")} · sentiment basis: ${b.sentiment_basis || ""}`));
 
     // key insights
@@ -52,7 +52,7 @@ export async function render(root, ctx) {
     function fill() { replace(list); for (const iv of (expanded ? b.interviews : b.interviews.slice(0, SHOW))) list.append(interviewCard(iv, b)); }
     fill();
     body.append(h("div", { class: "section" }, h("div", { class: "row", style: { justifyContent: "space-between" } }, h("h4", null, `Interviews (${b.interviews.length})`), moreBtn), list,
-      h("div", { class: "muted small", style: { marginTop: "10px" } }, d.note || "", d.method === "template" ? " Answers are rendered from each agent's simulated record; a language-model voice over the same facts can be enabled with an API key." : "")));
+      h("div", { class: "muted small", style: { marginTop: "10px" } }, d.note || "", !ctx.readOnly && d.method === "template" ? " Answers are rendered from each agent's simulated record; a language-model voice over the same facts can be enabled with an API key." : "")));
   }
   function interviewCard(iv, b) {
     {

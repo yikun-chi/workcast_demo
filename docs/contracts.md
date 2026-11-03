@@ -1,5 +1,8 @@
 # Contracts
 
+The public site has a separate [saved-response contract](#11-public-snapshots-and-release-archives)
+using the same Results and scenario documents.
+
 The agreements between the platform package `orgsim/`, the instances under `instances/` and the UI under `ui/`.
 Change a contract here in the same change that alters it.
 
@@ -301,3 +304,28 @@ eligible observations. Service cost uses assumed AI resource rates; human payrol
 and planning API cost are not included. Planning usage remains in the decision
 metadata. Every realized correction consumes human effort and is assumed to fix
 the error; no residual quality or calibrated organizational effect is claimed.
+
+## 11. Public snapshots and release archives
+
+`public-data/index.json` declares `schema_version: 1`, the capture time, source
+commit, instance catalog, required O*NET occupations and SHA-256 hashes for each
+`<instance>.json`. Each instance document records its evaluation checksum and a
+`responses` mapping keyed by instance-relative GET routes (for example `/results`,
+`/scenarios/baseline`, `/insights` and `/ontology/concepts`). Existing response shapes
+are preserved. `/runs` includes only ID/scenario/completion metadata for scenario
+counts; individual traces, twins, people endpoints and table rows are not exported.
+
+`scripts/export_site.py snapshot` reads prepared local application responses and
+rejects stale/missing AI alternatives. `build` verifies the index and copies only
+listed instance snapshots with the shared UI. Its generated HTML sets
+`<meta name="workcast-mode" content="static">`. The API adapter resolves relative
+snapshot URLs at either a project subpath or domain root and rejects non-GET calls;
+fixture mode cannot override static mode. No Python backend is deployed.
+
+Release `snapshot.json` separately records source commit/tag, source/license
+manifests and an asset list. Each asset has its name, kind (`data` or `runs`), byte
+count, SHA-256 and member-path map with sizes and hashes. Restore accepts only
+regular files inside the declared dataset/run roots, rejects traversal/links and
+checks every member before copying. Existing non-identical files are never
+overwritten. The committed compact manifest pins the release manifest checksum;
+full inventories and archives stay attached to the GitHub release.

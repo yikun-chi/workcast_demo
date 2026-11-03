@@ -1,3 +1,4 @@
+import { assetUrl } from "../api.js";
 /* Results, in two parts. Part 1: actual outcome vs simulated. Before the change (actual only), the change
    itself, after the change (actual and the simulation's prediction), then how closely the simulation tracks reality.
    Part 2: the alternative action and its impact, against the simulation of what actually happened.
@@ -151,7 +152,7 @@ export async function render(root, ctx) {
     const altChart = chartFor(ha.chart || mainChart, ["baseline", "alternative"]);
     p2.append(h("div", { class: "grid-2", style: { margin: "12px 0", alignItems: "stretch" } },
       h("div", { class: "card hero-card alt" }, h("div", { class: "kicker" }, ha.kicker || `Alternative: ${alt.short_title}`), h("div", { class: "hero-stats" }, ...(ha.stats || []).filter(s => s.value !== null && s.value !== undefined).map(stat)), h("div", { class: "claim" }, ha.text || ""),
-        h("div", { class: "row", style: { marginTop: "10px" } }, h("a", { class: "btn sm", href: href(instanceId, "scenarios", alt.id) }, "Change the alternative and re-run →"))),
+        h("div", { class: "row", style: { marginTop: "10px" } }, h("a", { class: "btn sm", href: href(instanceId, "scenarios", alt.id) }, ctx.readOnly ? "View saved alternative assumptions →" : "Change the alternative and re-run →"))),
       altChart ? chartCard(altChart, { tall: true }) : null));
     p2.append(h("h4", null, "Key metrics: the alternative against the simulation of what actually happened"), metricsTable(["baseline", "alternative"], { highlight: true, delta: "alternative − as happened", foot: "Both columns use matching seeds and time windows. The better simulated value is highlighted; the last column is the alternative's impact." }));
     const otherP2 = (d.charts || []).filter(c => c.id !== (ha.chart || mainChart)).map(c => chartFor(c.id, ["baseline", "alternative"])).filter(c => c && c.series.some(s => s.source === "alternative"));
@@ -183,7 +184,7 @@ export async function render(root, ctx) {
         ...n.sections.map(s => h("section", { class: "report-section" }, h("h2", null, s.heading || ""), renderMarkdown(s.body || "")))) : null)));
   }
   const plugins = d.plugins || [];
-  if (plugins.length) body.append(h("section", { class: "section" }, h("h4", null, "Detailed views"), ...plugins.map(p => h("details", { style: { marginBottom: "10px" } }, h("summary", { style: { cursor: "pointer", fontWeight: 600 } }, p.title), h("iframe", { class: "plugin-frame", src: p.url, title: p.title, loading: "lazy", style: { height: "720px", width: "100%", border: "1px solid var(--border)", borderRadius: "10px", background: "var(--surface)" } })))));
+  if (plugins.length) body.append(h("section", { class: "section" }, h("h4", null, "Detailed views"), ...plugins.map(p => h("details", { style: { marginBottom: "10px" } }, h("summary", { style: { cursor: "pointer", fontWeight: 600 } }, p.title), h("iframe", { class: "plugin-frame", src: ctx.readOnly ? assetUrl(p.url) : p.url, title: p.title, loading: "lazy", style: { height: "720px", width: "100%", border: "1px solid var(--border)", borderRadius: "10px", background: "var(--surface)" } })))));
   body.append(h("div", { class: "muted small", style: { marginTop: "12px" } }, ...d.sources.map(s => h("div", null, h("b", null, s.short), ` (${s.kind_label}): `, s.note))));
 }
 

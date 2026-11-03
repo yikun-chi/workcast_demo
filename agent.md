@@ -166,7 +166,8 @@ a second guide. Update links when moving content.
 | Instance metadata, sources, ingest, bindings, calibration, scenarios and report builder | `instances/<id>/`; checklist in `instances/_template/README.md` |
 | Repository acquisition and report-generation tools | `scripts/`; avoid workstation-specific paths in normal workflows |
 | Verification | `tests/`; dataset-dependent checks carry the `data` marker |
-| Shared references and their provenance | Ignored `data/`; tracked `data/manifests/` |
+| Shared references and their provenance | Ignored `data/`; tracked `data/manifests/`, including compact release snapshot records |
+| Public saved responses and static/release tooling | `public-data/`, `scripts/export_site.py`, `scripts/release_snapshot.py`; generated bundles/archives in ignored `build/` |
 | Downloaded/normalized instance inputs and run outputs | Ignored `instances/<id>/data/` and `runs/<id>/` |
 | Separate ensemble/publishing research | `board/`; its README owns that workflow |
 | Financial illustrations from sealed snapshots | `value_cases/`; its README owns rebuild/refresh commands |
@@ -229,18 +230,25 @@ do not overwrite user changes. Read [README.md](README.md) for commands and
 - Keep commits and pushes within the user's authorized scope; existing session
   authorization applies. Report what changed, the checks actually run and limitations.
 
-## Public website direction
+## Public website and releases
 
-The user wants a public, static, read-only presentation of saved instances at their
-`yikun.io` domain, with source/analysis updates tracked through GitHub. The current
-FastAPI application has editing/run endpoints and no authentication. A production
-static export and deployment workflow have not been implemented; existing CI runs
-tests only. `ui/dev/fixtures/` is test data, not an export of real results.
+The public demo uses `workcast.yikun.io` on GitHub Pages. The `workcast` CNAME in
+GoDaddy points to `yikun-chi.github.io`. `.github/workflows/pages.yml` builds and
+publishes changes to the shared UI or committed `public-data/` snapshots on `main`.
+It requires no scientific dependencies, data downloads, simulations or model keys.
+The local FastAPI application remains interactive and unauthenticated on loopback.
 
-Keep the shared UI and export curated saved results when that work is requested;
-do not create a second maintained platform or expose the local interactive server
-as the public demo. A build artifact is generated output, not a second source tree.
-Hosting provider, public URL, repository visibility and DNS changes need to follow
-the user's actual deployment decision. GoDaddy registration does not require
-Cloudflare hosting. Keep operating status in `docs/setup.md` current if deployment
-is implemented.
+Static mode is an adapter in the same UI, selected by generated HTML metadata.
+It preserves the common framing and saved alternatives, rejects writes and hides
+run/edit controls. Keep raw table rows, individual input records and full traces
+out of the public website export. Development fixtures are never published evidence.
+Update snapshots through `scripts/export_site.py`; do not hand-edit their values.
+
+GitHub Releases separately preserve full datasets and cleaned runs, including
+traces and workflow replay journals. Snapshot manifests pin every file and retain
+source licensing and known evidence limitations. Restoring a snapshot must never
+overwrite different local data or escape the checkout. Keep the compact release
+record in `data/manifests/snapshots/`; large archives belong in release attachments.
+Use the workflow in `docs/setup.md`, and preserve existing source visibility and
+DNS settings unless the user requests a change. Build output is generated, not a
+second maintained platform.

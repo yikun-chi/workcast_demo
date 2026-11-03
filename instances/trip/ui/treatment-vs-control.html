@@ -51,7 +51,8 @@
 <div class="card" style="margin-top:14px"><h2>Policy variants</h2><div class="small" style="margin-bottom:6px">Expected attrition is averaged over matching simulation runs. Both scenarios use the same starting workforce.</div><div id="scen"></div></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" crossorigin="anonymous"></script>
-<script>
+<script type="module">
+import { api } from "../../../ui/api.js";
 (async function () {
   const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
   const C = { ctrl: css('--ctrl'), treat: css('--treat'), cband: css('--ctrl-band'), tband: css('--treat-band'), actual: css('--actual'), grid: css('--grid'), ink: css('--text-secondary') };
@@ -59,7 +60,7 @@
   const fmt = (x, d = 2) => (x === null || x === undefined || Number.isNaN(x)) ? '–' : Number(x).toFixed(d);
   const sign = (x, d = 2) => (x === null || x === undefined) ? '–' : (x > 0 ? '+' : '') + Number(x).toFixed(d);
   let ev;
-  try { const r = await fetch('/api/instances/trip/evaluation'); if (!r.ok) throw new Error(r.status); ev = await r.json(); }
+  try { ev = await api.evaluation('trip'); }
   catch (e) { document.getElementById('subtitle').innerHTML = '<div class="err">No evaluation yet. Run <code>orgsim evaluate trip</code>.</div>'; return; }
   const chart = (id) => ev.charts.find(c => c.id === id);
   const metric = (id) => ev.metrics.find(m => m.id === id);

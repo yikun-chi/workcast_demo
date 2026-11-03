@@ -4,6 +4,8 @@ Run the simulation application from this source checkout. This guide covers setu
 and operation; [docs/](docs/README.md) contains the project overview and technical guides.
 Agents should read [agent.md](agent.md) before making changes.
 
+Public read-only demo: **[workcast.yikun.io](https://workcast.yikun.io)**.
+
 ## Python and uv
 
 Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then run from
@@ -35,6 +37,20 @@ Git. See [credential configuration](docs/setup.md#credential-configuration) for
 optional policy settings and the OpenRouter key-file location.
 
 ## Download data
+
+To restore the saved datasets **and cleaned simulation runs** from the GitHub release:
+
+```bash
+uv run python scripts/release_snapshot.py download --tag snapshot-2026-11-03
+uv run python scripts/release_snapshot.py restore --tag snapshot-2026-11-03
+uv run orgsim serve --port 8000
+```
+
+Restoration verifies archive/file checksums and refuses to overwrite different local
+files. It needs no OpenRouter or model API key. See [release snapshots](docs/setup.md#release-snapshots)
+for data-only/run-only downloads and the snapshot's known limitations.
+
+To acquire inputs from their original sources and recompute instead:
 
 For the original Trip.com and procurement examples:
 
@@ -90,11 +106,21 @@ environment, or repeat the relevant `--extra` options. See the
 
 ## Deployment
 
-The current server is a local development application with editing/run endpoints
-and no authentication. Keep its default loopback address. A public read-only static
-export and automatic site deployment are not implemented yet; the GitHub Actions
-workflow currently runs tests. See [deployment status](docs/setup.md#deployment)
-for the supported setup and what public publishing still requires.
+The public site uses GitHub Pages and the same UI with editing/reruns disabled.
+GitHub Actions rebuilds it when UI or committed result snapshots change on `main`.
+Refresh results and preview the static build with:
+
+```bash
+uv run python scripts/export_site.py snapshot   # requires prepared local results
+uv run python scripts/export_site.py build
+python3 -m http.server 9000 --directory build/site
+```
+
+Open `http://localhost:9000`. Commit the refreshed `public-data/` files to publish
+new analysis. The site build itself requires only Python's standard library and
+the committed snapshots. See [deployment](docs/setup.md#deployment) for the workflow.
+The interactive `orgsim serve` remains a local application without authentication;
+keep its default loopback address.
 
 ## Verify the installation
 

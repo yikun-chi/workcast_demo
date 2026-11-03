@@ -75,7 +75,8 @@
     <div class="list" id="list"></div>
   </div>
 </div>
-<script>
+<script type="module">
+import { api } from "../../../ui/api.js";
 (function () {
   const INSTANCE = (location.pathname.match(/\/instances\/([^/]+)\//) || [])[1] || 'bpi19';
   // Stage of each activity along the purchase-to-pay flow (x position); unknown activities fall back by keyword.
@@ -98,7 +99,7 @@
   const fmtN = (n) => n == null ? '-' : Number(n).toLocaleString(undefined, { maximumFractionDigits: 1 });
   const color = (h) => h == null ? '#9aa0a6' : h < 24 ? '#1baf7a' : h < 168 ? '#eda100' : h < 720 ? '#eb6834' : '#d13b3a';
 
-  async function getJSON(url) { const r = await fetch(url); if (!r.ok) throw new Error(url + ' ' + r.status); return r.json(); }
+  async function getJSON(url) { return api.get(url.replace(/^\/api/, '')); }
 
   async function load() {
     $('status').textContent = 'loading...';

@@ -11,12 +11,12 @@ export async function render(root, ctx) {
   const others = list.filter(s => !s.role || s.role === "other");
   if (params[0]) { const s = list.find(x => x.id === params[0]); if (s) { replace(body); await detail(body, ctx, s); return; } }
   replace(body);
-  body.append(h("div", { class: "page-head" }, h("div", null, h("h1", null, "Scenarios"), h("div", { class: "sub" }, "Choose a scenario to adjust staffing, work policy, or AI assistance. Save your assumptions and compare simulation predictions."))));
+  body.append(h("div", { class: "page-head" }, h("div", null, h("h1", null, "Scenarios"), h("div", { class: "sub" }, ctx.readOnly ? "Explore the saved staffing, work policy, and AI assumptions behind each simulation prediction." : "Choose a scenario to adjust staffing, work policy, or AI assistance. Save your assumptions and compare simulation predictions."))));
   if (!shown.length) { body.append(emptyState("No scenarios yet.", h("span", null, "Add ", h("code", null, `instances/${instanceId}/scenarios/baseline.yaml`), " and name it in instance.yaml under scenarios."))); return; }
   const resolved = await Promise.all(shown.map(s => api.scenario(instanceId, s.id).catch(() => null)));
   const runs = await api.runs(instanceId).catch(() => []);
   body.append(h("div", { class: "grid-2" }, ...shown.map((s, i) => heroCard(s, resolved[i], runs.filter(r => r.scenario === s.id), ctx))));
-  if (others.length) body.append(h("details", { class: "muted small", style: { marginTop: "12px" } }, h("summary", null, "Additional scenario files"), `${others.length} more scenario file${others.length === 1 ? "" : "s"} (${others.map(o => o.id).join(", ")}) in instances/${instanceId}/scenarios stay available from the command line: orgsim run ${instanceId} --scenario <id>.`));
+  if (others.length && !ctx.readOnly) body.append(h("details", { class: "muted small", style: { marginTop: "12px" } }, h("summary", null, "Additional scenario files"), `${others.length} more scenario file${others.length === 1 ? "" : "s"} (${others.map(o => o.id).join(", ")}) in instances/${instanceId}/scenarios stay available from the command line: orgsim run ${instanceId} --scenario <id>.`));
 }
 
 function heroCard(s, r, runs, ctx) {
@@ -32,7 +32,7 @@ function heroCard(s, r, runs, ctx) {
       ivs.length ? h("ul", { style: { margin: "4px 0 0", paddingLeft: "18px" }, class: "small" }, ...ivs.map(iv => h("li", null, describeIntervention(iv)))) : h("div", { class: "muted small" }, isBase ? "The reference world: real staffing, real arrivals, real policy." : "none")),
     h("details", { class: "small" }, h("summary", null, "Simulation details"), r?.horizon_days != null ? badge(`horizon ${r.horizon_days} d`) : null, r?.seeds ? badge(`seeds ${r.seeds.join(", ")}`) : null, badge(`${complete.length} completed run${complete.length === 1 ? "" : "s"}`)),
     h("div", { class: "row", style: { justifyContent: "space-between", marginTop: "6px" } },
-      h("a", { class: "btn primary", href: href(instanceId, "scenarios", s.id) }, "Configure scenario →"),
+      h("a", { class: "btn primary", href: href(instanceId, "scenarios", s.id) }, ctx.readOnly ? "View assumptions →" : "Configure scenario →"),
       h("a", { class: "btn sm", href: href(instanceId, "results") }, "Saved results (precomputed) →")));
 }
 
@@ -60,6 +60,16 @@ async function detail(body, ctx, s) {
   try { bindings = (await api.bindings(instanceId)) || {}; } catch { bindings = {}; }
   body.append(h("div", { class: "page-head" },
     h("div", null, h("div", { class: "row small", style: { marginBottom: "4px" } }, h("a", { href: href(instanceId, "scenarios") }, "← Scenarios"), badge(isBase ? "baseline" : "alternative", isBase ? "good" : "accent"), h("span", { class: "mono muted" }, s.id)), h("h1", null, s.title || s.id), h("div", { class: "sub" }, s.description || ""))));
+
+  if (ctx.readOnly) {
+    body.append(card("Saved assumptions", h("div", { class: "stack" },
+      h("p", { class: "small" }, "These settings produced the saved comparison. This public view does not rerun simulations."),
+      ...(r.interventions || []).map(iv => h("div", { class: "small" }, describeIntervention(iv))),
+      r.exploration?.assumption_basis ? h("p", { class: "muted small" }, r.exploration.assumption_basis) : null,
+      h("a", { class: "btn primary", href: href(instanceId, "results") }, "Explore saved results →"))),
+      h("details", null, h("summary", null, "Full saved configuration"), h("pre", { class: "code-block", style: { whiteSpace: "pre-wrap" } }, JSON.stringify(r, null, 2))));
+    return;
+  }
 
   // One draft backs both the plain-language controls and the advanced editor.
   const ta = h("textarea", { class: "input", rows: 16, spellcheck: "false", "aria-label": "Scenario JSON" }, JSON.stringify(r, null, 2));

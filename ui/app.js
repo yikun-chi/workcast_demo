@@ -1,5 +1,5 @@
 /* Router + state for the orgsim shell. Hash routes: #/  |  #/<instance>/<page>[/<rest...>] */
-import { api, FIXTURES } from "./api.js";
+import { api, FIXTURES, READ_ONLY } from "./api.js";
 import { h, replace, badge, toast, errorState, loading, drawer } from "./components/ui.js";
 import { sweepCharts, restyleCharts } from "./components/chart.js";
 
@@ -10,7 +10,7 @@ export const CORE_PAGES = [
   { id: "scenarios", label: "Scenarios", mod: "./pages/scenarios.js" },
   { id: "insights", label: "Insights", mod: "./pages/insights.js" },
   { id: "overview", label: "Overview", mod: "./pages/overview.js" },
-  { id: "runs", label: "Runs", mod: "./pages/runs.js" },
+  ...(!READ_ONLY ? [{ id: "runs", label: "Runs", mod: "./pages/runs.js" }] : []),
   { id: "data", label: "Data", mod: "./pages/data.js", internals: true },
   { id: "ontology", label: "Ontology", mod: "./pages/ontology.js", internals: true },
 ];
@@ -79,7 +79,8 @@ async function render() {
       }
       renderHeader(); renderTabs();
       document.title = `${state.instance.title} · Workcast`;
-      const ctx = { api, instanceId: route.instanceId, instance: state.instance, instances, params: route.rest, page: route.page, navigate, href, refreshInstance: async () => { state.instance = await api.instance(route.instanceId); renderTabs(); return state.instance; } };
+      const ctx = { api, readOnly: READ_ONLY, instanceId: route.instanceId, instance: state.instance, instances, params: route.rest, page: route.page, navigate, href, refreshInstance: async () => { state.instance = await api.instance(route.instanceId); renderTabs(); return state.instance; } };
+      if (READ_ONLY && route.page === "runs") { navigate(href(route.instanceId, "results")); return; }
       if (LEGACY[route.page]) { navigate(href(route.instanceId, LEGACY[route.page])); return; }
       {
         const page = CORE_PAGES.find(p => p.id === route.page);
@@ -114,6 +115,7 @@ function initTheme() {
 function init() {
   initTheme();
   if (FIXTURES) replace(document.getElementById("fixture-badge"), badge("fixture data", "warn"));
+  if (READ_ONLY) replace(document.getElementById("fixture-badge"), badge("Saved results · read-only", "accent"));
   window.addEventListener("hashchange", render);
   window.addEventListener("error", (e) => { if (e.message) console.error("[orgsim]", e.message); });
   render();

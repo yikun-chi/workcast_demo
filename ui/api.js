@@ -1,6 +1,8 @@
 /* Fetch wrapper for /api with a fixture mode (?fixtures=1) that serves ui/dev/fixtures/*.json instead. */
 
-export const FIXTURES = new URLSearchParams(location.search).get("fixtures") === "1";
+export const READ_ONLY = document.querySelector('meta[name="workcast-mode"]')?.content === "static";
+export const FIXTURES = !READ_ONLY && new URLSearchParams(location.search).get("fixtures") === "1";
+export const assetUrl = (path) => new URL(`../${path.replace(/^\//, "")}`, import.meta.url).href;
 const FIX_BASE = "/ui/dev/fixtures/";
 
 export class ApiError extends Error {
@@ -136,7 +138,31 @@ async function fixtureFetch(path, opts = {}) {
   throw new ApiError(404, `no fixture for ${key}`, path);
 }
 
-const doFetch = FIXTURES ? fixtureFetch : realFetch;
+// Public snapshots use the same page modules, with no backend or mutation route.
+const staticCache = new Map();
+async function snapshotFile(name) {
+  if (!staticCache.has(name)) staticCache.set(name, realFetch(assetUrl(`public-data/${name}.json`)));
+  return staticCache.get(name);
+}
+async function staticFetch(path, opts = {}) {
+  if ((opts.method || "GET").toUpperCase() !== "GET") throw new ApiError(405, "This site displays saved results. Editing and rerunning are unavailable.", path);
+  const route = new URL(path, location.origin).pathname.replace(/^\/api/, "");
+  const index = await snapshotFile("index");
+  let value;
+  if (route === "/instances") value = index.instances;
+  else if (route === "/health") value = { ok: true, read_only: true, instances: index.instances.map(i => i.id) };
+  else if (route.startsWith("/onet/occupations/")) value = index.occupations[decodeURIComponent(route.split("/").pop())];
+  else {
+    const match = route.match(/^\/instances\/([^/]+)(.*)$/);
+    if (match && index.instances.some(i => i.id === match[1])) {
+      const snapshot = await snapshotFile(match[1]);
+      value = snapshot.responses[match[2] || "/"];
+    }
+  }
+  if (value === undefined) throw new ApiError(404, "This resource is not included in the public snapshot.", path);
+  return structuredClone(value);
+}
+const doFetch = READ_ONLY ? staticFetch : FIXTURES ? fixtureFetch : realFetch;
 
 function qs(params) {
   const p = new URLSearchParams();
@@ -145,6 +171,7 @@ function qs(params) {
 }
 
 export const api = {
+  readOnly: READ_ONLY,
   get: (path, params) => doFetch(`/api${path}${qs(params)}`),
   put: (path, body) => doFetch(`/api${path}`, { method: "PUT", body: JSON.stringify(body) }),
   post: (path, body) => doFetch(`/api${path}`, { method: "POST", body: JSON.stringify(body) }),

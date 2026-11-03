@@ -7,6 +7,8 @@ design principles, file placement and verification. This page is the documentati
 | Topic | Guide |
 |---|---|
 | Installation, keys, data, deployment and verification | [Setup and reproduction](setup.md) |
+| Restore exact datasets/runs or publish a new snapshot | [Release snapshots](setup.md#release-snapshots) |
+| Refresh the public site through Actions and Pages | [Deployment](setup.md#deployment) |
 | Product framing, instance catalog and evidence scope | [Project overview](overview.md) |
 | Application services and scientific models | [Architecture](architecture.md) |
 | Task-planner architecture, framework adapters and replay | [Task planners](task-planners.md) |
