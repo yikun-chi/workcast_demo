@@ -115,6 +115,12 @@ def main() -> None:
     add("ctrip_perf_effect_literature", ct["comparators"]["literature"], "SD", INTERNAL, f, "metric_index.perf_effect.comparators.literature", hi)
     best = min(ct["comparator_errors"], key=ct["comparator_errors"].get)
     add("ctrip_perf_best_comparator_is_literature", float(best == "literature"), "flag", INTERNAL, f, "argmin of metric_index.perf_effect.comparator_errors", hi)
+    mi = json.loads((INTERNAL / f).read_text())["metric_index"]
+    for key, name, unit in (("calls_effect_pct", "calls", "%"), ("attrition_effect_pp", "quits", "pp")):
+        m = mi[key]
+        add(f"ctrip_{name}_effect_sim", m["simulated"], unit, INTERNAL, f, f"metric_index.{key}.simulated", hi)
+        add(f"ctrip_{name}_effect_actual", m["actual"], unit, INTERNAL, f, f"metric_index.{key}.actual", hi)
+        add(f"ctrip_{name}_effect_literature", m["comparators"]["literature"], unit, INTERNAL, f, f"metric_index.{key}.comparators.literature", hi)
 
     # ---- BTOS AI use by sector and Stack Overflow questions after ChatGPT (adoption world), held-out cutoffs
     for inst, scale in (("btos_ai", 100.0), ("so_chatgpt", 1.0)):

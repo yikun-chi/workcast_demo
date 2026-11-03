@@ -14,6 +14,8 @@ In Ctrip's landmark work-from-home trial, the standard approach borrows the effe
 
 *How we got there.* One standard deviation of performance is valued at {{c2_sd_value}} a year ({{c2_sd_share}} of an {{c1_salary}} salary; an assumption your own value replaces). The borrowed estimate misstates the gain by {{c2_gap_literature}} SD × {{c2_sd_value}} × {{firm_employees}} = {{c2_misstated_literature}} a year; WORKCAST's by {{c2_gap_sim}} SD, {{c2_misstated_sim}}. The business case lands {{c2_value}} a year closer to reality: over-investment avoided, or benefit promised to the board that never arrives.
 
+*Where the same trial beat us.* The trial measured two other effects, and on both the simulation did worse than earlier research. Calls answered rose {{c2_calls_actual}}; we predicted a rise of {{c2_calls_sim}}, earlier research {{c2_calls_literature}}. Quits fell {{c2_quits_actual}}; we predicted a fall of {{c2_quits_sim}}, missing {{c2_quits_missed_share}} of the effect. The performance result above is the one the simulation got right, and the value figure rests on it alone.
+
 ### 3. Staff operations to the real bottleneck. Worth about {{c5_value}} a year.
 
 After a multinational expanded its purchase-to-pay team by {{c5_expansion}}, classical forecasts were {{c5_acc_classical}} accurate on on-time completion. WORKCAST was **{{c5_acc_sim}} accurate, with {{c5_error_reduction}} less error**, and showed the extra hires did not speed processing: completion stayed at {{c5_completion_observed}} with them and {{c5_completion_no_expansion}} without.
@@ -22,7 +24,7 @@ After a multinational expanded its purchase-to-pay team by {{c5_expansion}}, cla
 
 ### 4. Budget AI spend without surprises. Worth about {{c4_total}} a year.
 
-Carrying last month's AI bill forward missed actual spend by {{c4_miss_classical}}. Across {{c4_backtests}} backtests on the {{c4_apps}} largest AI apps on OpenRouter, WORKCAST missed by {{c4_miss_sim}}: **{{c4_error_reduction}} less error, {{c4_acc_sim}} accuracy**.
+The best standard forecast of the AI bill (a damped trend fitted to each app's recent weeks) missed actual spend by {{c4_miss_classical}}. Across {{c4_backtests}} backtests on the {{c4_apps}} largest AI apps on OpenRouter, WORKCAST missed by {{c4_miss_sim}}: **{{c4_error_reduction}} less error, {{c4_acc_sim}} accuracy**.
 
 *How we got there.* On {{c4_spend}} of annual token spend, the classical forecast misses by {{c4_variance_classical}} and WORKCAST by {{c4_variance_sim}}: {{c4_variance_gap}} less budget variance. Buying capacity in advance at a {{c4_discount}} discount against our forecast saves {{c4_saving_per_million}} per {{c4_one_million}} of spend in the backtest: × {{c4_spend_in_millions}} = {{c4_saving}} saved outright. Together, about {{c4_total}} a year.
 

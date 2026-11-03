@@ -109,6 +109,14 @@ def main() -> None:
     put("c2_misstated_literature", ml, usd(ml, 100000), "gap x SD value x firm", ["ctrip_perf_effect_literature", "ctrip_perf_effect_actual"])
     put("c2_misstated_sim", ms, usd(ms, 100000), "gap x SD value x firm", ["ctrip_perf_effect_sim", "ctrip_perf_effect_actual"])
     put("c2_value", ml - ms, usd(ml - ms), "difference", ["ctrip_perf_effect_sim", "ctrip_perf_effect_literature", "ctrip_perf_effect_actual"])
+    # the same trial's two other effects, where the simulation did worse than earlier research; shown beside the win
+    for name, fmt in (("calls", lambda v: f"{abs(v):.1f}%"), ("quits", lambda v: f"{abs(v):.1f} points")):
+        es_, ea_, el_ = inp[f"ctrip_{name}_effect_sim"], inp[f"ctrip_{name}_effect_actual"], inp[f"ctrip_{name}_effect_literature"]
+        put(f"c2_{name}_sim", es_, fmt(es_), "input", [f"ctrip_{name}_effect_sim"])
+        put(f"c2_{name}_actual", ea_, fmt(ea_), "input", [f"ctrip_{name}_effect_actual"])
+        put(f"c2_{name}_literature", el_, fmt(el_), "input", [f"ctrip_{name}_effect_literature"])
+        share = 100 * abs(es_ - ea_) / abs(ea_)
+        put(f"c2_{name}_missed_share", share, pct(share), "|sim - actual| / |actual|", [f"ctrip_{name}_effect_sim", f"ctrip_{name}_effect_actual"])
 
     # ---- 5. AI adoption by sector (BTOS)
     bs, bb, bm = inp["btos_ai_mae_sim"], inp["btos_ai_mae_best"], inp["btos_ai_mean_actual"]

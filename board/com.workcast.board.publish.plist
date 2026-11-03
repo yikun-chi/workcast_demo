@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.workcast.board.publish</string>
+  <key>ProgramArguments</key><array><string>/bin/bash</string><string>-lc</string>
+    <string>/Users/svaid/.workcast_board_publish/publish_from_laptop.sh &gt;&gt; /Users/svaid/.workcast_board_publish.log 2&gt;&amp;1</string></array>
+  <key>StartCalendarInterval</key><array>
+    <dict><key>Hour</key><integer>10</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Hour</key><integer>16</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Hour</key><integer>22</integer><key>Minute</key><integer>0</integer></dict>
+  </array>
+</dict></plist>

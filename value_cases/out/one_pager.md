@@ -9,9 +9,9 @@
 | Decision | Standard method | WORKCAST | Value for a 3,000-person firm |
 |---|---|---|---|
 | Predict an experiment before running it (Trip.com, 1,612 employees) | Published rule of thumb | **99.6% accurate**, 80% less error | **$2.4 million** from deciding five months sooner |
-| Size the effect of a change before funding it (Ctrip trial) | Effect borrowed from earlier research | **86% less error** | **$12.9 million a year** closer business case |
+| Size the effect of a change before funding it (Ctrip trial, performance effect; the trial's calls and quits effects were missed, see the cases) | Effect borrowed from earlier research | **86% less error** | **$12.9 million a year** closer business case |
 | Staff an operation to its real bottleneck (purchase-to-pay) | Historical average, 81% accurate | **90% accurate**, 45% less error | **$760,000 a year** in hires that would not have helped |
-| Budget AI spend (100 largest AI apps, 16 backtests) | Last month carried forward, 70% accurate | **84% accurate**, 48% less error | **$134,000 a year** on $650,000 of token spend |
+| Budget AI spend (100 largest AI apps, 16 backtests) | Best standard forecast (damped trend), 81% accurate | **84% accurate**, 17% less error | **$45,000 a year** on $650,000 of token spend |
 | Plan AI licences ahead of adoption (U.S. Census survey) | Standard adoption curve | **85% accurate**, 10% less error | **$18,000 a year** on a $1.1 million licence budget |
 | Plan capacity through demand disruption (Stack Overflow after ChatGPT) | Damped trend | **87% accurate**, 39% less error | **$81,000** per $1 million of volume-linked cost |
 
