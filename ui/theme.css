@@ -424,3 +424,19 @@ label.field > .input, label.field > .select { color: var(--text); font-weight: 4
 .story-table th.grp.after { border-bottom-color: var(--accent); }
 .story-table th.sim, .story-table td.simc { background: var(--accent-soft); }
 @media (max-width: 1100px) { .story-flow { grid-template-columns: 1fr; } }
+
+/* Keep the instance picker and read-only status accessible on narrow screens. */
+@media (max-width: 640px) {
+  .app-header { position: static; height: auto; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 12px 16px; }
+  .brand { min-width: 0; }
+  .brand-name { white-space: nowrap; }
+  .header-right { display: contents; }
+  #fixture-badge { grid-column: 1 / -1; grid-row: 2; }
+  #theme-toggle { grid-column: 2; grid-row: 1; }
+  .instance-switcher { grid-column: 1 / -1; grid-row: 3; min-width: 0; }
+  .instance-switcher .header-sep { display: none; }
+  .instance-switcher .select { flex: 1; width: 0; min-width: 0; max-width: 100%; }
+  .app-tabs { top: 0; padding: 0 12px; }
+  .app-main { padding: 16px; }
+  .drawer:not(.open) { display: none; }
+}

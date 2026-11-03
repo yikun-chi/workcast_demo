@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "repository": "yikun-chi/workcast_demo",
+  "tag": "snapshot-2026-11-03",
+  "source_commit": "2ef884ba2a38007d0e665aa5ed49047cd7956825",
+  "created_at": "2026-11-03T09:46:00.470825+00:00",
+  "manifest_sha256": "26cbdcd51bdffe5e2c455b284054d073372170309834eea115a125371a16a359",
+  "release_url": "https://github.com/yikun-chi/workcast_demo/releases/tag/snapshot-2026-11-03",
+  "assets": [
+    {
+      "name": "data-onet.tar.gz",
+      "kind": "data",
+      "bytes": 28214850,
+      "sha256": "b40667e2239173ea31ea8f4c6e29e11e46587ae999e3fbeb5d8d1b58bc8e0ee7",
+      "file_count": 47
+    },
+    {
+      "name": "data-aei_tasks.tar.gz",
+      "kind": "data",
+      "bytes": 51073656,
+      "sha256": "7c0f8dd8987a3133104c8a227d51de2086437a4485c2d7171182229394e38c17",
+      "file_count": 21
+    },
+    {
+      "name": "data-bpi19.tar.gz",
+      "kind": "data",
+      "bytes": 71073076,
+      "sha256": "a80b0b7bfd317f061fad8d4bea4e777f111cb18660a971a98540ada59baff8bb",
+      "file_count": 175
+    },
+    {
+      "name": "data-btos_ai.tar.gz",
+      "kind": "data",
+      "bytes": 3197286,
+      "sha256": "88392d601e9a99d811ecd91d19c0ba1058cbb7755a1696beba36d6c00355cb01",
+      "file_count": 6
+    },
+    {
+      "name": "data-ctrip.tar.gz",
+      "kind": "data",
+      "bytes": 9557532,
+      "sha256": "31b8e71736e245da33f59a3bea853273db7fbe951a57907216c3ac75432b3b08",
+      "file_count": 36
+    },
+    {
+      "name": "data-fedwork.tar.gz",
+      "kind": "data",
+      "bytes": 582585006,
+      "sha256": "4cf714bff2b874bf9af8fce7e1e5bff3af85ff62d18b3f98767631f918974b98",
+      "file_count": 120
+    },
+    {
+      "name": "data-openrouter.tar.gz",
+      "kind": "data",
+      "bytes": 24290340,
+      "sha256": "2bdfffc68a8ce1171cb1b649e1a6c2b859c56846a3f40af4386446c497a753b1",
+      "file_count": 577
+    },
+    {
+      "name": "data-so_chatgpt.tar.gz",
+      "kind": "data",
+      "bytes": 37506,
+      "sha256": "66c8e5170b171fc1c030c8021358e6884e7ec6f69e286bcd161709e5a537cec0",
+      "file_count": 298
+    },
+    {
+      "name": "data-trip.tar.gz",
+      "kind": "data",
+      "bytes": 1198859,
+      "sha256": "1697eeb827bb698634d2e8e96899faf7314b7d2f0615cf3d7503fb5eb3ecbac4",
+      "file_count": 99
+    },
+    {
+      "name": "runs-aei_tasks.tar.gz",
+      "kind": "runs",
+      "bytes": 168141,
+      "sha256": "e3e2e7948dc2b3ad1bd49dab93bec8f2b0b9cb38a3fbc834fabb148735bd1bda",
+      "file_count": 368
+    },
+    {
+      "name": "runs-bpi19.tar.gz",
+      "kind": "runs",
+      "bytes": 129552647,
+      "sha256": "dc7fb122a7639083018c33f3ca8c0b6477a6db5dfd3e834ef7e8985ba3a61099",
+      "file_count": 164
+    },
+    {
+      "name": "runs-btos_ai.tar.gz",
+      "kind": "runs",
+      "bytes": 524675,
+      "sha256": "0aab695c6e40dbc5eb54a6acdba5e67e4441519abb52da6cdce1343e3b3b8bf8",
+      "file_count": 968
+    },
+    {
+      "name": "runs-ctrip.tar.gz",
+      "kind": "runs",
+      "bytes": 6691446,
+      "sha256": "1234e0e398725cc66ae154bb8dc0d06b64229620c575c128204e39a95f7157af",
+      "file_count": 361
+    },
+    {
+      "name": "runs-fedwork.tar.gz",
+      "kind": "runs",
+      "bytes": 12880363,
+      "sha256": "d70b9e385baea2545c378225d5acb91d345283711f0072d27811a11d6f7be35c",
+      "file_count": 606
+    },
+    {
+      "name": "runs-openrouter.tar.gz",
+      "kind": "runs",
+      "bytes": 28951697,
+      "sha256": "f18efb705cf83c390824647e5389727da7b0a51103f52a79df6dc740456d3bc5",
+      "file_count": 1204
+    },
+    {
+      "name": "runs-so_chatgpt.tar.gz",
+      "kind": "runs",
+      "bytes": 1362998,
+      "sha256": "238b72b802ddd7141afe23f6e8b5dd38c64aae6f7fa4ab0a467772f070d06502",
+      "file_count": 2942
+    },
+    {
+      "name": "runs-trip.tar.gz",
+      "kind": "runs",
+      "bytes": 130575733,
+      "sha256": "4eeb606e5278848b42cf7e03a5ec89fec628251a55f1ab17d9d217fefd166973",
+      "file_count": 413
+    },
+    {
+      "name": "runs-workflow.tar.gz",
+      "kind": "runs",
+      "bytes": 5054,
+      "sha256": "da084b50801f40f17fe6479ea567049164cb08a2d6ae4f684e6e0122dc5e6929",
+      "file_count": 4
+    }
+  ]
+}
