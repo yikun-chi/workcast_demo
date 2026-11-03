@@ -1,7 +1,8 @@
 {
  "schema_version": 1,
- "captured_at": "2026-11-03T09:35:47.969267+00:00",
- "source_commit": "d1bc2e3540ffc4c19a07296c0cecdd1613c293cd",
+ "captured_at": "2026-11-03T09:45:57.624698+00:00",
+ "source_commit": "28eeb94a6d9291fb22facb5402786e7d31824636",
+ "source_dirty": false,
  "instances": [
   {
    "id": "trip",
