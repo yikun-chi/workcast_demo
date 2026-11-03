@@ -1,0 +1,35 @@
+# Behavioural priors for the Ctrip workforce world. RULE: nothing here is fitted on the experiment's outcomes, and every
+# source was published before the experiment's results first appeared (NBER Working Paper 18871, February 2013).
+# Each parameter is a central value plus a range; one value per parameter is drawn per seed (triangular, mode at the
+# central value), so the prediction interval carries prior uncertainty as well as sampling noise.
+# What the simulation takes from data (each twin's 2010 performance level, the 2010 exit hazard, seasonality, the spread
+# of performance across people) is in calibration/fit.json, computed by the ingest from weeks before the experiment.
+sampling: triangular
+revision_log:
+  - frozen: 2026-10-28
+    note: "Initial priors, set before the experiment period was scored. Sources limited to work published before February 2013."
+parameters:
+  d_perf:
+    central: 0.36
+    range: [0.18, 0.54]
+    source: "Telecommuting and supervisor-rated or objective job performance: mean r = .18, d = .36, 95% CI for r .09 to .26 (k = 4, n = 484); Gajendran & Harrison (2007), 'The good, the bad, and the unknown about telecommuting', Journal of Applied Psychology 92(6), 1524-1541, Table 1. The range converts the CI for r to d (2r / sqrt(1 - r^2)). Applied as a shift of d between-person standard deviations of each measure."
+  d_turnover_intent:
+    central: -0.17
+    range: [-0.22, -0.12]
+    source: "Telecommuting and turnover intent: mean r = -.08, d = -.17, 95% CI for r -.11 to -.06 (k = 9, n = 7,580); Gajendran & Harrison (2007), Table 1. Range converts the CI to d."
+  rho_intent_quit:
+    central: 0.38
+    range: [0.35, 0.45]
+    source: "Quit intentions predict actual turnover: corrected r = .38 (uncorrected .35, second correction .45; k = 71, N = 63,232); Griffeth, Hom & Gaertner (2000), 'A meta-analysis of antecedents and correlates of employee turnover', Journal of Management 26(3), 463-488. Used as the shift in the latent quit liability per SD of intent."
+  rho_tenure_quit:
+    central: -0.20
+    range: [-0.23, -0.17]
+    source: "Organisational tenure and turnover: r = -.20 (corrected -.20 and -.23; 1995 estimate -.17); Griffeth, Hom & Gaertner (2000). Latent quit liability per SD of tenure within the twins."
+  rho_age_quit:
+    central: -0.09
+    range: [-0.12, -0.06]
+    source: "Age and turnover: r = -.09 (corrected -.09 and -.11; 1995 estimate -.12); Griffeth, Hom & Gaertner (2000). Latent quit liability per SD of age within the twins."
+  intensity_share_2d:
+    central: 0.65
+    range: [0.31, 1.0]
+    source: "Effect of two home days relative to four (used only by the two-day alternative). Gajendran & Harrison (2007), Table 3: telecommuting lowered work-family conflict at high intensity (2.5 or more days, r = -.16) about three times as much as at low intensity (r = -.05), while its link with perceived autonomy did not differ by intensity (r = .16 vs .15). The range spans those two ratios; the central value is their midpoint."

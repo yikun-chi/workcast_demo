@@ -77,7 +77,7 @@ def list_instances() -> list[InstanceContext]:
             continue
         meta = yaml.safe_load(f.read_text()) or {}
         out.append(InstanceContext(id=meta.get("id", d.name), root=d, meta=meta))
-    return out
+    return sorted(out, key=lambda i: (int(i.meta.get("order", 100)), i.id))      # optional `order` in instance.yaml
 
 
 def get_instance(instance_id: str) -> InstanceContext:

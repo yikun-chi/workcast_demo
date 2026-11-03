@@ -1,6 +1,7 @@
 """Input-integrity checks that need no external datasets."""
 import importlib.util
 import io
+import json
 from pathlib import Path
 
 import pytest
@@ -35,3 +36,29 @@ def test_existing_corrupt_input_is_not_overwritten(tmp_path):
     assert target.read_bytes() == b"local data"
     with pytest.raises(ValueError, match="escapes destination"):
         module.safe_path(tmp_path, "../outside")
+
+
+def test_fresh_snapshot_keeps_published_hashes_and_rejects_incomplete_retrieval(tmp_path, monkeypatch):
+    module = script("download_data")
+    monkeypatch.setattr(module, "ROOT", tmp_path)
+    root = tmp_path / "instances/so_chatgpt"
+    (root / "manifests").mkdir(parents=True)
+    raw = root / "data/raw/weekly"
+    raw.mkdir(parents=True)
+    paths = [f"data/raw/weekly/{week}.json" for week in ("2021-03-08", "2021-03-15")]
+    pinned = json.dumps({"files": [{"path": path, "sha256": "0" * 64} for path in paths]})
+    (root / "manifests/sources.json").write_text(pinned)
+    entries = []
+    for path in paths:
+        target = root / path
+        target.write_text('{"total": 10}')
+        entries.append({"path": path, "sha256": module.digest(target)})
+    local = root / "data/sources.local.json"
+    monkeypatch.setattr(module.subprocess, "run", lambda *a, **k: local.write_text(json.dumps({"files": entries})))
+    module.snapshot_instance("so_chatgpt", verify_only=False, refresh=True)
+    assert (root / "manifests/sources.json").read_text() == pinned
+    with pytest.raises(ValueError, match="Checksum mismatch"):
+        module.snapshot_instance("so_chatgpt", verify_only=True, refresh=False)
+    local.write_text(json.dumps({"files": entries[:1]}))
+    with pytest.raises(RuntimeError, match="incomplete"):
+        module.snapshot_instance("so_chatgpt", verify_only=True, refresh=True)

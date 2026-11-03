@@ -1,5 +1,5 @@
 /* Chart renderer for the contract chart object, on Chart.js 4.4.x (global `Chart` from cdnjs).
-   {id, type: bar|hbar|line|scatter, title, x_label, y_label, x: [...], series: [{name, y: [...]}], note} */
+   {id, type: bar|hbar|line|scatter, title, x_label, y_label, x: [...], series: [{name, y: [...]}], note, x_log?, y_log?} */
 import { h } from "./ui.js";
 
 const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -72,6 +72,8 @@ export function renderChart(container, chart, opts = {}) {
   if (type === "line" && labels.length > 24) config.options.scales.x.ticks.maxTicksLimit = 12;
   if (typeof chart.y_min === "number") { config.options.scales.y.min = chart.y_min; config.options.scales.y.beginAtZero = false; }
   if (typeof chart.y_max === "number") config.options.scales.y.max = chart.y_max;
+  if (chart.x_log) { config.options.scales.x.type = "logarithmic"; config.options.scales.x.beginAtZero = false; }
+  if (chart.y_log) { config.options.scales.y.type = "logarithmic"; config.options.scales.y.beginAtZero = false; }
   if (opts.options) deepMerge(config.options, opts.options);
 
   const inst = new Chart(canvas, config);

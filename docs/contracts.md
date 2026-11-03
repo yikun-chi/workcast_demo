@@ -9,7 +9,7 @@ Change a contract here in the same change that alters it.
 sentence, shown as the card title), `situation` (two sentences: what the company did), `data_used` (one or two
 sentences: the dataset and what it records), `intro` (one concise paragraph: what is simulated and what the
 alternative asks), `world_type`
-(`process` or `workforce`), `world` (one paragraph), `clock.tick: 1h`, `clock.coverage`,
+(`process`, `workforce`, `market` or `adoption`), `world` (one paragraph), `clock.tick: 1h`, `clock.coverage`,
 `scenarios: {baseline: <id>, alternative: <id>, additional_alternatives?: [<id>, ...]}`, `protocol_line` (one sentence on how the result is kept honest)
 and `status`.
 
@@ -25,6 +25,8 @@ and `status`.
 | `reports/build_report.py` -> `report.json` | yes | Results tab narrative (section 6) |
 | `ui/pages.json` + pages | optional | detailed views embedded in Results (section 7) |
 | `data/raw`, `data/normalized` | generated | git-ignored |
+
+An optional integer `order` sets the instance's place on the landing page (lower first; default 100, then by id).
 
 Scenario files not named in `instance.yaml` are listed with role `other`: hidden from the UI, runnable from the CLI.
 Additional named alternatives have stable role keys `alternative_2`, `alternative_3`, etc.
@@ -73,7 +75,8 @@ the newest run.
 ```
 
 Chart object (rendered by `ui/components/chart.js`): `{id, type: bar|hbar|line|scatter, title, x_label, y_label,
-x: [...], series: [{name, y, color?, band?: [lo, hi], point?, dashed?, outlined?, source?}], note, y_min?, y_max?}`.
+x: [...], series: [{name, y, x?, color?, band?: [lo, hi], point?, dashed?, outlined?, source?}], note, y_min?, y_max?, x_log?, y_log?}`.
+`x_log`/`y_log` switch an axis to a logarithmic scale; a scatter series may carry its own `x` values.
 
 ## 5. Evaluation and results
 
@@ -101,7 +104,49 @@ Evaluation also records `run_ids: {scenario: [run_id]}`. Results and reports use
 
 Process `business_validation` contains `{id, windows: [{cutoff, actual, simulated, baselines}], simulation_mae, baseline_mae, best_baseline, beats_best_baseline, error_reduction_pct}`. MAE averages absolute errors over cutoffs after averaging seeds within each cutoff. `calibration_window` records the final pre-policy fit. Protocol `workers` controls independent process workers without changing protocol order.
 
+Market evaluation (`orgsim/worlds/market.py`) adds `windows: [{cutoff, n_apps, censored_pct, company_tokens_wape, company_spend_wape,
+company_tokens_mdape, direction_hit: {simulation, <comparator>: value}, coverage90, levels: {top_tokens, top_spend, market_tokens,
+prog_leader_share: {before, actual, simulation, interval?, <comparator>}}, by_horizon: {<weeks>: {simulation, <comparator>}},
+by_class: {<steady|recurring|burst>: {n, simulation, <comparator>}}, model_shares: {<segment>: {distance, new_share}}, launch_rank?,
+spend_formula_wape?, run_ids}]`, `accuracy` (the same measures averaged over windows, with `best_baseline` and `error_reduction_pct`;
+`by_horizon`, `by_class`, `model_shares`; with a language-model buyer also `launch_rank`, `launch_rank_held_out` and
+`company_spend_wape_formula`), `business_validation` for the three totals, `comparator_labels` and `scatter` (one row per company
+prediction). Market run summaries carry per-app `tokens`/`spend_usd` (this run) and `tokens_central`/`spend_central` (the central
+path, the point prediction), segment prices and model mixes; with a language-model buyer also `segment_mix_end_rule`,
+`spend_central_formula`, `buyer` (calls, cache hits, spend) and `launch_scores`.
+
+Adoption evaluation (`orgsim/worlds/adoption.py`) reads `data/normalized/series.parquet` (`group, period, date, value, se`;
+periods are consecutive integers) and `groups.parquet` (`group, label, modelled?, scored?`), and `calibration/adoption.yaml`
+(`outcome: share|displaced`, `normalize` (shares of one whole), `aggregate_group`, `grid`, `default_spec`, and for displaced outcomes `change: {period,
+season_periods, fourier, baseline_periods}`). The protocol names `cutoffs` (a list of periods or `{first, last, step}`),
+`blocks: [{id, label, from, to}]` (horizons in periods; shares are averaged, volumes summed), `headline_blocks`,
+`comparators`, `scale` and `unit`; the first quarter of the cutoffs (at least two) is the development set
+(`ADOPTION_CUTOFFS=dev` runs only those). It writes `windows: [{cutoff, cutoff_date, selection, spec, blocks: {<block>: {mae:
+{simulation, <comparator>}, mean_actual, n, coverage90, target_from, target_to}}, run_ids}]`, `accuracy: {all|dev|held_out:
+{<block>|headline: {mae, mean_actual, n_predictions, best_baseline, error_reduction_pct, accuracy_pct, coverage90?}}}`,
+`by_group` (held-out, headline blocks), `rows` (one per cutoff, block and scored group with every prediction and the 90%
+range) and `comparator_labels`. Adoption run summaries carry per-group `central`/`run` (outcome scale) and
+`central_share`/`run_share`, plus `calibration`. `scripts/build_adoption_validation.py <id>` writes
+`docs/validation_<id>.md` and `runs/<id>/value_inputs.json` (each figure with its path inside `evaluation.json`).
+
 Workforce evaluation adds `paired_comparison` and `paired_effects` for matching scenario seeds. Metric `paired_baseline` and chart-series `paired_y` / `paired_band` supply that subset in the alternative panel, while the validation panel uses the full evaluation ensemble. Point predictions are means; `point_path` may select the expected-quit estimator while the realized `path` supplies predictive intervals. The expected-quit estimator is the accumulated hazard while at risk, not an individual probability.
+
+A workforce protocol may name a `kind`, which selects its own scoring module. Both kinds take their other predictions from the instance's `evaluation/comparators.py`. They also write `runs/<id>/value_inputs.json`: `{instance, evaluation, generated, figures: [{name, path, value}]}`, where each `path` is a dotted path inside `evaluation.json`.
+
+- **`kind: experiment`** (`orgsim/worlds/workforce_experiment.py`; `comparators.compute(ctx) -> {id: {label, description, values: {metric id: value}}}`). The evaluation contains:
+  - `metrics` and `metric_index`: `{id, label, kind: level|did|did_pct|attrition_level|attrition_effect, unit, simulated, interval, actual, actual_se, before, comparators, comparator_errors, best_comparator, error_reduction_pct, accuracy_pct?}`;
+  - `headline`, `comparators`, `comparator_labels`, `scenario_comparison`, `population` and `charts`.
+- **`kind: forecast`** (`orgsim/worlds/workforce_forecast.py`; `comparators.compute(ctx, cutoff, months, groups) -> {id: {label, description, pred: DataFrame(group, month, n)}}`, plus `comparators.actual(ctx, cutoff, months)` for scoring). The evaluation contains:
+  - `windows`: `[{cutoff, role: development|held_out, months, n_groups, headcount_start, scores: {source: {group_month_wape, group_total_wape, total_error_pct, total_month_wape, actual_total, predicted_total}}, best_comparator, error_reduction_pct, by_type, monthly, groups}]`;
+  - `accuracy`: `{held_out, development, all}`;
+  - `business_validation`, `scatter` and `scenario_comparison`.
+
+Optional workforce-world blocks are documented in the module docstring of `orgsim/worlds/workforce.py`:
+- dynamics `constants`, `series`, `measures` and `offers`;
+- cohort twins via a `headcount` column, with competing `hazards` given `monthly:` rates;
+- scenario `events`, `offers`, `count_by`, `stock`, `population_file` and `twins_sample`.
+
+Run metrics then add `measures` (`{name: {all: by arm, weekly}}`) and, for cohort twins, `separations` (`{by, groups, months, kinds, expected, realized, headcount_start, pending_at_end}`).
 
 The story's `reference_actual` is the office-only group observed alongside the hybrid group, used to measure policy impact. `before_actual` contains pre-policy observations, including the published division-level historical attrition aggregate; it is distinct from the later randomized employee cohort. Missing pre-policy outcomes are null.
 

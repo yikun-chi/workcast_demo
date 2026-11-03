@@ -1,0 +1,227 @@
+{
+ "model": "gpt-6-astra",
+ "knowledge_cutoff": "2026-04-30",
+ "cutoffs": [
+  "2026-05-11",
+  "2026-06-08",
+  "2026-07-06",
+  "2026-08-03",
+  "2026-08-31"
+ ],
+ "samples": 2,
+ "spent_usd": 1.90706,
+ "calls": 10,
+ "by_horizon": {
+  "1": {
+   "astra": 23.135289044066056,
+   "simulation": 25.308049589523648,
+   "carry_forward": 28.61416636293206,
+   "recent_trend": 26.16852976611242,
+   "market_growth": 29.723986190581247
+  },
+  "2": {
+   "astra": 27.601306826345006,
+   "simulation": 29.200905887365934,
+   "carry_forward": 31.27928869555629,
+   "recent_trend": 28.259083859550167,
+   "market_growth": 32.374686852122565
+  },
+  "4": {
+   "astra": 32.25045111433634,
+   "simulation": 35.05880595988722,
+   "carry_forward": 36.9237111812938,
+   "recent_trend": 35.40558691986506,
+   "market_growth": 38.57032968924214
+  },
+  "8": {
+   "astra": 40.830426938813524,
+   "simulation": 45.49228454710075,
+   "carry_forward": 45.36456459630664,
+   "recent_trend": 47.158486004723315,
+   "market_growth": 42.244919219181035
+  }
+ },
+ "windows": [
+  {
+   "cutoff": "2026-05-11",
+   "apps_missing_from_answer": 0,
+   "by_horizon": {
+    "1": {
+     "astra": 21.611686860220736,
+     "simulation": 23.44296892202843,
+     "carry_forward": 36.86125873502562,
+     "recent_trend": 18.43470381349922,
+     "market_growth": 38.90921847240435
+    },
+    "2": {
+     "astra": 25.86437252228635,
+     "simulation": 29.152420201754463,
+     "carry_forward": 41.73958352585531,
+     "recent_trend": 20.68855607157706,
+     "market_growth": 44.15037873466588
+    },
+    "4": {
+     "astra": 31.389671226192426,
+     "simulation": 36.172804708345275,
+     "carry_forward": 47.37184956746259,
+     "recent_trend": 22.62595884661671,
+     "market_growth": 50.55300799207362
+    },
+    "8": {
+     "astra": 39.34830564351644,
+     "simulation": 43.559088661227925,
+     "carry_forward": 50.04211983066328,
+     "recent_trend": 27.908235631932072,
+     "market_growth": 51.02164205873828
+    }
+   },
+   "sample_spread_pct": 4.04934712790129
+  },
+  {
+   "cutoff": "2026-06-08",
+   "apps_missing_from_answer": 0,
+   "by_horizon": {
+    "1": {
+     "astra": 14.432563098503628,
+     "simulation": 34.894448158882795,
+     "carry_forward": 37.107556933640645,
+     "recent_trend": 27.494461760593268,
+     "market_growth": 28.920661926494905
+    },
+    "2": {
+     "astra": 17.520617522042325,
+     "simulation": 35.459021532611416,
+     "carry_forward": 37.62260575783547,
+     "recent_trend": 25.449025856811186,
+     "market_growth": 28.70361226830441
+    },
+    "4": {
+     "astra": 24.529213752917343,
+     "simulation": 38.336252483299546,
+     "carry_forward": 39.9685183962042,
+     "recent_trend": 31.782312679686907,
+     "market_growth": 30.72170699791168
+    },
+    "8": {
+     "astra": 34.45986662960413,
+     "simulation": 45.147904026183966,
+     "carry_forward": 44.30274756929405,
+     "recent_trend": 57.57170543230479,
+     "market_growth": 33.13511563998139
+    }
+   },
+   "sample_spread_pct": 8.695982752393249
+  },
+  {
+   "cutoff": "2026-07-06",
+   "apps_missing_from_answer": 0,
+   "by_horizon": {
+    "1": {
+     "astra": 12.550705633147885,
+     "simulation": 17.736603124973975,
+     "carry_forward": 16.834311890254167,
+     "recent_trend": 30.246484497982184,
+     "market_growth": 28.055754833212138
+    },
+    "2": {
+     "astra": 17.13651514851845,
+     "simulation": 22.69764883653088,
+     "carry_forward": 21.20562307093611,
+     "recent_trend": 32.589834417699926,
+     "market_growth": 30.09792108408253
+    },
+    "4": {
+     "astra": 15.900740318335844,
+     "simulation": 24.943806855675348,
+     "carry_forward": 23.033725388975725,
+     "recent_trend": 44.680199403517555,
+     "market_growth": 38.415496104198624
+    },
+    "8": {
+     "astra": 33.24143387545041,
+     "simulation": 47.240641822029275,
+     "carry_forward": 41.301679811543856,
+     "recent_trend": 51.53731012456456,
+     "market_growth": 41.59243221750687
+    }
+   },
+   "sample_spread_pct": 4.123521213834125
+  },
+  {
+   "cutoff": "2026-08-03",
+   "apps_missing_from_answer": 0,
+   "by_horizon": {
+    "1": {
+     "astra": 25.674490682426782,
+     "simulation": 27.176746424447956,
+     "carry_forward": 31.452473133711962,
+     "recent_trend": 26.634034066138252,
+     "market_growth": 26.438858056354736
+    },
+    "2": {
+     "astra": 27.38812213224124,
+     "simulation": 29.89173634149356,
+     "carry_forward": 32.795077271066525,
+     "recent_trend": 27.42822894245336,
+     "market_growth": 27.229356406945016
+    },
+    "4": {
+     "astra": 38.40427536747652,
+     "simulation": 41.63264828420638,
+     "carry_forward": 43.795955461488106,
+     "recent_trend": 36.800752758105986,
+     "market_growth": 34.649228291646025
+    },
+    "8": {
+     "astra": 45.22301281336147,
+     "simulation": 48.55471654210882,
+     "carry_forward": 51.04545316908212,
+     "recent_trend": 41.65867222829239,
+     "market_growth": 37.77486032472942
+    }
+   },
+   "sample_spread_pct": 4.533947865445184
+  },
+  {
+   "cutoff": "2026-08-31",
+   "apps_missing_from_answer": 0,
+   "by_horizon": {
+    "1": {
+     "astra": 41.40699894603125,
+     "simulation": 23.289481317285087,
+     "carry_forward": 20.815231122027885,
+     "recent_trend": 28.032964692349164,
+     "market_growth": 26.295437664440115
+    },
+    "2": {
+     "astra": 50.09690680663667,
+     "simulation": 28.803702524439363,
+     "carry_forward": 23.03355385208803,
+     "recent_trend": 35.1397740092093,
+     "market_growth": 31.692165766614977
+    },
+    "4": {
+     "astra": 51.028354906759574,
+     "simulation": 34.20851746790955,
+     "carry_forward": 30.448507092338385,
+     "recent_trend": 41.13871091139816,
+     "market_growth": 38.512209060380776
+    },
+    "8": {
+     "astra": 51.879515732135204,
+     "simulation": 42.95907168395377,
+     "carry_forward": 40.1308226009499,
+     "recent_trend": 57.116506606522734,
+     "market_growth": 47.70054585494924
+    }
+   },
+   "sample_spread_pct": 4.720254372188311
+  }
+ ],
+ "comparator_labels": {
+  "carry_forward": "No change: the last four weeks carried forward",
+  "recent_trend": "Recent trend: each company's eight-week growth rate extended (at most 15% a week)",
+  "market_growth": "Market growth: each company grows at the market's recent rate"
+ },
+ "protocol": "docs/plans/astra_forecast_protocol.md, Run 1"
+}

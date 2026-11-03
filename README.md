@@ -6,21 +6,27 @@ other prediction, and simulation prediction → alternative behavior**. Before-p
 data supplies context and calibration; only after-change predictions are scored.
 Interviews describe simulated agents, not statements from real employees.
 
-Each instance includes two alternatives: its original policy alternative and an AI
+Trip.com and procurement include two alternatives: its original policy alternative and an AI
 assistant. In Results, use **Explore alternative actions** to switch between them.
 AI assumptions are editable in Scenarios; **Compare with current policy** runs a
 matched comparison. The AI cases estimate workload and operational effects under
 stated assumptions; they have no observed AI outcome in these datasets.
 
-| Instance | Company and decision | Headline (computed, see `docs/validation.md`) |
-|---|---|---|
-| `trip` | Trip.com: two work-from-home days a week? | Attrition effect -2.39 pp predicted vs -2.40 pp actual; retrospective evaluation; neither group's post-change outcomes used for calibration |
-| `bpi19` | Purchase-to-pay: predict operations after the workforce expansion | Lower error across prediction windows than the best non-simulation comparator on 3 of 5 business outcomes; details in [validation](docs/validation.md) |
+| Instance | Decision or change | Simulation approach | Evidence |
+|---|---|---|---|
+| `trip` | Trip.com hybrid work | Employee states and attrition | [Validation](docs/validation.md) |
+| `bpi19` | Procurement staffing | Work queues, capacity and handoffs | [Validation](docs/validation.md) |
+| `openrouter` | AI token demand and spending | App demand and model routing | [Validation](docs/validation_openrouter.md) |
+| `ctrip` | Ctrip call-centre home working (2010) | Employee output and attrition | [Validation](docs/validation_ctrip.md) |
+| `fedwork` | Federal workforce policy changes | Cohort separation hazards | [Validation](docs/validation_fedwork.md) |
+| `btos_ai` | Business adoption of AI | Sector adoption dynamics | [Validation](docs/validation_btos_ai.md) |
+| `so_chatgpt` | Stack Overflow after ChatGPT | Adoption and displaced question volume | [Validation](docs/validation_so_chatgpt.md) |
+| `aei_tasks` | AI assistant task mix | Occupation-level adoption dynamics | [Validation](docs/validation_aei_tasks.md) |
 
 Trip.com is a retrospective evaluation: neither group's post-change outcomes enter
 the current calibration, but the inherited prior history includes outcome-based
 selection. Procurement predictions use actual incoming orders and the operating
-state at each prediction date. These are conditional predictions, not an advance
+state at each prediction date. OpenRouter also supplies historical future prices and model launches, so its archived results are conditional market scenarios. These are conditional predictions, not an advance
 prediction of all demand or proof that staffing alone caused the observed changes.
 
 ## Set up a source checkout
@@ -43,7 +49,8 @@ Cytoscape and marked libraries from cdnjs, so the full UI requires internet acce
 
 ```bash
 uv run python scripts/download_data.py      # fetch pinned inputs, verify hashes, parse BPI log
-uv run orgsim demo                         # normalize, simulate, evaluate, build interviews and reports
+uv run orgsim demo trip                    # normalize, simulate, evaluate, build interviews and reports
+uv run orgsim demo bpi19
 uv run orgsim serve                        # http://127.0.0.1:8000
 ```
 
@@ -54,12 +61,14 @@ The source includes generated report snapshots and validation documentation; the
 interactive results require local data and runs.
 
 For a smaller first run, download `onet` and `trip` separately, then run `orgsim demo trip`.
+Additional public datasets can be selected by instance ID (for example, `download_data.py ctrip`).
+The `openrouter` instance needs a free OpenRouter API key and is fetched separately: see [its README](instances/openrouter/README.md).
 See [setup and reproduction](docs/setup.md) for the full sequence, individual steps,
 data verification, and browser checks.
 
 ## Verification
 
-After both instances have run:
+After the instances required by the data tests have run:
 
 ```bash
 uv run --extra dev pytest -q

@@ -1,0 +1,10 @@
+id: leader_price_double
+title: What if the leading paid coding model had doubled its price?
+short_title: Coding leader at 2x price
+summary: "Double the list price of the most used paid model in programming from the cutoff; same companies, launches and seeds."
+description: >
+  The most used paid model in the programming segment at the cutoff doubles its list price for the whole horizon.
+  Coding workloads may move to other models; every company's tokens and spend are re-simulated with the same seeds.
+extends: baseline
+interventions:
+  - {type: price_multiplier, segment: programming, model_rank: 1, multiplier: 2.0}

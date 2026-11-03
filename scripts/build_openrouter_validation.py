@@ -1,0 +1,197 @@
+"""Write docs/validation_openrouter.md for the openrouter instance from runs/openrouter/evaluation.json.
+Every number is read from the evaluation; nothing is typed in by hand.
+
+    uv run python scripts/build_openrouter_validation.py
+"""
+from __future__ import annotations
+
+import json
+from datetime import date, timedelta
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def pct(x: float | None, d: int = 1) -> str:
+    return "n/a" if x is None else f"{x:.{d}f}%"
+
+
+def spend_dollars(ev: dict) -> dict[str, float]:
+    """The portfolio spend error in dollars: how much closer the simulation lands per window and per year (52/H windows),
+    and each forecast's error as a share of the average actual spend."""
+    H = ev["protocol"]["horizon_weeks"]
+    ts = next(b for b in ev["business_validation"] if b["id"] == "top_spend")
+    actual = sum(w["actual"] for w in ts["windows"]) / len(ts["windows"])
+    base = ts["baseline_mae"][ts["best_baseline"]]
+    gap = base - ts["simulation_mae"]
+    return {"gap": gap, "annual": gap * 52 / H, "actual": actual, "sim_pct": 100 * ts["simulation_mae"] / actual, "base_pct": 100 * base / actual}
+
+
+COMMIT_DISCOUNTS = (0.2, 0.4, 0.6)     # discount for committed capacity vs pay-as-you-go; published figures vary by provider and model
+COMMIT_SOURCE = "https://learn.microsoft.com/en-us/azure/cost-management-billing/reservations/azure-openai"
+
+
+def commitment_cost(ev: dict, d: float) -> dict[str, float]:
+    """Each forecast's cost of being wrong, as a percent of actual spend, for a company that commits to its forecast
+    spend for the window at discount d: unused commitment is lost, use above it pays the full rate. Committing to F
+    against actual A costs (1 - d) F + max(A - F, 0) instead of the (1 - d) A a perfect forecast would cost, so the
+    loss is (1 - d) * over-forecast + d * under-forecast. Every forecast commits to its own point prediction."""
+    rows = ev["scatter"]
+    who = ["simulation", *ev["comparator_labels"]]
+    total = sum(r["spend_actual"] for r in rows)
+    out = {}
+    for k in who:
+        loss = 0.0
+        for r in rows:
+            f, a = r[f"spend_{k}"], r["spend_actual"]
+            loss += (1 - d) * max(f - a, 0.0) + d * max(a - f, 0.0)
+        out[k] = 100 * loss / total
+    best = min(ev["comparator_labels"], key=out.get)
+    saved = out[best] - out["simulation"]
+    H = ev["protocol"]["horizon_weeks"]
+    per_year = total / len({r["cutoff"] for r in ev["scatter"]}) * 52 / H        # the leading apps' spend per year, average window
+    return {**out, "best": best, "saved_pct": saved, "loss_reduction_pct": 100 * (1 - out["simulation"] / out[best]),
+            "per_million": saved / 100 * 1e6, "portfolio_per_year": saved / 100 * per_year}
+
+
+def portfolio_commitment_cost(ev: dict, d: float) -> dict[str, float]:
+    """The same commitment loss for one buyer of the leading apps' combined spend (one commitment per window on the
+    forecast total): percent of actual spend, per forecast."""
+    ts = next(b for b in ev["business_validation"] if b["id"] == "top_spend")
+    total = sum(w["actual"] for w in ts["windows"])
+    loss = lambda key: sum((1 - d) * max(f - w["actual"], 0) + d * max(w["actual"] - f, 0)  # noqa: E731
+                           for w in ts["windows"] for f in [w["simulated"] if key == "simulation" else w["baselines"][key]])
+    out = {k: 100 * loss(k) / total for k in ["simulation", *ev["comparator_labels"]]}
+    best = min(ev["comparator_labels"], key=out.get)
+    return {**out, "best": best, "saved_pct": out[best] - out["simulation"], "per_million": (out[best] - out["simulation"]) / 100 * 1e6}
+
+
+def versus(sim: float, best: float, name: str) -> str:
+    """How the simulation's error compares with the best standard forecast's, stated as a loss when it is one."""
+    if sim <= best:
+        return f"{(1 - sim / best) * 100:.0f}% less error"
+    return f"the {name} wins here, with {(1 - best / sim) * 100:.0f}% less error"
+
+
+def build() -> None:
+    ev = json.loads((ROOT / "runs/openrouter/evaluation.json").read_text())
+    acc, proto, wins, labels = ev["accuracy"], ev["protocol"], ev["windows"], ev["comparator_labels"]
+    H = proto["horizon_weeks"]
+    short = {k: v.split(":")[0] for k, v in labels.items()}
+    n_pred = sum(w["n_apps"] for w in wins)
+    ct = acc["company_tokens_wape"]; bt = ct["best_baseline"]
+    cs = acc["company_spend_wape"]; bs = cs["best_baseline"]
+    cens = sum(w["censored_pct"] for w in wins) / len(wins)
+    rows = [("company_tokens_wape", f"Error in each company's {H}-week tokens (token-weighted)"),
+            ("company_spend_wape", f"Error in each company's {H}-week spend (spend-weighted)"),
+            ("company_tokens_mdape", "Median company's error"),
+            ("direction_hit", "Growth or decline called correctly (higher is better)")]
+    text = ["# Validation: AI token demand and spend (OpenRouter)", "",
+            "Numeric claims are generated by `scripts/build_openrouter_validation.py` from `runs/openrouter/evaluation.json`.", "",
+            'Review status: archived results are conditional on later prices and model launches, and app categories use usage across the full collected period. The usage-truncation test does not cover that category construction. Do not interpret these results as accuracy using only information available at the prediction date.', "",
+            "## Design", "",
+            f"At each of {len(wins)} Monday cutoffs from {wins[0]['cutoff']} to {wins[-1]['cutoff']}, the {proto['n_apps']} apps with the most tokens in the previous four weeks "
+            f"are carried forward for {H} weeks. Company dynamics (starting level, forward drift and survival by persistence class, damping, shock sizes and range width) are fitted at "
+            f"each cutoff from backtests whose targets end before it. After the cutoff the simulation receives the published list prices (Internet Archive captures of the OpenRouter "
+            f"model list) and the dates new models were listed. The point prediction is the simulation's central path, with every random shock at its median; ranges are the 5th-95th "
+            f"percentile of {len(proto['seeds'])} runs per cutoff. A test (`tests/test_market.py`) confirms that deleting all usage after a cutoff leaves the prediction unchanged.", "",
+            f"Actual spend is each company's tokens times the blended list price of its use-case segment's actual model mix; a company's own model mix is not public. "
+            f"{pct(cens)} of company-weeks after a cutoff fall outside OpenRouter's weekly top 200 and are recorded at half the 200th app's volume on both sides. "
+            f"Cutoffs four weeks apart give overlapping {H}-week windows.", "",
+            "## Company-level accuracy", "",
+            "| Measure | Simulation | " + " | ".join(short[k] for k in labels) + " |",
+            "|---|---:|" + "---:|" * len(labels)]
+    for key, name in rows:
+        text.append(f"| {name} | {pct(acc[key]['simulation'])} | " + " | ".join(pct(acc[key][k]) for k in labels) + " |")
+    text += ["", f"The simulation's 90% range contained the actual {H}-week tokens of {pct(acc['coverage90'])} of companies.", ""]
+    if acc.get("by_horizon"):
+        text += ["## Shorter horizons", "",
+                 "The same runs scored on each company's tokens over the first weeks after the cutoff (token-weighted error).", "",
+                 "| Weeks ahead | Simulation | " + " | ".join(short[k] for k in labels) + " |", "|---|---:|" + "---:|" * len(labels)]
+        for hh, v in acc["by_horizon"].items():
+            text.append(f"| {hh} | {pct(v['simulation'])} | " + " | ".join(pct(v[k]) for k in labels) + " |")
+        text.append("")
+    if acc.get("by_class"):
+        cls_name = {"steady": "Established (ranked all 8 weeks before the cutoff)", "recurring": "Recurring (ranked 4-7 of those weeks)", "burst": "One-off jobs (ranked 1-3 of those weeks)"}
+        text += ["## Established companies and one-off jobs", "",
+                 f"Each company's group is set from the eight weeks before the cutoff. Error in its {H}-week tokens (token-weighted).", "",
+                 "| Group | Predictions | Simulation | " + " | ".join(short[k] for k in labels) + " |", "|---|---:|---:|" + "---:|" * len(labels)]
+        for c in ("steady", "recurring", "burst"):
+            if c in acc["by_class"]:
+                v = acc["by_class"][c]
+                text.append(f"| {cls_name[c]} | {v['n']:,} | {pct(v['simulation'])} | " + " | ".join(pct(v[k]) for k in labels) + " |")
+        text.append("")
+    ms = acc.get("model_shares")
+    if ms:
+        who = {"simulation": "Simulation", "price_formula": "Price formula (no language model)", "no_change": "No change (shares at the cutoff)"}
+        seg_name = {"programming": "Programming", "roleplay": "Roleplay", "market": "All other use"}
+        cols = [k for k in who if k in ms["distance"]]
+        text += ["## Where the tokens go: each segment's model mix", "",
+                 f"For each use-case segment, the share of its tokens on each model in week {H} after the cutoff. Distance is the share of the segment's tokens "
+                 "that would have to move to turn the predicted mix into the actual one (lower is better).", "",
+                 "| Segment | " + " | ".join(who[k] for k in cols) + " |", "|---|" + "---:|" * len(cols)]
+        for sg, v in ms["by_segment"].items():
+            text.append(f"| {seg_name.get(sg, sg)} | " + " | ".join(f"{v[k]:.1f} pts" for k in cols) + " |")
+        text.append("| All segments | " + " | ".join(f"{ms['distance'][k]:.1f} pts" for k in cols) + " |")
+        ns = ms["new_models_share"]
+        text += ["", f"Models first listed after the cutoff carried {ns['actual']:.1f}% of a segment's tokens in week {H} on average; the simulation predicted "
+                 f"{ns['simulation']:.1f}%" + (f" and the price formula {ns['price_formula']:.1f}%" if "price_formula" in ns else "") + ".", ""]
+    lr, lh = acc.get("launch_rank"), acc.get("launch_rank_held_out")
+    if lr:
+        text += ["## Which new models win", "",
+                 "When new models are listed, the buyer seat (`gpt-4.1-mini-2025-04-14`, training data ending 2024-06-01, before the usage data begins) judges how "
+                 "much of the segment each will win; market memory from before the cutoff sets how much the new models take together. The rule judges by each "
+                 "provider's earlier launches. Rank correlation of each judgment with the new models' actual final-week shares, per segment and cutoff "
+                 "(protocol: `docs/plans/buyer_seat_protocol.md`; the prompt was designed on the first four cutoffs).", "",
+                 "| Cutoffs | Segment-cutoffs | Language-model buyer | Rule | Buyer higher |", "|---|---:|---:|---:|---:|",
+                 f"| All {len(wins)} | {lr['n']} | {lr['buyer']:.2f} | {lr['rule']:.2f} | {lr['buyer_higher']} of {lr['n']} |"]
+        if lh:
+            text.append(f"| Held out (last {len(wins) - 4}) | {lh['n']} | {lh['buyer']:.2f} | {lh['rule']:.2f} | {lh['buyer_higher']} of {lh['n']} |")
+        if acc.get("company_spend_wape_formula") is not None:
+            text += ["", f"Company spend error with the rule's launch judgment instead: {pct(acc['company_spend_wape_formula'])} (simulation {pct(cs['simulation'])})."]
+        text.append("")
+    text += ["## Totals", "", "| Outcome | Simulation MAE | Best non-simulation MAE | Error reduction |", "|---|---:|---:|---:|"]
+    names = {"top_tokens": f"Tokens of the leading companies, {H} weeks (trillions)", "top_spend": f"Their spend at list prices, {H} weeks ($ millions)",
+             "market_tokens": f"All tokens on OpenRouter, {H} weeks (trillions)"}
+    for b in ev["business_validation"]:
+        best = b["best_baseline"]
+        text.append(f"| {names[b['id']]} | {b['simulation_mae']:.2f} | {b['baseline_mae'][best]:.2f} ({short[best]}) | {b['error_reduction_pct']:.1f}% |")
+    sd = spend_dollars(ev)
+    text += ["", "Negative error reduction means the simulation loses.", "",
+             f"In dollars: the leading companies spent ${sd['actual']:.1f}M per {H}-week window on average at list prices. The simulation's spend forecast "
+             f"missed by {sd['sim_pct']:.1f}% of that and the best standard forecast by {sd['base_pct']:.1f}%, so the simulation landed ${sd['gap']:.2f}M closer "
+             f"per window, about ${sd['annual']:.0f}M a year ({52 / H:.1f} windows). This is forecast error avoided, not spending saved; "
+             "spend grew over the period, so later windows weigh more in dollars.", "",
+             "## What the lower error is worth to a company", "",
+             "A company that buys committed capacity (reserved units at a discount, as with provisioned-throughput reservations: unused reserved units "
+             f"are lost and use above the reservation pays the pay-as-you-go rate; [mechanics]({COMMIT_SOURCE})) and commits to a forecast of its "
+             f"{H}-week spend loses (1 - discount) on every dollar over-committed and the discount on every dollar it had to buy at the full rate. Each "
+             "forecast commits to its own point prediction; losses are a percent of actual spend over every company and cutoff. Discounts vary by "
+             "provider, model and term, so three are shown.", "",
+             "| Commitment discount | Simulation | " + " | ".join(short[k] for k in labels) + " | Saved vs best standard (% of spend) | Lower cost of error "
+             f"| Saved per $1M of annual spend | Saved across the {proto['n_apps']} apps per year |",
+             "|---|---:|" + "---:|" * len(labels) + "---:|---:|---:|---:|"]
+    for d_ in COMMIT_DISCOUNTS:
+        c_ = commitment_cost(ev, d_)
+        text.append(f"| {d_:.0%} | {pct(c_['simulation'])} | " + " | ".join(pct(c_[k]) for k in labels) + f" | {c_['saved_pct']:.1f} | {c_['loss_reduction_pct']:.0f}% "
+                    f"| ${c_['per_million']:,.0f} | ${c_['portfolio_per_year'] / 1e6:.1f}M |")
+    text += ["", f"For one buyer of the leading apps' combined spend (one commitment per {H}-week window on the forecast total), where the forecast "
+             f"misses by {sd['sim_pct']:.1f}% instead of {sd['base_pct']:.1f}%:", "",
+             "| Commitment discount | Simulation | " + " | ".join(short[k] for k in labels) + " | Saved vs best standard (% of spend) | Saved per $1M of annual spend |",
+             "|---|---:|" + "---:|" * len(labels) + "---:|---:|"]
+    for d_ in COMMIT_DISCOUNTS:
+        c_ = portfolio_commitment_cost(ev, d_)
+        text.append(f"| {d_:.0%} | {pct(c_['simulation'])} | " + " | ".join(pct(c_[k]) for k in labels) + f" | {c_['saved_pct']:.1f} | ${c_['per_million']:,.0f} |")
+    text += ["",
+             "## Limitations", "",
+             "This is a retrospective evaluation: the model's structure was chosen with these periods available, so it is not a prospective holdout. "
+             "Forecasts published before the weeks they predict are the clean test. Usage covers traffic routed through OpenRouter, not the whole market; "
+             "providers count tokens with different tokenizers; spend is at list prices, and caching and discounts make realised spend lower. "
+             "The alternative's size depends on an authored price sensitivity (`calibration/market.yaml`). A language-model buyer seat that judges new "
+             "models is available as a configuration change; its measured result is in `docs/plans/buyer_seat_protocol.md`.", ""]
+    (ROOT / "docs/validation_openrouter.md").write_text("\n".join(text))
+    print("wrote docs/validation_openrouter.md")
+
+
+if __name__ == "__main__":
+    build()

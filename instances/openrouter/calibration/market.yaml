@@ -1,0 +1,27 @@
+# Market world settings. Company dynamics (starting level window, forward drift of leading apps by age, damping phi,
+# weight on a company's own recent growth, blend with the recent level, shock sizes; each chosen per persistence class) and the
+# launch prior are fitted at every cutoff from weeks before that cutoff (orgsim/worlds/market.py). The values below are
+# fixed settings and sourced priors; none is fitted on the weeks that are scored.
+n_apps: 100                     # leading companies (apps) by tokens in the four weeks before the cutoff
+history_weeks: 26               # weeks of history used at each cutoff
+inner_cutoffs: 10               # earlier backtests; their targets end before the cutoff
+grid:
+  k_level: [1, 2, 4]            # weeks averaged for the starting level
+  drift: [0.0, 0.5, 1.0]        # weight on the backtested forward drift of leading apps (by age group)
+  phi: [0.5, 0.7, 0.85, 0.95]   # weekly persistence of a company's growth rate
+  w: [0.0, 0.25, 0.5, 0.75, 1.0]  # weight on the company's own six-week growth vs its segment's typical growth
+  alpha: [1.0, 0.5]             # 1: the damped path; 0.5: half way to the recent four-week level held flat
+  survival_point: [median, expected]  # point while an app may drop out: its likelier state, or the survival-weighted mix
+market_loading: 1.0             # companies share the market-wide weekly shock one for one
+workloads_per_segment: 400      # workload agents per use-case segment
+inertia: 0.8                    # weekly probability that a workload stays on its model
+price_beta:   # Authored, see below
+  0.3
+# Source for price_beta: usage responds weakly to list price. OpenRouter State of AI (Dec 2025, sec. "Cost vs Usage
+# Dynamics"): across models, a 10% lower price goes with only 0.5-0.7% more usage; proprietary frontier models keep
+# high usage at high prices. Cross-model elasticities mix price with quality, so a switching weight above the 0.05-0.07
+# cross-sectional slope is used; with inertia 0.8 the realised response over eight weeks stays small.
+token_price_elasticity: -0.06   # same source: 10% price cut -> 0.5-0.7% more tokens
+launch_total: prior             # prior: each new model's standing from how earlier launches did (median launch);
+                                # memory: new models together take the share recent launches took before the cutoff
+                                # (always used with a language-model buyer seat, whose judgments split that share)

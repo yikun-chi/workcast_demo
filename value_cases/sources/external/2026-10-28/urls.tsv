@@ -1,0 +1,4 @@
+gallup_replacement_cost	html	https://www.gallup.com/workplace/247391/fixable-problem-costs-businesses-trillion.aspx
+bls_oews_433031_median	json	https://api.bls.gov/publicAPI/v1/timeseries/data/OEUN000000000000043303113
+microsoft_copilot_pricing_announcement	html	https://blogs.microsoft.com/blog/2023/07/18/furthering-our-ai-ambitions-announcing-bing-chat-enterprise-and-microsoft-365-copilot-pricing/
+microsoft_learn_ptu_reservations	html	https://learn.microsoft.com/en-us/azure/cost-management-billing/reservations/azure-openai

@@ -2,7 +2,7 @@
 
 Read this first. It says what the platform is, the rules that must hold, where things live, and how to verify work.
 Detailed references: `docs/architecture.md` (how it is built), `docs/contracts.md` (file and API shapes),
-`docs/ui.md` (page by page), `docs/validation.md` (the two instances, their data, protocols and results),
+`docs/ui.md` (page by page), `docs/validation.md` (instance data, protocols and results),
 `docs/literature/foundations.md` (what the design borrows from and the sources behind the priors).
 
 ## The framing every instance follows
@@ -23,13 +23,21 @@ agents** about the key metrics. The audience is mid to higher management playing
 screen must show the actual change, reference condition, observed impact, simulated impact and prediction error.
 Alternatives follow; detailed metrics remain available on selection.
 
-Two instances exist and run end to end:
+Eight instances are registered; local data and runs are required for interactive results:
 
 - `trip`: Trip.com's 2021 randomized hybrid-work experiment (1,612 employees as twins; predictions of the policy's
   effects, scored against observed outcomes; alternatives "hybrid for everyone" and an employee AI assistant).
 - `bpi19`: a multinational's purchase-to-pay process (BPI Challenge 2019 event log, 251,734 purchase-order items;
   the simulation predicts two-week horizons after the September 2018 workforce expansion, with the observed before period as reference; alternative "no
   expansion" and an AI invoice assistant).
+- `openrouter`: the AI apps on OpenRouter (weekly tokens of the top 200 apps and top 50 models since January 2025, archived
+  list prices); predicts each leading company's tokens and spend eight weeks ahead at 16 rolling cutoffs, scored against
+  three standard prediction methods; alternative "coding leader at 2x price". The evaluation is retrospective and supplies later prices and model launches (see `docs/validation_openrouter.md`).
+- `ctrip`: call-centre employee output and attrition after home working.
+- `fedwork`: federal employee cohorts after return-to-office and resignation policies.
+- `btos_ai`: business-sector AI adoption.
+- `so_chatgpt`: Stack Overflow question volume after ChatGPT.
+- `aei_tasks`: the occupation mix of AI-assistant use.
 
 ## Rules that must hold (do not relax these without the user)
 
@@ -38,7 +46,7 @@ Two instances exist and run end to end:
    Results hero blocks come from `results_view(ctx)`; insights come from each agent's simulated record.
 2. **Nothing is fitted on the outcome it is scored against.** Trip.com: every behavioral parameter in
    `calibration/priors.yaml` has a central value, a range and a cited independent source; post-change outcomes are
-   used only for scoring and display. BPIC 2019: select the specification with January-June fitting and July-August validation; refit the selected model on all data strictly before September 1. The user permits pre-policy calibration but forbids either group's post-policy data as calibration. Only after-change predictions are scored; future case activity is withheld at each cutoff, while actual incoming orders are supplied. Trip results are retrospective: the inherited prior revision log records prior outcome-based comparison, so do not claim a pristine prospective holdout.
+   used only for scoring and display. BPIC 2019: select the specification with January-June fitting and July-August validation; refit the selected model on all data strictly before September 1. The user permits pre-policy calibration but forbids either group's post-policy data as calibration. Only after-change predictions are scored; future case activity is withheld at each cutoff, while actual incoming orders are supplied. Trip results are retrospective: the inherited prior revision log records prior outcome-based comparison, so do not claim a pristine prospective holdout. OpenRouter: every company parameter is fitted at each cutoff from backtests whose targets end before it; the current archived evaluation still supplies later prices, model launches and categories built from all-period usage. Treat these as unresolved cutoff-boundary issues, not proof of prospective prediction; the existing usage-truncation test does not cover category construction.
 3. **No iteration or version talk, and no old results.** No "v4", "best of three rounds", evaluation history or
    changelog text anywhere in the product or the docs. `runs/<id>/evaluation.json` is the only scored result; old
    result files are deleted, not archived. The only provenance kept is the sourced `revision_log` inside
@@ -50,7 +58,7 @@ Two instances exist and run end to end:
    configuration change in `policies/seats.yaml`.
 6. **Each instance is self-contained.** Everything a viewer needs (ontology, data, scenarios, runs, results, insights)
    lives inside the instance's tabs. The landing page is only the instance picker. Nothing lives "between" instances.
-7. **Two tracks stay separate.** Real-data validation (these two instances) and any AI-as-CEO or authored-firm
+7. **Two tracks stay separate.** Real-data validation (the registered instances) and any AI-as-CEO or authored-firm
    roleplay are never mixed in the same page, report or claim.
 8. **Simulated interviews are labelled as simulated.** Insights say that no real person said any of it.
 9. **Do not commit to git unless asked.** Run outputs (`runs/`), instance data (`instances/*/data/`) and shared
@@ -69,7 +77,7 @@ orgsim/                       the platform package (Python 3.12, FastAPI)
                               system.py (concept graph as used by one instance)
   policies/                   seat adapters: rule, llm (Anthropic), local (OpenAI-compatible); registry
   scenarios/                  loader (extends/deep-merge, named alternatives); shared AI workload assumptions
-  worlds/                     one module per world type: process.py, workforce.py (+ survival.py);
+  worlds/                     one module per world type: process.py, workforce.py, market.py, adoption.py (+ survival.py);
                               each has World, evaluate(ctx, ids) and results_view(ctx)
   evaluation/                 metrics, Markov baselines, results.py (shared results-view helpers)
   insights/                   interview.py (simulated interviews, topics, sentiment, key insights)

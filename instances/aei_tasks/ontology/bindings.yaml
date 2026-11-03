@@ -1,0 +1,53 @@
+# Bindings for the adoption world. Each SOC major occupation group is an org unit holding a population of simulated
+# workers who use the AI assistant or not; a group's share of conversations is its use relative to all groups.
+organization:
+  id: org:claude_ai_users
+  label: Claude.ai conversations classified by occupation (Anthropic Economic Index)
+  properties:
+    source: Anthropic Economic Index, Hugging Face Anthropic/EconomicIndex (data CC BY)
+    period: releases 2025-02-10 .. 2026-06-26
+org_units:
+- {id: "ou:11", label: Management}
+- {id: "ou:13", label: Business and Financial Operations}
+- {id: "ou:15", label: Computer and Mathematical}
+- {id: "ou:17", label: Architecture and Engineering}
+- {id: "ou:19", label: "Life, Physical, and Social Science"}
+- {id: "ou:21", label: Community and Social Service}
+- {id: "ou:23", label: Legal}
+- {id: "ou:25", label: Educational Instruction and Library}
+- {id: "ou:27", label: "Arts, Design, Entertainment, Sports, and Media"}
+- {id: "ou:29", label: Healthcare Practitioners and Technical}
+- {id: "ou:31", label: Healthcare Support}
+- {id: "ou:33", label: Protective Service}
+- {id: "ou:35", label: Food Preparation and Serving Related}
+- {id: "ou:37", label: Building and Grounds Cleaning and Maintenance}
+- {id: "ou:39", label: Personal Care and Service}
+- {id: "ou:41", label: Sales and Related}
+- {id: "ou:43", label: Office and Administrative Support}
+- {id: "ou:45", label: "Farming, Fishing, and Forestry"}
+- {id: "ou:47", label: Construction and Extraction}
+- {id: "ou:49", label: "Installation, Maintenance, and Repair"}
+- {id: "ou:51", label: Production}
+- {id: "ou:53", label: Transportation and Material Moving}
+roles:
+- id: worker
+  label: Worker using an AI assistant for occupational tasks
+  onet_code: 15-1252.00
+  properties: {description: "One per simulated worker in each occupation group; the role code is the largest group's, used only as a label"}
+activities:
+- id: use_assistant
+  label: Use an AI assistant for an O*NET task
+  roles: [worker]
+  system: sys:claude_ai
+systems:
+- id: sys:claude_ai
+  label: Claude.ai chat assistant
+  capabilities:
+  - {id: cap:assistant, label: Conversations that perform or support occupational tasks}
+policies:
+- id: pol:office_rollout
+  label: An enterprise roll-out that raises office workers' hazard of starting to use the assistant (alternative scenario)
+  affects: [use_assistant]
+latent_states:
+- id: ls:uses_assistant
+  label: Whether the worker uses the assistant

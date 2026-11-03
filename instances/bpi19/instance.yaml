@@ -1,4 +1,5 @@
 id: bpi19
+order: 20
 title: Procurement purchase-to-pay (BPI Challenge 2019)
 company: Global coatings company (anonymized)
 problem: "Can we predict completion rates and cycle times after a workforce expansion?"

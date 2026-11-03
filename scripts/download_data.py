@@ -147,13 +147,69 @@ def bpi19(verify_only: bool) -> None:
     print("BPI source and parsed table counts verified", flush=True)
 
 
+PINNED = ("ctrip", "fedwork", "btos_ai", "aei_tasks")
+SNAPSHOTS = ("so_chatgpt", "openrouter")
+
+
+def pinned_instance(name: str, verify_only: bool) -> None:
+    root = ROOT / "instances" / name
+    manifest = json.loads((root / "manifests/sources.json").read_text())
+    failures = []
+    for entry in manifest["files"]:
+        relative = (f"data/raw/{entry['name']}" if name == "ctrip" else
+                    f"data/raw/opm/{entry['filename']}.parquet" if name == "fedwork" else entry["path"])
+        try:
+            fetch(entry["url"], safe_path(root, relative), entry["sha256"], verify_only=verify_only)
+        except (OSError, ValueError) as exc:
+            failures.append(f"{relative}: {exc}")
+            print(f"Unavailable: {failures[-1]}", flush=True)
+    if failures:
+        raise RuntimeError(f"{name}: {len(failures)} inputs unavailable; pinned hashes were preserved")
+
+
+def snapshot_instance(name: str, verify_only: bool, refresh: bool) -> None:
+    """Keep the published snapshot's manifest separate from a new API retrieval."""
+    root = ROOT / "instances" / name
+    pinned = json.loads((root / "manifests/sources.json").read_text())
+    local = root / "data/sources.local.json"
+    if refresh and not verify_only:
+        command = [sys.executable, str(root / "ingest/audit/fetch.py")]
+        if name == "so_chatgpt":
+            weeks = sorted(Path(e["path"]).stem for e in pinned["files"] if "/weekly/" in e["path"])
+            command += ["--start", weeks[0], "--end", weeks[-1]]
+        subprocess.run(command, check=True)
+    manifest = json.loads(local.read_text()) if refresh and local.exists() else pinned
+    if refresh and not local.exists():
+        raise FileNotFoundError(f"No local snapshot manifest: {local}")
+    for entry in manifest["files"]:
+        try:
+            verify(safe_path(root, entry["path"]), entry["sha256"])
+        except FileNotFoundError as exc:
+            raise FileNotFoundError(f"{exc}. Obtain the original snapshot, or use --refresh for a new retrieval.") from exc
+    missing = {e["path"] for e in pinned["files"]} - {e["path"] for e in manifest["files"]}
+    if missing:
+        raise RuntimeError(f"{name}: local retrieval incomplete ({len(missing)} pinned paths absent); rerun --refresh")
+    mode = "new local snapshot (re-evaluate; not exact reproduction)" if refresh else "published snapshot"
+    print(f"{name}: {len(manifest['files'])} files verified against {mode}", flush=True)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("source", nargs="?", choices=("all", "onet", "trip", "bpi19"), default="all")
+    parser.add_argument("source", nargs="?", choices=("all", "public", "onet", "trip", "bpi19", *PINNED, *SNAPSHOTS), default="all")
     parser.add_argument("--verify-only", action="store_true", help="Check existing inputs without downloading or parsing")
+    parser.add_argument("--refresh", action="store_true", help="Fetch a new API snapshot; preserve the published manifest (so_chatgpt/openrouter only)")
     args = parser.parse_args()
-    for name in ("onet", "trip", "bpi19") if args.source == "all" else (args.source,):
-        globals()[name](args.verify_only)
+    if args.refresh and args.source not in SNAPSHOTS:
+        parser.error("--refresh requires so_chatgpt or openrouter")
+    sources = (("onet", "trip", "bpi19") if args.source == "all" else
+               ("onet", "trip", "bpi19", *PINNED) if args.source == "public" else (args.source,))
+    for name in sources:
+        if name in PINNED:
+            pinned_instance(name, args.verify_only)
+        elif name in SNAPSHOTS:
+            snapshot_instance(name, args.verify_only, args.refresh)
+        else:
+            globals()[name](args.verify_only)
 
 
 if __name__ == "__main__":

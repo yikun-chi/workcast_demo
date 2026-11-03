@@ -31,6 +31,12 @@ The downloader uses the URLs and checksums in the committed manifests:
 | O*NET 31.0 | `data/onet/` | Verify the archive and extract the listed tables |
 | Trip.com replication deposit | `instances/trip/data/raw/6X4ZZL/` | Download and verify original Stata tables |
 | BPI Challenge 2019 | `instances/bpi19/data/raw/` | Verify the conference mirror and decompressed XES; parse into normalized Parquet |
+| Ctrip call-centre experiment (`ctrip`) | `instances/ctrip/data/raw/` | Verify the authors' replication ZIP; ingest extracts and normalizes it |
+| Federal workforce (`fedwork`) | `instances/fedwork/data/raw/opm/` | Verify pinned monthly OPM Parquet files |
+| Business AI adoption (`btos_ai`) | `instances/btos_ai/data/raw/` | Verify Census workbooks and question wording |
+| AI task mix (`aei_tasks`) | `instances/aei_tasks/data/raw/` | Verify Economic Index files from a pinned Hugging Face revision; also needs O*NET |
+| Stack Overflow (`so_chatgpt`) | `instances/so_chatgpt/data/raw/weekly/` | Copy the published snapshot, or explicitly retrieve new API counts |
+| AI demand (`openrouter`) | `instances/openrouter/data/raw/` | Copy the published snapshot, or retrieve with an OpenRouter API key |
 
 The BPI download expands to approximately 729 MB before parsed tables and run traces.
 Allow several GB for the complete workflow. Downloads can be selected individually:
@@ -44,14 +50,41 @@ uv run python scripts/download_data.py --verify-only
 
 Existing input files must match the recorded checksum. If a source is unavailable,
 the downloader fails with the URL/error instead of substituting another dataset.
-The older Ctrip study is used through cited aggregate findings; its optional
-replication ZIP is not required or downloaded. Raw Trip.com post-change outcomes
+The original Trip.com comparison uses cited aggregate findings from the older Ctrip
+study; the separate `ctrip` instance requires that study's replication ZIP. Raw Trip.com post-change outcomes
 are available to the scoring code, but are not calibration inputs.
+
+The default command retains the original O*NET, Trip.com and procurement downloads.
+Use `public` for all pinned public inputs, or an instance ID for one source:
+
+```bash
+uv run python scripts/download_data.py public
+uv run python scripts/download_data.py ctrip --verify-only
+uv run python scripts/download_data.py so_chatgpt --refresh
+uv run python scripts/download_data.py openrouter --refresh
+```
+
+API snapshots are not immutable archives. `--refresh` writes
+`instances/<id>/data/sources.local.json`, preserving the committed
+`manifests/sources.json`. Verification without `--refresh` checks the published
+snapshot; `--refresh --verify-only` checks the local retrieval. Incomplete retrievals
+fail verification and can be resumed. Anonymous Stack Exchange quotas may require
+another day. A fresh snapshot can change results and must be re-evaluated.
+OpenRouter reads `OPENROUTER_API_KEY` or `~/.secrets/openrouter.key`.
+
+For each additional instance, run `orgsim ingest <id>`, `orgsim evaluate <id>`,
+`orgsim insights <id>`, and `python instances/<id>/reports/build_report.py`.
+The shared Results page uses local evaluations; a committed report is evidence from
+the author's run and does not mean the data is installed here. `so_survey` is a
+feasibility investigation, not a runnable instance. The `board/` publisher is
+separate from the shared application and its machine-specific publishing scripts
+must be configured before use; data download and evaluation do not deploy it.
 
 ## Reproduce the application
 
 ```bash
-uv run orgsim demo
+uv run orgsim demo trip
+uv run orgsim demo bpi19
 uv run orgsim serve --port 8000
 ```
 

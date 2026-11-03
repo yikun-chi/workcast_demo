@@ -1,0 +1,36 @@
+id: trip
+title: Hybrid work-from-home policy experiment (Trip.com, Nature 2024)
+company: Trip.com
+problem: "Can we predict the impact of two work-from-home days?"
+situation: "In August 2021 Trip.com let half of 1,612 Airfare and IT employees in Shanghai work from home on Wednesdays and Fridays for six months; the other half stayed in the office. Who was offered was decided by birthday, so the two groups are directly comparable."
+data_used: "The experiment's public replication deposit (Nature 2024): one row per employee with commute, family, tenure, role and manager status, plus the measured outcomes: who quit, the endline survey, performance grades and how often home days were taken."
+protocol_line: "Simulation predictions use employee information from before the policy and assumptions from earlier research. Actual outcomes are used to check accuracy."
+intro: >
+  Simulates the 1,612 employees of Trip.com's 2021 hybrid-work experiment as digital twins over six months: half were offered
+  Wednesdays and Fridays at home, half were not. Each twin decides weekly whether to work from home and whether to stay,
+  from its own commute, family, preferences and team. The prediction is scored against the randomized experiment; the
+  alternative asks what happens when everyone is offered hybrid work, which is what Trip.com did next.
+world_type: workforce
+world: >
+  1,612 employees in two divisions over six months (Aug 2021 to Jan 2022).
+  Half were randomly offered two WFH days a week. Every real employee is simulated as a
+  digital twin built from their own covariates; outcomes are attrition,
+  satisfaction, performance and the manager contrast, scored at the
+  population level against the randomized experiment.
+source: "manifests/sources.json (Harvard Dataverse doi:10.7910/DVN/6X4ZZL v1.1, 37 Stata files, CC BY 4.0)"
+data:
+  raw: instances/trip/data/raw/
+  normalized: instances/trip/data/normalized/
+clock:
+  tick: 1h
+  coverage: "2021-08-09 .. 2022-01-23"
+  wfh_eligible_days: ["Wednesday", "Friday"]
+scenarios:
+  baseline: baseline
+  alternative: hybrid_for_all
+evaluation:
+  design: "population-level ITT prediction (digital twins, priors sampled per seed)"
+  freeze_rule: "no experiment outcomes enter world dynamics; no post-policy control calibration; inherited priors have previously been evaluated against this experiment"
+  primary_outcomes: [attrition_itt_pp, endline_work_satisfaction_itt, manager_vs_nonmanager_attrition, performance_2021H2_itt]
+pending_human_action: "accept Dataverse guestbook for doi:10.7910/DVN/PZQOB1 (2015 Ctrip WFH experiment) as an independent calibration source"
+status: "ready: ingest, bindings, baseline, evaluation, report and insights verified end to end (model history in docs/validation.md and calibration/priors.yaml)"

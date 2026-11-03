@@ -1,0 +1,29 @@
+# Evaluation protocol: each Economic Index release predicted from the releases before it. A cutoff c (a release index)
+# means the prediction uses releases 0..c-1 only. Releases: 0 2025-02-10, 1 2025-03-27, 2 2025-09-15, 3 2026-01-15,
+# 4 2026-03-24, 5 2026-06-26.
+instance: aei_tasks
+baseline_scenario: baseline
+cutoffs: [2, 3, 4, 5]           # 4 cutoffs; the first two are for development, the last two are held out
+blocks:
+  - {id: next, label: "the next release", from: 1, to: 1}
+headline_blocks: [next]
+seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+alternative_cutoffs: 2
+comparators: [carry_forward, recent_average, linear_trend, holt_damped, bass_diffusion]
+recent_periods: 2               # recent average: the last two releases
+scale: 100
+unit: "pp"
+headline_label: "Error in each occupation group's share of conversations (percentage points)"
+chart_label: "Share of classified conversations (%)"
+population: "The 22 SOC major groups; truth is each group's share of the next release's classified Claude.ai conversations, mapped from O*NET tasks."
+primary_metric: "mean absolute error in percentage points over groups and held-out cutoffs; accuracy = 100 x (1 - error / mean actual)"
+leakage:
+  calibration: specification choice and range widths use only releases before the cutoff
+# Prose for the generated validation doc (scripts/build_adoption_validation.py); no numbers here.
+data_notes:
+  - "Each release is reduced the same way: global Claude.ai shares of conversations by O*NET task, without none and not_classified, split equally across the occupations that list each task and summed by SOC major group. The classifier, sample windows and product scope change between releases (the June 2026 release adds Cowork conversations and reports calendar months), and every method has to predict across those changes. Licence: data CC BY per the data documentation; the dataset card metadata lists MIT."
+limitations:
+  - "Only two held-out releases; the result is indicative, not a stable estimate."
+  - "Shares of conversations, not of workers or of work done: a group can gain share because other groups lose it."
+  - "Releases are irregularly spaced and each is treated as one step."
+  - "The office uptake alternative uses an authored hazard multiplier, not an estimated effect."

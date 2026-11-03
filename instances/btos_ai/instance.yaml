@@ -1,0 +1,35 @@
+id: btos_ai
+order: 60
+title: AI adoption by sector (Census BTOS)
+company: U.S. employer businesses in the Census Bureau's Business Trends and Outlook Survey
+problem: "Can we predict what share of businesses in each sector will be using AI three and six months from now?"
+protocol_line: "Every prediction is made from survey periods before its cutoff and scored on the periods three and six months after it; the design was frozen on the first quarter of the cutoffs."
+situation: "From September 2023 the Census Bureau asked businesses every two weeks whether they had used AI in producing goods or services in the last two weeks. Use rose in every sector, fastest in information, professional services and finance."
+data_used: "The Business Trends and Outlook Survey's biweekly estimates of the share of businesses that used AI, by two-digit NAICS sector, from September 2023 until the question's wording changed in November 2025 (public domain, U.S. Census Bureau)."
+intro: >
+  Rebuilds U.S. businesses as populations of firms, one population per sector. Each period a firm that does not use
+  AI may start, and a firm that uses it may stop, with hazards that follow a diffusion curve: firms imitate adopters in
+  their own sector and in the whole economy, and growth can slow as fewer non-users remain. From each cutoff the
+  simulation carries every sector forward and is scored against the share of firms that actually reported AI use three
+  and six months later. The alternative asks how much faster manufacturing and retail would adopt if an adoption
+  programme doubled their firms' hazard of starting.
+world_type: adoption
+world: >
+  Fifteen sectors, each a population of 1,000 simulated firms that use AI or not; the national share of firms using AI
+  is the economy-wide signal that firms in every sector imitate.
+source: "manifests/sources.json (U.S. Census Bureau, Business Trends and Outlook Survey, AI Core Questions; public domain)"
+data:
+  raw: instances/btos_ai/data/raw/
+  normalized: instances/btos_ai/data/normalized/
+clock:
+  tick: 1h
+  step: 336h
+  coverage: "2023-09-11 .. 2025-10-05"
+evaluation:
+  cutoffs: "14 cutoffs, one every four weeks, from 2024-06-17 to 2025-06-16 (survey collection start)"
+  horizons: "6 and 13 biweekly periods (about 3 and 6 months) after the last observed period"
+  calibration: "at each cutoff, backtests whose targets fall before it"
+scenarios:
+  baseline: baseline
+  alternative: adoption_programme
+status: "ready: ingest, bindings, baseline, alternative, evaluation and report"
