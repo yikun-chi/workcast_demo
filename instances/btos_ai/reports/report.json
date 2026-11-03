@@ -1,0 +1,882 @@
+{
+ "title": "AI adoption by sector (Census BTOS)",
+ "subtitle": "Can we predict what share of businesses in each sector will be using AI three and six months from now?",
+ "generated": "2026-11-03T07:15:14+00:00",
+ "takeaways": [
+  "On 10 held-out cutoffs (255 predictions) the simulation's error was 1.37 pp, lower than the best standard method (bass diffusion, 1.52 pp): 9.9% less error.",
+  "Accuracy, 100 x (1 - error / mean actual): 85.2% for the simulation and 83.6% for bass diffusion.",
+  "Over all 14 cutoffs, including the 4 used to design it: 1.25 pp against 1.40 pp (bass diffusion).",
+  "3 months ahead (6 periods): 1.11 pp for the simulation, 1.19 pp for bass diffusion; 82% of actual outcomes inside the simulation's 90% range.",
+  "6 months ahead (13 periods): 1.74 pp for the simulation, 1.98 pp for bass diffusion; 73% of actual outcomes inside the simulation's 90% range."
+ ],
+ "sections": [
+  {
+   "heading": "What was predicted",
+   "body": "Rebuilds U.S. businesses as populations of firms, one population per sector. Each period a firm that does not use AI may start, and a firm that uses it may stop, with hazards that follow a diffusion curve: firms imitate adopters in their own sector and in the whole economy, and growth can slow as fewer non-users remain. From each cutoff the simulation carries every sector forward and is scored against the share of firms that actually reported AI use three and six months later. The alternative asks how much faster manufacturing and retail would adopt if an adoption programme doubled their firms' hazard of starting.",
+   "charts": [],
+   "metrics": []
+  },
+  {
+   "heading": "Accuracy on the held-out cutoffs",
+   "body": "On 10 held-out cutoffs (255 predictions) the simulation's error was 1.37 pp, lower than the best standard method (bass diffusion, 1.52 pp): 9.9% less error. Accuracy, 100 x (1 - error / mean actual): 85.2% for the simulation and 83.6% for bass diffusion.",
+   "charts": [
+    "level_m3",
+    "error_m3",
+    "level_m6",
+    "error_m6"
+   ],
+   "metrics": []
+  }
+ ],
+ "charts": [
+  {
+   "id": "level_m3",
+   "type": "line",
+   "title": "Outcome, 3 months ahead (6 periods), by cutoff",
+   "x": [
+    "2024-06-17",
+    "2024-07-15",
+    "2024-08-12",
+    "2024-09-09",
+    "2024-10-07",
+    "2024-11-04",
+    "2024-12-02",
+    "2024-12-30",
+    "2025-01-27",
+    "2025-02-24",
+    "2025-03-24",
+    "2025-04-21",
+    "2025-05-19",
+    "2025-06-16"
+   ],
+   "x_label": "cutoff",
+   "y_label": "pp",
+   "series": [
+    {
+     "name": "Actual outcome",
+     "y": [
+      6.460000000000001,
+      6.626666666666667,
+      6.780000000000001,
+      6.413333333333333,
+      6.98,
+      7.526666666666666,
+      7.953333333333333,
+      8.486666666666666,
+      9.086666666666666,
+      9.233333333333333,
+      9.906666666666668,
+      10.059999999999999,
+      9.186666666666667,
+      9.866666666666667
+     ],
+     "source": "actual"
+    },
+    {
+     "name": "Simulation prediction",
+     "y": [
+      5.574368823141488,
+      5.614603794793306,
+      5.788178621015929,
+      6.193848697382766,
+      6.724935434378194,
+      7.173737413439634,
+      7.375081884981653,
+      7.496930006648128,
+      7.585946102831214,
+      7.970760572864879,
+      8.50300856991324,
+      9.262656232936191,
+      9.945044656291964,
+      10.655390968312295
+     ],
+     "source": "baseline",
+     "band": [
+      [
+       4.286333333333333,
+       4.001,
+       4.03,
+       4.176666666666666,
+       4.323999999999999,
+       4.685,
+       5.112666666666666,
+       5.722333333333332,
+       5.908,
+       6.1690000000000005,
+       6.527333333333334,
+       7.1786666666666665,
+       7.779,
+       8.219
+      ],
+      [
+       7.143666666666665,
+       7.714333333333334,
+       8.381,
+       9.293,
+       10.865333333333332,
+       11.036000000000001,
+       10.183666666666666,
+       9.529000000000002,
+       9.533000000000001,
+       10.015333333333334,
+       10.755000000000003,
+       11.583000000000002,
+       12.670333333333334,
+       13.471666666666668
+      ]
+     ]
+    },
+    {
+     "name": "No change",
+     "y": [
+      5.693333333333334,
+      5.326666666666668,
+      5.713333333333335,
+      6.460000000000001,
+      6.626666666666667,
+      6.780000000000001,
+      6.413333333333333,
+      6.98,
+      7.526666666666666,
+      7.953333333333333,
+      8.486666666666666,
+      9.086666666666666,
+      9.233333333333333,
+      9.906666666666668
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Recent average",
+     "y": [
+      5.144444444444444,
+      5.227777777777779,
+      5.396666666666667,
+      5.7188888888888885,
+      6.138888888888889,
+      6.507777777777777,
+      6.681111111111113,
+      6.793333333333333,
+      6.884444444444444,
+      7.193333333333333,
+      7.625555555555555,
+      8.242222222222221,
+      8.794444444444444,
+      9.370000000000003
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Linear trend",
+     "y": [
+      5.7382482052220025,
+      5.694993651004675,
+      5.81590542111583,
+      6.140614624881293,
+      6.452384250896806,
+      6.748397789902626,
+      6.979819253938527,
+      7.17095714936499,
+      7.35872234230097,
+      7.675276798996415,
+      8.024925429316028,
+      8.461383733928239,
+      8.922474822479453,
+      9.400955273123317
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Damped trend",
+     "y": [
+      5.406157725436687,
+      5.469044406061826,
+      5.571005543960642,
+      6.3473752729234585,
+      6.549347775079814,
+      6.933438187176084,
+      6.9804348418224995,
+      6.94805085432303,
+      7.271448634259989,
+      7.946463335672066,
+      8.484229516167858,
+      9.223412169762382,
+      9.937501718296602,
+      10.495120828134397
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Bass diffusion",
+     "y": [
+      5.6625185290606685,
+      5.629811307970719,
+      5.716220949363419,
+      6.022565590634272,
+      6.501546167936076,
+      6.863763499977288,
+      7.13356094547329,
+      7.364271592363179,
+      7.563789934154455,
+      7.966055425867641,
+      8.412140866758541,
+      8.971116148795574,
+      9.569458847347462,
+      10.202250303920968
+     ],
+     "source": "actual",
+     "dashed": true
+    }
+   ],
+   "note": "Averages over the scored groups at each cutoff."
+  },
+  {
+   "id": "error_m3",
+   "type": "line",
+   "title": "Error, 3 months ahead (6 periods), by cutoff",
+   "x": [
+    "2024-06-17",
+    "2024-07-15",
+    "2024-08-12",
+    "2024-09-09",
+    "2024-10-07",
+    "2024-11-04",
+    "2024-12-02",
+    "2024-12-30",
+    "2025-01-27",
+    "2025-02-24",
+    "2025-03-24",
+    "2025-04-21",
+    "2025-05-19",
+    "2025-06-16"
+   ],
+   "x_label": "cutoff",
+   "y_label": "pp",
+   "series": [
+    {
+     "name": "Simulation prediction",
+     "y": [
+      0.9989950196722802,
+      1.0449842305015256,
+      1.0420920773312625,
+      0.7256394354117957,
+      0.7799527580897951,
+      0.8020486962431116,
+      0.6864514904720069,
+      1.0832596516819963,
+      1.500720563835454,
+      1.4296082503021001,
+      1.466553715731773,
+      0.9123242995203137,
+      1.30756150025319,
+      1.1458197799187502
+     ],
+     "source": "baseline"
+    },
+    {
+     "name": "No change",
+     "y": [
+      1.0333333333333332,
+      1.3266666666666667,
+      1.0666666666666667,
+      0.9533333333333335,
+      0.9533333333333338,
+      0.8400000000000003,
+      1.7133333333333334,
+      1.586666666666667,
+      1.5599999999999998,
+      1.4400000000000002,
+      1.4600000000000002,
+      1.2399999999999995,
+      0.8733333333333331,
+      0.6933333333333331
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Recent average",
+     "y": [
+      1.3777777777777778,
+      1.4055555555555552,
+      1.3833333333333333,
+      0.8633333333333333,
+      1.0233333333333343,
+      1.0900000000000003,
+      1.323333333333333,
+      1.72,
+      2.2022222222222223,
+      2.0399999999999996,
+      2.281111111111111,
+      1.8177777777777782,
+      1.1077777777777782,
+      0.8188888888888881
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Linear trend",
+     "y": [
+      0.8822430228481726,
+      0.98728001735595,
+      1.0180462697054269,
+      0.745397910731244,
+      0.8848308847227497,
+      0.9190511084046677,
+      1.014511336049958,
+      1.3385609181452243,
+      1.7279443243656971,
+      1.5788380930840284,
+      1.936735608832816,
+      1.5986162660717618,
+      1.3561110361064053,
+      0.8702972708174782
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Damped trend",
+     "y": [
+      1.2241258461414244,
+      1.217330409137358,
+      1.2093225294276306,
+      0.788835182270038,
+      0.9750670853118806,
+      0.7507556848406963,
+      1.0686229323239775,
+      1.5562345305226648,
+      1.8152180324066773,
+      1.509455198369464,
+      1.4224371504988085,
+      0.9117630345489495,
+      1.144807943106395,
+      1.016645908543678
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Bass diffusion",
+     "y": [
+      0.9338055345443572,
+      1.0478430783695998,
+      1.1032746806528824,
+      0.8410676451567749,
+      0.8322480627648883,
+      0.8676173757670762,
+      0.8742606150308511,
+      1.2526269333574214,
+      1.5228767325122117,
+      1.4853405103551385,
+      1.691722726913259,
+      1.1788018445779171,
+      1.3501127467002794,
+      0.8731208060792951
+     ],
+     "source": "actual",
+     "dashed": true
+    }
+   ],
+   "note": "Lower is better."
+  },
+  {
+   "id": "level_m6",
+   "type": "line",
+   "title": "Outcome, 6 months ahead (13 periods), by cutoff",
+   "x": [
+    "2024-06-17",
+    "2024-07-15",
+    "2024-08-12",
+    "2024-09-09",
+    "2024-10-07",
+    "2024-11-04",
+    "2024-12-02",
+    "2024-12-30",
+    "2025-01-27",
+    "2025-02-24",
+    "2025-03-24"
+   ],
+   "x_label": "cutoff",
+   "y_label": "pp",
+   "series": [
+    {
+     "name": "Actual outcome",
+     "y": [
+      6.72,
+      6.493333333333334,
+      7.4866666666666655,
+      7.806666666666668,
+      8.633333333333335,
+      9.520000000000001,
+      9.839999999999998,
+      10.020000000000001,
+      9.74,
+      10.386666666666668,
+      10.773333333333332
+     ],
+     "source": "actual"
+    },
+    {
+     "name": "Simulation prediction",
+     "y": [
+      5.992184252160418,
+      5.991334986508582,
+      6.172590989561002,
+      6.653024531785865,
+      7.2790972805261065,
+      7.792488709928171,
+      8.027534925240944,
+      8.164849761843982,
+      8.265243887963743,
+      8.717374936215826,
+      9.3451489386053
+     ],
+     "source": "baseline",
+     "band": [
+      [
+       4.6033333333333335,
+       4.312666666666668,
+       4.276666666666666,
+       4.4990000000000006,
+       4.484999999999999,
+       4.702,
+       5.081333333333333,
+       6.093333333333333,
+       6.3856666666666655,
+       6.709999999999999,
+       7.218666666666667
+      ],
+      [
+       7.6579999999999995,
+       8.241333333333332,
+       8.885333333333332,
+       10.067666666666668,
+       12.165000000000001,
+       13.108666666666668,
+       12.062333333333335,
+       10.385666666666667,
+       10.192333333333334,
+       11.014,
+       11.68166666666667
+      ]
+     ]
+    },
+    {
+     "name": "No change",
+     "y": [
+      5.693333333333334,
+      5.326666666666668,
+      5.713333333333335,
+      6.460000000000001,
+      6.626666666666667,
+      6.780000000000001,
+      6.413333333333333,
+      6.98,
+      7.526666666666666,
+      7.953333333333333,
+      8.486666666666666
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Recent average",
+     "y": [
+      5.144444444444444,
+      5.227777777777779,
+      5.396666666666667,
+      5.7188888888888885,
+      6.138888888888889,
+      6.507777777777777,
+      6.681111111111113,
+      6.793333333333333,
+      6.884444444444444,
+      7.193333333333333,
+      7.625555555555555
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Linear trend",
+     "y": [
+      6.048654198484917,
+      5.960326994564578,
+      6.095756965282801,
+      6.494544729344732,
+      6.866578793017516,
+      7.210761306782724,
+      7.467594674250025,
+      7.6714618112309605,
+      7.869881438063244,
+      8.22477672524999,
+      8.61599741576293
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Damped trend",
+     "y": [
+      5.448211378678705,
+      5.519604852819093,
+      5.609794385734658,
+      6.465903528222662,
+      6.659845427574131,
+      7.076581093685546,
+      7.105048392384808,
+      7.048542451726744,
+      7.385181958906031,
+      8.151720914556234,
+      8.703700006736389
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Bass diffusion",
+     "y": [
+      5.823560018438643,
+      5.773904380448668,
+      5.861303972063071,
+      6.257576845790251,
+      6.961558603016281,
+      7.430977762226306,
+      7.758558791816758,
+      8.029691055795139,
+      8.2460742045508,
+      8.746234698549156,
+      9.299648708314782
+     ],
+     "source": "actual",
+     "dashed": true
+    }
+   ],
+   "note": "Averages over the scored groups at each cutoff."
+  },
+  {
+   "id": "error_m6",
+   "type": "line",
+   "title": "Error, 6 months ahead (13 periods), by cutoff",
+   "x": [
+    "2024-06-17",
+    "2024-07-15",
+    "2024-08-12",
+    "2024-09-09",
+    "2024-10-07",
+    "2024-11-04",
+    "2024-12-02",
+    "2024-12-30",
+    "2025-01-27",
+    "2025-02-24",
+    "2025-03-24"
+   ],
+   "x_label": "cutoff",
+   "y_label": "pp",
+   "series": [
+    {
+     "name": "Simulation prediction",
+     "y": [
+      0.9568410899970234,
+      0.7506047108391858,
+      1.3470255883201327,
+      1.1851412315027259,
+      1.5261009416285671,
+      1.8116943317487195,
+      1.8550168647283756,
+      1.8882804010147474,
+      1.6218643675407811,
+      1.8573027016874335,
+      1.5865151234845416
+     ],
+     "source": "baseline"
+    },
+    {
+     "name": "No change",
+     "y": [
+      1.3999999999999997,
+      1.2200000000000004,
+      1.7999999999999998,
+      1.426666666666667,
+      2.006666666666667,
+      2.753333333333334,
+      3.4266666666666667,
+      3.0399999999999996,
+      2.293333333333334,
+      2.4466666666666668,
+      2.353333333333334
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Recent average",
+     "y": [
+      1.5844444444444445,
+      1.2922222222222222,
+      2.0899999999999994,
+      2.087777777777778,
+      2.4944444444444445,
+      3.012222222222222,
+      3.158888888888889,
+      3.2266666666666675,
+      2.855555555555556,
+      3.193333333333333,
+      3.147777777777778
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Linear trend",
+     "y": [
+      1.0267694867054695,
+      0.7228641675365338,
+      1.4294546289200984,
+      1.3485800569800568,
+      1.8020072314305777,
+      2.3228162485256427,
+      2.3724053257499733,
+      2.348538188769039,
+      1.9035702993884962,
+      2.2562853894963344,
+      2.218457868789916
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Damped trend",
+     "y": [
+      1.3957624688859684,
+      1.135146322458352,
+      1.8768722809320084,
+      1.391514082499429,
+      1.9734879057592025,
+      2.4442446358375434,
+      2.734951607615194,
+      2.9714575482732575,
+      2.3548180410939694,
+      2.4454171503428235,
+      2.0780394828612816
+     ],
+     "source": "actual",
+     "dashed": true
+    },
+    {
+     "name": "Bass diffusion",
+     "y": [
+      1.1547253624924159,
+      0.8258491462983547,
+      1.6301914788356082,
+      1.5490898208764154,
+      1.8177869647487175,
+      2.1502838746626587,
+      2.0814412081832425,
+      2.189865844607718,
+      1.7846095121554488,
+      2.0053310411891156,
+      1.8566256813389466
+     ],
+     "source": "actual",
+     "dashed": true
+    }
+   ],
+   "note": "Lower is better."
+  },
+  {
+   "id": "by_group",
+   "type": "hbar",
+   "title": "Error by group, held-out cutoffs",
+   "x": [
+    "Information",
+    "Professional, Scientific, and Technical Services",
+    "Educational Services",
+    "Finance and Insurance",
+    "Real Estate and Rental and Leasing",
+    "Health Care and Social Assistance",
+    "Arts, Entertainment, and Recreation",
+    "Administrative and Support and Waste Management",
+    "Wholesale Trade",
+    "Retail Trade",
+    "Manufacturing",
+    "Other Services (except Public Administration)",
+    "Construction",
+    "Transportation and Warehousing",
+    "Accommodation and Food Services"
+   ],
+   "x_label": "",
+   "y_label": "pp",
+   "series": [
+    {
+     "name": "Simulation prediction",
+     "y": [
+      1.8007321108701186,
+      2.1214635765051773,
+      1.4905542406779686,
+      3.261485009388937,
+      1.8327367983326608,
+      1.5914892223640138,
+      1.4034480056968133,
+      1.3943339558416086,
+      1.1124395831359828,
+      0.917125882092191,
+      1.013861981740173,
+      0.5851389206080727,
+      0.7920417999880117,
+      0.8038024833848532,
+      0.4038247569160568
+     ],
+     "source": "baseline"
+    },
+    {
+     "name": "Best other prediction (Bass diffusion)",
+     "y": [
+      1.8940105358185724,
+      1.8076698418211246,
+      2.010822084276088,
+      3.4945400558553765,
+      2.670293968985731,
+      1.6516842603101292,
+      1.3117521850127236,
+      1.6768575903441676,
+      0.9873203566239895,
+      1.1947630216381897,
+      1.2351364366093824,
+      0.6295563272734781,
+      0.8325649725163163,
+      0.8282192838095854,
+      0.5524612681735445
+     ],
+     "source": "actual"
+    }
+   ],
+   "note": ""
+  }
+ ],
+ "metrics": [
+  {
+   "id": "mae_m3_held_out",
+   "label": "Mean absolute error, 3 months ahead (6 periods) (held-out cutoffs; 150 predictions)",
+   "unit": "pp",
+   "better": "lower",
+   "values": {
+    "actual": null,
+    "baseline": 1.111430070604849,
+    "alternative": null
+   },
+   "intervals": {},
+   "note": "No change: 1.24 \u00b7 Recent average: 1.54 \u00b7 Linear trend: 1.32 \u00b7 Damped trend: 1.22 \u00b7 Bass diffusion: 1.19 \u00b7 best other: Bass diffusion"
+  },
+  {
+   "id": "acc_m3_held_out",
+   "label": "Accuracy, 3 months ahead (6 periods) (held-out cutoffs)",
+   "unit": "%",
+   "better": "higher",
+   "values": {
+    "actual": null,
+    "baseline": 87.41112205763592,
+    "alternative": null
+   },
+   "intervals": {},
+   "note": "No change: 86.0% \u00b7 Recent average: 82.5% \u00b7 Linear trend: 85.0% \u00b7 Damped trend: 86.2% \u00b7 Bass diffusion: 86.5%"
+  },
+  {
+   "id": "mae_m6_held_out",
+   "label": "Mean absolute error, 6 months ahead (13 periods) (held-out cutoffs; 105 predictions)",
+   "unit": "pp",
+   "better": "lower",
+   "values": {
+    "actual": null,
+    "baseline": 1.7352535331190237,
+    "alternative": null
+   },
+   "intervals": {},
+   "note": "No change: 2.62 \u00b7 Recent average: 3.01 \u00b7 Linear trend: 2.17 \u00b7 Damped trend: 2.43 \u00b7 Bass diffusion: 1.98 \u00b7 best other: Bass diffusion"
+  },
+  {
+   "id": "acc_m6_held_out",
+   "label": "Accuracy, 6 months ahead (13 periods) (held-out cutoffs)",
+   "unit": "%",
+   "better": "higher",
+   "values": {
+    "actual": null,
+    "baseline": 82.37383951073836,
+    "alternative": null
+   },
+   "intervals": {},
+   "note": "No change: 73.4% \u00b7 Recent average: 69.4% \u00b7 Linear trend: 77.9% \u00b7 Damped trend: 75.3% \u00b7 Bass diffusion: 79.9%"
+  },
+  {
+   "id": "mae_m3_all",
+   "label": "Mean absolute error, 3 months ahead (6 periods) (all cutoffs; 210 predictions)",
+   "unit": "pp",
+   "better": "lower",
+   "values": {
+    "actual": null,
+    "baseline": 1.066143676354668,
+    "alternative": null
+   },
+   "intervals": {},
+   "note": "No change: 1.20 \u00b7 Recent average: 1.46 \u00b7 Linear trend: 1.20 \u00b7 Damped trend: 1.19 \u00b7 Bass diffusion: 1.13 \u00b7 best other: Bass diffusion"
+  },
+  {
+   "id": "acc_m3_all",
+   "label": "Accuracy, 3 months ahead (6 periods) (all cutoffs)",
+   "unit": "%",
+   "better": "higher",
+   "values": {
+    "actual": null,
+    "baseline": 86.97176770238696,
+    "alternative": null
+   },
+   "intervals": {},
+   "note": "No change: 85.4% \u00b7 Recent average: 82.1% \u00b7 Linear trend: 85.3% \u00b7 Damped trend: 85.5% \u00b7 Bass diffusion: 86.2%"
+  },
+  {
+   "id": "mae_m6_all",
+   "label": "Mean absolute error, 6 months ahead (13 periods) (all cutoffs; 165 predictions)",
+   "unit": "pp",
+   "better": "lower",
+   "values": {
+    "actual": null,
+    "baseline": 1.4896715774992941,
+    "alternative": null
+   },
+   "intervals": {},
+   "note": "No change: 2.20 \u00b7 Recent average: 2.56 \u00b7 Linear trend: 1.80 \u00b7 Damped trend: 2.07 \u00b7 Bass diffusion: 1.73 \u00b7 best other: Bass diffusion"
+  },
+  {
+   "id": "acc_m6_all",
+   "label": "Accuracy, 6 months ahead (13 periods) (all cutoffs)",
+   "unit": "%",
+   "better": "higher",
+   "values": {
+    "actual": null,
+    "baseline": 83.17964755441159,
+    "alternative": null
+   },
+   "intervals": {},
+   "note": "No change: 75.2% \u00b7 Recent average: 71.1% \u00b7 Linear trend: 79.7% \u00b7 Damped trend: 76.6% \u00b7 Bass diffusion: 80.4%"
+  },
+  {
+   "id": "alt_end_level",
+   "label": "Outcome at the end of the horizon (simulated)",
+   "unit": "pp",
+   "better": "",
+   "values": {
+    "actual": null,
+    "baseline": 11.44892772583956,
+    "alternative": 11.619191688043372
+   },
+   "intervals": {},
+   "note": "Simulated only; matching cutoffs and seeds."
+  }
+ ]
+}

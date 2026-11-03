@@ -1,0 +1,51 @@
+{
+ "title": "AI token demand and spend on OpenRouter",
+ "subtitle": "1,600 company predictions, 8 weeks ahead",
+ "generated": "2026-11-01T22:04:22+00:00",
+ "takeaways": [
+  "Across 16 cutoffs and 1,600 company predictions, the simulation's error in each company's 8-week tokens was 43.6%, higher than the best standard forecast (Damped trend, 42.1%).",
+  "The median company's error was 33.7% for the simulation and 35.5% for the best standard forecast.",
+  "Error in each company's 8-week spend at list prices was 36.8% against 41.6% for the best standard forecast.",
+  "The simulation's 90% range contained the actual 8-week tokens of 87.2% of companies; the standard forecasts give no range.",
+  "For all tokens on OpenRouter over 8 weeks, the simulation's mean absolute error was 40.6 trillion against 45.5 trillion for the best standard forecast.",
+  "Alternative (Coding leader at 2x price): the coding companies' simulated 8-week spend changes from $109.64M to $114.42M (+4%)."
+ ],
+ "sections": [
+  {
+   "heading": "What was predicted",
+   "body": "At each of 16 Monday cutoffs from 2025-07-07 to 2026-08-31, the simulation took the 100 apps with the most tokens in the previous four weeks and predicted each one's tokens and spend for the next 8 weeks. Every parameter comes from weeks before the cutoff. After the cutoff the simulation is given only the published list prices and the dates new models were listed. 19.1% of company-weeks after a cutoff fall outside OpenRouter's top 200 and are recorded at half the 200th app's volume, on both the actual and the predicted side.",
+   "charts": [
+    "company_scatter"
+   ],
+   "metrics": []
+  },
+  {
+   "heading": "Accuracy against standard forecasts",
+   "body": "| Measure | Simulation | No change | Recent trend | Market growth | Damped trend |\n|---|---:|---:|---:|---:|---:|\n| Error in each company's 8-week tokens (token-weighted) | 43.6% | 45.1% | 65.8% | 53.1% | 42.1% |\n| Error in each company's 8-week spend (spend-weighted) | 36.8% | 41.6% | 73.4% | 55.1% | 44.2% |\n| Median company's error | 33.7% | 35.5% | 59.6% | 53.8% | 39.0% |\n| Growth or decline called correctly | 68.8% | 64.9% | 65.4% | 61.2% | 69.8% |\n\nThe simulation had the lowest token error of all four methods at 5 of 16 cutoffs.",
+   "charts": [
+    "error_by_cutoff"
+   ],
+   "metrics": []
+  },
+  {
+   "heading": "Why the companies are hard to predict",
+   "body": "Many of the leading apps in a given month are one-off jobs (evaluation runs, data pipelines, test agents) that rank for a week or two and disappear. The simulation gives each company a persistence class from the weeks before the cutoff and learns from earlier cutoffs how often each class stays ranked. Steady products carry most of the volume, and for them the last four weeks remain a strong guide.",
+   "charts": [],
+   "metrics": []
+  },
+  {
+   "heading": "Alternative: Coding leader at 2x price",
+   "body": "The most used paid model in the programming segment at the cutoff doubles its list price for the whole horizon. Coding workloads may move to other models; every company's tokens and spend are re-simulated with the same seeds. In the simulation the repriced model's share of programming tokens in the final week moves from 17.9% to 15.6%, and the coding companies' 8-week spend at list prices from $109.64M to $114.42M. This is a simulated alternative, not an observed price change.",
+   "charts": [
+    "alt_mix"
+   ],
+   "metrics": []
+  }
+ ],
+ "charts": [],
+ "metrics": [],
+ "data": {
+  "weeks": 95,
+  "apps": 2726
+ }
+}

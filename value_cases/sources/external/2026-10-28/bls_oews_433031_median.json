@@ -1,0 +1,4 @@
+{"status":"REQUEST_SUCCEEDED","responseTime":77,"message":["No Data Available for Series OEUN000000000000043303113 Year: 2023","No Data Available for Series OEUN000000000000043303113 Year: 2024"],"Results":{
+"series":
+[{"seriesID":"OEUN000000000000043303113","data":[{"year":"2025","period":"A01","periodName":"Annual","latest":"true","value":"50670","footnotes":[{}]}]}]
+}}

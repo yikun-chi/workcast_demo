@@ -1,0 +1,51 @@
+# Scored once, after the design was frozen in docs/plans/ctrip_protocol.md. Comparison rules use 2010 data only.
+kind: experiment
+reference: data/normalized/reference_outcomes.json
+t0: '2010-12-06'
+design: "Predict both groups' weekly output and quits over the experiment from each employee's 2010 record and sourced priors; average 50 runs, with ranges covering 90% of runs."
+scenario: evaluation
+seeds: {start: 1, count: 50}
+arms: {'0': Office, '1': Home}
+comparator_order: [no_change, seasonal, trend, literature]
+metrics:
+  - {id: calls_effect_pct, label: "Effect of working at home on weekly calls answered", kind: did_pct, measure: log_calls, unit: "%", better: higher, headline: true,
+     note: "Order takers. Home group's change from 2010 minus the office group's change, in percent."}
+  - {id: attrition_effect_pp, label: "Effect of working at home on quits", kind: attrition_effect, unit: pp, better: lower, headline: true,
+     note: "Share of the home group who quit by the end of the experiment minus the office group's share."}
+  - {id: perf_effect, label: "Effect of working at home on the overall performance score", kind: did, measure: perform1, unit: SD, better: higher,
+     note: "Home group's change from 2010 minus the office group's change, in standard deviations of the score."}
+  - {id: calls_home, label: "Weekly calls per order taker, home group", kind: level, measure: calls, arm: '1', unit: calls, better: higher}
+  - {id: calls_office, label: "Weekly calls per order taker, office group", kind: level, measure: calls, arm: '0', unit: calls, better: higher}
+  - {id: attrition_home, label: "Quit by the end of the experiment, home group", kind: attrition_level, arm: '1', unit: "%", better: lower}
+  - {id: attrition_office, label: "Quit by the end of the experiment, office group", kind: attrition_level, arm: '0', unit: "%", better: lower}
+  - {id: perf_home, label: "Overall performance score, home group", kind: level, measure: perform1, arm: '1', unit: SD, better: higher, accuracy: false}
+  - {id: perf_office, label: "Overall performance score, office group", kind: level, measure: perform1, arm: '0', unit: SD, better: higher, accuracy: false}
+whatif:
+  scenarios: [two_days_home]
+  seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+charts:
+  - {id: weekly_calls, type: measure_weekly, measure: calls, title: "Weekly calls per order taker during the experiment", y_label: calls,
+     note: "Bands: middle 90% of simulation runs. The actual series is the deposit's weekly calls (weeks with more than 20 calls)."}
+  - {id: cumulative_attrition, type: cumulative_attrition, title: "Share who quit during the experiment", note: "Bands: middle 90% of simulation runs."}
+  - {id: weekly_performance, type: measure_weekly, measure: perform1, title: "Overall performance score during the experiment", y_label: "z-score"}
+value_inputs:
+  metrics: [calls_effect_pct, attrition_effect_pp, perf_effect, calls_home, attrition_home, attrition_office]
+  extra:
+    "employees in the experiment, home group": "population.n.1"
+    "employees in the experiment, office group": "population.n.0"
+story:
+  design: "Ctrip randomly sent {n_home} of {n_total} volunteer call-centre employees home {days_per_week} days a week from 6 December 2010; the other {n_office} stayed in the office. The actual outcomes are the following weeks to 19 August 2011. The difference between the two groups' changes from their 2010 averages measures the impact of working at home."
+  before_label: "Before the experiment"
+  before_sublabel: "2010, weeks 1-48 (actual data)"
+  change_label: "{days_per_week} days a week at home"
+  change_description: "Half the volunteers, chosen by an even or odd birthday, worked from home four days a week; the rest stayed in the office."
+  after_label: "During the experiment"
+  after_sublabel: "Weeks 50 of 2010 to 33 of 2011"
+  chart: weekly_calls
+  hero_kicker: "Simulation compared with the randomized experiment"
+  claim: "The simulation uses each employee's 2010 record and assumptions from research published before the results. Outcomes after 6 December 2010 are used only to check accuracy. The comparison is retrospective: the design was chosen by people who knew the published result."
+  comparator_sources:
+    - {label: "Gajendran & Harrison 2007", url: "https://doi.org/10.1037/0021-9010.92.6.1524"}
+    - {label: "Griffeth, Hom & Gaertner 2000", url: "https://doi.org/10.1177/014920630002600305"}
+  alternative_metrics: [calls_effect_pct, attrition_effect_pp]
+  alternative_text: "Two home days a week instead of four, scaled by the sourced share of the four-day effect that two days carry."

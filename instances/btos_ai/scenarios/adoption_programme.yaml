@@ -1,0 +1,11 @@
+id: adoption_programme
+title: What if an adoption programme had doubled manufacturing and retail firms' hazard of starting to use AI?
+short_title: Adoption programme in manufacturing and retail
+summary: "Non-using firms in manufacturing and retail trade start using AI at twice the simulated hazard from the cutoff; same cutoffs and seeds."
+description: >
+  A programme (training, subsidised tools) doubles the probability that a non-using manufacturing or retail firm
+  starts using AI in each period. Every other sector, and the firms that already use AI, behave as in the simulation of
+  what happened. The size of the effect is authored, not estimated.
+extends: baseline
+interventions:
+  - {type: adoption_hazard_multiplier, groups: ["31", "44"], multiplier: 2.0}

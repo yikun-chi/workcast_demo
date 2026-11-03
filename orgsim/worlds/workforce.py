@@ -27,11 +27,30 @@ baseline satisfaction, baseline quit hazard), a text profile built from those tr
 states with inertia, and team context (team means, share of teammates offered the policy). Seat policies receive the
 profile, trait baselines and last week's states in Observation.context, so an LLM seat reasons from the same twin the
 rule seat draws from. `twins.json` in every run folder lists every twin with traits, final states and outcomes.
+
+Optional blocks, each inert when absent:
+
+  dynamics `constants:`  scalars fitted on the training window, read from a calibration file: {name: {file, path}}
+  dynamics `series:`     exogenous weekly or monthly values read from a calibration file and offered to expressions
+                         as scalars: {name: {file, path, key: year_week|month_of_year|year_month, default}}
+  dynamics `measures:`   weekly per-agent measurements of output (for example calls answered, a performance score):
+                         {name: {expr, mask?}}; recorded with the measurement random stream, so they never move behaviour
+  population `headcount` cohort twins: each row stands for `headcount` identical employees. Separation hazards are
+                         applied to the remaining headcount as binomial draws (the rule seat's draw in aggregate);
+                         several competing `hazards` may be declared, with `monthly:` rates converted to each step
+  scenario `events:`     {name: {start, end?}} dated switches offered to expressions as `name` (0/1) and `name_weeks`
+  scenario `offers:`     [{id, decide, effective, who?}] with dynamics `offers: {id: {accept: expr}}`: on the decision
+                         date a share of each twin accepts, leaves the risk set, and separates on the effective date
+  scenario `count_by`    a population column; separations are counted per value of it and per calendar month
+  scenario `stock`       depleting (default: leavers are gone) or constant (leavers are replaced, offer acceptors are not)
+  scenario `population_file`  the population table under data/normalized (default population.parquet)
+Population columns named `<name>_mMM` are also available as `<name>` during calendar month MM.
 """
 from __future__ import annotations
 
 from ..scenarios.assistance import assistance_by_activity
 
+import importlib
 import json
 import math
 from datetime import date, datetime, timedelta, timezone
@@ -49,6 +68,9 @@ from ..kernel.world import Agent, BaseWorld, RunSummary
 from ..policies import Action, Observation, load_registry
 from ..store.runs import RunWriter
 from ..store.trace import TRACE_COLUMNS
+
+# Protocols with a `kind` are scored by their own module; without one, the experiment-arm scoring below applies.
+KIND_MODULES = {"experiment": "orgsim.worlds.workforce_experiment", "forecast": "orgsim.worlds.workforce_forecast"}
 
 DAY_INDEX = {"mon": 0, "tue": 1, "wed": 2, "thu": 3, "fri": 4, "sat": 5, "sun": 6}
 DAY_NAMES = {0: "Mon", 1: "Tue", 2: "Wed", 3: "Thu", 4: "Fri", 5: "Sat", 6: "Sun"}
@@ -91,6 +113,23 @@ def _rnd(x: Any, nd: int = 3) -> Any:
     return None if v is None else round(v, nd)
 
 
+def year_week(d: date) -> int:
+    """Week key yyyyww with week 1 starting on 1 January and week 52 absorbing the last one or two days of the year."""
+    return d.year * 100 + min((d.timetuple().tm_yday - 1) // 7 + 1, 52)
+
+
+def year_month(d: date) -> str:
+    return f"{d.year:04d}-{d.month:02d}"
+
+
+def _load_series(ctx: InstanceContext, spec: dict[str, Any]) -> dict[str, float]:
+    """An exogenous series {key: value} from a calibration file (`path` is a dotted path inside the JSON)."""
+    p = ctx.root / str(spec["file"])
+    data = json.loads(p.read_text()) if p.exists() else {}
+    node = _dig(data, str(spec["path"])) if spec.get("path") else data
+    return {str(k): float(v) for k, v in (node or {}).items() if _fnum(v) is not None}
+
+
 def ordinal_review(prior: np.ndarray, rho: float, shift: np.ndarray, rng: np.random.Generator) -> np.ndarray:
     """Ordinal rating transition preserving the observed pre-policy grade mix.
 
@@ -124,6 +163,7 @@ class _Namespace:
             "logit": lambda p: np.log(np.asarray(p, dtype=float) / (1.0 - np.asarray(p, dtype=float))),
             "normal": lambda sd, mu=0.0: rng.normal(mu, sd, n), "uniform": lambda: rng.random(n), "pi": math.pi,
             "ordinal_review": lambda prior, rho, shift: ordinal_review(prior, rho, shift, rng),
+            "ndtr": ndtr, "ndtri": ndtri,
         }
 
     def eval(self, expr: Any, arrays: dict[str, Any]) -> np.ndarray:
@@ -183,7 +223,7 @@ class World(BaseWorld):
         # Trace sampling and observed survey noise must not move behavioral draws.
         self.trace_rng = np.random.default_rng(np.random.SeedSequence([seed, 1]))
         self.measure_rng = np.random.default_rng(np.random.SeedSequence([seed, 2]))
-        self.pop = pd.read_parquet(ctx.data_normalized / "population.parquet").reset_index(drop=True)
+        self.pop = pd.read_parquet(ctx.data_normalized / str(w.get("population_file", "population.parquet"))).reset_index(drop=True)
         self.n = len(self.pop)
         self.bindings = ctx.yaml("ontology/bindings.yaml")
         self.dyn = ctx.yaml("calibration/dynamics.yaml")
@@ -206,6 +246,9 @@ class World(BaseWorld):
         self.arms = self.pop[self.arm_field].astype(int).to_numpy() if self.arm_field in self.pop else np.zeros(self.n, dtype=int)
         self.breakdowns = [b for b in (w.get("breakdowns") or []) if b in self.pop.columns]
         self.cov = self._covariates()
+        for name, spec in (self.dyn.get("constants") or {}).items():      # scalars fitted on the training window (calibration files)
+            data = json.loads((ctx.root / str(spec["file"])).read_text())
+            self.cov[str(name)] = float(_dig(data, str(spec["path"])))
         for name, expr in (self.dyn.get("derived") or {}).items():
             self.cov[name] = self.ns.eval(expr, {**self.cov, **self.params})
         for i, row in enumerate(self.pop.itertuples(index=False)):
@@ -290,6 +333,37 @@ class World(BaseWorld):
         if self.review_date:
             self.scheduler.schedule(datetime.combine(self.review_date, datetime.min.time()) + timedelta(hours=17), "review", date=self.review_date)
 
+        # --- optional blocks (inert when absent; see the module docstring) ---
+        self.cohort = "headcount" in self.pop.columns
+        self.headcount0 = self.pop["headcount"].to_numpy(dtype=float) if self.cohort else np.ones(self.n)
+        self.alive = self.headcount0.copy()
+        self.expected_alive = self.headcount0.copy()           # the same population on the expected (central) path
+        self.series = {name: (_load_series(ctx, spec), spec) for name, spec in (self.dyn.get("series") or {}).items()}
+        self.events = {str(k): (_d(v["start"]), _d(v["end"]) if v.get("end") else None) for k, v in (w.get("events") or {}).items()}
+        self.offers = []
+        for o in w.get("offers") or []:
+            if not self.cohort:
+                raise ValueError("workforce world: offers need cohort twins (a `headcount` column)")
+            if str(o["id"]) not in (self.dyn.get("offers") or {}):
+                raise ValueError(f"workforce world: offer {o['id']!r} has no acceptance expression in dynamics.yaml")
+            self.offers.append({"id": str(o["id"]), "decide": _d(o["decide"]), "effective": _d(o["effective"]),
+                                "who": self._who(o.get("who", "all")), "done": False})
+        self.pending = {o["id"]: np.zeros(self.n) for o in self.offers}            # accepted, not yet separated
+        self.pending_exp = {o["id"]: np.zeros(self.n) for o in self.offers}
+        self.measures = {str(k): (v if isinstance(v, dict) else {"expr": v}) for k, v in (self.dyn.get("measures") or {}).items()}
+        self.measure_acc: dict[str, dict[str, Any]] = {k: {"sum": {}, "n": {}, "weekly": []} for k in self.measures}
+        self.count_by = str(w["count_by"]) if w.get("count_by") else None
+        if self.count_by:
+            codes, labels = pd.factorize(self.pop[self.count_by].astype(str), sort=True)
+            self.group_codes, self.group_labels = codes, [str(x) for x in labels]
+        self.sep_counts: dict[tuple[str, str], dict[str, np.ndarray]] = {}       # (month, type) -> {expected, realized} per group
+        self.last_step = _d(w["start"]) - timedelta(days=1)
+        self.stock = str(w.get("stock", "depleting"))          # constant: leavers are replaced (offer acceptors are not)
+        if self.stock not in ("depleting", "constant"):
+            raise ValueError(f"workforce world: stock must be depleting or constant, not {self.stock!r}")
+        self.accepted = np.zeros(self.n); self.accepted_exp = np.zeros(self.n)
+        self.month_cols = sorted({c[:-4] for c in self.pop.columns if len(c) > 4 and c[-4:-2] == "_m" and c[-2:].isdigit()})
+
     # ------------------------------------------------------------------ configuration helpers
     def _covariates(self) -> dict[str, np.ndarray]:
         fills = self.dyn.get("covariates") or {}
@@ -349,7 +423,7 @@ class World(BaseWorld):
 
     def _trait_table(self) -> dict[str, np.ndarray]:
         """Per-person trait layer: derived variables computed once per run (dynamics.yaml `derived`) that stay fixed."""
-        return {k: np.asarray(self.cov[k], dtype=float) for k in self.TRAIT_KEYS if k in self.cov}
+        return {k: np.broadcast_to(np.asarray(self.cov[k], dtype=float), (self.n,)) for k in self.TRAIT_KEYS if k in self.cov}
 
     def _profiles(self) -> list[str]:
         """Text persona per agent, built deterministically from real covariates and the trait layer (no model call).
@@ -391,7 +465,9 @@ class World(BaseWorld):
 
     def _twins_table(self) -> list[dict[str, Any]]:
         rows = []
-        for i in range(self.n):
+        k = int(self.w.get("twins_sample") or 0)
+        which = np.sort(self.trace_rng.choice(self.n, size=k, replace=False)) if 0 < k < self.n else range(self.n)
+        for i in which:
             rows.append({"agent_id": self.ids[i], "role": self.roles[i], "org_unit": self.units[i], "team_id": self.teams[i], "arm": int(self.arms[i]), "seat": self.seats[i],
                          "profile": self.profiles[i], "traits": {k: _rnd(v[i], 4) for k, v in self.traits.items()},
                          "offered": bool(self.offer_mask[i]), "eligible_days": int(self.eligible_total[i]), "wfh_days": int(self.wfh_total[i]),
@@ -569,19 +645,28 @@ class World(BaseWorld):
                 tm[~active] = self.states[s][~active]
                 env[f"team_mean_{s}"] = tm
         self._team_env = {k: v for k, v in env.items() if k in ("team_size", "team_share_offered", "team_mean_job_satisfaction")}
+        env.update(self._calendar_env(day))
         ns = {**self.cov, **self.params, **env}
+        for name in self.month_cols:
+            ns[name] = self.cov[f"{name}_m{day.month:02d}"]
         for name, spec in (self.dyn.get("states") or {}).items():
             ns[name] = self.states[name]
             if spec and spec.get("weekly"):
                 new = self.ns.eval(spec["weekly"], ns)
                 self.states[name] = np.where(active, new, self.states[name])
                 ns[name] = self.states[name]
+        if self.measures:
+            self._measure(day, ns, active)
         quit_spec = (self.dyn.get("hazards") or {}).get("quit") or {}
-        if quit_spec.get("weekly"):
+        when = day_start + timedelta(hours=WORK_HOURS[1])
+        if self.cohort:
+            self._cohort_step(day, ns, when)
+            quit_spec = {}
+        elif quit_spec.get("weekly"):
             self.hazard = np.clip(self.ns.eval(quit_spec["weekly"], ns), 0.0, 1.0)
             self.expected_quits += np.where(active, self.hazard, 0.0)
+        self.last_step = day
         idx = np.flatnonzero(active)
-        when = day_start + timedelta(hours=WORK_HOURS[1])
         if len(idx) and quit_spec.get("weekly"):
             h = self.hazard
             def options(i: int) -> list[dict]:
@@ -601,7 +686,7 @@ class World(BaseWorld):
                                      **{s: round(float(self.states[s][i]), 2) for s in self.reported}}) for i, a in zip(qidx, [a for a in acts if a.kind == "quit"])]
                 self._rows(np.full(len(qidx), self.clock.tick + WORK_HOURS[1]), when, qidx, "quit", "decide", 0.0, attrs)
         # weekly state snapshot for agents still active (plus those who just quit, final state)
-        sidx = idx
+        sidx = idx if not self.cohort else idx[:0]       # cohort twins: separations are logged per group and month instead
         if len(sidx):
             cols = {s: np.round(self.states[s][sidx], 3) for s in self.reported}
             cols["exposure"] = np.round(self.states.get("exposure", np.zeros(self.n))[sidx], 3)
@@ -614,11 +699,125 @@ class World(BaseWorld):
         rec = {"week": self.week, "week_end": day.isoformat()}
         for arm in np.unique(self.arms):
             m = self.arms == arm
-            rec[str(arm)] = {"n": int(m.sum()), "quit_cum": int((~self.active[m]).sum()),
+            n_arm = float(self.headcount0[m].sum()) if self.cohort else int(m.sum())
+            gone = float((self.headcount0[m] - self.alive[m]).sum()) if self.cohort else int((~self.active[m]).sum())
+            rec[str(arm)] = {"n": n_arm, "quit_cum": gone,
                              **{s: _rnd(float(self.states[s][m & self.active].mean()) if (m & self.active).any() else np.nan) for s in self.reported},
                              "exposure": _rnd(float(self.states.get("exposure", np.zeros(self.n))[m & self.active].mean()) if (m & self.active).any() else np.nan)}
         self.weekly_log.append(rec)
         self.eligible_week[:] = 0; self.wfh_week[:] = 0; self.office_week[:] = 0; self.workdays_week[:] = 0
+
+    # ------------------------------------------------------------------ optional blocks: calendar, measures, cohort twins
+    def _calendar_env(self, day: date) -> dict[str, Any]:
+        env: dict[str, Any] = {"year_week": float(year_week(day)), "month": float(day.month)}
+        for name, (start, end) in self.events.items():
+            on = start <= day and (end is None or day <= end)
+            env[name] = 1.0 if on else 0.0
+            env[f"{name}_weeks"] = float(max(0, (day - start).days) / 7.0) if on else 0.0
+        for name, (values, spec) in self.series.items():
+            key = {"year_week": str(year_week(day)), "month_of_year": str(day.month), "year_month": year_month(day)}[str(spec.get("key", "year_week"))]
+            env[name] = float(values.get(key, spec.get("default", 0.0)))
+        return env
+
+    def _measure(self, day: date, ns: dict[str, Any], active: np.ndarray) -> None:
+        """Weekly per-agent measurements (output, performance) for agents active this week, by arm."""
+        key = year_week(day)
+        for name, spec in self.measures.items():
+            vals = self.measure_ns.eval(spec["expr"], ns)
+            m = active & np.isfinite(vals)
+            if spec.get("mask"):
+                m &= self.measure_ns.eval(spec["mask"], ns) > 0
+            acc = self.measure_acc[name]
+            wk: dict[str, Any] = {"key": key}
+            for arm in np.unique(self.arms):
+                a = m & (self.arms == arm)
+                s, c = float(vals[a].sum()), int(a.sum())
+                acc["sum"][str(arm)] = acc["sum"].get(str(arm), 0.0) + s
+                acc["n"][str(arm)] = acc["n"].get(str(arm), 0) + c
+                wk[str(arm)] = [s, c]
+            acc["weekly"].append(wk)
+
+    def _count(self, kind: str, days: list[date], expected: np.ndarray, realized: np.ndarray) -> None:
+        """Separations of one kind over the days of a step, split over calendar months in proportion to days."""
+        codes = self.group_codes if self.count_by else np.zeros(self.n, dtype=int)
+        ng = len(self.group_labels) if self.count_by else 1
+        e = np.bincount(codes, weights=expected, minlength=ng)
+        r = np.bincount(codes, weights=realized, minlength=ng)
+        months = pd.Series([year_month(d) for d in days]).value_counts()
+        for mo, k in months.items():
+            slot = self.sep_counts.setdefault((str(mo), kind), {"expected": np.zeros(ng), "realized": np.zeros(ng)})
+            slot["expected"] += e * k / len(days)
+            slot["realized"] += r * k / len(days)
+
+    def _cohort_step(self, day: date, ns: dict[str, Any], when: datetime) -> None:
+        """Cohort twins: offers decided this step, offers taking effect, then competing separation hazards on the rest."""
+        days = [self.last_step + timedelta(days=i) for i in range(1, (day - self.last_step).days + 1)]
+        ndays = len(days)
+        for o in self.offers:
+            if not o["done"] and o["decide"] <= day:
+                p = np.clip(np.nan_to_num(self.ns.eval(self.dyn["offers"][o["id"]]["accept"], ns)), 0.0, 1.0) * o["who"]
+                acc_e = self.expected_alive * p
+                acc_r = self.rng.binomial(self.alive.astype(np.int64), p).astype(float)
+                self.expected_alive -= acc_e; self.alive -= acc_r
+                self.accepted_exp += acc_e; self.accepted += acc_r
+                self.pending_exp[o["id"]] += acc_e; self.pending[o["id"]] += acc_r
+                o["done"] = True
+                self._aggregate_rows(f"{o['id']}_accepted", acc_e, acc_r, when)
+            if o["done"] and self.last_step < o["effective"] <= day:
+                self._count(o["id"], [o["effective"]], self.pending_exp[o["id"]], self.pending[o["id"]])
+                self._aggregate_rows(o["id"], self.pending_exp[o["id"]], self.pending[o["id"]], when)
+                self.expected_quits += self.pending_exp[o["id"]]
+                self.pending_exp[o["id"]] = np.zeros(self.n); self.pending[o["id"]] = np.zeros(self.n)
+        probs: dict[str, np.ndarray] = {}
+        for name, spec in (self.dyn.get("hazards") or {}).items():
+            if spec.get("monthly"):
+                rate = np.clip(np.nan_to_num(self.ns.eval(spec["monthly"], ns)), 0.0, 1.0)
+                probs[name] = 1.0 - (1.0 - rate) ** (ndays / 30.4375)
+            elif spec.get("weekly"):
+                rate = np.clip(np.nan_to_num(self.ns.eval(spec["weekly"], ns)), 0.0, 1.0)
+                probs[name] = 1.0 - (1.0 - rate) ** (ndays / 7.0)
+        if not probs:
+            return
+        total = 1.0 - np.prod([1.0 - p for p in probs.values()], axis=0)
+        share = np.sum(list(probs.values()), axis=0)
+        self.hazard = total
+        if self.stock == "constant":           # replacement hiring holds each twin at its starting size, less offer acceptors
+            self.alive = np.maximum(self.headcount0 - self.accepted, 0.0)
+            self.expected_alive = np.maximum(self.headcount0 - self.accepted_exp, 0.0)
+        remaining = self.alive.astype(np.int64)
+        expected_at_start = self.expected_alive.copy()
+        left_prob = np.ones(self.n)
+        for name, p in probs.items():
+            q = np.where(share > 0, total * p / np.maximum(share, 1e-300), 0.0)
+            # q is an unconditional competing-risk probability on the population
+            # at the start of this step; only realized draws use conditional q.
+            exp_k = expected_at_start * q
+            cond = np.clip(np.where(left_prob > 0, q / np.maximum(left_prob, 1e-300), 0.0), 0.0, 1.0)
+            real_k = self.rng.binomial(remaining, cond)
+            remaining = remaining - real_k
+            left_prob = np.clip(left_prob - q, 0.0, 1.0)
+            self._count(name, days, exp_k, real_k.astype(float))
+            self._aggregate_rows(name, exp_k, real_k.astype(float), when)
+            self.expected_quits += exp_k
+            self.decisions["quit"] += int(real_k.sum())
+        self.expected_alive = expected_at_start * (1.0 - total)
+        self.alive = remaining.astype(float)
+        self.active = self.alive > 0
+        self.quit_week[(self.quit_week < 0) & ~self.active] = self.week
+
+    def _aggregate_rows(self, kind: str, expected: np.ndarray, realized: np.ndarray, when: datetime) -> None:
+        """One trace row per group for a cohort separation step (the cohort analogue of per-person decide rows)."""
+        codes = self.group_codes if self.count_by else np.zeros(self.n, dtype=int)
+        labels = self.group_labels if self.count_by else ["all"]
+        e = np.bincount(codes, weights=expected, minlength=len(labels)); r = np.bincount(codes, weights=realized, minlength=len(labels))
+        keep = np.flatnonzero((e > 0) | (r > 0))
+        if not len(keep):
+            return
+        df = pd.DataFrame({"tick": np.int32(self.clock.tick + WORK_HOURS[1]), "sim_time": when, "agent_id": [labels[i] for i in keep], "role": "cohort",
+                           "org_unit": [labels[i] for i in keep], "case_id": "", "activity": kind, "action_type": "decide", "duration_h": np.float32(0.0),
+                           "wait_h": np.float32(0.0), "provenance": "simulated",
+                           "attributes": [json.dumps({"expected": round(float(e[i]), 3), "realized": int(round(r[i]))}) for i in keep]}, columns=TRACE_COLUMNS)
+        self._buf.append(df); self._n_events += len(df)
 
     def _survey(self, day: date, day_start: datetime) -> None:
         active = self.active
@@ -728,6 +927,28 @@ class World(BaseWorld):
             cum[arm] = [_rnd(100.0 * r[arm]["quit_cum"] / r[arm]["n"], 3) for r in self.weekly_log]
             cum[f"{arm}_states"] = {s: [r[arm].get(s) for r in self.weekly_log] for s in self.reported + ["exposure"]}
         m["cumulative_attrition_pct"] = cum
+        if self.measures:
+            m["measures"] = {}
+            for name, acc in self.measure_acc.items():
+                means = {a: _rnd(acc["sum"][a] / acc["n"][a], 5) if acc["n"].get(a) else None for a in acc["sum"]}
+                weekly = {"keys": [w["key"] for w in acc["weekly"]]}
+                for a in acc["sum"]:
+                    weekly[a] = [_rnd(w[a][0] / w[a][1], 5) if w.get(a) and w[a][1] else None for w in acc["weekly"]]
+                    weekly[f"n_{a}"] = [w[a][1] if w.get(a) else 0 for w in acc["weekly"]]
+                entry = {**means, "n": dict(acc["n"])}
+                if means.get("0") is not None and means.get("1") is not None:
+                    entry["itt"] = round(means["1"] - means["0"], 5)
+                m["measures"][name] = {"all": entry, "weekly": weekly}
+        if self.cohort:
+            labels = self.group_labels if self.count_by else ["all"]
+            months = sorted({k[0] for k in self.sep_counts}); kinds = sorted({k[1] for k in self.sep_counts})
+            def table(which: str) -> dict[str, dict[str, list[float]]]:
+                return {k: {mo: [round(float(x), 3) for x in self.sep_counts[(mo, k)][which]] for mo in months if (mo, k) in self.sep_counts} for k in kinds}
+            codes = self.group_codes if self.count_by else np.zeros(self.n, dtype=int)
+            m["separations"] = {"by": self.count_by or "all", "groups": labels, "months": months, "kinds": kinds,
+                                "expected": table("expected"), "realized": table("realized"),
+                                "headcount_start": [round(float(x), 1) for x in np.bincount(codes, weights=self.headcount0, minlength=len(labels))],
+                                "pending_at_end": {o: round(float(v.sum()), 2) for o, v in self.pending_exp.items()}}
         return m
 
     def _headline(self) -> dict[str, Any]:
@@ -840,6 +1061,8 @@ def evaluate(ctx: InstanceContext, scenario_ids: list[str]) -> dict[str, Any]:
     """Score the baseline prediction against reference outcomes and compare what-if scenarios. Writes runs/<id>/evaluation.json."""
     from ..scenarios.loader import load_scenario
     proto = ctx.yaml("evaluation/protocol.yaml")
+    if proto.get("kind") in KIND_MODULES:
+        return importlib.import_module(KIND_MODULES[proto["kind"]]).evaluate(ctx, scenario_ids)
     ref_path = ctx.root / str(proto.get("reference", "data/normalized/reference_outcomes.json"))
     ref = json.loads(ref_path.read_text()) if ref_path.exists() else {}
     arms = {str(k): str(v) for k, v in (proto.get("arms") or {"0": "Office-only", "1": "Offered hybrid work"}).items()}
@@ -1049,6 +1272,9 @@ def results_view(ctx: InstanceContext) -> dict[str, Any]:
     """Actual outcome, baseline prediction and the alternative scenario side by side. Levels are whole-workforce where the
     alternative removes the treatment/control contrast; the treatment-effect validation keeps the arm contrast."""
     from ..evaluation.results import base_document, dig, interval_of, mean_of, run_docs, series_mean
+    kind = ctx.yaml("evaluation/protocol.yaml").get("kind")
+    if kind in KIND_MODULES:
+        return importlib.import_module(KIND_MODULES[kind]).results_view(ctx)
     doc = base_document(ctx)
     ev_path = ctx.runs_dir / "evaluation.json"
     ev = json.loads(ev_path.read_text()) if ev_path.exists() else {}

@@ -1,4 +1,5 @@
 id: trip
+order: 10
 title: Hybrid work-from-home policy experiment (Trip.com, Nature 2024)
 company: Trip.com
 problem: "Can we predict the impact of two work-from-home days?"

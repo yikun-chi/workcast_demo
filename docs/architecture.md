@@ -7,13 +7,26 @@ How the WORKCAST simulation platform is built. For file and API shapes see `cont
 
 The platform is the product; an instance is one company turned into a simulated world. The platform never contains
 instance logic. An instance is a folder under `instances/<id>/` holding its data, ontology bindings, seat policies,
-calibration, scenarios, evaluation protocol and report builder. The two world types in use are:
+calibration, scenarios, evaluation protocol and report builder. The four world types in use are:
 
 - **workforce** (`orgsim/worlds/workforce.py`): a population of employees, each a digital twin with a fixed trait
   layer and weekly latent states (job satisfaction, work-life balance, commute burden, attachment), reacting to a
-  policy over time. Used by `trip`.
+  policy over time. Used by `trip` and `ctrip`; `fedwork` uses cohort counts and competing separation hazards.
 - **process** (`orgsim/worlds/process.py`): work items flowing through activities performed by role pools under
   capacity and process constraints, with a payment-run calendar and same-person continuity. Used by `bpi19`.
+- **market** (`orgsim/worlds/market.py`): companies whose AI workloads run on models at published list prices. Each
+  company has a token volume, a growth path and a persistence class (one-off job, recurring, steady product); each
+  use-case segment holds workload agents that choose among the models listed that week, and a buyer seat judges each
+  newly listed model. Calibrated at every cutoff from backtests that end before it, with the specification chosen per
+  persistence class; the central path (every shock at its median) is the point prediction and the runs give the ranges.
+  Used by `openrouter`.
+- **adoption** (`orgsim/worlds/adoption.py`): populations of agents in groups (sectors, roles, a whole site) taking up
+  a technology. Each period non-users may start and users may stop, with hazards that move each group's expected share
+  along a diffusion path (logistic imitation or a constant external hazard; growth shared across groups, damped). The
+  outcome is the share itself or a volume the adoption displaces (baseline trend and seasonality fitted before the change,
+  times the share not yet switched). Calibrated at each cutoff from backtests that end before it; comparators include
+  carry-forward, recent average, linear trend, damped-trend smoothing and a Bass diffusion fit. Used by `btos_ai`, `aei_tasks` and
+  `so_chatgpt`.
 
 A world type exposes three functions: `World` (the simulation), `evaluate(ctx, scenario_ids)` (scores the
 baseline against ground truth and writes `runs/<id>/evaluation.json`) and `results_view(ctx)` (the document the
@@ -28,7 +41,9 @@ for a purchase-order item), and the seat's adapter returns one option:
 
 - `rule`: draws from the offered weights (transparent, deterministic given the seed);
 - `llm`: a hosted Anthropic model reads the same observation, including the twin's profile and states, and chooses;
-- `local`: an OpenAI-compatible local server.
+- `local`: an OpenAI-compatible local server;
+- `openai`: an OpenAI model through Chat Completions, with a response cache (reruns repeat decisions without calls) and a
+  spending cap. Besides choosing one option it can give a number per option (`estimate`), as the market buyer seat does.
 
 Failures fall back to the rule policy and the fallback is recorded in the trace. `policies/seats.yaml` maps seats
 (role ids) to adapters, so swapping a model is configuration.
@@ -114,3 +129,60 @@ served with no-cache headers and a version stamp so edits show on reload. Instan
 
 Python 3.12 (`.venv` via uv), pandas, pyarrow, numpy, scipy, pydantic, FastAPI and uvicorn, httpx. Parquet for
 traces, JSON for run summaries and documents, YAML for everything a person edits. No node toolchain.
+
+## 9. Extension design: ports and adapters
+
+This is a proposed incremental extension, not a claim that the current package has
+complete hexagonal isolation or a LangGraph adapter. Today `World` and `Policy`
+already define useful interfaces, but worlds read `InstanceContext` files directly,
+and model execution, evaluation and presentation share modules.
+
+Keep the common instance framing and separate these responsibilities behind ports:
+
+| Port | Responsibility | Existing or proposed adapter |
+|---|---|---|
+| DataSnapshot | Supply observations and their availability dates at a cutoff; expose truth only to scoring | Manifest-backed files now; database/API adapters later |
+| SimulationModel | Advance the simulated world and emit outcomes and events | Workforce, process, market, adoption |
+| TaskPlanner | Propose assignments, decomposition and review from an allowed observation | Rule planner; optional LangGraph orchestrator and workers |
+| RunRepository | Persist configuration, input hashes, events, checkpoints and results | Local Parquet/JSON now; object storage later |
+| OutcomeScorer | Compare frozen predictions and alternatives on matched windows and populations | Experiment, process and time-series scoring |
+| ResultsPresenter | Produce the common before/change/comparison/alternatives document | Shared web UI; separate board publisher |
+
+The application service coordinates these ports. CLI and HTTP are inbound adapters;
+model services, files and LangGraph are outbound adapters. A world should depend on
+the ports it needs, without importing FastAPI, LangGraph or a storage client. The
+ports express business operations rather than one generic plugin with arbitrary
+callbacks. This follows [Cockburn's ports-and-adapters architecture](https://alistair.cockburn.us/hexagonal-architecture).
+
+### Next demo: task assignment with LangGraph
+
+A process-world demo can represent incoming tasks, skills, employee and AI capacity,
+review, corrections and completion. A LangGraph adapter can decompose a task, assign
+workers with `Send`, collect their proposed results and request review. LangGraph
+supports this [orchestrator-worker pattern](https://docs.langchain.com/oss/python/langgraph/workflows-agents).
+The adapter returns typed proposals containing task IDs, dependencies, assignees,
+effort estimates and provenance. The kernel validates those proposals, applies
+capacity constraints and advances simulation time. Graph concurrency does not create
+staff capacity, and model response latency is not a task's business duration.
+
+Distinguish two uses: LangGraph may organize the software's execution, or it may be
+the decision policy being evaluated inside the simulated organization. Only the
+second is a modeled organizational intervention. Neither replaces a validated model
+of task effort, quality, review cost or employee behavior.
+
+Start with one workflow and two interchangeable planners: a deterministic rule
+planner and LangGraph. Hold arrivals, starting state, resources and seeds fixed;
+score completed work, elapsed time, staff effort, correction rate and service cost.
+Compare with the current process and a simple non-simulation estimate. Label assumed
+AI effects as exploration unless observed outcomes exist.
+
+Use stable task/command IDs and cached proposals for replay; record model/prompt
+versions, inputs, token cost, fallbacks and decision history. A graph checkpoint is
+execution state, not the simulation's source of truth. Use an appropriate persistent
+[LangGraph checkpointer](https://docs.langchain.com/oss/python/langgraph/persistence)
+and make command application idempotent. Test crash recovery and invariance to worker
+completion order before allowing concurrent graph execution to mutate a run.
+
+Extract these boundaries one at a time, keeping existing instance outputs stable.
+Add LangGraph as an optional dependency when that vertical slice is implemented;
+there is no need to rewrite all four simulation models or maintain a second platform.

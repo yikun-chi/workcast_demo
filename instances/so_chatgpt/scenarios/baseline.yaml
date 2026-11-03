@@ -1,0 +1,12 @@
+id: baseline
+title: "Stack Overflow as it happened: askers switching to AI assistants from the cutoff"
+short_title: As it happened
+description: >
+  From each cutoff, carry the would-be askers forward for a year: each week askers switch to AI assistants (or come
+  back) with the hazards of the diffusion path calibrated on the weeks before the cutoff, and the questions that reach
+  the site are the pre-launch trend and seasonality times the askers who still post.
+seeds: [1, 2, 3, 4, 5]
+world:
+  cutoff: 250
+  horizon_periods: 26
+interventions: []

@@ -7,8 +7,11 @@ outcomes, and is generic over world type:
 
   workforce  one row per employee in population.parquet; connections are team membership (same_manager edges are
              implied by team_id), role, division and the division's location
+  market     one row per app (company) in apps.parquet; grouped by app category and use-case segment
   process    one row per user in user_roles.csv; connections are hand-offs (consecutive events on the same case by
              different users) aggregated from events_clean.parquet
+  adoption   one row per group (a sector or role) in groups.parquet: a population of simulated adopters, with the
+             group's first and last observed share or volume from series.parquet
 
 Served by /api/instances/{id}/people (paged table), /people/graph (groups and links) and /people/{pid}/ego
 (one person's neighbourhood as a Graph the ontology viewer can draw).
@@ -88,14 +91,16 @@ def _workforce(ctx: InstanceContext) -> dict[str, Any]:
     for r in b.get("roles", []):
         groups.append({"id": r["id"], "type": "Role", "kind": "role", "label": r["label"], "parent": r.get("org_unit"), "size": int((pop.role_id == r["id"]).sum()),
                        "properties": {"onet_code": r.get("onet_code")}})
+    teams = teams[teams["team_id"].astype(str) != ""]          # populations without team identity have no team groups
     for t in teams.itertuples(index=False):
         groups.append({"id": t.team_id, "type": "OrgUnit", "kind": "team", "label": f"Team {t.team_id}", "parent": t.org_unit, "size": int(t.size),
                        "properties": {"offered_wfh": int(getattr(t, "treated", 0)), "managers": int(getattr(t, "managers", 0))}})
     links = [{"source": g["id"], "target": g["parent"], "type": "part_of" if g["kind"] == "team" else "member_of"} for g in groups if g.get("parent")]
     links += [{"source": u["id"], "target": u["location"], "type": "located_at"} for u in b.get("org_units", []) if u.get("location")]
     sizes = teams["size"].to_numpy()
-    person_links = [{"type": "same_manager", "basis": "same team_id (teams are synthetic groups of about 10 within a division; the deposit has no team identity)",
-                     "count": int((sizes * (sizes - 1) // 2).sum())}]
+    meta = ctx.meta.get("people") or {}
+    person_links = [{"type": "same_manager", "basis": meta.get("team_basis", "same team_id (teams are synthetic groups of about 10 within a division; the deposit has no team identity)"),
+                     "count": int((sizes * (sizes - 1) // 2).sum())}] if len(teams) else []
     person_links.append({"type": "located_at", "basis": "division location", "count": int(persons["location"].notna().sum())})
     return {
         "persons": persons,
@@ -104,7 +109,7 @@ def _workforce(ctx: InstanceContext) -> dict[str, Any]:
                                                         ("grad", "Graduate degree"), ("volunteer", "Volunteered"), ("prior_performance", "Prior grade"), ("location", "Location"), ("female", "Female")]
                     if c in persons.columns],
         "groups": groups, "links": links, "person_links": person_links,
-        "notes": ["Every row is a real trial employee (Harvard Dataverse doi:10.7910/DVN/6X4ZZL); role split within non-managers, team membership and person ids are synthetic.",
+        "notes": meta.get("notes") or ["Every row is a real trial employee (Harvard Dataverse doi:10.7910/DVN/6X4ZZL); role split within non-managers, team membership and person ids are synthetic.",
                   "Gender is shown because it is in the data; it enters no behavioral function or prompt.",
                   "Teammates (same_manager) are not stored as rows: select a person to see their team."],
         "excluded_from_behavior": ["female"],
@@ -146,6 +151,79 @@ def _process(ctx: InstanceContext) -> dict[str, Any]:
     }
 
 
+def _market(ctx: InstanceContext) -> dict[str, Any]:
+    """Companies are the apps OpenRouter ranks; each belongs to an app category (unit) and a use-case segment (role)."""
+    b = _bindings(ctx)
+    apps = pd.read_parquet(ctx.data_normalized / "apps.parquet")
+    unit_label, role_label = _labels(b, "org_units"), _labels(b, "roles")
+    seg_role = {(r.get("properties") or {}).get("segment"): r["id"] for r in b.get("roles", [])}
+    seg = apps.category.map({"coding": "programming", "creative": "roleplay", "entertainment": "roleplay"}).fillna("market")
+    persons = pd.DataFrame({"person_id": "app:" + apps.app_id.astype(str), "label": apps.app_name})
+    persons["app_name"] = apps.app_name
+    persons["org_unit"] = ("ou:" + apps.category).where(apps.category.isin(["coding", "creative", "productivity", "entertainment"]))
+    persons["org_unit_label"] = persons.org_unit.map(unit_label).fillna("Unclassified")
+    persons["role_id"] = seg.map(seg_role)
+    persons["role_label"] = persons.role_id.map(role_label)
+    persons["subcategory"] = apps.subcategory
+    persons["first_week"] = apps.first_week.dt.date.astype(str)
+    persons["last_week"] = apps.last_week.dt.date.astype(str)
+    persons["weeks_ranked"] = apps.weeks_ranked
+    persons["peak_billion_tokens"] = (apps.peak_tokens / 1e9).round(2)
+    persons = persons.sort_values("peak_billion_tokens", ascending=False).reset_index(drop=True)
+    groups = [{"id": u["id"], "type": "OrgUnit", "kind": "unit", "label": u["label"], "parent": None, "size": int(persons.org_unit.eq(u["id"]).sum()), "properties": u.get("properties") or {}}
+              for u in b.get("org_units", [])]
+    groups += [{"id": r["id"], "type": "Role", "kind": "role", "label": r["label"], "parent": r.get("org_unit"), "size": int(persons.role_id.eq(r["id"]).sum()),
+                "properties": {"onet_code": r.get("onet_code"), **(r.get("properties") or {})}} for r in b.get("roles", [])]
+    links = [{"source": g["id"], "target": g["parent"], "type": "member_of"} for g in groups if g.get("parent")]
+    return {
+        "persons": persons,
+        "columns": [{"id": c, "label": l} for c, l in [("person_id", "Company"), ("app_name", "App"), ("org_unit_label", "Category"), ("subcategory", "Subcategory"), ("role_label", "Segment"),
+                                                        ("first_week", "First ranked"), ("last_week", "Last ranked"), ("weeks_ranked", "Weeks ranked"), ("peak_billion_tokens", "Peak week (billion tokens)")]],
+        "groups": groups, "links": links, "person_links": [],
+        "notes": ["Each row is an app OpenRouter ranked in a weekly top 200 (OpenRouter Datasets API, CC BY 4.0). Categories come from OpenRouter's app classification; unclassified apps are often one-off jobs.",
+                  "Apps are linked to each other only through the models their segments use; select an app to see its category and segment."],
+        "excluded_from_behavior": [],
+    }
+
+
+def _adoption(ctx: InstanceContext) -> dict[str, Any]:
+    """Each row is a group (a sector, a role, a site): a population of simulated adopters, not one person."""
+    groups = pd.read_parquet(ctx.data_normalized / "groups.parquet")
+    s = pd.read_parquet(ctx.data_normalized / "series.parquet").sort_values("period")
+    cfg = ctx.yaml("calibration/adoption.yaml")
+    agents = int(cfg.get("agents_per_group", 1000))
+    first = s.dropna(subset=["value"]).groupby("group").first()
+    last = s.dropna(subset=["value"]).groupby("group").last()
+    share = cfg.get("outcome", "share") == "share"
+    fmt = (lambda v: round(float(v) * 100, 2)) if share else (lambda v: round(float(v)))  # noqa: E731
+    persons = pd.DataFrame({"person_id": "group:" + groups.group.astype(str), "label": groups.label.astype(str)})
+    persons["group_label"] = groups.label.astype(str).to_numpy()
+    persons["org_unit"] = ("ou:" + groups.group.astype(str)).to_numpy()
+    persons["org_unit_label"] = persons.group_label
+    persons["role_id"] = None
+    persons["role_label"] = "Population of simulated adopters"
+    persons["agents"] = [agents if bool(m) else 0 for m in groups.get("modelled", pd.Series(True, index=groups.index))]
+    persons["scored"] = [bool(x) for x in groups.get("scored", pd.Series(True, index=groups.index))]
+    persons["first_date"] = [str(pd.Timestamp(first.date.get(g)).date()) if g in first.index else None for g in groups.group]
+    persons["first_value"] = [fmt(first.value.get(g)) if g in first.index else None for g in groups.group]
+    persons["last_date"] = [str(pd.Timestamp(last.date.get(g)).date()) if g in last.index else None for g in groups.group]
+    persons["last_value"] = [fmt(last.value.get(g)) if g in last.index else None for g in groups.group]
+    b = _bindings(ctx)
+    gs = [{"id": u["id"], "type": "OrgUnit", "kind": "unit", "label": u["label"], "parent": None, "size": int(persons.org_unit.eq(u["id"]).sum()), "properties": u.get("properties") or {}}
+          for u in b.get("org_units", [])]
+    unit = " (%)" if share else ""
+    return {
+        "persons": persons,
+        "columns": [{"id": c, "label": l} for c, l in [("person_id", "Group"), ("group_label", "Name"), ("agents", "Simulated agents"), ("scored", "Scored"),
+                                                        ("first_date", "First period"), ("first_value", f"First value{unit}"),
+                                                        ("last_date", "Last period"), ("last_value", f"Last value{unit}")]],
+        "groups": gs, "links": [], "person_links": [],
+        "notes": ["Each row is a group, simulated as a population of agents that each adopt or not; the values are the published aggregates the simulation is calibrated on and scored against.",
+                  "Groups are linked through the economy-wide or site-wide adoption they imitate, not person to person."],
+        "excluded_from_behavior": [],
+    }
+
+
 def _handoffs(ctx: InstanceContext) -> pd.DataFrame:
     ev_p = ctx.data_normalized / "events_clean.parquet"
 
@@ -168,6 +246,10 @@ def _build(ctx: InstanceContext) -> dict[str, Any]:
         return _cached((ctx.id, "people"), paths, lambda: _workforce(ctx))
     if wt == "process":
         return _cached((ctx.id, "people"), paths, lambda: _process(ctx))
+    if wt == "market":
+        return _cached((ctx.id, "people"), paths + [ctx.data_normalized / "apps.parquet"], lambda: _market(ctx))
+    if wt == "adoption":
+        return _cached((ctx.id, "people"), paths + [ctx.data_normalized / "groups.parquet", ctx.data_normalized / "series.parquet"], lambda: _adoption(ctx))
     raise FileNotFoundError(f"no people view for world type {wt!r}")
 
 

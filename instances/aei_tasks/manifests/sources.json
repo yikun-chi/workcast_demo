@@ -1,0 +1,134 @@
+{
+ "sources": [
+  {
+   "id": "anthropic_economic_index",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/tree/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6",
+   "revision": "4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6",
+   "license": "Data CC BY (data_documentation.md, 'Data released under CC-BY'); dataset card metadata lists MIT",
+   "attribution": "Anthropic Economic Index (Anthropic), Hugging Face Anthropic/EconomicIndex"
+  }
+ ],
+ "n_files": 17,
+ "total_bytes": 444269966,
+ "files": [
+  {
+   "path": "data/raw/release_2025_02_10/README.md",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2025_02_10/README.md",
+   "bytes": 2981,
+   "sha256": "27b0c2df5bb4563e006a208189b8031b5a7cd20110a76ac3486cb19293f7a0ac",
+   "retrieved": "2026-10-28T15:31:20+00:00"
+  },
+  {
+   "path": "data/raw/release_2025_02_10/onet_task_mappings.csv",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2025_02_10/onet_task_mappings.csv",
+   "bytes": 461306,
+   "sha256": "8de89c99f762146c9e46b2202c3501e2a14f11c5b44c61c8007021127b6c676e",
+   "retrieved": "2026-10-28T15:31:21+00:00"
+  },
+  {
+   "path": "data/raw/release_2025_02_10/onet_task_statements.csv",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2025_02_10/onet_task_statements.csv",
+   "bytes": 3592256,
+   "sha256": "82e4c418dc08475ef1263ad1e8c66ffa3357291370cd35ee1065ecea590597ec",
+   "retrieved": "2026-10-28T15:31:21+00:00"
+  },
+  {
+   "path": "data/raw/release_2025_02_10/SOC_Structure.csv",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2025_02_10/SOC_Structure.csv",
+   "bytes": 77176,
+   "sha256": "05eb5e689fb471b7a66962b57bba6666dee2c3e6a6854f0f84faf423af68dd17",
+   "retrieved": "2026-10-28T15:31:22+00:00"
+  },
+  {
+   "path": "data/raw/release_2025_03_27/README.md",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2025_03_27/README.md",
+   "bytes": 3205,
+   "sha256": "0a72214226fa9815a16881b5c872045e84a8d70420090875f1cc975c9ad8ef3a",
+   "retrieved": "2026-10-28T15:31:22+00:00"
+  },
+  {
+   "path": "data/raw/release_2025_03_27/task_pct_v1.csv",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2025_03_27/task_pct_v1.csv",
+   "bytes": 461306,
+   "sha256": "8de89c99f762146c9e46b2202c3501e2a14f11c5b44c61c8007021127b6c676e",
+   "retrieved": "2026-10-28T15:31:22+00:00"
+  },
+  {
+   "path": "data/raw/release_2025_03_27/task_pct_v2.csv",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2025_03_27/task_pct_v2.csv",
+   "bytes": 435372,
+   "sha256": "0c20f184cd4a1e3d8ef3d77f500b32b62431ce61a3c2f133c3af7fa8429f97db",
+   "retrieved": "2026-10-28T15:31:22+00:00"
+  },
+  {
+   "path": "data/raw/release_2025_09_15/data_documentation.md",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2025_09_15/data_documentation.md",
+   "bytes": 20133,
+   "sha256": "d7e23aa0888628fdeb27f49a14e151c41ea99d47bd5dd65e84383b203c23464a",
+   "retrieved": "2026-10-28T15:31:23+00:00"
+  },
+  {
+   "path": "data/raw/release_2025_09_15/data/intermediate/aei_raw_claude_ai_2025-08-04_to_2025-08-11.csv",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2025_09_15/data/intermediate/aei_raw_claude_ai_2025-08-04_to_2025-08-11.csv",
+   "bytes": 18894517,
+   "sha256": "c8ef9c5eee0c42febc73e358ecc7d2358e0a0ce3b50122c0c15ae8ec569aceff",
+   "retrieved": "2026-10-28T15:31:30+00:00"
+  },
+  {
+   "path": "data/raw/release_2025_09_15/data/intermediate/onet_task_statements.csv",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2025_09_15/data/intermediate/onet_task_statements.csv",
+   "bytes": 3650862,
+   "sha256": "88427f8d2a9f37a7c08b5420c6c66a01cdae6467b716bbbd31989128504b8ebb",
+   "retrieved": "2026-10-28T15:31:31+00:00"
+  },
+  {
+   "path": "data/raw/release_2025_09_15/data/intermediate/soc_structure.csv",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2025_09_15/data/intermediate/soc_structure.csv",
+   "bytes": 78834,
+   "sha256": "97dee70470182ac642872839f71a4a938c03677829aadca9bfbf250cb4021863",
+   "retrieved": "2026-10-28T15:31:32+00:00"
+  },
+  {
+   "path": "data/raw/release_2026_01_15/data_documentation.md",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2026_01_15/data_documentation.md",
+   "bytes": 18721,
+   "sha256": "50f117f8f995606004680749fc43012d2bd83c5fc9dab6044a935f601643ef6f",
+   "retrieved": "2026-10-28T15:31:32+00:00"
+  },
+  {
+   "path": "data/raw/release_2026_01_15/data/intermediate/aei_raw_claude_ai_2025-11-13_to_2025-11-20.csv",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2026_01_15/data/intermediate/aei_raw_claude_ai_2025-11-13_to_2025-11-20.csv",
+   "bytes": 94086309,
+   "sha256": "70dc16780061b84d3f34ddf7fe5c978d65c99a5ef58afd78f9315f886a6a5873",
+   "retrieved": "2026-10-28T15:31:55+00:00"
+  },
+  {
+   "path": "data/raw/release_2026_03_24/data_documentation.md",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2026_03_24/data_documentation.md",
+   "bytes": 17739,
+   "sha256": "0a194ff1e317567e8b5d68d581fa2e5f8a1d3112f71aa209d2caa408ee12a779",
+   "retrieved": "2026-10-28T15:31:55+00:00"
+  },
+  {
+   "path": "data/raw/release_2026_03_24/data/aei_raw_claude_ai_2026-02-05_to_2026-02-12.csv",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2026_03_24/data/aei_raw_claude_ai_2026-02-05_to_2026-02-12.csv",
+   "bytes": 103287181,
+   "sha256": "69ebf6f9afc1e3be45caab172a84ae09e78bf41b97e1c310100d81c8a35a7433",
+   "retrieved": "2026-10-28T15:32:17+00:00"
+  },
+  {
+   "path": "data/raw/release_2026_06_26/data_documentation.md",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2026_06_26/data_documentation.md",
+   "bytes": 7397,
+   "sha256": "1a01eeb7d34250b192aa9c906098bea1db971644e6bdb04497d87b7a4ed141a5",
+   "retrieved": "2026-10-28T15:32:17+00:00"
+  },
+  {
+   "path": "data/raw/release_2026_06_26/data/aei_claude_ai_2026-06-26.csv",
+   "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/4e5f69fab13a9c3f7d0dcc31a6f893a9818738f6/release_2026_06_26/data/aei_claude_ai_2026-06-26.csv",
+   "bytes": 219174671,
+   "sha256": "f974b358bce0e5a8417510c61da4342234cd0de9d9d0b62acf4c6dbcf8ec7b68",
+   "retrieved": "2026-10-28T15:33:02+00:00"
+  }
+ ]
+}

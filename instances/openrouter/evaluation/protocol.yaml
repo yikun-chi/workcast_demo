@@ -1,0 +1,28 @@
+# Evaluation protocol: rolling cutoffs, eight-week horizons, every prediction made from data before its cutoff.
+instance: openrouter
+baseline_scenario: baseline
+cutoffs: ["2025-07-07", "2025-08-04", "2025-09-01", "2025-09-29", "2025-10-27", "2025-11-24", "2025-12-22", "2026-01-19",
+          "2026-02-16", "2026-03-16", "2026-04-13", "2026-05-11", "2026-06-08", "2026-07-06", "2026-08-03", "2026-08-31"]
+horizon_weeks: 8
+seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+alternative_cutoffs: 4          # the alternative runs at the last four cutoffs with the same seeds
+population: >
+  The 100 apps with the most tokens in the four weeks before each cutoff. Held-out truth is each app's weekly tokens in
+  the eight weeks from the cutoff (weeks outside the top 200 count as half the 200th app's volume and are reported as
+  censored), and its spend: tokens times the blended list price of its use-case segment's actual model mix.
+inputs_after_cutoff: published list prices (archived price lists) and the week each new model first appeared in usage
+primary_metrics:
+  - {id: company_tokens_wape, truth: each app's eight-week tokens, measure: "sum of absolute errors / sum of actual tokens"}
+  - {id: company_spend_wape, truth: each app's eight-week spend at list prices, measure: "sum of absolute errors / sum of actual spend"}
+  - {id: coverage90, truth: each app's eight-week tokens, measure: "share inside the simulation's 5th-95th percentile range"}
+  - {id: top_tokens, truth: total tokens of the 100 apps over eight weeks}
+  - {id: top_spend, truth: their total spend at list prices}
+  - {id: market_tokens, truth: all tokens on OpenRouter over eight weeks}
+comparators:
+  carry_forward: each app's average week in the four weeks before the cutoff, repeated
+  recent_trend: each app's log-linear growth over the eight weeks before the cutoff, bounded to +-15% a week, extended
+  market_growth: each app's average week grown at the market's log-linear growth over the nine weeks before the cutoff
+  prices: comparators price their tokens with the segment's model mix at the cutoff and the same published list prices
+leakage:
+  calibration: company dynamics, segment growth, shock sizes and the launch prior use only weeks before the cutoff
+  launches: the simulation is told the week a new model was first used, not how much it was used

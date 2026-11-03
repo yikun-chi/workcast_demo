@@ -1,0 +1,58 @@
+# U.S. federal civilian workforce (OPM Federal Workforce Data): ontology bindings (schema: orgsim/ontology/bindings.py).
+# Twins are cohorts (agency x age band x length of service x appointment x schedule x supervisory status); agencies are
+# the org units used for scoring. The one role is bound to a generic O*NET occupation for the shared vocabulary only.
+organization:
+  id: org:us_federal_government
+  label: U.S. federal civilian workforce (agencies in OPM's Federal Workforce Data)
+  properties:
+    source: OPM Federal Workforce Data, https://data.opm.gov
+    coverage: "Excludes the Postal Service, the intelligence agencies and others (OPM data sources page)"
+
+locations:
+  - id: loc:duty_stations
+    label: Federal duty stations
+    properties: {kind: office}
+
+org_units:
+  - id: federal_agencies
+    label: Federal agencies (scored separately when 1,000 or more employees at the cutoff)
+    location: loc:duty_stations
+
+roles:
+  - id: federal_employee
+    label: Federal civilian employee (cohort twin)
+    onet_code: "13-1071.00"
+    org_unit: federal_agencies
+    properties: {seat: employee, observed: "OPM records agency, age band, length of service, appointment, schedule and supervisory status; occupation is not used"}
+
+systems:
+  - id: ehri
+    label: Enterprise Human Resources Integration (OPM personnel records)
+    capabilities:
+      - {id: cap_record_separation, label: Record a separation}
+
+artifacts:
+  - {id: personnel_action, label: Personnel action (separation)}
+
+activities:
+  - id: agency_work
+    label: Agency work (not simulated hour by hour)
+    roles: [federal_employee]
+    dwa_ids: ["4.A.3.b.6.h.9"]
+    capability: cap_record_separation
+    properties: {weight: 1.0}
+
+relationships: []
+relationship_types: []
+
+latent_states: []
+
+policies:
+  - id: return_to_office
+    label: Return to in-person work (presidential memorandum, 20 January 2025)
+    affects: [federal_employee]
+    properties: {start: 2025-01-20}
+  - id: deferred_resignation
+    label: Deferred resignation offer (OPM, 28 January to 12 February 2025; separations effective 30 September 2025)
+    affects: [federal_employee]
+    properties: {decide: 2025-02-12, effective: 2025-09-30, who: full-time employees}
