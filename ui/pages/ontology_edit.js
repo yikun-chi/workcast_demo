@@ -1,4 +1,4 @@
-/* Ontology, Edit view: the raw bindings of this instance (bindings.yaml as JSON): org units, locations, roles bound to
+/* Input, bindings editor: the raw bindings of this instance (bindings.yaml as JSON): org units, locations, roles bound to
    O*NET occupations, activities mapped to DWAs, systems, capabilities, policies, latent states. Validated on save. */
 import { h, replace, errorState, toast, debounce } from "../components/ui.js";
 

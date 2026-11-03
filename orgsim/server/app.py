@@ -248,15 +248,18 @@ def tables(instance_id: str) -> list[dict]:
     for name, p in _tables(ctx).items():
         try:
             if p.suffix == ".csv":
-                df = pd.read_csv(p, nrows=5); n = sum(1 for _ in open(p, "rb")) - 1
+                df = pd.read_csv(p); n = len(df)
                 cols = list(df.columns)
+                schema = [{"name": c, "type": str(df[c].dtype), "nullable": bool(df[c].isna().any())} for c in cols]
             else:
                 import pyarrow.parquet as pq
                 if p.is_dir():
-                    ds = pq.ParquetDataset(p); n = sum(f.metadata.num_rows for f in (pq.ParquetFile(x) for x in ds.files)); cols = ds.schema.names
+                    ds = pq.ParquetDataset(p); n = sum(f.metadata.num_rows for f in (pq.ParquetFile(x) for x in ds.files)); arrow_schema = ds.schema
                 else:
-                    pf = pq.ParquetFile(p); n = pf.metadata.num_rows; cols = pf.schema_arrow.names
-            out.append({"name": name, "rows": int(n), "columns": cols})
+                    pf = pq.ParquetFile(p); n = pf.metadata.num_rows; arrow_schema = pf.schema_arrow
+                cols = arrow_schema.names
+                schema = [{"name": f.name, "type": str(f.type), "nullable": f.nullable} for f in arrow_schema]
+            out.append({"name": name, "rows": int(n), "columns": cols, "schema": schema})
         except Exception as e:  # noqa: BLE001
             out.append({"name": name, "error": str(e)})
     return out
@@ -275,7 +278,7 @@ def table_rows(instance_id: str, name: str, offset: int = 0, limit: int = Query(
             mask |= df[c].astype(str).str.contains(q, case=False, regex=False, na=False)
         df = df[mask]
     if sort and sort in df.columns:
-        df = df.sort_values(sort, ascending=not desc)
+        df = df.sort_values(sort, ascending=not desc, kind="stable")
     page = df.iloc[offset: offset + limit]
     return {"name": name, "total": int(len(df)), "offset": offset, "limit": limit, "columns": list(df.columns),
             "rows": _clean(json.loads(page.to_json(orient="records", date_format="iso")))}

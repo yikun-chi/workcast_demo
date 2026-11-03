@@ -1,4 +1,4 @@
-/* Data, Edit view: roles with headcounts and O*NET codes, and the persons or archetypes declared in the bindings. */
+/* Input, roles and people editor: roles with headcounts and O*NET codes, and the persons or archetypes declared in the bindings. */
 import { h, replace, card, errorState, emptyState, toast, drawer, occupationDrawerBody, debounce } from "../components/ui.js";
 import { problemsBox } from "./ontology_edit.js";
 
@@ -47,6 +47,6 @@ export async function render(root, { api, instanceId, refreshInstance }) {
       b.persons.length ? h("div", { class: "table-wrap" }, tbl) : emptyState("No persons or archetypes declared.", "Individuals come from the normalized population table; archetypes can be declared here."));
   }
   drawRoles(); drawPersons();
-  replace(body, h("div", { class: "row", style: { justifyContent: "space-between", marginBottom: "12px" } }, h("div", { class: "muted small" }, `Org units: ${b.org_units.length ? b.org_units.map(u => u.label || u.id).join(", ") : "none (add them in Ontology → Edit)"}.`), h("div", { class: "row" }, status, saveBtn)),
+  replace(body, h("div", { class: "row", style: { justifyContent: "space-between", marginBottom: "12px" } }, h("div", { class: "muted small" }, `Org units: ${b.org_units.length ? b.org_units.map(u => u.label || u.id).join(", ") : "none (add them in Input → Edit bindings)"}.`), h("div", { class: "row" }, status, saveBtn)),
     h("div", { class: "stack" }, rolesCard, personsCard));
 }

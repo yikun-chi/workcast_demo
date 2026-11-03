@@ -3,7 +3,7 @@ import { api, FIXTURES, READ_ONLY } from "./api.js";
 import { h, replace, badge, toast, errorState, loading, drawer } from "./components/ui.js";
 import { sweepCharts, restyleCharts } from "./components/chart.js";
 
-/* Seven core pages per instance. Editing lives inside Ontology and Data; the report, the scenario comparison and the
+/* Model internals: Input defines schemas, Data browses records, Ontology relates concepts. The report, comparison and the
    instance's detailed views are all under Results; Insights holds the simulated interviews. */
 export const CORE_PAGES = [
   { id: "results", label: "Results", mod: "./pages/results.js" },
@@ -11,10 +11,11 @@ export const CORE_PAGES = [
   { id: "insights", label: "Insights", mod: "./pages/insights.js" },
   { id: "overview", label: "Overview", mod: "./pages/overview.js" },
   ...(!READ_ONLY ? [{ id: "runs", label: "Runs", mod: "./pages/runs.js" }] : []),
+  { id: "input", label: "Input", mod: "./pages/input.js", internals: true },
   { id: "data", label: "Data", mod: "./pages/data.js", internals: true },
   { id: "ontology", label: "Ontology", mod: "./pages/ontology.js", internals: true },
 ];
-const LEGACY = { edit: "ontology", report: "results" };
+const LEGACY = { edit: "input", report: "results" };
 
 const state = { instances: null, instance: null, instanceId: null, cleanup: null, route: null };
 const mods = new Map();
@@ -28,6 +29,9 @@ function parseRoute() {
   const raw = location.hash.replace(/^#\/?/, "");
   const parts = raw.split("/").filter(Boolean).map(decodeURIComponent);
   if (!parts.length) return { page: "landing" };
+  if (parts[2] === "edit" && ["data", "ontology"].includes(parts[1])) {
+    return {instanceId: parts[0], page: "input", rest: [parts[1] === "data" ? "people" : "bindings"]};
+  }
   return { instanceId: parts[0], page: parts[1] || "results", rest: parts.slice(2) };
 }
 
@@ -51,7 +55,7 @@ function renderTabs() {
   replace(tabs);
   if (!state.instanceId) return;
   for (const p of CORE_PAGES) {
-    if (p.internals && !tabs.querySelector(".tab-sep")) tabs.append(h("span", { class: "tab-sep muted small", title: "The model behind the results: the data and the ontology" }, "model internals"));
+    if (p.internals && !tabs.querySelector(".tab-sep")) tabs.append(h("span", { class: "tab-sep muted small", title: "Input schemas, data records and concept relations" }, "model internals"));
     tabs.append(h("a", { class: `tab ${state.route.page === p.id ? "active" : ""}`, href: href(state.instanceId, p.id) }, p.label));
   }
 }

@@ -146,7 +146,8 @@ async function snapshotFile(name) {
 }
 async function staticFetch(path, opts = {}) {
   if ((opts.method || "GET").toUpperCase() !== "GET") throw new ApiError(405, "This site displays saved results. Editing and rerunning are unavailable.", path);
-  const route = new URL(path, location.origin).pathname.replace(/^\/api/, "");
+  const url = new URL(path, location.origin);
+  const route = url.pathname.replace(/^\/api/, "");
   const index = await snapshotFile("index");
   let value;
   if (route === "/instances") value = index.instances;
@@ -156,6 +157,13 @@ async function staticFetch(path, opts = {}) {
     const match = route.match(/^\/instances\/([^/]+)(.*)$/);
     if (match && index.instances.some(i => i.id === match[1])) {
       const snapshot = await snapshotFile(match[1]);
+      if (match[2].startsWith("/tables/")) {
+        const name = decodeURIComponent(match[2].slice("/tables/".length));
+        const table = snapshot.tables?.[name];
+        if (!table) throw new ApiError(404, "This table is not included in the public snapshot.", path);
+        const {queryTable} = await import("./data/client.js");
+        return queryTable(table, Object.fromEntries(url.searchParams), assetUrl("public-data/"), index.files, opts.onProgress);
+      }
       value = snapshot.responses[match[2] || "/"];
     }
   }
@@ -185,7 +193,9 @@ export const api = {
   saveBindings: (id, body) => api.put(`/instances/${id}/ontology/bindings`, body),
   summary: (id) => api.get(`/instances/${id}/summary`),
   tables: (id) => api.get(`/instances/${id}/tables`),
-  table: (id, name, params) => api.get(`/instances/${id}/tables/${name}`, params),
+  table: (id, name, params, onProgress) => READ_ONLY
+    ? staticFetch(`/api/instances/${id}/tables/${encodeURIComponent(name)}${qs(params)}`, {onProgress})
+    : api.get(`/instances/${id}/tables/${encodeURIComponent(name)}`, params),
   scenarios: (id) => api.get(`/instances/${id}/scenarios`),
   scenario: (id, sid) => api.get(`/instances/${id}/scenarios/${sid}`),
   saveScenario: (id, sid, body) => api.put(`/instances/${id}/scenarios/${sid}`, body),

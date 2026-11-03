@@ -11810,6 +11810,33 @@
      "modelled",
      "scored",
      "periods_published"
+    ],
+    "schema": [
+     {
+      "name": "group",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "label",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "modelled",
+      "type": "bool",
+      "nullable": true
+     },
+     {
+      "name": "scored",
+      "type": "bool",
+      "nullable": true
+     },
+     {
+      "name": "periods_published",
+      "type": "double",
+      "nullable": true
+     }
     ]
    },
    {
@@ -11823,6 +11850,43 @@
      "ref_end",
      "value",
      "se"
+    ],
+    "schema": [
+     {
+      "name": "group",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "period",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "smpdt",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "date",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "ref_end",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "value",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "se",
+      "type": "double",
+      "nullable": true
+     }
     ]
    }
   ],
@@ -14695,6 +14759,40 @@
    ],
    "summary": "Non-using firms in manufacturing and retail trade start using AI at twice the simulated hazard from the cutoff; same cutoffs and seeds.",
    "extends": "baseline"
+  }
+ },
+ "tables": {
+  "groups.parquet": {
+   "name": "groups.parquet",
+   "columns": [
+    "group",
+    "label",
+    "modelled",
+    "scored",
+    "periods_published"
+   ],
+   "total": 16,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/btos_ai/b8f5eb7ba7b9828a/00000.json.gz"
+   ]
+  },
+  "series.parquet": {
+   "name": "series.parquet",
+   "columns": [
+    "group",
+    "period",
+    "smpdt",
+    "date",
+    "ref_end",
+    "value",
+    "se"
+   ],
+   "total": 864,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/btos_ai/0144cb06449c38f3/00000.json.gz"
+   ]
   }
  }
 }

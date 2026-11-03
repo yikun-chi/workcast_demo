@@ -12015,6 +12015,58 @@
      "days_worked",
      "type",
      "calls_valid"
+    ],
+    "schema": [
+     {
+      "name": "person_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "group",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "year_week",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "perform1",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "calls",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "log_calls",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "log_call_per_sec",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "days_worked",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "type",
+      "type": "float",
+      "nullable": true
+     },
+     {
+      "name": "calls_valid",
+      "type": "bool",
+      "nullable": true
+     }
     ]
    },
    {
@@ -12050,6 +12102,153 @@
      "pre_weeks",
      "pre_call_weeks",
      "pre_days_worked"
+    ],
+    "schema": [
+     {
+      "name": "person_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "treat",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "type",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "order_taker",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "role_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "org_unit",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "team_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "seat",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "age",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "tenure_years",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "prior_experience_years",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "married",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "children_ind",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "age_youngest_child",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rental",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "bedroom",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "internet",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "commute_min",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "commute_cost_yuan",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "base_wage",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "bonus",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "gross_wage",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "tertiary",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "female",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "perf_level",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "calls_level",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "pre_weeks",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "pre_call_weeks",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "pre_days_worked",
+      "type": "double",
+      "nullable": true
+     }
     ]
    }
   ],
@@ -13873,6 +14072,78 @@
    },
    "interventions": [],
    "extends": "baseline"
+  }
+ },
+ "tables": {
+  "panel.parquet": {
+   "name": "panel.parquet",
+   "columns": [
+    "person_id",
+    "group",
+    "year_week",
+    "perform1",
+    "calls",
+    "log_calls",
+    "log_call_per_sec",
+    "days_worked",
+    "type",
+    "calls_valid"
+   ],
+   "total": 112279,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/ctrip/2af2ccfd68a53dcf/00000.json.gz",
+    "tables/ctrip/2af2ccfd68a53dcf/00001.json.gz",
+    "tables/ctrip/2af2ccfd68a53dcf/00002.json.gz",
+    "tables/ctrip/2af2ccfd68a53dcf/00003.json.gz",
+    "tables/ctrip/2af2ccfd68a53dcf/00004.json.gz",
+    "tables/ctrip/2af2ccfd68a53dcf/00005.json.gz",
+    "tables/ctrip/2af2ccfd68a53dcf/00006.json.gz",
+    "tables/ctrip/2af2ccfd68a53dcf/00007.json.gz",
+    "tables/ctrip/2af2ccfd68a53dcf/00008.json.gz",
+    "tables/ctrip/2af2ccfd68a53dcf/00009.json.gz",
+    "tables/ctrip/2af2ccfd68a53dcf/00010.json.gz",
+    "tables/ctrip/2af2ccfd68a53dcf/00011.json.gz"
+   ]
+  },
+  "population.parquet": {
+   "name": "population.parquet",
+   "columns": [
+    "person_id",
+    "treat",
+    "type",
+    "order_taker",
+    "role_id",
+    "org_unit",
+    "team_id",
+    "seat",
+    "age",
+    "tenure_years",
+    "prior_experience_years",
+    "married",
+    "children_ind",
+    "age_youngest_child",
+    "rental",
+    "bedroom",
+    "internet",
+    "commute_min",
+    "commute_cost_yuan",
+    "base_wage",
+    "bonus",
+    "gross_wage",
+    "tertiary",
+    "female",
+    "perf_level",
+    "calls_level",
+    "pre_weeks",
+    "pre_call_weeks",
+    "pre_days_worked"
+   ],
+   "total": 249,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/ctrip/b3fb8994ece8bba4/00000.json.gz"
+   ]
   }
  }
 }

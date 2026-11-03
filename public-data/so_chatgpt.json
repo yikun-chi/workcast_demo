@@ -14901,6 +14901,28 @@
      "label",
      "modelled",
      "scored"
+    ],
+    "schema": [
+     {
+      "name": "group",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "label",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "modelled",
+      "type": "bool",
+      "nullable": true
+     },
+     {
+      "name": "scored",
+      "type": "bool",
+      "nullable": true
+     }
     ]
    },
    {
@@ -14912,6 +14934,33 @@
      "date",
      "value",
      "se"
+    ],
+    "schema": [
+     {
+      "name": "group",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "period",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "date",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "value",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "se",
+      "type": "double",
+      "nullable": true
+     }
     ]
    }
   ],
@@ -21038,6 +21087,37 @@
    ],
    "summary": "Askers who still post switch to AI assistants at half the simulated hazard from the cutoff; same cutoffs and seeds.",
    "extends": "baseline"
+  }
+ },
+ "tables": {
+  "groups.parquet": {
+   "name": "groups.parquet",
+   "columns": [
+    "group",
+    "label",
+    "modelled",
+    "scored"
+   ],
+   "total": 1,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/so_chatgpt/b8f5eb7ba7b9828a/00000.json.gz"
+   ]
+  },
+  "series.parquet": {
+   "name": "series.parquet",
+   "columns": [
+    "group",
+    "period",
+    "date",
+    "value",
+    "se"
+   ],
+   "total": 294,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/so_chatgpt/0144cb06449c38f3/00000.json.gz"
+   ]
   }
  }
 }

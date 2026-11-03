@@ -39,7 +39,7 @@ export async function render(root, ctx) {
   const byType = Object.fromEntries(d.concepts.map(c => [c.type, c]));
   overlay.style.display = "none";
   replace(stats, badge(`${d.stats.concepts_used} of ${d.stats.concepts} concepts used`, "accent"), badge(`${d.stats.relations_used} of ${d.stats.relations} relations used`, "accent"),
-    h("a", { class: "badge", href: href(instanceId, "data", "graph") }, "see the actual data as a graph: Data → Graph →"), d.error ? badge(`bindings: ${d.error}`, "warn") : null);
+    h("a", { class: "badge", href: href(instanceId, "data") }, "Inspect actual records in Data →"), d.error ? badge(`bindings: ${d.error}`, "warn") : null);
   replace(layersCard.lastChild, h("div", { class: "stack small", style: { gap: "6px" } },
     ...Object.entries(d.layers || {}).map(([k, v]) => h("div", null, badge(k, k === "runtime" ? "warn" : k === "onet" ? "" : "accent"), " ", h("span", { class: "muted" }, v)))));
 

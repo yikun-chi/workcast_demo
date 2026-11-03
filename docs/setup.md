@@ -257,10 +257,13 @@ and deploys it. The GoDaddy DNS record is a CNAME named `workcast` pointing to
 `yikun-chi.github.io`; GitHub Pages is configured with the custom domain and HTTPS.
 
 There is one source UI. Static mode reads committed `public-data/` JSON and exposes
-Results, saved scenario assumptions, simulated Insights, Overview, Data summaries
-and Ontology. Editing, launching runs and regenerating interviews are unavailable;
+Results, saved scenario assumptions, simulated Insights, Overview, Input schemas,
+Data records and Ontology concept relations. Data includes all normalized rows,
+whole-table search/sort, pagination and complete details for a selected record.
+Compressed chunks load on demand; large searches show progress in the browser.
+Editing, launching runs and regenerating interviews are unavailable;
 the static API adapter rejects writes. Detailed Trip.com and procurement views use
-the same adapter. Raw tables, individual input records, full traces and credentials
+the same adapter. Raw source archives, full traces and credentials
 are not part of the website bundle. The downloadable release preserves the full
 research inputs and saved runs separately.
 

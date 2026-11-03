@@ -440,3 +440,9 @@ label.field > .input, label.field > .select { color: var(--text); font-weight: 4
   .app-main { padding: 16px; }
   .drawer:not(.open) { display: none; }
 }
+
+/* Complete record details remain readable for wide schemas and long values. */
+.record-fields { table-layout: fixed; width: 100%; }
+.record-fields th { width: 40%; white-space: normal; vertical-align: top; overflow-wrap: anywhere; }
+.record-fields td { white-space: pre-wrap; overflow-wrap: anywhere; vertical-align: top; }
+.data-grid tr[tabindex]:focus { outline: 2px solid var(--accent); outline-offset: -2px; }

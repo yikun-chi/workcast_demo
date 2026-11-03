@@ -307,17 +307,29 @@ the error; no residual quality or calibrated organizational effect is claimed.
 
 ## 11. Public snapshots and release archives
 
-`public-data/index.json` declares `schema_version: 1`, the capture time, source
+`public-data/index.json` declares `schema_version: 2`, the capture time, source
 commit, instance catalog, required O*NET occupations and SHA-256 hashes for each
-`<instance>.json`. Each instance document records its evaluation checksum and a
+`<instance>.json` and compressed table chunk. Each instance document records its evaluation checksum and a
 `responses` mapping keyed by instance-relative GET routes (for example `/results`,
 `/scenarios/baseline`, `/insights` and `/ontology/concepts`). Existing response shapes
 are preserved. `/runs` includes only ID/scenario/completion metadata for scenario
-counts; individual traces, twins, people endpoints and table rows are not exported.
+counts; run traces and people-graph endpoints are not exported. `/tables` keeps
+`columns` as names and adds `schema: [{name, type, nullable}]` for the Input tab.
+The document's `tables` map holds `{name, columns, total, chunk_size, chunks}` for
+every normalized table. Chunks are gzip-compressed JSON arrays of row arrays in
+column order, at `tables/<instance>/<table-name-hash>/<chunk-number>.json.gz`.
+They include every record; all except the final chunk have `chunk_size` rows.
+Nulls, booleans, dates and numeric serialization match the live table API.
+Static `/tables/<name>?offset&limit&q&sort&desc` is resolved by a browser worker.
+Queries search the whole table, sort stably with nulls last and return the same
+`{name, columns, total, offset, limit, rows}` shape as the live API. Plain paging
+loads only needed chunks. The worker verifies each downloaded chunk's checksum.
 
 `scripts/export_site.py snapshot` reads prepared local application responses and
 rejects stale/missing AI alternatives. `build` verifies the index and copies only
-listed instance snapshots with the shared UI. Its generated HTML sets
+listed instance snapshots and declared table chunks with the shared UI. It rejects
+missing/corrupt chunks, invalid paths, row counts and widths before replacing a
+previous build. Its generated HTML sets
 `<meta name="workcast-mode" content="static">`. The API adapter resolves relative
 snapshot URLs at either a project subpath or domain root and rejects non-GET calls;
 fixture mode cannot override static mode. No Python backend is deployed.

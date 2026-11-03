@@ -1,9 +1,11 @@
 # Public result snapshots
 
 These JSON files are the data source for the public, read-only website. They contain
-saved Results, scenarios, simulated interviews, aggregate summaries, table schemas,
+saved Results, scenarios, simulated interviews, aggregate summaries, input schemas,
 ontology concepts and the data needed by the detailed result views. They exclude
-individual input tables and full run traces.
+raw source archives and full run traces. `tables/` contains all normalized input
+records as compressed chunks, loaded on demand by the public Data viewer. Search
+and sort cover the full selected table; selecting a row shows all its fields.
 
 Generate them from prepared local instances with:
 
@@ -11,8 +13,9 @@ Generate them from prepared local instances with:
 uv run python scripts/export_site.py snapshot
 ```
 
-Review and commit the changed JSON alongside the relevant source changes. The index
-contains each instance file's checksum; the site build rejects mismatched files.
+Review and commit the changed JSON and table chunks alongside the relevant source
+changes. The index contains a checksum for every instance file and chunk; the site
+build rejects mismatched or incomplete files.
 GitHub Actions builds from these committed snapshots without downloading datasets,
 calling model APIs or running simulations.
 

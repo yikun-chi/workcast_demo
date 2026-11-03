@@ -10,7 +10,7 @@ as the title, three lines (the situation, the data, the alternative explored), a
 numbers next to the ground truth, and the alternative's effect in one sentence). "See the results" opens the
 instance on its Results tab. Nothing about build status.
 
-## Inside an instance (seven tabs; Results is the default)
+## Inside an instance (Results is the default)
 
 1. **Results.** Two numbered parts. *Part 1, actual outcomes and predictions*: observed before, the change,
    and the results after the change. A combined table compares actual outcomes, other predictions, and simulation
@@ -35,11 +35,23 @@ instance on its Results tab. Nothing about build status.
    kept honest), then the details: key facts, org units, roles with O*NET codes, systems, charts.
 5. **Runs.** Runs of all named scenarios: timeline of events per tick, agents (with a digital-twin card in workforce
    worlds), trace explorer, run configuration.
-6. **Data** (model internals). *Tables*: the normalized input tables. *Graph*: the data as a graph, people on the
-   left, the organisation and everything bound to it on the right; a person's own network on click. *Edit*: roles,
-   headcounts, persons and archetypes.
-7. **Ontology** (model internals). *Concepts*: the concept graph as this instance uses it, with definitions, counts
-   and a relations table. *Edit*: the raw bindings, validated on save.
+6. **Input** (model internals). Input schemas: table names, record counts, field names,
+   types and missing-value allowance, with links to the records. The local application
+   also hosts bindings and role/person editors here; old edit URLs resolve to Input.
+7. **Data** (model internals). Actual normalized records, with search, column sorting,
+   pagination and CSV export. Select a row (or focus it and press Enter) to open every
+   field, with unrounded values and explicit missing values. Employee datasets open
+   on the population table; process datasets open on worker records. Other datasets
+   expose their actual units, such as apps, sectors or workforce cohorts. Local mode
+   also has *Object relations*, showing individual people and their connections.
+8. **Ontology** (model internals). Concept definitions and relations, such as Person
+   → has_role → Role, with usage counts. Individual objects belong in Data.
+
+The public site uses the same modules with run/edit controls hidden. It includes
+all normalized table rows, not a sample. Default paging loads compressed chunks on
+demand; search/sort examines the entire selected table in a web worker with progress
+feedback. No simulation or backend request runs when browsing records. Raw downloads
+and saved run traces remain in the release archives.
 
 ## Files
 
@@ -48,8 +60,10 @@ instance on its Results tab. Nothing about build status.
   router, tab order in `CORE_PAGES`, version-stamped module loading), `api.js` (fetch wrapper with a fixture mode).
 - `components/`: `ui.js` (DOM helper, drawer, formatting), `chart.js` (chart contract on Chart.js, bands, points),
   `grid.js` (paged data grid), `graph.js` (Cytoscape viewer, type colors), `kpi.js`, `markdown.js`.
-- `pages/`: `landing`, `results`, `scenarios`, `insights`, `overview`, `runs`, `data` (+ `data_tables`, `data_graph`,
-  `data_edit`), `ontology` (+ `ontology_concepts`, `ontology_edit`).
+- `pages/`: `landing`, `results`, `scenarios`, `insights`, `overview`, `runs`, `input`,
+  `data` (+ `data_tables`, `data_graph`), `ontology` (+ `ontology_concepts`). Input
+  hosts the existing `data_edit` and `ontology_edit` modules in local mode.
+- `data/`: static table client, worker and shared query logic; tests in `tests/js/`.
 - `assets/logo.svg`: the Workcast mark, also the favicon.
 - `dev/smoke.html?instance=<id>`: exercises every page against the live API and prints `DONE errors=N`;
   `?fixtures=1` runs against `dev/fixtures/*.json`.

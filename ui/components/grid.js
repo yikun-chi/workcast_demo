@@ -6,6 +6,7 @@ import { h, replace, fmtCell, downloadCsv, debounce, loading, errorState, emptyS
 export function dataGrid(opts) {
   const state = { offset: 0, limit: opts.pageSize || 50, q: "", sort: opts.sort || "", desc: !!opts.desc, columns: opts.columns || [], rows: [], total: 0, loading: false };
   const root = h("div", { class: "data-grid" });
+  let generation = 0;
   const toolbar = h("div", { class: "grid-toolbar" });
   const search = h("input", { class: "input sm", type: "search", placeholder: opts.searchPlaceholder || "Search…", style: { width: "220px" } });
   const totalEl = h("span", { class: "muted small" });
@@ -18,8 +19,8 @@ export function dataGrid(opts) {
   const pager = h("div", { class: "pager" });
   root.append(toolbar, wrap, pager);
 
-  async function getPage() {
-    if (opts.fetchPage) return opts.fetchPage({ offset: state.offset, limit: state.limit, q: state.q, sort: state.sort, desc: state.desc ? 1 : 0 });
+  async function getPage(onProgress) {
+    if (opts.fetchPage) return opts.fetchPage({ offset: state.offset, limit: state.limit, q: state.q, sort: state.sort, desc: state.desc ? 1 : 0, onProgress });
     let rows = opts.rows || [];
     const s = state.q.toLowerCase();
     if (s) rows = rows.filter(r => Object.values(r).some(v => String(v ?? "").toLowerCase().includes(s)));
@@ -28,14 +29,18 @@ export function dataGrid(opts) {
   }
 
   async function load() {
+    const current = ++generation;
     state.loading = true; replace(wrap, loading());
+    exportBtn.disabled = true;
     try {
-      const page = await getPage();
+      const page = await getPage(message => { if (current === generation) replace(wrap, loading(message)); });
+      if (current !== generation) return;
       state.rows = page.rows || []; state.total = page.total ?? state.rows.length;
       if (page.columns && page.columns.length) state.columns = page.columns;
       else if (!state.columns.length && state.rows.length) state.columns = Object.keys(state.rows[0]);
       renderTable(); renderPager();
-    } catch (e) { replace(wrap, errorState(e)); replace(pager); }
+      exportBtn.disabled = false;
+    } catch (e) { if (current !== generation) return; replace(wrap, errorState(e)); replace(pager); }
     state.loading = false;
   }
 
@@ -48,7 +53,10 @@ export function dataGrid(opts) {
     })));
     const tbody = h("tbody");
     for (const r of state.rows) {
-      const tr = h("tr", { class: opts.isSelected && opts.isSelected(r) ? "selected" : "", style: opts.onRowClick ? { cursor: "pointer" } : null, onClick: opts.onRowClick ? () => opts.onRowClick(r) : null });
+      const tr = h("tr", { class: opts.isSelected && opts.isSelected(r) ? "selected" : "", style: opts.onRowClick ? { cursor: "pointer" } : null,
+        tabindex: opts.onRowClick ? 0 : null, "aria-label": opts.onRowClick ? "View record details" : null,
+        onKeydown: opts.onRowClick ? e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); opts.onRowClick(r); } } : null,
+        onClick: opts.onRowClick ? () => opts.onRowClick(r) : null });
       for (const c of state.columns) {
         const v = r[c];
         const custom = opts.render?.[c];

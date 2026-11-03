@@ -12657,6 +12657,48 @@
      "supervisor",
      "headcount",
      "snapshot"
+    ],
+    "schema": [
+     {
+      "name": "agency_code",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "age_bracket",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "los_band",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "perm",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "fulltime",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "supervisor",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "headcount",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "snapshot",
+      "type": "large_string",
+      "nullable": true
+     }
     ]
    },
    {
@@ -12742,6 +12784,403 @@
      "team_id",
      "seat",
      "voluntary_rate"
+    ],
+    "schema": [
+     {
+      "name": "agency_code",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "age_bracket",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "los_band",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "perm",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "fulltime",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "supervisor",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "headcount",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "rate_quit",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_retire",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_term",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_transfer",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_other",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "agency_group",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "person_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "role_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "org_unit",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "team_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "seat",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "voluntary_rate",
+      "type": "double",
+      "nullable": true
+     }
     ]
    },
    {
@@ -12761,6 +13200,73 @@
      "separation_category_code",
      "drp",
      "n"
+    ],
+    "schema": [
+     {
+      "name": "effective_month",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "file_month",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "agency_code",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "age_bracket",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "los_band",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "perm",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "fulltime",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "supervisor",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "agency",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "type",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "separation_category_code",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "drp",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "n",
+      "type": "int64",
+      "nullable": true
+     }
     ]
    },
    {
@@ -12846,6 +13352,403 @@
      "team_id",
      "seat",
      "voluntary_rate"
+    ],
+    "schema": [
+     {
+      "name": "agency_code",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "age_bracket",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "los_band",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "perm",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "fulltime",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "supervisor",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "headcount",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "rate_quit",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_retire",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_term",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_transfer",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_other",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "agency_group",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "person_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "role_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "org_unit",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "team_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "seat",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "voluntary_rate",
+      "type": "double",
+      "nullable": true
+     }
     ]
    },
    {
@@ -12931,6 +13834,403 @@
      "team_id",
      "seat",
      "voluntary_rate"
+    ],
+    "schema": [
+     {
+      "name": "agency_code",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "age_bracket",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "los_band",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "perm",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "fulltime",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "supervisor",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "headcount",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "rate_quit",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_retire",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_term",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_transfer",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_other",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "agency_group",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "person_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "role_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "org_unit",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "team_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "seat",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "voluntary_rate",
+      "type": "double",
+      "nullable": true
+     }
     ]
    },
    {
@@ -13016,6 +14316,403 @@
      "team_id",
      "seat",
      "voluntary_rate"
+    ],
+    "schema": [
+     {
+      "name": "agency_code",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "age_bracket",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "los_band",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "perm",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "fulltime",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "supervisor",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "headcount",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "rate_quit",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_retire",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_term",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_transfer",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_other",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "agency_group",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "person_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "role_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "org_unit",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "team_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "seat",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "voluntary_rate",
+      "type": "double",
+      "nullable": true
+     }
     ]
    },
    {
@@ -13101,6 +14798,403 @@
      "team_id",
      "seat",
      "voluntary_rate"
+    ],
+    "schema": [
+     {
+      "name": "agency_code",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "age_bracket",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "los_band",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "perm",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "fulltime",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "supervisor",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "headcount",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "rate_quit",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_retire",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_term",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_transfer",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "rate_other",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_quit_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_retire_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_term_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_transfer_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m01",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m02",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m03",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m04",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m05",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m06",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m07",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m08",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m09",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m10",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m11",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "season_other_m12",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "agency_group",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "person_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "role_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "org_unit",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "team_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "seat",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "voluntary_rate",
+      "type": "double",
+      "nullable": true
+     }
     ]
    }
   ],
@@ -15016,6 +17110,729 @@
    },
    "interventions": [],
    "extends": "baseline"
+  }
+ },
+ "tables": {
+  "headcounts.parquet": {
+   "name": "headcounts.parquet",
+   "columns": [
+    "agency_code",
+    "age_bracket",
+    "los_band",
+    "perm",
+    "fulltime",
+    "supervisor",
+    "headcount",
+    "snapshot"
+   ],
+   "total": 98191,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/fedwork/f9e62d380a43671c/00000.json.gz",
+    "tables/fedwork/f9e62d380a43671c/00001.json.gz",
+    "tables/fedwork/f9e62d380a43671c/00002.json.gz",
+    "tables/fedwork/f9e62d380a43671c/00003.json.gz",
+    "tables/fedwork/f9e62d380a43671c/00004.json.gz",
+    "tables/fedwork/f9e62d380a43671c/00005.json.gz",
+    "tables/fedwork/f9e62d380a43671c/00006.json.gz",
+    "tables/fedwork/f9e62d380a43671c/00007.json.gz",
+    "tables/fedwork/f9e62d380a43671c/00008.json.gz",
+    "tables/fedwork/f9e62d380a43671c/00009.json.gz"
+   ]
+  },
+  "population.parquet": {
+   "name": "population.parquet",
+   "columns": [
+    "agency_code",
+    "age_bracket",
+    "los_band",
+    "perm",
+    "fulltime",
+    "supervisor",
+    "headcount",
+    "rate_quit",
+    "rate_retire",
+    "rate_term",
+    "rate_transfer",
+    "rate_other",
+    "season_quit_m01",
+    "season_quit_m02",
+    "season_quit_m03",
+    "season_quit_m04",
+    "season_quit_m05",
+    "season_quit_m06",
+    "season_quit_m07",
+    "season_quit_m08",
+    "season_quit_m09",
+    "season_quit_m10",
+    "season_quit_m11",
+    "season_quit_m12",
+    "season_retire_m01",
+    "season_retire_m02",
+    "season_retire_m03",
+    "season_retire_m04",
+    "season_retire_m05",
+    "season_retire_m06",
+    "season_retire_m07",
+    "season_retire_m08",
+    "season_retire_m09",
+    "season_retire_m10",
+    "season_retire_m11",
+    "season_retire_m12",
+    "season_term_m01",
+    "season_term_m02",
+    "season_term_m03",
+    "season_term_m04",
+    "season_term_m05",
+    "season_term_m06",
+    "season_term_m07",
+    "season_term_m08",
+    "season_term_m09",
+    "season_term_m10",
+    "season_term_m11",
+    "season_term_m12",
+    "season_transfer_m01",
+    "season_transfer_m02",
+    "season_transfer_m03",
+    "season_transfer_m04",
+    "season_transfer_m05",
+    "season_transfer_m06",
+    "season_transfer_m07",
+    "season_transfer_m08",
+    "season_transfer_m09",
+    "season_transfer_m10",
+    "season_transfer_m11",
+    "season_transfer_m12",
+    "season_other_m01",
+    "season_other_m02",
+    "season_other_m03",
+    "season_other_m04",
+    "season_other_m05",
+    "season_other_m06",
+    "season_other_m07",
+    "season_other_m08",
+    "season_other_m09",
+    "season_other_m10",
+    "season_other_m11",
+    "season_other_m12",
+    "agency_group",
+    "person_id",
+    "role_id",
+    "org_unit",
+    "team_id",
+    "seat",
+    "voluntary_rate"
+   ],
+   "total": 14238,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/fedwork/b3fb8994ece8bba4/00000.json.gz",
+    "tables/fedwork/b3fb8994ece8bba4/00001.json.gz"
+   ]
+  },
+  "separations.parquet": {
+   "name": "separations.parquet",
+   "columns": [
+    "effective_month",
+    "file_month",
+    "agency_code",
+    "age_bracket",
+    "los_band",
+    "perm",
+    "fulltime",
+    "supervisor",
+    "agency",
+    "type",
+    "separation_category_code",
+    "drp",
+    "n"
+   ],
+   "total": 2212609,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/fedwork/584c2eb5de530f37/00000.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00001.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00002.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00003.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00004.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00005.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00006.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00007.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00008.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00009.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00010.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00011.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00012.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00013.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00014.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00015.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00016.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00017.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00018.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00019.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00020.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00021.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00022.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00023.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00024.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00025.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00026.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00027.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00028.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00029.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00030.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00031.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00032.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00033.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00034.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00035.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00036.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00037.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00038.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00039.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00040.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00041.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00042.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00043.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00044.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00045.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00046.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00047.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00048.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00049.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00050.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00051.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00052.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00053.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00054.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00055.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00056.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00057.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00058.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00059.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00060.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00061.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00062.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00063.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00064.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00065.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00066.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00067.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00068.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00069.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00070.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00071.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00072.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00073.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00074.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00075.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00076.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00077.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00078.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00079.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00080.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00081.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00082.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00083.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00084.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00085.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00086.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00087.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00088.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00089.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00090.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00091.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00092.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00093.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00094.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00095.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00096.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00097.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00098.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00099.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00100.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00101.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00102.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00103.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00104.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00105.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00106.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00107.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00108.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00109.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00110.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00111.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00112.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00113.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00114.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00115.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00116.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00117.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00118.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00119.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00120.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00121.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00122.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00123.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00124.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00125.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00126.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00127.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00128.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00129.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00130.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00131.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00132.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00133.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00134.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00135.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00136.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00137.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00138.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00139.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00140.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00141.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00142.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00143.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00144.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00145.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00146.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00147.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00148.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00149.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00150.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00151.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00152.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00153.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00154.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00155.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00156.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00157.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00158.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00159.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00160.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00161.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00162.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00163.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00164.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00165.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00166.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00167.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00168.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00169.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00170.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00171.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00172.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00173.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00174.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00175.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00176.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00177.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00178.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00179.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00180.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00181.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00182.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00183.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00184.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00185.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00186.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00187.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00188.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00189.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00190.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00191.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00192.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00193.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00194.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00195.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00196.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00197.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00198.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00199.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00200.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00201.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00202.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00203.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00204.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00205.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00206.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00207.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00208.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00209.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00210.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00211.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00212.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00213.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00214.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00215.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00216.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00217.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00218.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00219.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00220.json.gz",
+    "tables/fedwork/584c2eb5de530f37/00221.json.gz"
+   ]
+  },
+  "twins_2021-12.parquet": {
+   "name": "twins_2021-12.parquet",
+   "columns": [
+    "agency_code",
+    "age_bracket",
+    "los_band",
+    "perm",
+    "fulltime",
+    "supervisor",
+    "headcount",
+    "rate_quit",
+    "rate_retire",
+    "rate_term",
+    "rate_transfer",
+    "rate_other",
+    "season_quit_m01",
+    "season_quit_m02",
+    "season_quit_m03",
+    "season_quit_m04",
+    "season_quit_m05",
+    "season_quit_m06",
+    "season_quit_m07",
+    "season_quit_m08",
+    "season_quit_m09",
+    "season_quit_m10",
+    "season_quit_m11",
+    "season_quit_m12",
+    "season_retire_m01",
+    "season_retire_m02",
+    "season_retire_m03",
+    "season_retire_m04",
+    "season_retire_m05",
+    "season_retire_m06",
+    "season_retire_m07",
+    "season_retire_m08",
+    "season_retire_m09",
+    "season_retire_m10",
+    "season_retire_m11",
+    "season_retire_m12",
+    "season_term_m01",
+    "season_term_m02",
+    "season_term_m03",
+    "season_term_m04",
+    "season_term_m05",
+    "season_term_m06",
+    "season_term_m07",
+    "season_term_m08",
+    "season_term_m09",
+    "season_term_m10",
+    "season_term_m11",
+    "season_term_m12",
+    "season_transfer_m01",
+    "season_transfer_m02",
+    "season_transfer_m03",
+    "season_transfer_m04",
+    "season_transfer_m05",
+    "season_transfer_m06",
+    "season_transfer_m07",
+    "season_transfer_m08",
+    "season_transfer_m09",
+    "season_transfer_m10",
+    "season_transfer_m11",
+    "season_transfer_m12",
+    "season_other_m01",
+    "season_other_m02",
+    "season_other_m03",
+    "season_other_m04",
+    "season_other_m05",
+    "season_other_m06",
+    "season_other_m07",
+    "season_other_m08",
+    "season_other_m09",
+    "season_other_m10",
+    "season_other_m11",
+    "season_other_m12",
+    "agency_group",
+    "person_id",
+    "role_id",
+    "org_unit",
+    "team_id",
+    "seat",
+    "voluntary_rate"
+   ],
+   "total": 13849,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/fedwork/17ad605e953ed219/00000.json.gz",
+    "tables/fedwork/17ad605e953ed219/00001.json.gz"
+   ]
+  },
+  "twins_2022-12.parquet": {
+   "name": "twins_2022-12.parquet",
+   "columns": [
+    "agency_code",
+    "age_bracket",
+    "los_band",
+    "perm",
+    "fulltime",
+    "supervisor",
+    "headcount",
+    "rate_quit",
+    "rate_retire",
+    "rate_term",
+    "rate_transfer",
+    "rate_other",
+    "season_quit_m01",
+    "season_quit_m02",
+    "season_quit_m03",
+    "season_quit_m04",
+    "season_quit_m05",
+    "season_quit_m06",
+    "season_quit_m07",
+    "season_quit_m08",
+    "season_quit_m09",
+    "season_quit_m10",
+    "season_quit_m11",
+    "season_quit_m12",
+    "season_retire_m01",
+    "season_retire_m02",
+    "season_retire_m03",
+    "season_retire_m04",
+    "season_retire_m05",
+    "season_retire_m06",
+    "season_retire_m07",
+    "season_retire_m08",
+    "season_retire_m09",
+    "season_retire_m10",
+    "season_retire_m11",
+    "season_retire_m12",
+    "season_term_m01",
+    "season_term_m02",
+    "season_term_m03",
+    "season_term_m04",
+    "season_term_m05",
+    "season_term_m06",
+    "season_term_m07",
+    "season_term_m08",
+    "season_term_m09",
+    "season_term_m10",
+    "season_term_m11",
+    "season_term_m12",
+    "season_transfer_m01",
+    "season_transfer_m02",
+    "season_transfer_m03",
+    "season_transfer_m04",
+    "season_transfer_m05",
+    "season_transfer_m06",
+    "season_transfer_m07",
+    "season_transfer_m08",
+    "season_transfer_m09",
+    "season_transfer_m10",
+    "season_transfer_m11",
+    "season_transfer_m12",
+    "season_other_m01",
+    "season_other_m02",
+    "season_other_m03",
+    "season_other_m04",
+    "season_other_m05",
+    "season_other_m06",
+    "season_other_m07",
+    "season_other_m08",
+    "season_other_m09",
+    "season_other_m10",
+    "season_other_m11",
+    "season_other_m12",
+    "agency_group",
+    "person_id",
+    "role_id",
+    "org_unit",
+    "team_id",
+    "seat",
+    "voluntary_rate"
+   ],
+   "total": 13999,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/fedwork/dfd9bff7c349e1c2/00000.json.gz",
+    "tables/fedwork/dfd9bff7c349e1c2/00001.json.gz"
+   ]
+  },
+  "twins_2023-12.parquet": {
+   "name": "twins_2023-12.parquet",
+   "columns": [
+    "agency_code",
+    "age_bracket",
+    "los_band",
+    "perm",
+    "fulltime",
+    "supervisor",
+    "headcount",
+    "rate_quit",
+    "rate_retire",
+    "rate_term",
+    "rate_transfer",
+    "rate_other",
+    "season_quit_m01",
+    "season_quit_m02",
+    "season_quit_m03",
+    "season_quit_m04",
+    "season_quit_m05",
+    "season_quit_m06",
+    "season_quit_m07",
+    "season_quit_m08",
+    "season_quit_m09",
+    "season_quit_m10",
+    "season_quit_m11",
+    "season_quit_m12",
+    "season_retire_m01",
+    "season_retire_m02",
+    "season_retire_m03",
+    "season_retire_m04",
+    "season_retire_m05",
+    "season_retire_m06",
+    "season_retire_m07",
+    "season_retire_m08",
+    "season_retire_m09",
+    "season_retire_m10",
+    "season_retire_m11",
+    "season_retire_m12",
+    "season_term_m01",
+    "season_term_m02",
+    "season_term_m03",
+    "season_term_m04",
+    "season_term_m05",
+    "season_term_m06",
+    "season_term_m07",
+    "season_term_m08",
+    "season_term_m09",
+    "season_term_m10",
+    "season_term_m11",
+    "season_term_m12",
+    "season_transfer_m01",
+    "season_transfer_m02",
+    "season_transfer_m03",
+    "season_transfer_m04",
+    "season_transfer_m05",
+    "season_transfer_m06",
+    "season_transfer_m07",
+    "season_transfer_m08",
+    "season_transfer_m09",
+    "season_transfer_m10",
+    "season_transfer_m11",
+    "season_transfer_m12",
+    "season_other_m01",
+    "season_other_m02",
+    "season_other_m03",
+    "season_other_m04",
+    "season_other_m05",
+    "season_other_m06",
+    "season_other_m07",
+    "season_other_m08",
+    "season_other_m09",
+    "season_other_m10",
+    "season_other_m11",
+    "season_other_m12",
+    "agency_group",
+    "person_id",
+    "role_id",
+    "org_unit",
+    "team_id",
+    "seat",
+    "voluntary_rate"
+   ],
+   "total": 14175,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/fedwork/0dd775fb76b73f5b/00000.json.gz",
+    "tables/fedwork/0dd775fb76b73f5b/00001.json.gz"
+   ]
+  },
+  "twins_2024-12.parquet": {
+   "name": "twins_2024-12.parquet",
+   "columns": [
+    "agency_code",
+    "age_bracket",
+    "los_band",
+    "perm",
+    "fulltime",
+    "supervisor",
+    "headcount",
+    "rate_quit",
+    "rate_retire",
+    "rate_term",
+    "rate_transfer",
+    "rate_other",
+    "season_quit_m01",
+    "season_quit_m02",
+    "season_quit_m03",
+    "season_quit_m04",
+    "season_quit_m05",
+    "season_quit_m06",
+    "season_quit_m07",
+    "season_quit_m08",
+    "season_quit_m09",
+    "season_quit_m10",
+    "season_quit_m11",
+    "season_quit_m12",
+    "season_retire_m01",
+    "season_retire_m02",
+    "season_retire_m03",
+    "season_retire_m04",
+    "season_retire_m05",
+    "season_retire_m06",
+    "season_retire_m07",
+    "season_retire_m08",
+    "season_retire_m09",
+    "season_retire_m10",
+    "season_retire_m11",
+    "season_retire_m12",
+    "season_term_m01",
+    "season_term_m02",
+    "season_term_m03",
+    "season_term_m04",
+    "season_term_m05",
+    "season_term_m06",
+    "season_term_m07",
+    "season_term_m08",
+    "season_term_m09",
+    "season_term_m10",
+    "season_term_m11",
+    "season_term_m12",
+    "season_transfer_m01",
+    "season_transfer_m02",
+    "season_transfer_m03",
+    "season_transfer_m04",
+    "season_transfer_m05",
+    "season_transfer_m06",
+    "season_transfer_m07",
+    "season_transfer_m08",
+    "season_transfer_m09",
+    "season_transfer_m10",
+    "season_transfer_m11",
+    "season_transfer_m12",
+    "season_other_m01",
+    "season_other_m02",
+    "season_other_m03",
+    "season_other_m04",
+    "season_other_m05",
+    "season_other_m06",
+    "season_other_m07",
+    "season_other_m08",
+    "season_other_m09",
+    "season_other_m10",
+    "season_other_m11",
+    "season_other_m12",
+    "agency_group",
+    "person_id",
+    "role_id",
+    "org_unit",
+    "team_id",
+    "seat",
+    "voluntary_rate"
+   ],
+   "total": 14238,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/fedwork/574ccfb9aa1146e7/00000.json.gz",
+    "tables/fedwork/574ccfb9aa1146e7/00001.json.gz"
+   ]
   }
  }
 }

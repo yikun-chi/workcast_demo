@@ -53130,6 +53130,48 @@
      "occupations",
      "onet_task_id",
      "source_period"
+    ],
+    "schema": [
+     {
+      "name": "task",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "api_pct",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "prompt_index",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "completion_index",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "cost_index",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "occupations",
+      "type": "list<element: string>",
+      "nullable": true
+     },
+     {
+      "name": "onet_task_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "source_period",
+      "type": "large_string",
+      "nullable": true
+     }
     ]
    },
    {
@@ -53142,6 +53184,38 @@
      "rank",
      "tokens",
      "requests"
+    ],
+    "schema": [
+     {
+      "name": "week",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "app_id",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "app_name",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "rank",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "tokens",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "requests",
+      "type": "double",
+      "nullable": true
+     }
     ]
    },
    {
@@ -53156,6 +53230,48 @@
      "weeks_ranked",
      "category",
      "subcategory"
+    ],
+    "schema": [
+     {
+      "name": "app_id",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "app_name",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "first_week",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "last_week",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "peak_tokens",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "weeks_ranked",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "category",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "subcategory",
+      "type": "large_string",
+      "nullable": true
+     }
     ]
    },
    {
@@ -53169,6 +53285,43 @@
      "provider",
      "usage_model",
      "launch"
+    ],
+    "schema": [
+     {
+      "name": "id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "created",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "first_listed",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "name",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "provider",
+      "type": "string",
+      "nullable": true
+     },
+     {
+      "name": "usage_model",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "launch",
+      "type": "timestamp[us]",
+      "nullable": true
+     }
     ]
    },
    {
@@ -53180,6 +53333,33 @@
      "model",
      "tokens",
      "share"
+    ],
+    "schema": [
+     {
+      "name": "week",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "category",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "model",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "tokens",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "share",
+      "type": "double",
+      "nullable": true
+     }
     ]
    },
    {
@@ -53192,6 +53372,38 @@
      "days_observed",
      "market_tokens",
      "share"
+    ],
+    "schema": [
+     {
+      "name": "week",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "model",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "tokens",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "days_observed",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "market_tokens",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "share",
+      "type": "double",
+      "nullable": true
+     }
     ]
    },
    {
@@ -53204,6 +53416,38 @@
      "free_variant",
      "matched_price_id",
      "created"
+    ],
+    "schema": [
+     {
+      "name": "model",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "first_week",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "provider",
+      "type": "string",
+      "nullable": true
+     },
+     {
+      "name": "free_variant",
+      "type": "bool",
+      "nullable": true
+     },
+     {
+      "name": "matched_price_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "created",
+      "type": "timestamp[us]",
+      "nullable": true
+     }
     ]
    },
    {
@@ -53216,6 +53460,38 @@
      "completion_usd_mtok",
      "priced_from",
      "blended_usd_mtok"
+    ],
+    "schema": [
+     {
+      "name": "week",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "model",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "prompt_usd_mtok",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "completion_usd_mtok",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "priced_from",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "blended_usd_mtok",
+      "type": "double",
+      "nullable": true
+     }
     ]
    },
    {
@@ -53224,6 +53500,18 @@
     "columns": [
      "week",
      "tokens_rank200"
+    ],
+    "schema": [
+     {
+      "name": "week",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "tokens_rank200",
+      "type": "double",
+      "nullable": true
+     }
     ]
    }
   ],
@@ -56525,6 +56813,162 @@
    ],
    "summary": "Double the list price of the most used paid model in programming from the cutoff; same companies, launches and seeds.",
    "extends": "baseline"
+  }
+ },
+ "tables": {
+  "aei_tasks.parquet": {
+   "name": "aei_tasks.parquet",
+   "columns": [
+    "task",
+    "api_pct",
+    "prompt_index",
+    "completion_index",
+    "cost_index",
+    "occupations",
+    "onet_task_id",
+    "source_period"
+   ],
+   "total": 2297,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/openrouter/0485871ecddb62a0/00000.json.gz"
+   ]
+  },
+  "app_weekly.parquet": {
+   "name": "app_weekly.parquet",
+   "columns": [
+    "week",
+    "app_id",
+    "app_name",
+    "rank",
+    "tokens",
+    "requests"
+   ],
+   "total": 19000,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/openrouter/eed4cb85e34e47c2/00000.json.gz",
+    "tables/openrouter/eed4cb85e34e47c2/00001.json.gz"
+   ]
+  },
+  "apps.parquet": {
+   "name": "apps.parquet",
+   "columns": [
+    "app_id",
+    "app_name",
+    "first_week",
+    "last_week",
+    "peak_tokens",
+    "weeks_ranked",
+    "category",
+    "subcategory"
+   ],
+   "total": 2748,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/openrouter/e0de23a4513fa3dc/00000.json.gz"
+   ]
+  },
+  "catalog.parquet": {
+   "name": "catalog.parquet",
+   "columns": [
+    "id",
+    "created",
+    "first_listed",
+    "name",
+    "provider",
+    "usage_model",
+    "launch"
+   ],
+   "total": 814,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/openrouter/134aaf6ebc0caa67/00000.json.gz"
+   ]
+  },
+  "category_weekly.parquet": {
+   "name": "category_weekly.parquet",
+   "columns": [
+    "week",
+    "category",
+    "model",
+    "tokens",
+    "share"
+   ],
+   "total": 47119,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/openrouter/976e6894457cd8b7/00000.json.gz",
+    "tables/openrouter/976e6894457cd8b7/00001.json.gz",
+    "tables/openrouter/976e6894457cd8b7/00002.json.gz",
+    "tables/openrouter/976e6894457cd8b7/00003.json.gz",
+    "tables/openrouter/976e6894457cd8b7/00004.json.gz"
+   ]
+  },
+  "model_weekly.parquet": {
+   "name": "model_weekly.parquet",
+   "columns": [
+    "week",
+    "model",
+    "tokens",
+    "days_observed",
+    "market_tokens",
+    "share"
+   ],
+   "total": 6001,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/openrouter/705900622882ad02/00000.json.gz"
+   ]
+  },
+  "models.parquet": {
+   "name": "models.parquet",
+   "columns": [
+    "model",
+    "first_week",
+    "provider",
+    "free_variant",
+    "matched_price_id",
+    "created"
+   ],
+   "total": 440,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/openrouter/f6a9b232abffd36c/00000.json.gz"
+   ]
+  },
+  "price_weekly.parquet": {
+   "name": "price_weekly.parquet",
+   "columns": [
+    "week",
+    "model",
+    "prompt_usd_mtok",
+    "completion_usd_mtok",
+    "priced_from",
+    "blended_usd_mtok"
+   ],
+   "total": 59136,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/openrouter/260dacc322ce0dad/00000.json.gz",
+    "tables/openrouter/260dacc322ce0dad/00001.json.gz",
+    "tables/openrouter/260dacc322ce0dad/00002.json.gz",
+    "tables/openrouter/260dacc322ce0dad/00003.json.gz",
+    "tables/openrouter/260dacc322ce0dad/00004.json.gz",
+    "tables/openrouter/260dacc322ce0dad/00005.json.gz"
+   ]
+  },
+  "rank_threshold.parquet": {
+   "name": "rank_threshold.parquet",
+   "columns": [
+    "week",
+    "tokens_rank200"
+   ],
+   "total": 95,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/openrouter/97be9ae4dffe96ef/00000.json.gz"
+   ]
   }
  }
 }

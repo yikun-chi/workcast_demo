@@ -6246,6 +6246,28 @@
      "label",
      "modelled",
      "scored"
+    ],
+    "schema": [
+     {
+      "name": "group",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "label",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "modelled",
+      "type": "bool",
+      "nullable": true
+     },
+     {
+      "name": "scored",
+      "type": "bool",
+      "nullable": true
+     }
     ]
    },
    {
@@ -6258,6 +6280,38 @@
      "release",
      "value",
      "se"
+    ],
+    "schema": [
+     {
+      "name": "group",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "period",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "date",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "release",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "value",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "se",
+      "type": "double",
+      "nullable": true
+     }
     ]
    },
    {
@@ -6268,6 +6322,28 @@
      "pct",
      "mapped",
      "release"
+    ],
+    "schema": [
+     {
+      "name": "task",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "pct",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "mapped",
+      "type": "bool",
+      "nullable": true
+     },
+     {
+      "name": "release",
+      "type": "large_string",
+      "nullable": true
+     }
     ]
    }
   ],
@@ -8163,6 +8239,53 @@
    ],
    "summary": "Office and administrative support workers who do not use the assistant start at twice the simulated hazard; same cutoffs and seeds.",
    "extends": "baseline"
+  }
+ },
+ "tables": {
+  "groups.parquet": {
+   "name": "groups.parquet",
+   "columns": [
+    "group",
+    "label",
+    "modelled",
+    "scored"
+   ],
+   "total": 22,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/aei_tasks/b8f5eb7ba7b9828a/00000.json.gz"
+   ]
+  },
+  "series.parquet": {
+   "name": "series.parquet",
+   "columns": [
+    "group",
+    "period",
+    "date",
+    "release",
+    "value",
+    "se"
+   ],
+   "total": 132,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/aei_tasks/0144cb06449c38f3/00000.json.gz"
+   ]
+  },
+  "task_shares.parquet": {
+   "name": "task_shares.parquet",
+   "columns": [
+    "task",
+    "pct",
+    "mapped",
+    "release"
+   ],
+   "total": 18739,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/aei_tasks/3b85268c9b9f4754/00000.json.gz",
+    "tables/aei_tasks/3b85268c9b9f4754/00001.json.gz"
+   ]
   }
  }
 }

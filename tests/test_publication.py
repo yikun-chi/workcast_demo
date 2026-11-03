@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import hashlib
+import gzip
 import importlib.util
 import io
 import json
@@ -79,8 +80,9 @@ def public_fixture(tmp_path):
     source = tmp_path / "public-data"
     source.mkdir()
     responses = {route: {} for route in ("/", "/results", "/evaluation", "/insights", "/summary", "/scenarios", "/tables", "/ontology/concepts")}
-    module.write_json(source / "demo.json", {"responses": responses})
-    module.write_json(source / "index.json", {"schema_version": 1, "instances": [{"id": "demo", "plugins": []}], "files": {"demo.json": module.digest(source / "demo.json")}})
+    responses["/tables"] = []
+    module.write_json(source / "demo.json", {"responses": responses, "tables": {}})
+    module.write_json(source / "index.json", {"schema_version": 2, "instances": [{"id": "demo", "plugins": []}], "files": {"demo.json": module.digest(source / "demo.json")}})
     return module, source
 
 
@@ -105,5 +107,86 @@ def test_public_build_fails_before_replacing_site_when_snapshot_changed(tmp_path
     before = (output / "public-data/demo.json").read_bytes()
     (source / "demo.json").write_text('{}')
     with pytest.raises(ValueError, match="checksum"):
+        module.build_site(source, output)
+    assert (output / "public-data/demo.json").read_bytes() == before
+
+
+def table_fixture(tmp_path):
+    import pandas as pd
+
+    module, source = public_fixture(tmp_path)
+    # More than one file and one chunk, with nulls, booleans, timestamps and Unicode.
+    frame = pd.DataFrame({"person_id": ["p:1", "p:2", "p:3", "p:4", "p:5"],
+                          "name": ["A", "Élise", None, "Comma, and\nnewline", "Last record"],
+                          "value": [0.0, float("nan"), 2.5, -1, 4],
+                          "flag": [True, False, True, False, True], "month": [1, 1, 2, 2, 2],
+                          "date": pd.to_datetime(["2020-01-01"] * 5)})
+    path = tmp_path / "partitioned.parquet"
+    (path / "month=1").mkdir(parents=True)
+    (path / "month=2").mkdir()
+    frame.iloc[:2].drop(columns="month").to_parquet(path / "month=1/a.parquet", index=False)
+    frame.iloc[2:].drop(columns="month").to_parquet(path / "month=2/b.parquet", index=False)
+    metadata = {"name": "population.parquet", "rows": len(frame), "columns": list(frame.columns)}
+    table = module.export_table(path, source, "demo", metadata, chunk_size=3)
+    bundle = json.loads((source / "demo.json").read_text())
+    bundle["responses"]["/tables"] = [metadata]
+    bundle["tables"] = {metadata["name"]: table}
+    module.write_json(source / "demo.json", bundle)
+    index = json.loads((source / "index.json").read_text())
+    index["files"] = {name: module.digest(source / name) for name in ["demo.json", *table["chunks"]]}
+    module.write_json(source / "index.json", index)
+    return module, source, table, frame
+
+
+def test_public_table_roundtrip_keeps_all_rows_values_and_partition_boundaries(tmp_path):
+    module, source, table, frame = table_fixture(tmp_path)
+    output = tmp_path / "site"
+    module.build_site(source, output)
+    chunks = [json.loads(gzip.decompress((output / "public-data" / p).read_bytes())) for p in table["chunks"]]
+    assert [len(c) for c in chunks] == [3, 2]
+    assert [row for chunk in chunks for row in chunk] == json.loads(frame.to_json(orient="values", date_format="iso"))
+
+
+def test_live_table_schema_and_stable_sort_preserve_complete_records(tmp_path, monkeypatch):
+    import importlib
+    from types import SimpleNamespace
+    import pandas as pd
+
+    server = importlib.import_module("orgsim.server.app")
+    frame = pd.DataFrame({"person_id": ["p1", "p2", "p3"], "score": [2.5, None, 2.5], "enabled": [True, False, False]})
+    frame.to_parquet(tmp_path / "population.parquet", index=False)
+    monkeypatch.setattr(server, "_ctx", lambda _iid: SimpleNamespace(data_normalized=tmp_path))
+    table = server.tables("demo")[0]
+    assert table["rows"] == 3
+    assert table["columns"] == list(frame.columns)
+    assert [f["name"] for f in table["schema"]] == list(frame.columns)
+    assert all(f["type"] for f in table["schema"])
+    page = server.table_rows("demo", "population.parquet", offset=0, limit=50, sort="score", desc=1)
+    assert [r["person_id"] for r in page["rows"]] == ["p1", "p3", "p2"]
+    assert page["rows"][-1] == {"person_id": "p2", "score": None, "enabled": False}
+
+
+@pytest.mark.parametrize("failure", ["corrupt", "missing", "traversal", "short_rows"])
+def test_invalid_table_snapshot_leaves_previous_site_intact(tmp_path, failure):
+    module, source, table, _ = table_fixture(tmp_path)
+    output = tmp_path / "site"
+    module.build_site(source, output)
+    before = (output / "public-data/demo.json").read_bytes()
+    path = source / table["chunks"][0]
+    index = json.loads((source / "index.json").read_text())
+    if failure == "corrupt":
+        path.write_bytes(b"bad")
+    elif failure == "missing":
+        path.unlink()
+    elif failure == "traversal":
+        bundle = json.loads((source / "demo.json").read_text())
+        bundle["tables"][table["name"]]["chunks"][0] = "../secrets.json.gz"
+        module.write_json(source / "demo.json", bundle)
+        index["files"]["demo.json"] = module.digest(source / "demo.json")
+    else:
+        path.write_bytes(gzip.compress(b"[]", mtime=0))
+        index["files"][table["chunks"][0]] = module.digest(path)
+    module.write_json(source / "index.json", index)
+    with pytest.raises((ValueError, FileNotFoundError)):
         module.build_site(source, output)
     assert (output / "public-data/demo.json").read_bytes() == before

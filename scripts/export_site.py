@@ -1,16 +1,19 @@
-"""Export saved aggregate responses, or build the read-only site without datasets."""
+"""Export saved responses and browsable input records, or build the read-only site."""
 from __future__ import annotations
 
 import argparse
 import hashlib
+import gzip
 import json
 from pathlib import Path
 import shutil
 import subprocess
 import tempfile
+import re
 from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
+TABLE_CHUNK_SIZE = 10_000
 
 
 def digest(path: Path) -> str:
@@ -23,10 +26,46 @@ def write_json(path: Path, value) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, allow_nan=False, indent=1) + "\n")
 
 
+def export_table(path: Path, staging: Path, iid: str, metadata: dict, chunk_size: int = TABLE_CHUNK_SIZE) -> dict:
+    """Stream all normalized rows into deterministic compressed chunks, never a sample."""
+    import pandas as pd
+    import pyarrow.dataset as ds
+
+    name = metadata["name"]
+    prefix = Path("tables") / iid / hashlib.sha256(name.encode()).hexdigest()[:16]
+    if path.suffix == ".csv":
+        frame = pd.read_csv(path)
+        frames = (frame.iloc[start:start + chunk_size] for start in range(0, len(frame), chunk_size))
+    else:
+        frames = (batch.to_pandas() for batch in ds.dataset(path, format="parquet", partitioning="hive").to_batches(batch_size=chunk_size))
+    pending, chunks, total = [], [], 0
+
+    def save(rows):
+        relative = prefix / f"{len(chunks):05d}.json.gz"
+        destination = staging / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        raw = json.dumps(rows, ensure_ascii=False, allow_nan=False, separators=(",", ":")).encode()
+        destination.write_bytes(gzip.compress(raw, compresslevel=6, mtime=0))
+        chunks.append(relative.as_posix())
+
+    for frame in frames:
+        # Same timestamp, missing-value and numeric serialization as the table API.
+        pending.extend(json.loads(frame[metadata["columns"]].to_json(orient="values", date_format="iso")))
+        total += len(frame)
+        while len(pending) >= chunk_size:
+            save(pending[:chunk_size])
+            del pending[:chunk_size]
+    if pending:
+        save(pending)
+    if total != metadata["rows"]:
+        raise ValueError(f"{iid}/{name}: row count changed during export")
+    return {"name": name, "columns": metadata["columns"], "total": total, "chunk_size": chunk_size, "chunks": chunks}
+
+
 def export_snapshot(destination: Path) -> None:
     # Import scientific dependencies only for refresh. CI builds from committed JSON.
     from fastapi.testclient import TestClient
-    from orgsim.server.app import app
+    from orgsim.server.app import app, _ctx, _tables
 
     source_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     source_dirty = bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True).strip())
@@ -61,14 +100,24 @@ def export_snapshot(destination: Path) -> None:
                     if code and code not in occupations:
                         occupations[code] = get(client, f"/onet/occupations/{code}")
                 evaluation = ROOT / "runs" / iid / "evaluation.json"
-                write_json(staging / f"{iid}.json", {"instance": iid, "evaluation_sha256": digest(evaluation), "responses": responses})
+                paths = _tables(_ctx(iid))
+                table_data = {}
+                for table in responses["/tables"]:
+                    if table.get("error"):
+                        raise ValueError(f"{iid}: cannot publish unreadable table {table['name']}")
+                    table_data[table["name"]] = export_table(paths[table["name"]], staging, iid, table)
+                write_json(staging / f"{iid}.json", {"instance": iid, "evaluation_sha256": digest(evaluation),
+                                                    "responses": responses, "tables": table_data})
                 print(f"Exported {iid}", flush=True)
-        index = {"schema_version": 1, "captured_at": datetime.now(timezone.utc).isoformat(),
+        index = {"schema_version": 2, "captured_at": datetime.now(timezone.utc).isoformat(),
                  "source_commit": source_commit, "source_dirty": source_dirty,
                  "instances": instances, "occupations": occupations,
-                 "files": {p.name: digest(p) for p in sorted(staging.glob("*.json"))}}
+                 "files": {p.relative_to(staging).as_posix(): digest(p) for p in sorted(staging.rglob("*")) if p.is_file()}}
         write_json(staging / "index.json", index)
+        validate_snapshot(staging)
         destination.mkdir(exist_ok=True)
+        if (destination / "tables").exists():
+            shutil.rmtree(destination / "tables")
         for path in staging.iterdir():
             path.replace(destination / path.name)
         for old in destination.glob("*.json"):
@@ -78,21 +127,47 @@ def export_snapshot(destination: Path) -> None:
 
 def validate_snapshot(source: Path) -> dict:
     index = json.loads((source / "index.json").read_text())
-    if index.get("schema_version") != 1 or not index.get("instances"):
+    if index.get("schema_version") != 2 or not index.get("instances"):
         raise ValueError("Unsupported or empty public snapshot")
     ids = [i["id"] for i in index["instances"]]
     if len(ids) != len(set(ids)):
         raise ValueError("Duplicate instance IDs")
+    expected_files = set()
     for iid in ids:
         if not iid.replace("_", "").isalnum():
             raise ValueError("Invalid instance ID")
         file = source / f"{iid}.json"
+        expected_files.add(file.name)
         if digest(file) != index["files"].get(file.name):
             raise ValueError(f"Snapshot checksum mismatch: {file.name}")
         data = json.loads(file.read_text())
         for route in ("/", "/results", "/evaluation", "/insights", "/summary", "/scenarios", "/tables", "/ontology/concepts"):
             if route not in data["responses"]:
                 raise ValueError(f"{iid}: missing {route}")
+        metadata = {t["name"]: t for t in data["responses"]["/tables"]}
+        if set(data.get("tables", {})) != set(metadata):
+            raise ValueError(f"{iid}: missing table records")
+        for name, table in data.get("tables", {}).items():
+            if table["columns"] != metadata[name]["columns"] or table["total"] != metadata[name]["rows"]:
+                raise ValueError(f"{iid}/{name}: table metadata mismatch")
+            size = table["chunk_size"]
+            if size <= 0 or len(table["chunks"]) != (table["total"] + size - 1) // size:
+                raise ValueError(f"{iid}/{name}: incomplete table chunks")
+            for number, relative in enumerate(table["chunks"]):
+                if not re.fullmatch(rf"tables/{iid}/[0-9a-f]{{16}}/{number:05d}\.json\.gz", relative):
+                    raise ValueError(f"Invalid table chunk path: {relative}")
+                if relative in expected_files:
+                    raise ValueError(f"Duplicate table chunk: {relative}")
+                expected_files.add(relative)
+                chunk = source / relative
+                if chunk.is_symlink() or not chunk.resolve().is_relative_to(source.resolve()) or digest(chunk) != index["files"].get(relative):
+                    raise ValueError(f"Snapshot checksum mismatch: {relative}")
+                rows = json.loads(gzip.decompress(chunk.read_bytes()))
+                expected_rows = min(size, table["total"] - number * size)
+                if len(rows) != expected_rows or any(not isinstance(row, list) or len(row) != len(table["columns"]) for row in rows):
+                    raise ValueError(f"Invalid table rows: {relative}")
+    if set(index["files"]) != expected_files:
+        raise ValueError("Unexpected files in public snapshot index")
     return index
 
 
@@ -109,7 +184,8 @@ def build_site(source: Path, output: Path) -> None:
         staging.mkdir()
         shutil.copytree(ROOT / "ui", staging / "ui", ignore=shutil.ignore_patterns("dev", "node_modules", "dist"))
         (staging / "public-data").mkdir()
-        for name in ["index.json", *(f"{i['id']}.json" for i in index["instances"])]:
+        for name in ["index.json", *index["files"]]:
+            (staging / "public-data" / name).parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source / name, staging / "public-data" / name)
         html = (ROOT / "ui/index.html").read_text().replace('"/ui/', '"ui/')
         html = html.replace("</head>", '<meta name="workcast-mode" content="static">\n</head>')

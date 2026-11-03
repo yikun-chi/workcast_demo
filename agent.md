@@ -32,9 +32,16 @@ Keep internal identifiers stable. Explain a comparison method in ordinary langua
 Each instance is self-contained in its tabs; the landing page selects an instance.
 Show the change, reference condition, actual and predicted impact, and prediction
 error together. Do not split the same attrition outcome between competing sections.
-Alternatives follow; supporting metrics open on selection. Editing belongs in
-Ontology, Data and Scenarios. Results, Scenarios, Data and Ontology stay visible;
-inspection pages live under More. Use scenario `short_title` in tables. Label
+Alternatives follow; supporting metrics open on selection. Model internals have
+three distinct tabs, in this order: **Input** describes input schemas (field names,
+types and missing-value allowance); **Data** browses actual saved records and opens
+every field of a selected employee or other record; **Ontology** shows relations
+between concepts, such as Person → has_role → Role, not individual objects.
+Never substitute schema listings or samples for the Data viewer. Data search and
+sorting cover the whole selected table, not just the visible page or loaded chunk.
+Local bindings/roles/person editors belong under Input; scenario editing stays in
+Scenarios. Object-level relations belong in Data. Keep Input, Data and Ontology
+visible under model internals in both local and public modes. Use scenario `short_title` in tables. Label
 simulated interviews as simulated: no real employee said those statements.
 
 | Instance | Question | Model family |
@@ -163,6 +170,8 @@ a second guide. Update links when moving content.
 | Seat-policy integrations | `orgsim/policies/`; per-instance choices in `instances/<id>/policies/seats.yaml` |
 | Shared ontology, scenarios, evaluation, interviews and run storage | Corresponding `orgsim/ontology/`, `scenarios/`, `evaluation/`, `insights/`, `store/` |
 | HTTP routes and shared browser pages | `orgsim/server/app.py`, `ui/`; routing in `ui/app.js`, tokens in `ui/theme.css` |
+| Input schemas, record viewing and concept relations | `ui/pages/input.js`, `ui/pages/data*.js`, `ui/pages/ontology*.js`; existing `data_edit.js` and `ontology_edit.js` editors are hosted by Input |
+| Static table paging/search/sort and worker | `ui/data/`; keep the query contract aligned with the live table API, verify in `tests/js/` |
 | Instance metadata, sources, ingest, bindings, calibration, scenarios and report builder | `instances/<id>/`; checklist in `instances/_template/README.md` |
 | Repository acquisition and report-generation tools | `scripts/`; avoid workstation-specific paths in normal workflows |
 | Verification | `tests/`; dataset-dependent checks carry the `data` marker |
@@ -240,8 +249,13 @@ The local FastAPI application remains interactive and unauthenticated on loopbac
 
 Static mode is an adapter in the same UI, selected by generated HTML metadata.
 It preserves the common framing and saved alternatives, rejects writes and hides
-run/edit controls. Keep raw table rows, individual input records and full traces
-out of the public website export. Development fixtures are never published evidence.
+run/edit controls. The public Data viewer includes **all normalized input records**,
+including the anonymized employee records already present in the released datasets.
+Export these as compressed chunks with checksums; load pages on demand and run
+whole-table searches/sorts in a worker. Input retains schemas and Ontology retains
+concept relations. Do not publish raw source archives, run traces or credentials in
+the website bundle. A static site remains read-only even when viewing detailed data.
+Development fixtures are never published evidence.
 Update snapshots through `scripts/export_site.py`; do not hand-edit their values.
 
 GitHub Releases separately preserve full datasets and cleaned runs, including

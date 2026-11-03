@@ -9146,6 +9146,93 @@
      "concept:name",
      "Goods Receipt",
      "n_events"
+    ],
+    "schema": [
+     {
+      "name": "Spend area text",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Company",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Document Type",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Sub spend area text",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Purchasing Document",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Purch. Doc. Category name",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Vendor",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Item Type",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Item Category",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Spend classification text",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Source",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Name",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "GR-Based Inv. Verif.",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Item",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "concept:name",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Goods Receipt",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "n_events",
+      "type": "int64",
+      "nullable": true
+     }
     ]
    },
    {
@@ -9173,6 +9260,113 @@
      "n_events",
      "first_activity",
      "last_activity"
+    ],
+    "schema": [
+     {
+      "name": "Spend area text",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Company",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Document Type",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Sub spend area text",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Purchasing Document",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Purch. Doc. Category name",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Vendor",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Item Type",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "family",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Spend classification text",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Source",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Name",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "GR-Based Inv. Verif.",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Item",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "case_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Goods Receipt",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "first_ts",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "last_ts",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "n_events",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "first_activity",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "last_activity",
+      "type": "large_string",
+      "nullable": true
+     }
     ]
    },
    {
@@ -9188,6 +9382,53 @@
      "_pos",
      "ts",
      "month"
+    ],
+    "schema": [
+     {
+      "name": "User",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "org:resource",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "concept:name",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Cumulative net worth (EUR)",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "time:timestamp",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "case_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "_pos",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "ts",
+      "type": "timestamp[us, tz=UTC]",
+      "nullable": true
+     },
+     {
+      "name": "month",
+      "type": "dictionary<values=string, indices=int32, ordered=0>",
+      "nullable": true
+     }
     ]
    },
    {
@@ -9210,6 +9451,88 @@
      "Document Type",
      "Spend area text",
      "Company"
+    ],
+    "schema": [
+     {
+      "name": "case_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "activity",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "resource",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "net_worth",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "ts",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "resource_class",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "date_only",
+      "type": "bool",
+      "nullable": true
+     },
+     {
+      "name": "ts_eff",
+      "type": "timestamp[us]",
+      "nullable": true
+     },
+     {
+      "name": "role",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "pos",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "family",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Item Type",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Vendor",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Document Type",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Spend area text",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "Company",
+      "type": "large_string",
+      "nullable": true
+     }
     ]
    },
    {
@@ -9223,6 +9546,43 @@
      "p90_h",
      "mean_h",
      "family"
+    ],
+    "schema": [
+     {
+      "name": "from",
+      "type": "str",
+      "nullable": false
+     },
+     {
+      "name": "to",
+      "type": "str",
+      "nullable": false
+     },
+     {
+      "name": "n",
+      "type": "int64",
+      "nullable": false
+     },
+     {
+      "name": "p50_h",
+      "type": "float64",
+      "nullable": false
+     },
+     {
+      "name": "p90_h",
+      "type": "float64",
+      "nullable": false
+     },
+     {
+      "name": "mean_h",
+      "type": "float64",
+      "nullable": false
+     },
+     {
+      "name": "family",
+      "type": "str",
+      "nullable": false
+     }
     ]
    },
    {
@@ -9237,6 +9597,48 @@
      "top_activity",
      "top_activity_share",
      "activity_shares"
+    ],
+    "schema": [
+     {
+      "name": "user",
+      "type": "str",
+      "nullable": false
+     },
+     {
+      "name": "role",
+      "type": "str",
+      "nullable": false
+     },
+     {
+      "name": "role_share",
+      "type": "float64",
+      "nullable": false
+     },
+     {
+      "name": "events_train",
+      "type": "int64",
+      "nullable": false
+     },
+     {
+      "name": "n_activities",
+      "type": "int64",
+      "nullable": false
+     },
+     {
+      "name": "top_activity",
+      "type": "str",
+      "nullable": false
+     },
+     {
+      "name": "top_activity_share",
+      "type": "float64",
+      "nullable": false
+     },
+     {
+      "name": "activity_shares",
+      "type": "str",
+      "nullable": false
+     }
     ]
    }
   ],
@@ -11632,6 +12034,499 @@
     "assumption_basis": "All five settings below are editable scenario assumptions, not estimates fitted to procurement outcomes."
    },
    "extends": "baseline"
+  }
+ },
+ "tables": {
+  "cases.parquet": {
+   "name": "cases.parquet",
+   "columns": [
+    "Spend area text",
+    "Company",
+    "Document Type",
+    "Sub spend area text",
+    "Purchasing Document",
+    "Purch. Doc. Category name",
+    "Vendor",
+    "Item Type",
+    "Item Category",
+    "Spend classification text",
+    "Source",
+    "Name",
+    "GR-Based Inv. Verif.",
+    "Item",
+    "concept:name",
+    "Goods Receipt",
+    "n_events"
+   ],
+   "total": 251734,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/bpi19/e66b6b965fd0c42e/00000.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00001.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00002.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00003.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00004.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00005.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00006.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00007.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00008.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00009.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00010.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00011.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00012.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00013.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00014.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00015.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00016.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00017.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00018.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00019.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00020.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00021.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00022.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00023.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00024.json.gz",
+    "tables/bpi19/e66b6b965fd0c42e/00025.json.gz"
+   ]
+  },
+  "cases_clean.parquet": {
+   "name": "cases_clean.parquet",
+   "columns": [
+    "Spend area text",
+    "Company",
+    "Document Type",
+    "Sub spend area text",
+    "Purchasing Document",
+    "Purch. Doc. Category name",
+    "Vendor",
+    "Item Type",
+    "family",
+    "Spend classification text",
+    "Source",
+    "Name",
+    "GR-Based Inv. Verif.",
+    "Item",
+    "case_id",
+    "Goods Receipt",
+    "first_ts",
+    "last_ts",
+    "n_events",
+    "first_activity",
+    "last_activity"
+   ],
+   "total": 251734,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/bpi19/1a1c3c187c4bc6ec/00000.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00001.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00002.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00003.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00004.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00005.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00006.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00007.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00008.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00009.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00010.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00011.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00012.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00013.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00014.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00015.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00016.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00017.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00018.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00019.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00020.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00021.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00022.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00023.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00024.json.gz",
+    "tables/bpi19/1a1c3c187c4bc6ec/00025.json.gz"
+   ]
+  },
+  "events.parquet": {
+   "name": "events.parquet",
+   "columns": [
+    "User",
+    "org:resource",
+    "concept:name",
+    "Cumulative net worth (EUR)",
+    "time:timestamp",
+    "case_id",
+    "_pos",
+    "ts",
+    "month"
+   ],
+   "total": 1595923,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/bpi19/0f579666d60562a9/00000.json.gz",
+    "tables/bpi19/0f579666d60562a9/00001.json.gz",
+    "tables/bpi19/0f579666d60562a9/00002.json.gz",
+    "tables/bpi19/0f579666d60562a9/00003.json.gz",
+    "tables/bpi19/0f579666d60562a9/00004.json.gz",
+    "tables/bpi19/0f579666d60562a9/00005.json.gz",
+    "tables/bpi19/0f579666d60562a9/00006.json.gz",
+    "tables/bpi19/0f579666d60562a9/00007.json.gz",
+    "tables/bpi19/0f579666d60562a9/00008.json.gz",
+    "tables/bpi19/0f579666d60562a9/00009.json.gz",
+    "tables/bpi19/0f579666d60562a9/00010.json.gz",
+    "tables/bpi19/0f579666d60562a9/00011.json.gz",
+    "tables/bpi19/0f579666d60562a9/00012.json.gz",
+    "tables/bpi19/0f579666d60562a9/00013.json.gz",
+    "tables/bpi19/0f579666d60562a9/00014.json.gz",
+    "tables/bpi19/0f579666d60562a9/00015.json.gz",
+    "tables/bpi19/0f579666d60562a9/00016.json.gz",
+    "tables/bpi19/0f579666d60562a9/00017.json.gz",
+    "tables/bpi19/0f579666d60562a9/00018.json.gz",
+    "tables/bpi19/0f579666d60562a9/00019.json.gz",
+    "tables/bpi19/0f579666d60562a9/00020.json.gz",
+    "tables/bpi19/0f579666d60562a9/00021.json.gz",
+    "tables/bpi19/0f579666d60562a9/00022.json.gz",
+    "tables/bpi19/0f579666d60562a9/00023.json.gz",
+    "tables/bpi19/0f579666d60562a9/00024.json.gz",
+    "tables/bpi19/0f579666d60562a9/00025.json.gz",
+    "tables/bpi19/0f579666d60562a9/00026.json.gz",
+    "tables/bpi19/0f579666d60562a9/00027.json.gz",
+    "tables/bpi19/0f579666d60562a9/00028.json.gz",
+    "tables/bpi19/0f579666d60562a9/00029.json.gz",
+    "tables/bpi19/0f579666d60562a9/00030.json.gz",
+    "tables/bpi19/0f579666d60562a9/00031.json.gz",
+    "tables/bpi19/0f579666d60562a9/00032.json.gz",
+    "tables/bpi19/0f579666d60562a9/00033.json.gz",
+    "tables/bpi19/0f579666d60562a9/00034.json.gz",
+    "tables/bpi19/0f579666d60562a9/00035.json.gz",
+    "tables/bpi19/0f579666d60562a9/00036.json.gz",
+    "tables/bpi19/0f579666d60562a9/00037.json.gz",
+    "tables/bpi19/0f579666d60562a9/00038.json.gz",
+    "tables/bpi19/0f579666d60562a9/00039.json.gz",
+    "tables/bpi19/0f579666d60562a9/00040.json.gz",
+    "tables/bpi19/0f579666d60562a9/00041.json.gz",
+    "tables/bpi19/0f579666d60562a9/00042.json.gz",
+    "tables/bpi19/0f579666d60562a9/00043.json.gz",
+    "tables/bpi19/0f579666d60562a9/00044.json.gz",
+    "tables/bpi19/0f579666d60562a9/00045.json.gz",
+    "tables/bpi19/0f579666d60562a9/00046.json.gz",
+    "tables/bpi19/0f579666d60562a9/00047.json.gz",
+    "tables/bpi19/0f579666d60562a9/00048.json.gz",
+    "tables/bpi19/0f579666d60562a9/00049.json.gz",
+    "tables/bpi19/0f579666d60562a9/00050.json.gz",
+    "tables/bpi19/0f579666d60562a9/00051.json.gz",
+    "tables/bpi19/0f579666d60562a9/00052.json.gz",
+    "tables/bpi19/0f579666d60562a9/00053.json.gz",
+    "tables/bpi19/0f579666d60562a9/00054.json.gz",
+    "tables/bpi19/0f579666d60562a9/00055.json.gz",
+    "tables/bpi19/0f579666d60562a9/00056.json.gz",
+    "tables/bpi19/0f579666d60562a9/00057.json.gz",
+    "tables/bpi19/0f579666d60562a9/00058.json.gz",
+    "tables/bpi19/0f579666d60562a9/00059.json.gz",
+    "tables/bpi19/0f579666d60562a9/00060.json.gz",
+    "tables/bpi19/0f579666d60562a9/00061.json.gz",
+    "tables/bpi19/0f579666d60562a9/00062.json.gz",
+    "tables/bpi19/0f579666d60562a9/00063.json.gz",
+    "tables/bpi19/0f579666d60562a9/00064.json.gz",
+    "tables/bpi19/0f579666d60562a9/00065.json.gz",
+    "tables/bpi19/0f579666d60562a9/00066.json.gz",
+    "tables/bpi19/0f579666d60562a9/00067.json.gz",
+    "tables/bpi19/0f579666d60562a9/00068.json.gz",
+    "tables/bpi19/0f579666d60562a9/00069.json.gz",
+    "tables/bpi19/0f579666d60562a9/00070.json.gz",
+    "tables/bpi19/0f579666d60562a9/00071.json.gz",
+    "tables/bpi19/0f579666d60562a9/00072.json.gz",
+    "tables/bpi19/0f579666d60562a9/00073.json.gz",
+    "tables/bpi19/0f579666d60562a9/00074.json.gz",
+    "tables/bpi19/0f579666d60562a9/00075.json.gz",
+    "tables/bpi19/0f579666d60562a9/00076.json.gz",
+    "tables/bpi19/0f579666d60562a9/00077.json.gz",
+    "tables/bpi19/0f579666d60562a9/00078.json.gz",
+    "tables/bpi19/0f579666d60562a9/00079.json.gz",
+    "tables/bpi19/0f579666d60562a9/00080.json.gz",
+    "tables/bpi19/0f579666d60562a9/00081.json.gz",
+    "tables/bpi19/0f579666d60562a9/00082.json.gz",
+    "tables/bpi19/0f579666d60562a9/00083.json.gz",
+    "tables/bpi19/0f579666d60562a9/00084.json.gz",
+    "tables/bpi19/0f579666d60562a9/00085.json.gz",
+    "tables/bpi19/0f579666d60562a9/00086.json.gz",
+    "tables/bpi19/0f579666d60562a9/00087.json.gz",
+    "tables/bpi19/0f579666d60562a9/00088.json.gz",
+    "tables/bpi19/0f579666d60562a9/00089.json.gz",
+    "tables/bpi19/0f579666d60562a9/00090.json.gz",
+    "tables/bpi19/0f579666d60562a9/00091.json.gz",
+    "tables/bpi19/0f579666d60562a9/00092.json.gz",
+    "tables/bpi19/0f579666d60562a9/00093.json.gz",
+    "tables/bpi19/0f579666d60562a9/00094.json.gz",
+    "tables/bpi19/0f579666d60562a9/00095.json.gz",
+    "tables/bpi19/0f579666d60562a9/00096.json.gz",
+    "tables/bpi19/0f579666d60562a9/00097.json.gz",
+    "tables/bpi19/0f579666d60562a9/00098.json.gz",
+    "tables/bpi19/0f579666d60562a9/00099.json.gz",
+    "tables/bpi19/0f579666d60562a9/00100.json.gz",
+    "tables/bpi19/0f579666d60562a9/00101.json.gz",
+    "tables/bpi19/0f579666d60562a9/00102.json.gz",
+    "tables/bpi19/0f579666d60562a9/00103.json.gz",
+    "tables/bpi19/0f579666d60562a9/00104.json.gz",
+    "tables/bpi19/0f579666d60562a9/00105.json.gz",
+    "tables/bpi19/0f579666d60562a9/00106.json.gz",
+    "tables/bpi19/0f579666d60562a9/00107.json.gz",
+    "tables/bpi19/0f579666d60562a9/00108.json.gz",
+    "tables/bpi19/0f579666d60562a9/00109.json.gz",
+    "tables/bpi19/0f579666d60562a9/00110.json.gz",
+    "tables/bpi19/0f579666d60562a9/00111.json.gz",
+    "tables/bpi19/0f579666d60562a9/00112.json.gz",
+    "tables/bpi19/0f579666d60562a9/00113.json.gz",
+    "tables/bpi19/0f579666d60562a9/00114.json.gz",
+    "tables/bpi19/0f579666d60562a9/00115.json.gz",
+    "tables/bpi19/0f579666d60562a9/00116.json.gz",
+    "tables/bpi19/0f579666d60562a9/00117.json.gz",
+    "tables/bpi19/0f579666d60562a9/00118.json.gz",
+    "tables/bpi19/0f579666d60562a9/00119.json.gz",
+    "tables/bpi19/0f579666d60562a9/00120.json.gz",
+    "tables/bpi19/0f579666d60562a9/00121.json.gz",
+    "tables/bpi19/0f579666d60562a9/00122.json.gz",
+    "tables/bpi19/0f579666d60562a9/00123.json.gz",
+    "tables/bpi19/0f579666d60562a9/00124.json.gz",
+    "tables/bpi19/0f579666d60562a9/00125.json.gz",
+    "tables/bpi19/0f579666d60562a9/00126.json.gz",
+    "tables/bpi19/0f579666d60562a9/00127.json.gz",
+    "tables/bpi19/0f579666d60562a9/00128.json.gz",
+    "tables/bpi19/0f579666d60562a9/00129.json.gz",
+    "tables/bpi19/0f579666d60562a9/00130.json.gz",
+    "tables/bpi19/0f579666d60562a9/00131.json.gz",
+    "tables/bpi19/0f579666d60562a9/00132.json.gz",
+    "tables/bpi19/0f579666d60562a9/00133.json.gz",
+    "tables/bpi19/0f579666d60562a9/00134.json.gz",
+    "tables/bpi19/0f579666d60562a9/00135.json.gz",
+    "tables/bpi19/0f579666d60562a9/00136.json.gz",
+    "tables/bpi19/0f579666d60562a9/00137.json.gz",
+    "tables/bpi19/0f579666d60562a9/00138.json.gz",
+    "tables/bpi19/0f579666d60562a9/00139.json.gz",
+    "tables/bpi19/0f579666d60562a9/00140.json.gz",
+    "tables/bpi19/0f579666d60562a9/00141.json.gz",
+    "tables/bpi19/0f579666d60562a9/00142.json.gz",
+    "tables/bpi19/0f579666d60562a9/00143.json.gz",
+    "tables/bpi19/0f579666d60562a9/00144.json.gz",
+    "tables/bpi19/0f579666d60562a9/00145.json.gz",
+    "tables/bpi19/0f579666d60562a9/00146.json.gz",
+    "tables/bpi19/0f579666d60562a9/00147.json.gz",
+    "tables/bpi19/0f579666d60562a9/00148.json.gz",
+    "tables/bpi19/0f579666d60562a9/00149.json.gz",
+    "tables/bpi19/0f579666d60562a9/00150.json.gz",
+    "tables/bpi19/0f579666d60562a9/00151.json.gz",
+    "tables/bpi19/0f579666d60562a9/00152.json.gz",
+    "tables/bpi19/0f579666d60562a9/00153.json.gz",
+    "tables/bpi19/0f579666d60562a9/00154.json.gz",
+    "tables/bpi19/0f579666d60562a9/00155.json.gz",
+    "tables/bpi19/0f579666d60562a9/00156.json.gz",
+    "tables/bpi19/0f579666d60562a9/00157.json.gz",
+    "tables/bpi19/0f579666d60562a9/00158.json.gz",
+    "tables/bpi19/0f579666d60562a9/00159.json.gz"
+   ]
+  },
+  "events_clean.parquet": {
+   "name": "events_clean.parquet",
+   "columns": [
+    "case_id",
+    "activity",
+    "resource",
+    "net_worth",
+    "ts",
+    "resource_class",
+    "date_only",
+    "ts_eff",
+    "role",
+    "pos",
+    "family",
+    "Item Type",
+    "Vendor",
+    "Document Type",
+    "Spend area text",
+    "Company"
+   ],
+   "total": 1444587,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/bpi19/2ca65aa21b68bf97/00000.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00001.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00002.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00003.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00004.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00005.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00006.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00007.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00008.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00009.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00010.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00011.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00012.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00013.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00014.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00015.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00016.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00017.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00018.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00019.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00020.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00021.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00022.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00023.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00024.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00025.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00026.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00027.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00028.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00029.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00030.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00031.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00032.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00033.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00034.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00035.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00036.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00037.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00038.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00039.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00040.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00041.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00042.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00043.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00044.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00045.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00046.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00047.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00048.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00049.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00050.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00051.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00052.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00053.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00054.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00055.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00056.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00057.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00058.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00059.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00060.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00061.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00062.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00063.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00064.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00065.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00066.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00067.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00068.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00069.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00070.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00071.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00072.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00073.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00074.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00075.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00076.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00077.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00078.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00079.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00080.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00081.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00082.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00083.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00084.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00085.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00086.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00087.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00088.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00089.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00090.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00091.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00092.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00093.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00094.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00095.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00096.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00097.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00098.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00099.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00100.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00101.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00102.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00103.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00104.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00105.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00106.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00107.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00108.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00109.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00110.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00111.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00112.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00113.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00114.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00115.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00116.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00117.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00118.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00119.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00120.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00121.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00122.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00123.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00124.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00125.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00126.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00127.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00128.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00129.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00130.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00131.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00132.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00133.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00134.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00135.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00136.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00137.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00138.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00139.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00140.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00141.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00142.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00143.json.gz",
+    "tables/bpi19/2ca65aa21b68bf97/00144.json.gz"
+   ]
+  },
+  "transitions.csv": {
+   "name": "transitions.csv",
+   "columns": [
+    "from",
+    "to",
+    "n",
+    "p50_h",
+    "p90_h",
+    "mean_h",
+    "family"
+   ],
+   "total": 1304,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/bpi19/08507f32ea01e702/00000.json.gz"
+   ]
+  },
+  "user_roles.csv": {
+   "name": "user_roles.csv",
+   "columns": [
+    "user",
+    "role",
+    "role_share",
+    "events_train",
+    "n_activities",
+    "top_activity",
+    "top_activity_share",
+    "activity_shares"
+   ],
+   "total": 628,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/bpi19/3fcd883f5375394f/00000.json.gz"
+   ]
   }
  }
 }

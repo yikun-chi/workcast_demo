@@ -13497,6 +13497,108 @@
      "prior_performance",
      "prior_performance_missing",
      "synthetic_assignment"
+    ],
+    "schema": [
+     {
+      "name": "person_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "treat",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "managerial",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "role_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "org_unit",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "team_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "seat",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "age",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "female",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "tenure_years",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "grad",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "children_ind",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "commute_hour",
+      "type": "float",
+      "nullable": true
+     },
+     {
+      "name": "commute_imputed",
+      "type": "bool",
+      "nullable": true
+     },
+     {
+      "name": "commute_hour_filled",
+      "type": "float",
+      "nullable": true
+     },
+     {
+      "name": "live_far",
+      "type": "double",
+      "nullable": true
+     },
+     {
+      "name": "volunteer",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "prior_performance",
+      "type": "float",
+      "nullable": true
+     },
+     {
+      "name": "prior_performance_missing",
+      "type": "bool",
+      "nullable": true
+     },
+     {
+      "name": "synthetic_assignment",
+      "type": "bool",
+      "nullable": true
+     }
     ]
    },
    {
@@ -13508,6 +13610,33 @@
      "size",
      "treated",
      "managers"
+    ],
+    "schema": [
+     {
+      "name": "team_id",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "org_unit",
+      "type": "large_string",
+      "nullable": true
+     },
+     {
+      "name": "size",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "treated",
+      "type": "int64",
+      "nullable": true
+     },
+     {
+      "name": "managers",
+      "type": "int64",
+      "nullable": true
+     }
     ]
    }
   ],
@@ -15913,6 +16042,53 @@
    },
    "interventions": [],
    "extends": "baseline"
+  }
+ },
+ "tables": {
+  "population.parquet": {
+   "name": "population.parquet",
+   "columns": [
+    "person_id",
+    "treat",
+    "managerial",
+    "role_id",
+    "org_unit",
+    "team_id",
+    "seat",
+    "age",
+    "female",
+    "tenure_years",
+    "grad",
+    "children_ind",
+    "commute_hour",
+    "commute_imputed",
+    "commute_hour_filled",
+    "live_far",
+    "volunteer",
+    "prior_performance",
+    "prior_performance_missing",
+    "synthetic_assignment"
+   ],
+   "total": 1612,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/trip/b3fb8994ece8bba4/00000.json.gz"
+   ]
+  },
+  "teams.parquet": {
+   "name": "teams.parquet",
+   "columns": [
+    "team_id",
+    "org_unit",
+    "size",
+    "treated",
+    "managers"
+   ],
+   "total": 162,
+   "chunk_size": 10000,
+   "chunks": [
+    "tables/trip/af56df88b6a867a2/00000.json.gz"
+   ]
   }
  }
 }
