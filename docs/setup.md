@@ -90,6 +90,38 @@ Git. Current `reports/report.json` snapshots and `docs/validation.md` are includ
 as readable results; regenerate them after a new evaluation. UI fixtures under
 `ui/dev/fixtures/` exercise development views and are not validation evidence.
 
+## Explore AI assistance
+
+Both instances have an `ai_assistant` scenario in addition to their original
+alternative. In Results, switch to the AI alternative under **Explore alternative
+actions**. In Scenarios, adjust coverage, time saved before review, review effort,
+correction rate, and correction effort. Save, then select **Compare with current
+policy**. The comparison runs in the background and updates the AI Results panel.
+
+From the command line, after the reference evaluations exist:
+
+```bash
+uv run orgsim explore trip --scenario ai_assistant
+uv run orgsim explore bpi19 --scenario ai_assistant
+```
+
+These commands leave `evaluation.json` unchanged and write matched results to
+`runs/<id>/explorations.json`. Trip.com uses the scenario's seeds with a newly run
+reference cohort; procurement uses the evaluation's cutoffs and seeds and can
+reuse reference runs from a prior AI comparison only when model, input, and reference
+fingerprints match. Otherwise it reruns the reference cohort. `demo` and `evaluate`
+also build these comparisons.
+The command refreshes interviews, the instance report, and validation documentation.
+
+Saved comparisons are tied to their assumptions, reference evaluation, model code,
+calibration, and input tables. Editing these marks the comparison stale; its numbers
+are hidden until it is rerun. A comparison can take several minutes. Progress and
+failures are recorded in `exploration_status.json`, with server-launched logs in
+`exploration.log` under the instance's run directory.
+
+For the modeling boundaries and research context, see
+[AI assistance](architecture.md#ai-assistance-as-an-exploratory-intervention).
+
 ## Verification
 
 With both datasets normalized and both evaluations present:

@@ -18,6 +18,8 @@ Endpoints (all JSON unless noted):
   GET  /api/instances/{id}/scenarios            list;  GET /scenarios/{sid} resolved;  PUT /scenarios/{sid} save raw yaml dict
   GET  /api/instances/{id}/seats                policies/seats.yaml           PUT to save
   GET  /api/instances/{id}/runs                 all runs;  POST {scenario, seed} launches one in the background
+  POST /api/instances/{id}/explorations         {scenario} launches a matched alternative comparison
+  GET  /api/instances/{id}/exploration-status   background comparison status
   GET  /api/instances/{id}/runs/{sid}/{run}/summary|config|metrics
   GET  /api/instances/{id}/runs/{sid}/{run}/trace?offset&limit&agent&case&activity&from_tick&to_tick
   GET  /api/instances/{id}/runs/{sid}/{run}/timeline?by=activity|role|action_type&bucket=1  (counts per tick bucket)
@@ -140,9 +142,10 @@ def instances() -> list[dict]:
             hero = world_module(i).results_view(i).get("hero")
         except Exception:  # noqa: BLE001  (no evaluation yet: the card shows the problem and the intro only)
             hero = None
-        alt_id = (i.meta.get("scenarios") or {}).get("alternative")
-        alt = next(({"id": s["id"], "title": s["title"], "short_title": s.get("short_title", s["title"]), "summary": s.get("summary", ""), "description": s.get("description", "")} for s in list_scenarios(i) if s["id"] == alt_id), None)
-        out.append({**i.meta, "id": i.id, "hero": hero, "alternative": alt, "n_runs": len(runs), "n_scenarios": len(list_scenarios(i)),
+        scenarios = list_scenarios(i)
+        alternatives = [s for s in scenarios if s["role"].startswith("alternative")]
+        alt = next((s for s in alternatives if s["role"] == "alternative"), None)
+        out.append({**i.meta, "id": i.id, "hero": hero, "alternative": alt, "alternatives": alternatives, "n_runs": len(runs), "n_scenarios": len(scenarios),
                     "has_report": (i.reports_dir / "report.json").exists(), "has_evaluation": (RUNS_DIR / i.id / "evaluation.json").exists(),
                     "has_insights": (RUNS_DIR / i.id / "insights.json").exists(),
                     "plugins": _plugins(i)})
@@ -333,6 +336,12 @@ def save_scenario(instance_id: str, sid: str, body: dict) -> dict:
             body = {k: v for k, v in body.items() if k in ("id", "extends") or base.get(k) != v}
         except FileNotFoundError:
             pass
+    if any(iv.get("type") == "ai_assist" for iv in body.get("interventions", [])):
+        from ..scenarios.assistance import assistance_by_activity
+        try:
+            assistance_by_activity(body["interventions"], {a["id"] for a in ctx.yaml("ontology/bindings.yaml")["activities"]})
+        except ValueError as error:
+            raise HTTPException(400, str(error)) from error
     (ctx.scenarios_dir / f"{sid}.yaml").write_text(yaml.safe_dump(body, sort_keys=False, allow_unicode=True))
     return {"saved": True, "stored_keys": sorted(body)}
 
@@ -353,6 +362,44 @@ def save_seats(instance_id: str, body: dict) -> dict:
 @app.get("/api/instances/{instance_id}/runs")
 def runs(instance_id: str) -> list[dict]:
     return list_runs(_ctx(instance_id).id)
+
+
+@app.get("/api/instances/{instance_id}/exploration-status")
+def exploration_status(instance_id: str) -> dict:
+    path = _ctx(instance_id).runs_dir / "exploration_status.json"
+    return json.loads(path.read_text()) if path.exists() else {"state": "idle"}
+
+
+@app.post("/api/instances/{instance_id}/explorations")
+def launch_exploration(instance_id: str, body: dict) -> dict:
+    import uuid
+    from ..evaluation.exploration import _save
+    from ..scenarios.assistance import assistance_by_activity
+    ctx = _ctx(instance_id)
+    sid = body.get("scenario")
+    if sid not in (ctx.meta.get("scenarios") or {}).get("additional_alternatives", []):
+        raise HTTPException(400, "Choose a named additional alternative")
+    scenario = load_scenario(ctx, sid)
+    try:
+        assistance_by_activity(scenario.get("interventions") or [], {a["id"] for a in ctx.yaml("ontology/bindings.yaml")["activities"]})
+    except ValueError as error:
+        raise HTTPException(400, str(error)) from error
+    if not (ctx.runs_dir / "evaluation.json").exists():
+        raise HTTPException(400, "Run the reference evaluation first")
+    if (ctx.runs_dir / ".exploration.lock").exists():
+        raise HTTPException(409, "A comparison is already running for this instance")
+    job_id = uuid.uuid4().hex
+    status_path = ctx.runs_dir / "exploration_status.json"
+    status = {"job_id": job_id, "scenario": sid, "state": "queued"}
+    _save(status_path, status)
+    try:
+        with open(ctx.runs_dir / "exploration.log", "ab") as log:
+            proc = subprocess.Popen([sys.executable, "-m", "orgsim.cli", "explore", ctx.id, "--scenario", sid, "--job-id", job_id],
+                                    cwd=REPO_ROOT, stdout=log, stderr=subprocess.STDOUT)
+    except OSError as error:
+        _save(status_path, {**status, "state": "failed", "error": str(error)})
+        raise HTTPException(500, "Could not start the comparison") from error
+    return {**status, "pid": proc.pid}
 
 
 @app.post("/api/instances/{instance_id}/runs")

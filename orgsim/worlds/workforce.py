@@ -30,6 +30,8 @@ rule seat draws from. `twins.json` in every run folder lists every twin with tra
 """
 from __future__ import annotations
 
+from ..scenarios.assistance import assistance_by_activity
+
 import json
 import math
 from datetime import date, datetime, timedelta, timezone
@@ -154,6 +156,8 @@ def resolve_policy(world_cfg: dict[str, Any], interventions: list[dict[str, Any]
         elif t == "wfh_offer":
             base = pol if pol.get("type") == "wfh_offer" else {}
             pol = {**base, **iv}
+        elif t == "ai_assist":
+            continue  # modeled as task effort; does not alter the WFH offer
         else:
             raise ValueError(f"workforce world: unknown intervention type {t!r}")
     return pol
@@ -243,6 +247,18 @@ class World(BaseWorld):
             wts = np.array([float((a.get("properties") or {}).get("weight", 1.0)) for a in items])
             self.acts[role] = (ids, np.cumsum(wts) / wts.sum())
         self.role_idx = {role: np.flatnonzero(self.roles == role) for role in self.acts}
+        self.assistance = assistance_by_activity(scenario.get("interventions") or [],
+                                                {a["id"] for a in self.bindings.get("activities", [])})
+        self.workload = {k: np.zeros(self.n) for k in ("human_hours", "unassisted_hours", "review_hours", "rework_hours")}
+        self.role_effort = {}
+        for role, (activities, cumulative) in self.acts.items():
+            weights = np.diff(np.r_[0.0, cumulative])
+            factors = []
+            for activity in activities:
+                ai = self.assistance.get(activity)
+                factors.append((ai.effort_factor, ai.coverage * ai.review_overhead,
+                                ai.coverage * ai.rework_rate * ai.rework_effort) if ai else (1.0, 0.0, 0.0))
+            self.role_effort[role] = weights @ np.asarray(factors)
 
         # --- state ---
         self.active = np.ones(self.n, dtype=bool)
@@ -381,7 +397,8 @@ class World(BaseWorld):
                          "offered": bool(self.offer_mask[i]), "eligible_days": int(self.eligible_total[i]), "wfh_days": int(self.wfh_total[i]),
                          "quit_week": int(self.quit_week[i]) if self.quit_week[i] >= 0 else None,
                          "final_states": {s: _rnd(self.states[s][i]) for s in self.reported + ["exposure"] if s in self.states},
-                         "final_quit_hazard_week": _rnd(self.hazard[i], 5)})
+                         "final_quit_hazard_week": _rnd(self.hazard[i], 5),
+                         "ai_assisted": bool(self.assistance), "workload": {k: float(v[i]) for k, v in self.workload.items()}})
         return rows
 
     # ------------------------------------------------------------------ trace rows
@@ -459,6 +476,15 @@ class World(BaseWorld):
     def _work_day(self, day: date, day_start: datetime) -> None:
         base = self.clock.tick
         active = self.active
+        # Full-population expected task mix, independent of trace sampling.
+        # Freed time is capacity for other work, not an assumed change in ratings
+        # or attrition: the historical experiment identifies neither AI effect.
+        hours = WORK_HOURS[1] - WORK_HOURS[0]
+        self.workload["unassisted_hours"][active] += hours
+        for role, indices in self.role_idx.items():
+            indices = indices[active[indices]]
+            for key, factor in zip(("human_hours", "review_hours", "rework_hours"), self.role_effort[role]):
+                self.workload[key][indices] += hours * factor
         pool = active & self.offer_mask & (day.weekday() in self.offer_days) & (day <= self.policy_end)
         offered_today = pool & (self.phase_start <= day)
         wfh = np.zeros(self.n, dtype=bool)
@@ -518,7 +544,8 @@ class World(BaseWorld):
                         act[m] = ids[np.minimum(np.searchsorted(cum, u[m]), len(ids) - 1)]
                 loc = np.where(wfh[rep], '{"location": "home"}', '{"location": "office"}')
                 times = pd.to_datetime(day_start) + pd.to_timedelta(hrs, unit="h")
-                self._rows(base + hrs, times, rep, act, "complete", 1.0, loc)
+                duration = np.array([self.assistance[a].effort_factor if a in self.assistance else 1.0 for a in act]) if self.assistance else 1.0
+                self._rows(base + hrs, times, rep, act, "complete", duration, loc)
 
     def _weekly(self, day: date, day_start: datetime) -> None:
         self.week += 1
@@ -708,6 +735,7 @@ class World(BaseWorld):
         h: dict[str, Any] = {"headcount": self.n, "quits": int((~self.active).sum()), "attrition_pct": _rnd(100.0 * (~self.active).mean(), 2),
                              "policy": (f"WFH offer on {', '.join(DAY_NAMES[d] for d in sorted(self.offer_days))} to {self.policy.get('who', 'treat')}" if self.offer_days else "no WFH policy"),
                              "work_events": self.work_mode, "by_arm": {}}
+        h["workload"] = {k: float(v.sum()) for k, v in self.workload.items()}
         sat = m.get("satisfaction", {}).get("work_satisfaction") or m["latent_end"].get("job_satisfaction", {})
         perf = (m.get("performance") or {}).get(self.review_id, {})
         for arm, label in m["arms"].items():

@@ -10,7 +10,7 @@ sentence, shown as the card title), `situation` (two sentences: what the company
 sentences: the dataset and what it records), `intro` (one concise paragraph: what is simulated and what the
 alternative asks), `world_type`
 (`process` or `workforce`), `world` (one paragraph), `clock.tick: 1h`, `clock.coverage`,
-`scenarios: {baseline: <id>, alternative: <id>}`, `protocol_line` (one sentence on how the result is kept honest)
+`scenarios: {baseline: <id>, alternative: <id>, additional_alternatives?: [<id>, ...]}`, `protocol_line` (one sentence on how the result is kept honest)
 and `status`.
 
 | Path | Required | Read by |
@@ -27,6 +27,13 @@ and `status`.
 | `data/raw`, `data/normalized` | generated | git-ignored |
 
 Scenario files not named in `instance.yaml` are listed with role `other`: hidden from the UI, runnable from the CLI.
+Additional named alternatives have stable role keys `alternative_2`, `alternative_3`, etc.
+The original `alternative` key remains the primary policy alternative.
+
+An AI scenario declares `exploration: {note, assumption_basis, sources: [{title, url, note}]}`
+and an `ai_assist` intervention with `activities`, `coverage`, `time_saved`,
+`review_overhead`, `rework_rate`, and `rework_effort`. Fractions use 0–1; review
+overhead may be up to 2 and correction effort up to 3. Resulting effort must be positive.
 
 ## 2. World module (`orgsim/worlds/<type>.py`)
 
@@ -104,6 +111,22 @@ The Results page displays `level_comparison` and effect comparisons together in 
 
 Reader-facing labels use **Actual outcome**, **Simulation prediction**, and **Other prediction**. Policy impact means the hybrid group's outcome minus the office-only group's outcome during the same period. The words engine, forecast, trial and ITT are reserved for internal identifiers or original source titles, not product labels. Internal API keys remain stable.
 
+Results also include `explorations: [{id, title, description, state: missing|stale|ready,
+interventions, note, assumption_basis, sources, generated?, runs?, seeds?, cutoffs?,
+metrics: [{id, label, unit, better, baseline, alternative, delta, delta_range}], review_hours?, rework_hours?}]`.
+`delta_range` contains the 5th and 95th percentiles of matched differences, not a
+confidence interval for real-world AI efficacy. These comparisons have no actual AI outcome column.
+
+`runs/<id>/explorations.json` maps scenario IDs to saved configurations, fingerprints,
+and pairs of baseline/alternative run IDs and headlines. The model fingerprint
+includes world/kernel/policy/scenario code, calibration, bindings, seat policies, and
+input tables. The reference evaluation is also hashed. Procurement reference reuse
+requires matching model, evaluation, and baseline configuration fingerprints;
+otherwise the comparison reruns the reference. Invalidated results return
+`state: stale` with no metrics. Reports omit invalidated exploration sections.
+Run headlines include `workload: {human_hours, unassisted_hours, review_hours, rework_hours}`;
+workforce twin records include individual workload totals and `ai_assisted`.
+
 ## 6. Report (`instances/<id>/reports/report.json`)
 
 `{title, subtitle, generated, takeaways: [one sentence each, with the number], sections: [{heading, body (markdown),
@@ -130,12 +153,20 @@ same API and should load `/ui/theme.css`.
 
 ## 9. Scenarios, runs, insights
 
+- `GET /api/instances` includes all named `alternatives` for the landing cards;
+  `alternative` retains the primary alternative for existing clients.
 - `GET .../scenarios` lists `{id, title, short_title, description, extends, file, role}`; `GET/PUT .../scenarios/{sid}`
   resolved scenario; `GET/PUT .../seats`.
 - `GET .../runs`; `POST .../runs {scenario, seed}` launches a run in the background;
   `GET .../runs/{sid}/{run}/summary|config|metrics|trace|timeline|agents|twins`.
+- `POST .../explorations {scenario}` launches a named additional alternative and returns
+  `{job_id, scenario, state: queued, pid}`. `GET .../exploration-status` returns
+  `{job_id?, scenario?, state: idle|queued|running|complete|failed, generated?, error?}`.
+  The same operation is available as `orgsim explore <id> --scenario <sid>`.
+  AI comparisons require unchanged reference policy, staffing, and time period;
+  only AI interventions and trace sampling may differ.
 - `GET .../insights` returns `runs/<id>/insights.json`; `POST .../insights {n, model}` rebuilds it:
-  `{generated, method: template|llm:<model>, note, scenarios: {baseline|alternative: {scenario, title, run_id,
+  `{generated, method: template|llm:<model>, note, scenarios: {<named role>: {scenario, title, run_id,
   n_interviews, groups, sentiment_basis, questions, interviews: [{agent_id, role, group, outcome, profile, facts,
   topics, sentiment, qa: [{metric, question, answer, topics, sentiment}]}], topics: [{id, label, count, share,
   by_group}], sentiment: {distribution, by_group}, key_insights}}, comparison: {sentiment, topics, key_insights}}`.

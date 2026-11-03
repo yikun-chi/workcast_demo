@@ -6,6 +6,12 @@ other prediction, and simulation prediction → alternative behavior**. Before-p
 data supplies context and calibration; only after-change predictions are scored.
 Interviews describe simulated agents, not statements from real employees.
 
+Each instance includes two alternatives: its original policy alternative and an AI
+assistant. In Results, use **Explore alternative actions** to switch between them.
+AI assumptions are editable in Scenarios; **Compare with current policy** runs a
+matched comparison. The AI cases estimate workload and operational effects under
+stated assumptions; they have no observed AI outcome in these datasets.
+
 | Instance | Company and decision | Headline (computed, see `docs/validation.md`) |
 |---|---|---|
 | `trip` | Trip.com: two work-from-home days a week? | Attrition effect -2.39 pp predicted vs -2.40 pp actual; retrospective evaluation; neither group's post-change outcomes used for calibration |

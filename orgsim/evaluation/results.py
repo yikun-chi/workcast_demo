@@ -98,7 +98,7 @@ def scenario_meta(ctx: InstanceContext) -> dict[str, Any]:
     return out
 
 
-def narrative(ctx: InstanceContext) -> dict[str, Any]:
+def narrative(ctx: InstanceContext, current_explorations: set[str] | None = None) -> dict[str, Any]:
     p = ctx.reports_dir / "report.json"
     if not p.exists():
         return {"takeaways": [], "sections": []}
@@ -107,7 +107,8 @@ def narrative(ctx: InstanceContext) -> dict[str, Any]:
     except (OSError, ValueError):
         return {"takeaways": [], "sections": []}
     return {"title": r.get("title"), "subtitle": r.get("subtitle"), "generated": r.get("generated"), "takeaways": r.get("takeaways") or [],
-            "sections": [{"heading": s.get("heading"), "body": s.get("body", "")} for s in r.get("sections") or []]}
+            "sections": [{"heading": s.get("heading"), "body": s.get("body", "")} for s in r.get("sections") or []
+                         if not s.get("exploration") or s["exploration"] in (current_explorations or set())]}
 
 
 def plugins(ctx: InstanceContext) -> list[dict[str, Any]]:
@@ -122,5 +123,7 @@ def plugins(ctx: InstanceContext) -> list[dict[str, Any]]:
 
 
 def base_document(ctx: InstanceContext) -> dict[str, Any]:
+    from .exploration import exploration_views
+    views = exploration_views(ctx)
     return {"instance": ctx.id, "company": ctx.meta.get("company", ctx.meta.get("title", ctx.id)), "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-            "scenarios": scenario_meta(ctx), "narrative": narrative(ctx), "plugins": plugins(ctx)}
+            "scenarios": scenario_meta(ctx), "narrative": narrative(ctx, {v["id"] for v in views if v["state"] == "ready"}), "plugins": plugins(ctx), "explorations": views}

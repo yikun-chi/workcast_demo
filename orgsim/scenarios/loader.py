@@ -31,12 +31,15 @@ def deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]
 
 
 def scenario_roles(ctx: InstanceContext) -> dict[str, str]:
-    """instance.yaml `scenarios: {baseline: <id>, alternative: <id>}` -> {<id>: role}. The UI presents exactly these two;
-    every other scenario file stays runnable from the CLI and is listed with role "other"."""
+    """Named baseline, primary alternative, and additional alternatives shown in the UI."""
     roles = ctx.meta.get("scenarios") or {}
     out = {str(roles.get("baseline", "baseline")): "baseline"}
     if roles.get("alternative"):
         out[str(roles["alternative"])] = "alternative"
+    for number, scenario in enumerate(roles.get("additional_alternatives") or [], start=2):
+        if str(scenario) in out:
+            raise ValueError(f"Duplicate named scenario: {scenario}")
+        out[str(scenario)] = f"alternative_{number}"
     return out
 
 
@@ -50,7 +53,7 @@ def list_scenarios(ctx: InstanceContext) -> list[dict[str, Any]]:
             out.append({"id": d["id"], "title": d.get("title", d["id"]), "short_title": d.get("short_title", d.get("title", d["id"])), "summary": d.get("summary", ""), "description": d.get("description", ""), "extends": d.get("extends"), "file": p.name,
                         "role": roles.get(d["id"], "other")})
     order = {"baseline": 0, "alternative": 1, "other": 2}
-    return sorted(out, key=lambda s: (order[s["role"]], s["id"]))
+    return sorted(out, key=lambda s: (order.get(s["role"], 1), s["role"], s["id"]))
 
 
 def load_scenario(ctx: InstanceContext, scenario_id: str, _depth: int = 0) -> dict[str, Any]:

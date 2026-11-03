@@ -9,7 +9,7 @@ intro: >
   Replays one company's purchase-to-pay operation on an hourly clock: 251,734 purchase-order line items in 2018, worked
   by 607 specialized users and 20 batch jobs. The simulation continues every live item for two weeks from a Monday cutoff
   and is scored against what actually happened next, after the September 2018 workforce expansion, with observed pre-change data as reference. The
-  alternative asks what the operation would have looked like without the expansion.
+  alternatives explore operating without the expansion and adding an AI assistant for invoice entry.
 world_type: process
 world: >
   One multinational company's purchase-order line items for 2018: buyers create
@@ -27,6 +27,7 @@ clock:
 scenarios:
   baseline: baseline
   alternative: no_expansion
+  additional_alternatives: [ai_assistant]
 evaluation:
   train: "Selection fit: 2018-01-01 .. 2018-06-30; final fit through 2018-08-31"
   validation: "2018-07-01 .. 2018-08-31"

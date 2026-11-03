@@ -198,6 +198,8 @@ def main() -> None:
     ]
     sections.insert(1, {"heading": "Business outcomes against non-simulation predictions", "body": "Mean absolute errors across the four prediction windows; lower is better. Comparators are carry-forward, the pre-policy historical average, and staffing-scaled carry-forward.\n\n" + "\n".join(business_rows)})
 
+    from orgsim.evaluation.exploration import report_sections
+    sections.extend(report_sections(ctx))
     report = {"title": "Purchase-to-pay, simulated against the real operation", "subtitle": "BPI Challenge 2019 procurement log: 251,734 purchase-order items, 607 people, 42 activities. Refitted on January-August 2018, scored on September-October 2018.",
               "generated": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"), "takeaways": takeaways, "sections": sections,
               "charts": ev["charts"], "metrics": ev["metrics"], "scenario_comparison": ev["scenario_comparison"], "source": {"evaluation": str((ctx.runs_dir / "evaluation.json").relative_to(ROOT)), "generated_from": ev["generated"]}}

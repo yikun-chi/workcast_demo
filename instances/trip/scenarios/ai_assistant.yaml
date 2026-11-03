@@ -1,0 +1,38 @@
+id: ai_assistant
+title: What if employees used an AI assistant for customer replies and analysis?
+short_title: Employee AI assistant
+summary: "Assist customer replies and written analysis, with review and correction; estimate staff time released for other work."
+description: >
+  Add an AI assistant for customer replies, notifications, requirements analysis, and operations
+  analysis under the original hybrid-work policy. Estimate the effort released for other work
+  after human review and correction. The comparison keeps the same employees, work schedule,
+  and work-from-home offer. This is an exploratory application to the historical workforce,
+  not an AI policy that Trip.com tested in this dataset.
+extends: baseline
+seeds: [1, 2, 3, 4, 5]
+world:
+  work_events: sample
+  work_events_sample: 0.1
+exploration:
+  note: >
+    Task shares are authored in the role definitions; hours are modeled from schedules and active
+    employees, not measured time sheets. Released effort is capacity for other work, not cash
+    savings or additional output. No link from AI assistance to satisfaction, resignations, or
+    performance grades is assumed: unchanged values on those outcomes reflect this scope.
+    Correction effort is included; residual errors and AI training and operating costs are not estimated.
+  sources:
+    - title: "Noy & Zhang (2023): AI assistance on professional writing tasks"
+      url: https://doi.org/10.1126/science.adh2586
+      note: "Motivates a task-time assumption; does not identify effects on these employees."
+    - title: "Brynjolfsson, Li & Raymond (2025): AI assistance in customer support"
+      url: https://doi.org/10.1093/qje/qjae044
+      note: "Evidence from a different employer; effects varied by experience. No retention effect is transferred."
+  assumption_basis: "All five settings below are editable scenario assumptions, not estimates fitted to Trip.com outcomes."
+interventions:
+  - type: ai_assist
+    activities: [handle_customer_inquiry, notify_customers, analyze_requirements, analyze_operations]
+    coverage: 0.6
+    time_saved: 0.4
+    review_overhead: 0.15
+    rework_rate: 0.1
+    rework_effort: 1.0

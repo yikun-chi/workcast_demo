@@ -21,14 +21,19 @@ instance on its Results tab. Nothing about build status.
    changes, the alternative hero, the chart, the key metrics against the simulation of what actually happened with
    the better value highlighted, a link to change and re-run it. Then the report takeaways with the full narrative
    collapsed, the instance's detailed views, and the source notes.
-2. **Scenarios.** Two cards: the baseline (what actually happened) and the alternative, each with what changes.
+   The alternative section has a selector for the original alternative and an AI assistant.
+   AI comparisons show explicit workload assumptions, matched simulation results, and research context.
+   They show no observed AI outcome. Stale comparisons prompt a new run.
+2. **Scenarios.** Cards for the baseline (what actually happened) and each named alternative, with what changes.
    Opening one runs it with a seed, edits its parameters (resolved JSON) and sets which model acts in each seat.
+   AI scenarios provide five plain-language numeric controls and an effort preview. Save, then **Compare with
+   current policy** to refresh the matched AI Results panel. A single run remains available under Run details.
 3. **Insights.** Interviews with the simulated agents of the baseline or the alternative run: key insights,
    topics raised, sentiment when it varies, baseline-versus-alternative topic comparison, three interviews with a
    "show all" button, and a footnote stating that everything is simulated.
 4. **Overview.** The company, the business question, the intro, three cards (the simulation, the input data, how it is
    kept honest), then the details: key facts, org units, roles with O*NET codes, systems, charts.
-5. **Runs.** Runs of the two scenarios: timeline of events per tick, agents (with a digital-twin card in workforce
+5. **Runs.** Runs of all named scenarios: timeline of events per tick, agents (with a digital-twin card in workforce
    worlds), trace explorer, run configuration.
 6. **Data** (model internals). *Tables*: the normalized input tables. *Graph*: the data as a graph, people on the
    left, the organisation and everything bound to it on the right; a person's own network on click. *Edit*: roles,

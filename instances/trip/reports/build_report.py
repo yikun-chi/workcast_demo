@@ -126,6 +126,8 @@ def main() -> None:
         f"{100*comp['study']['relative_attrition_reduction']:.0f}% × {comp['home_days']}/{comp['study']['home_days_per_week']}) = {comp['proportional_days_pct']:.2f}%. "
         "Scaling between different jobs, periods and schedules is an assumption. No after-policy outcomes enter either calculation. "
         "The simulation still uses its existing external turnover assumptions; the historical rate has not been used to refit those predictions.")})
+    from orgsim.evaluation.exploration import report_sections
+    sections.extend(report_sections(ctx))
     report = {
         "title": "Hybrid work at Trip.com: simulation prediction and actual outcome",
         "subtitle": f"{headcount} employees, six months, two WFH days a week offered to half of them. Simulation from pretreatment inputs and assumptions from earlier research; compared with Bloom, Han & Liang (Nature 2024).",

@@ -48,7 +48,12 @@ def _run(ctx, scenario_id: str, seed: int) -> dict:
 def _evaluate(ctx, scenario_ids: list[str]) -> dict:
     from .worlds import world_module
     t = time.time()
-    result = world_module(ctx).evaluate(ctx, scenario_ids)
+    additional = (ctx.meta.get("scenarios") or {}).get("additional_alternatives", [])
+    result = world_module(ctx).evaluate(ctx, [sid for sid in scenario_ids if sid not in additional])
+    from .evaluation.exploration import build_exploration
+    for sid in additional:
+        if sid in scenario_ids:
+            build_exploration(ctx, sid)
     print(f"[{ctx.id}] evaluation written ({time.time()-t:.1f}s)")
     return result
 
@@ -61,6 +66,7 @@ def main(argv: list[str] | None = None) -> int:
     s = sub.add_parser("ingest"); s.add_argument("instance")
     s = sub.add_parser("run"); s.add_argument("instance"); s.add_argument("--scenario", default="baseline"); s.add_argument("--seed", type=int, default=1); s.add_argument("--seeds", default="")
     s = sub.add_parser("evaluate"); s.add_argument("instance"); s.add_argument("--scenarios", default="")
+    s = sub.add_parser("explore"); s.add_argument("instance"); s.add_argument("--scenario", required=True); s.add_argument("--job-id", default=None)
     s = sub.add_parser("insights"); s.add_argument("instance"); s.add_argument("--n", type=int, default=24); s.add_argument("--model", default="")
     s = sub.add_parser("demo"); s.add_argument("instance", nargs="?"); s.add_argument("--skip-ingest", action="store_true")
     s = sub.add_parser("serve"); s.add_argument("--host", default="127.0.0.1"); s.add_argument("--port", type=int, default=8000); s.add_argument("--reload", action="store_true")
@@ -87,6 +93,21 @@ def main(argv: list[str] | None = None) -> int:
         ctx = get_instance(a.instance)
         ids = [x for x in a.scenarios.split(",") if x] or [s["id"] for s in list_scenarios(ctx)]
         print(json.dumps(_evaluate(ctx, ids).get("headline", {}), indent=2, default=str)); return 0
+    if a.cmd == "explore":
+        from .evaluation.exploration import build_exploration
+        ctx = get_instance(a.instance)
+        result = build_exploration(ctx, a.scenario, a.job_id)
+        print(f"[{a.instance}] {a.scenario}: {len(result['pairs'])} matched comparisons saved")
+        from .insights import build_insights
+        build_insights(ctx)
+        import runpy
+        report_builder = ctx.reports_dir / "build_report.py"
+        if report_builder.exists():
+            runpy.run_path(str(report_builder), run_name="__main__")
+        from . import REPO_ROOT
+        if all((REPO_ROOT / "runs" / iid / "evaluation.json").exists() for iid in ("trip", "bpi19")):
+            runpy.run_path(str(REPO_ROOT / "scripts/build_validation_docs.py"), run_name="__main__")
+        return 0
     if a.cmd == "insights":
         from .insights import build_insights
         d = build_insights(get_instance(a.instance), n_per_scenario=a.n, model=a.model or None)
@@ -99,6 +120,8 @@ def main(argv: list[str] | None = None) -> int:
             if not a.skip_ingest:
                 _ingest(ctx)
             for sc in list_scenarios(ctx):
+                if sc["id"] in (ctx.meta.get("scenarios") or {}).get("additional_alternatives", []):
+                    continue  # evaluated as a matched comparison below
                 full = load_scenario(ctx, sc["id"])
                 for sd in full.get("seeds", [1]):
                     _run(ctx, sc["id"], int(sd))

@@ -17,3 +17,5 @@ Verify the current result with `.venv/bin/python scripts/check_bpi19_results.py`
 - `ui/process-map.html`: detailed view embedded in Results
 
 Download and installation instructions: [setup and reproduction](../../docs/setup.md).
+
+The second alternative, `ai_assistant`, explores AI-assisted task effort with human review and correction. Configure it in Scenarios and select **Compare with current policy**, or run `uv run orgsim explore bpi19 --scenario ai_assistant`. Results are stored separately in `runs/bpi19/explorations.json`; the existing accuracy evaluation is unchanged. See [AI modeling boundaries](../../docs/architecture.md#ai-assistance-as-an-exploratory-intervention).

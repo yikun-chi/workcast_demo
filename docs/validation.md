@@ -55,6 +55,50 @@ Next-activity accuracy is 81.48% versus 78.44% for the best prefix Markov model 
 
 **Alternative: no workforce expansion.** Matching cutoffs and seeds give completion of 11.79% under observed staffing and 11.78% under the alternative. The staffing intervention is simulated. Concurrent changes in order mix prevent interpreting the observed period difference as a staffing-only causal effect.
 
+## trip: Exploratory alternative: Employee AI assistant
+
+Add an AI assistant for customer replies, notifications, requirements analysis, and operations analysis under the original hybrid-work policy. Estimate the effort released for other work after human review and correction. The comparison keeps the same employees, work schedule, and work-from-home offer. This is an exploratory application to the historical workforce, not an AI policy that Trip.com tested in this dataset.
+
+
+5 matched simulation comparisons. No observed AI outcome is available.
+
+| Outcome | Current policy | AI alternative | Difference |
+|---|---:|---:|---:|
+| Human effort for the work performed | 1573830.00 hours | 1539012.38 hours | -34817.62 hours |
+| Hours released per employee over six months | 0.00 hours | 21.60 hours | +21.60 hours |
+| Share of staff time released for other work | 0.00 % | 2.21 % | +2.21 pp |
+
+All five settings below are editable scenario assumptions, not estimates fitted to Trip.com outcomes.
+Coverage 60%; time saved before review 40%; review effort 15%; correction rate 10%; correction effort 100% of the task's ordinary effort.
+
+Task shares are authored in the role definitions; hours are modeled from schedules and active employees, not measured time sheets. Released effort is capacity for other work, not cash savings or additional output. No link from AI assistance to satisfaction, resignations, or performance grades is assumed: unchanged values on those outcomes reflect this scope. Correction effort is included; residual errors and AI training and operating costs are not estimated.
+
+
+[Noy & Zhang (2023): AI assistance on professional writing tasks](https://doi.org/10.1126/science.adh2586). Motivates a task-time assumption; does not identify effects on these employees. [Brynjolfsson, Li & Raymond (2025): AI assistance in customer support](https://doi.org/10.1093/qje/qjae044). Evidence from a different employer; effects varied by experience. No retention effect is transferred.
+
+## bpi19: Exploratory alternative: AI invoice assistant
+
+Use AI to extract invoice details and suggest entries, with human review and correction. Keep observed staffing, incoming orders, matching rules, and payment dates. Assistance changes the human effort needed for invoice entry; the simulation then follows the effect on queues and completion. These are exploratory assumptions applied to the historical operation, not measured AI results from this company.
+
+
+12 matched simulation comparisons. No observed AI outcome is available.
+
+| Outcome | Current policy | AI alternative | Difference |
+|---|---:|---:|---:|
+| Human effort for the work performed | 3099.21 hours | 3066.23 hours | -32.98 hours |
+| Live items completed in 14 days | 11.79 % | 11.80 % | +0.01 pp |
+| Median cycle time of completed items | 1715.75 hours | 1716.72 hours | +0.97 hours |
+| Mean wait for human capacity | 6.01 hours | 5.99 hours | -0.02 hours |
+| Invoice clerk capacity used | 29.39 % | 26.84 % | -2.55 pp |
+
+All five settings below are editable scenario assumptions, not estimates fitted to procurement outcomes.
+Coverage 60%; time saved before review 40%; review effort 15%; correction rate 10%; correction effort 100% of the task's ordinary effort.
+
+Human review and correction are included as expected effort. The model assumes errors are corrected before an entry completes; residual errors, AI operating costs, and training costs are not estimated. It does not shorten vendor delays or payment calendars. Human hours are modeled effort inferred from event throughput, not measured time sheets.
+
+
+[Noy & Zhang (2023): AI assistance on professional writing tasks](https://doi.org/10.1126/science.adh2586). Motivates a task-time assumption; does not estimate invoice-processing effects.
+
 ## Reproduction
 
 Install dependencies and download the pinned inputs first; see [setup](setup.md). These commands normalize the data, regenerate both evaluations and reports, and verify the results.

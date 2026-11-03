@@ -9,7 +9,7 @@ intro: >
   Simulates the 1,612 employees of Trip.com's 2021 hybrid-work experiment as digital twins over six months: half were offered
   Wednesdays and Fridays at home, half were not. Each twin decides weekly whether to work from home and whether to stay,
   from its own commute, family, preferences and team. The prediction is scored against the randomized experiment; the
-  alternative asks what happens when everyone is offered hybrid work, which is what Trip.com did next.
+  alternatives explore offering hybrid work to everyone and adding an AI assistant for customer replies and analysis.
 world_type: workforce
 world: >
   1,612 employees in two divisions over six months (Aug 2021 to Jan 2022).
@@ -28,6 +28,7 @@ clock:
 scenarios:
   baseline: baseline
   alternative: hybrid_for_all
+  additional_alternatives: [ai_assistant]
 evaluation:
   design: "population-level ITT prediction (digital twins, priors sampled per seed)"
   freeze_rule: "no experiment outcomes enter world dynamics; no post-policy control calibration; inherited priors have previously been evaluated against this experiment"

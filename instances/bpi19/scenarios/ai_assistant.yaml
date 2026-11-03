@@ -1,0 +1,31 @@
+id: ai_assistant
+title: What if invoice clerks used an AI assistant?
+short_title: AI invoice assistant
+summary: "Assist invoice entry while people review the output; explore handling effort, queueing, and completion."
+description: >
+  Use AI to extract invoice details and suggest entries, with human review and correction.
+  Keep observed staffing, incoming orders, matching rules, and payment dates. Assistance changes
+  the human effort needed for invoice entry; the simulation then follows the effect on queues
+  and completion. These are exploratory assumptions applied to the historical operation,
+  not measured AI results from this company.
+extends: baseline
+seeds: [1, 2, 3]
+exploration:
+  note: >
+    Human review and correction are included as expected effort. The model assumes errors are
+    corrected before an entry completes; residual errors, AI operating costs, and training costs
+    are not estimated. It does not shorten vendor delays or payment calendars. Human hours are
+    modeled effort inferred from event throughput, not measured time sheets.
+  sources:
+    - title: "Noy & Zhang (2023): AI assistance on professional writing tasks"
+      url: https://doi.org/10.1126/science.adh2586
+      note: "Motivates a task-time assumption; does not estimate invoice-processing effects."
+  assumption_basis: "All five settings below are editable scenario assumptions, not estimates fitted to procurement outcomes."
+interventions:
+  - type: ai_assist
+    activities: [Record Invoice Receipt]
+    coverage: 0.6
+    time_saved: 0.4
+    review_overhead: 0.15
+    rework_rate: 0.1
+    rework_effort: 1.0

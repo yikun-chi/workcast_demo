@@ -51,6 +51,33 @@
     await run("scenarios/detail", async () => { const m = await import("/ui/pages/scenarios.js"); const r = stage("scenarios-detail"); await m.render(r, ctx(primary, ["baseline"])); assert(r.querySelector("textarea") && r.textContent.includes("Seats"), "scenario detail with parameters and seats"); const sel = r.querySelector("table select"); if (sel) { sel.value = "llm"; sel.dispatchEvent(new Event("change")); assert(r.querySelector("table input[list]") && !r.querySelector("table input[list]").disabled, "adapter switch enables model field"); } });
     await run("runs", async () => { const runs = await api.runs(primary); const m = await import("/ui/pages/runs.js"); const r = stage("runs"); const first = runs.find(x => x.complete); await m.render(r, ctx(primary, first ? [first.scenario, first.run_id] : [])); if (!first) { assert(r.querySelector(".empty"), "runs empty state"); return; } assert(await until(() => r.querySelector("canvas")), "timeline chart"); assert(await until(() => r.querySelectorAll(".data-grid").length >= 2 && r.querySelectorAll(".data-grid table tbody tr").length > 0, 10000), "agents + trace grids"); });
     await run("results", async () => { const m = await import("/ui/pages/results.js"); const r = stage("results"); await m.render(r, ctx(primary)); assert(await until(() => r.querySelector(".part-no") || r.querySelector(".error-box"), 8000), "results rendered"); assert(r.querySelector(".story-flow") || r.querySelector(".hero-card") || r.querySelector(".error-box"), "ground truth vs simulated block"); });
+    if (inst.scenarios?.some(s => s.id === "ai_assistant")) {
+      await run("AI results selection", async () => {
+        const m = await import("/ui/pages/results.js"); const r = stage("ai-results"); await m.render(r, ctx(primary));
+        const panel = r.querySelector('.exploration-panel[data-scenario="ai_assistant"]');
+        assert(panel?.hidden, "AI alternative initially follows the existing alternative");
+        const button = [...r.querySelectorAll('.alternative-exploration button')].find(b => b.textContent.includes("AI"));
+        button.click(); assert(!panel.hidden, "AI alternative selector opens its comparison");
+        assert(panel.textContent.includes("Exploratory AI scenario") && panel.textContent.includes("review"), "AI assumptions are explicit");
+        assert(panel.querySelectorAll('.ai-comparison tbody tr').length >= 3, "AI results contain computed matched outcomes");
+      });
+      await run("AI assumptions and compare", async () => {
+        const m = await import("/ui/pages/scenarios.js"); const r = stage("ai-controls"); let saved = null, launched = 0;
+        const fake = { ...api, saveScenario: async (_i, _s, d) => { saved = d; return { saved: true }; },
+          exploreScenario: async () => { launched++; return { job_id: "smoke-ai" }; },
+          explorationStatus: async () => launched ? { job_id: "smoke-ai", state: "complete" } : { state: "idle" } };
+        await m.render(r, ctx(primary, ["ai_assistant"], { api: fake }));
+        assert(r.querySelectorAll('[data-ai-parameter]').length === 5, "five editable AI assumptions");
+        const coverage = r.querySelector('[data-ai-parameter="coverage"]'); coverage.value = "0"; coverage.dispatchEvent(new Event("input"));
+        assert(JSON.parse(r.querySelector('textarea').value).interventions.find(i => i.type === "ai_assist").coverage === 0, "AI control updates the draft");
+        const compare = [...r.querySelectorAll('button')].find(b => b.textContent === "Compare with current policy");
+        compare.click(); await sleep(10); assert(launched === 0, "unsaved assumptions cannot launch a comparison");
+        [...r.querySelectorAll('button')].find(b => b.textContent === "Save scenario").click();
+        assert(await until(() => saved !== null && r.textContent.includes("Configuration saved")), "AI assumptions saved through the form");
+        compare.click(); assert(await until(() => r.textContent.includes("Comparison complete")), "AI comparison completion links to results");
+        assert(launched === 1 && saved.interventions.find(i => i.type === "ai_assist").coverage === 0, "comparison uses saved assumptions");
+      });
+    }
     await run("insights", async () => { const m = await import("/ui/pages/insights.js"); const r = stage("insights"); await m.render(r, ctx(primary)); assert(await until(() => r.querySelector(".quote") || r.querySelector(".empty") || r.querySelector(".error-box"), 8000), "insights rendered"); });
 
     await run("insights/first-generation", async () => {

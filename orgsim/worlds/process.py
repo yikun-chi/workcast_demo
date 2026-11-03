@@ -43,6 +43,7 @@ from ..evaluation import MarkovNextActivity, accuracy, interval, jensen_shannon,
 from ..instances import InstanceContext
 from ..kernel import Agent, CapacityPool, RunSummary, WorkItem
 from ..kernel.world import BaseWorld
+from ..scenarios.assistance import assistance_by_activity
 from ..policies import Action, Observation, load_registry
 from ..scenarios import load_scenario
 from ..store import RunWriter
@@ -348,6 +349,11 @@ class World(BaseWorld):
         self._joint_current = (None, None)
         bindings = ctx.yaml("ontology/bindings.yaml")
         self.act_props: dict[str, dict] = {a["id"]: {**(a.get("properties") or {}), "roles": a.get("roles", [])} for a in bindings.get("activities", [])}
+        self.assistance = assistance_by_activity(self.interventions, set(self.act_props))
+        self.human_work_hours = 0.0
+        self.unassisted_work_hours = 0.0
+        self.ai_review_hours = 0.0
+        self.ai_rework_hours = 0.0
         self.role_unit: dict[str, str] = {r["id"]: r.get("org_unit", "") for r in bindings.get("roles", [])}
         self.constraints = Constraints(ctx.yaml("calibration/constraints.yaml"), self.act_props)
         self.completing: set[str] = {a for a, p in self.act_props.items() if p.get("completes_case")}
@@ -761,6 +767,13 @@ class World(BaseWorld):
             agent_id = self._pick_executor(item, self.activity_users, activity, role, f"{role}_pool")
             pool = self.pools.get(role)
             duration = 1.0 / pool.actions_per_person_hour if pool and pool.actions_per_person_hour > 0 else 0.1
+            self.unassisted_work_hours += duration
+            assistance = self.assistance.get(activity)
+            if assistance:
+                self.ai_review_hours += duration * assistance.coverage * assistance.review_overhead
+                self.ai_rework_hours += duration * assistance.coverage * assistance.rework_rate * assistance.rework_effort
+                duration *= assistance.effort_factor
+            self.human_work_hours += duration
             provenance = "simulated"
         elif cls == "batch":
             role = "batch"; agent_id = self._pick_executor(item, self.batch_users, activity, role, "batch"); duration = 0.0; provenance = "simulated"
@@ -841,10 +854,14 @@ class World(BaseWorld):
                         self._ready(item, ev.payload["activity"], ev.payload["ready"], now)
                 if working:
                     for pool in self.pools.values():
-                        if pool.drain(self.clock.tick, self._serve):
+                        if pool.drain(self.clock.tick, self._serve, self._action_effort if self.assistance else None):
                             progress = True
         self.runtime_s = time.time() - t_start
         return self._summary(writer)
+
+    def _action_effort(self, payload: tuple[str, str, str]) -> float:
+        assistance = self.assistance.get(payload[1])
+        return assistance.effort_factor if assistance else 1.0
 
     def _summary(self, writer: RunWriter) -> RunSummary:
         n_cases = len(self.items)
@@ -874,6 +891,8 @@ class World(BaseWorld):
             "decisions": int(self.n_decisions), "options_rejected_by_constraints": int(self.n_rejected),
             "utilization": util, "workforce": self.workforce, "activity_counts": dict(act_counts.most_common(15)),
             "runtime_s": round(self.runtime_s, 1), "policies": self.registry.describe(),
+            "workload": {"human_hours": self.human_work_hours, "unassisted_hours": self.unassisted_work_hours,
+                         "review_hours": self.ai_review_hours, "rework_hours": self.ai_rework_hours},
             "model": {"state_order": self.state_order, "state_timing": self.state_timing, "t0_timing": self.t0_timing, "calendar": self.use_calendar, "calendar_mode": self.calendar_mode, "same_user": self.use_same_user},
         }
         return RunSummary(run_id=writer.run_id, instance=self.ctx.id, scenario=self.scenario.get("id", "baseline"), seed=self.seed,

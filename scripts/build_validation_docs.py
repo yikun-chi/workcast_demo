@@ -80,6 +80,14 @@ def build():
              "To reproduce model-selection validation after normalization, first run `uv run python instances/bpi19/ingest/run.py --training-end 2018-07-01`, "
              "then `uv run python instances/bpi19/ingest/audit/validate_cutoffs.py`; restore the final pre-policy fit with `uv run orgsim ingest bpi19` afterward. "
              "The validation harness rejects overlapping calibration or any validation window extending beyond the change date.", ""]
+    from orgsim.instances import get_instance
+    from orgsim.evaluation.exploration import report_sections
+    exploration_text = []
+    for instance in ("trip", "bpi19"):
+        for section in report_sections(get_instance(instance)):
+            exploration_text += [f"## {instance}: {section['heading']}", "", section["body"], ""]
+    position = text.index("## Reproduction")
+    text[position:position] = exploration_text
     (ROOT / "docs/validation.md").write_text("\n".join(text))
     readme = ROOT / "README.md"
     lines = readme.read_text().splitlines()

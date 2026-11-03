@@ -10,7 +10,7 @@ Detailed references: `docs/architecture.md` (how it is built), `docs/contracts.m
 1. **Actual outcomes and predictions.** Observed before, the change, then actual outcomes alongside other
    predictions and simulation predictions. Before data may calibrate the simulation; neither group's
    post-change outcomes may do so. Never present a simulated "before": only the after period is scored.
-2. **Alternative action and its impact.** One alternative the company did not try, simulated against the simulation
+2. **Alternative actions and their impact.** Named alternatives the company did not try, simulated against the simulation
    of what actually happened.
 
 ## What this is
@@ -18,7 +18,7 @@ Detailed references: `docs/architecture.md` (how it is built), `docs/contracts.m
 An organization-simulation platform by Emergent Science (product name WORKCAST). A real company is rebuilt as a
 simulation: its people as digital twins, its work process on an hourly clock. For each **instance** (one company,
 one dataset) the platform runs a **baseline** that reproduces what actually happened, scores it against the real
-outcome, then runs **one alternative** scenario the company did not try, and finally **interviews the simulated
+outcome, then runs **alternative scenarios** the company did not try, and finally **interviews the simulated
 agents** about the key metrics. The audience is mid to higher management playing out potential decisions, including investor demos. Every first
 screen must show the actual change, reference condition, observed impact, simulated impact and prediction error.
 Alternatives follow; detailed metrics remain available on selection.
@@ -26,10 +26,10 @@ Alternatives follow; detailed metrics remain available on selection.
 Two instances exist and run end to end:
 
 - `trip`: Trip.com's 2021 randomized hybrid-work experiment (1,612 employees as twins; predictions of the policy's
-  effects, scored against observed outcomes; alternative "hybrid for everyone").
+  effects, scored against observed outcomes; alternatives "hybrid for everyone" and an employee AI assistant).
 - `bpi19`: a multinational's purchase-to-pay process (BPI Challenge 2019 event log, 251,734 purchase-order items;
   the simulation predicts two-week horizons after the September 2018 workforce expansion, with the observed before period as reference; alternative "no
-  expansion").
+  expansion" and an AI invoice assistant).
 
 ## Rules that must hold (do not relax these without the user)
 
@@ -68,14 +68,14 @@ orgsim/                       the platform package (Python 3.12, FastAPI)
                               onet.py (O*NET 31.0 loader), people.py (data graph: people and connections),
                               system.py (concept graph as used by one instance)
   policies/                   seat adapters: rule, llm (Anthropic), local (OpenAI-compatible); registry
-  scenarios/                  loader (extends/deep-merge, scenario roles baseline|alternative|other)
+  scenarios/                  loader (extends/deep-merge, named alternatives); shared AI workload assumptions
   worlds/                     one module per world type: process.py, workforce.py (+ survival.py);
                               each has World, evaluate(ctx, ids) and results_view(ctx)
   evaluation/                 metrics, Markov baselines, results.py (shared results-view helpers)
   insights/                   interview.py (simulated interviews, topics, sentiment, key insights)
   store/                      run writer/reader (parquet trace, summary/metrics/twins json), run listing
   server/app.py               the API (docstring lists every endpoint) and static UI serving (no-cache headers)
-  cli.py                      orgsim instances|validate|ingest|run|evaluate|insights|demo|serve
+  cli.py                      orgsim instances|validate|ingest|run|evaluate|explore|insights|demo|serve
 ui/                           build-free shell: index.html, theme.css (tokens), app.js (router), api.js,
                               components/ (ui, chart, grid, graph, kpi, markdown), pages/, assets/logo.svg,
                               dev/smoke.html (+ fixtures)
@@ -103,9 +103,9 @@ Rules of thumb: platform code never contains instance logic; if two instances co
   or use `--reload` during development. Check which process owns the port before stopping it.
   Never put the literal text `orgsim serve` in a command that also runs `pkill -f`/`pgrep -f` (it matches itself).
 - **Add an instance**: copy `instances/_template`, write `instance.yaml` (`company`, `problem`, `situation`,
-  `data_used`, `intro`, `scenarios: {baseline, alternative}`, `protocol_line`), an ingest that writes `data/normalized/*` and
+  `data_used`, `intro`, `scenarios: {baseline, alternative, additional_alternatives?}`, `protocol_line`), an ingest that writes `data/normalized/*` and
   `summary.json`, bindings validated by `orgsim validate <id>`, `calibration/`, `evaluation/protocol.yaml`,
-  `scenarios/baseline.yaml` + one alternative with `short_title`, and a report builder. The UI needs no change.
+  `scenarios/baseline.yaml` + named alternatives with `short_title`, and a report builder. The UI needs no change.
 - **Add a world type**: a module in `orgsim/worlds/` with `World`, `evaluate`, `results_view`, registered in
   `orgsim/worlds/__init__.py`; a people builder in `orgsim/ontology/people.py`; an interview builder in
   `orgsim/insights/interview.py`.

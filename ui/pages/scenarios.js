@@ -1,4 +1,4 @@
-/* Scenarios: the baseline (what actually happened) and one named alternative. Click into either to run it or edit its
+/* Scenarios: current policy and named alternatives. Click into one to run it or edit its
    parameters and which model sits in each seat. Other scenario files stay runnable from the CLI. */
 import { h, replace, badge, card, errorState, loading, emptyState, toast, kv } from "../components/ui.js";
 
@@ -11,7 +11,7 @@ export async function render(root, ctx) {
   const others = list.filter(s => !s.role || s.role === "other");
   if (params[0]) { const s = list.find(x => x.id === params[0]); if (s) { replace(body); await detail(body, ctx, s); return; } }
   replace(body);
-  body.append(h("div", { class: "page-head" }, h("div", null, h("h1", null, "Scenarios"), h("div", { class: "sub" }, "Choose a scenario to adjust staffing or work policy, save your configuration, and run a new simulation. Saved results show previously computed outcomes."))));
+  body.append(h("div", { class: "page-head" }, h("div", null, h("h1", null, "Scenarios"), h("div", { class: "sub" }, "Choose a scenario to adjust staffing, work policy, or AI assistance. Save your assumptions and compare simulation predictions."))));
   if (!shown.length) { body.append(emptyState("No scenarios yet.", h("span", null, "Add ", h("code", null, `instances/${instanceId}/scenarios/baseline.yaml`), " and name it in instance.yaml under scenarios."))); return; }
   const resolved = await Promise.all(shown.map(s => api.scenario(instanceId, s.id).catch(() => null)));
   const runs = await api.runs(instanceId).catch(() => []);
@@ -40,6 +40,7 @@ export function describeIntervention(iv) {
   if (typeof iv === "string") return iv;
   if (iv.type === "headcount_shift") return `Staffing: ${iv.multiplier} × current headcount (${iv.role === "all" ? "all roles" : iv.role})`;
   if (iv.type === "wfh_offer") return `Work from home: ${Array.isArray(iv.who) ? iv.who.map(w => whoLabel(w)).join(" and ") : whoLabel(iv.who)}; ${(iv.days || []).join(", ") || "no days"}`;
+  if (iv.type === "ai_assist") return `AI assistance for ${(iv.activities || []).map(a => a.replaceAll("_", " ")).join(", ")}; ${Math.round(iv.coverage * 100)}% coverage, with human review and correction.`;
   const t = iv.type || "intervention";
   const rest = Object.entries(iv).filter(([k]) => !["type", "label"].includes(k)).map(([k, v]) => `${k} ${Array.isArray(v) ? v.join("/") : typeof v === "object" ? JSON.stringify(v) : v}`).join(", ");
   const nice = { wfh_offer: "Work-from-home offer", headcount_shift: "Headcount change", capacity: "Capacity change", automate: "Automation", delay: "Step duration", no_policy: "Policy withdrawn" }[t] || t;
@@ -79,9 +80,9 @@ async function detail(body, ctx, s) {
     }
     replace(controls);
     const interventions = Array.isArray(draft.interventions) ? draft.interventions : [];
-    const editable = interventions.filter(iv => ["headcount_shift", "wfh_offer"].includes(iv.type));
+    const editable = interventions.filter(iv => ["headcount_shift", "wfh_offer", "ai_assist"].includes(iv.type));
     // The baseline's WFH offer is a world policy, overridden by policy interventions.
-    if (draft.world?.policy?.type === "wfh_offer" && !interventions.some(iv => ["wfh_offer", "no_policy"].includes(iv.type))) editable.unshift(draft.world.policy);
+    if (!draft.exploration && draft.world?.policy?.type === "wfh_offer" && !interventions.some(iv => ["wfh_offer", "no_policy"].includes(iv.type))) editable.unshift(draft.world.policy);
     const sync = () => { ta.value = JSON.stringify(draft, null, 2); changed(); };
     for (const iv of editable) {
       if (iv.type === "headcount_shift") {
@@ -92,6 +93,30 @@ async function detail(body, ctx, s) {
         controls.append(h("label", { class: "stack" }, h("b", null, "Staffing multiplier"), amount,
           h("span", { class: "muted small" }, `1 means current staffing; 1.5 means 50% more people. Applies to ${iv.role === "all" ? "all roles" : iv.role}.`)));
         amount.required = true;
+      } else if (iv.type === "ai_assist") {
+        const labels = Object.fromEntries((bindings.activities || []).map(a => [a.id, a.label || a.id]));
+        controls.append(h("p", { class: "small" }, "AI-assisted work: ", (iv.activities || []).map(a => labels[a] || a.replaceAll("_", " ")).join(", ")),
+          h("p", { class: "muted small" }, draft.exploration?.assumption_basis || "These are exploratory assumptions, not measured AI outcomes."));
+        const preview = h("div", { class: "small" });
+        const updatePreview = () => {
+          const factor = 1 - iv.coverage * (iv.time_saved - iv.review_overhead - iv.rework_rate * iv.rework_effort);
+          replace(preview, `Across the selected tasks, modeled human effort is ${(100 * factor).toFixed(1)}% of current effort, including review and correction.`);
+        };
+        for (const [key, label, max, help] of [
+          ["coverage", "Share of eligible work using AI (%)", 100, "The rest of the work uses the current process."],
+          ["time_saved", "Task time saved before review (%)", 100, "Time saved on an assisted task, before checking or correcting the output."],
+          ["review_overhead", "Human review effort (%)", 200, "Review time as a share of the task's usual effort without AI."],
+          ["rework_rate", "Assisted tasks needing correction (%)", 100, "Corrections add effort before the task completes."],
+          ["rework_effort", "Effort to correct a task (%)", 300, "100% means a correction takes as long as doing the original task without AI."]
+        ]) {
+          const input = h("input", { class: "input", type: "number", min: 0, max, step: "any", required: true,
+            value: 100 * iv[key], "data-ai-parameter": key, onInput: () => {
+              if (input.value !== "" && input.checkValidity()) { iv[key] = Number(input.value) / 100; sync(); updatePreview(); }
+              else replace(editStatus, `Enter ${label.toLowerCase()} between 0 and ${max}.`);
+            } });
+          controls.append(h("label", { class: "stack" }, h("b", null, label), input, h("span", { class: "muted small" }, help)));
+        }
+        updatePreview(); controls.append(preview);
       } else {
         const choices = ["all", "treat", "control", "managers", "nonmanagers", ["treat", "nonmanagers"]];
         if (!choices.some(w => JSON.stringify(w) === JSON.stringify(iv.who))) choices.push(iv.who);
@@ -155,15 +180,45 @@ async function detail(body, ctx, s) {
     runBtn.disabled = false;
   } }, "Run ▶");
   const runs = (await api.runs(instanceId).catch(() => [])).filter(x => x.scenario === s.id);
+  const compareStatus = h("div", { class: "small muted", role: "status" });
+  const isExploration = !!r?.exploration;
+  async function watchComparison(jobId) {
+    try {
+      while (body.isConnected) {
+        const job = await api.explorationStatus(instanceId);
+        if (job.job_id !== jobId) { replace(compareStatus, "Another comparison has started. Check the saved results when it finishes."); break; }
+        if (job.state === "complete") {
+          replace(compareStatus, badge("Comparison complete", "good"), " ", h("a", { href: href(instanceId, "results", s.id) }, "View AI comparison →"));
+          break;
+        }
+        if (job.state === "failed") { replace(compareStatus, job.error || "Comparison failed. Check your assumptions and retry."); break; }
+        replace(compareStatus, "Comparing matched simulations. This can take several minutes; you can leave this page and return later.");
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }
+    } catch (e) { replace(compareStatus, errorState(e)); }
+    compareBtn.disabled = false;
+  }
+  const compareBtn = h("button", { class: "btn primary", onClick: async () => {
+    for (const input of controls.querySelectorAll("input")) if (!input.reportValidity()) return;
+    if (ta.value !== savedDraft || saveBtn.disabled) return toast("Save your assumptions before comparing.", "bad");
+    compareBtn.disabled = true;
+    try { const job = await api.exploreScenario(instanceId, s.id); watchComparison(job.job_id); }
+    catch (e) { replace(compareStatus, errorState(e)); compareBtn.disabled = false; }
+  } }, "Compare with current policy");
   body.append(card("Configure scenario", h("div", { class: "stack" },
     controls,
-    h("div", { class: "row" }, saveBtn, runBtn),
-    editStatus, status,
-    h("div", { class: "muted small" }, "Run uses the saved configuration. Saving or running does not refresh the precomputed Results report."),
-    h("a", { href: href(instanceId, "results") }, "View saved results (precomputed) →"))));
+    h("div", { class: "row" }, saveBtn, isExploration ? compareBtn : runBtn),
+    editStatus, isExploration ? compareStatus : status,
+    h("div", { class: "muted small" }, isExploration ? "Compare uses the saved assumptions and matching reference simulations, then updates the AI comparison in Results." : "Run uses the saved configuration. Saving or running does not refresh the precomputed Results report."),
+    h("a", { href: isExploration ? href(instanceId, "results", s.id) : href(instanceId, "results") }, "View saved results →"))));
+  if (isExploration) {
+    const job = await api.explorationStatus(instanceId).catch(() => null);
+    if (job?.scenario === s.id && ["queued", "running"].includes(job.state)) { compareBtn.disabled = true; watchComparison(job.job_id); }
+  }
   body.append(h("details", { class: "section" }, h("summary", null, "Run details: seed and history"),
     card("Run settings and history", h("div", { class: "stack" },
       h("label", { class: "row small" }, "Random seed", seed),
+      isExploration ? h("div", { class: "row" }, runBtn, status) : null,
       runs.length ? h("div", { class: "table-wrap", style: { maxHeight: "200px" } }, h("table", { class: "table" },
         h("thead", null, h("tr", null, h("th", null, "Run"), h("th", null, "Status"), h("th", { class: "num" }, "Events"))),
         h("tbody", null, ...runs.slice(0, 12).map(x => h("tr", null,

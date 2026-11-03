@@ -2,7 +2,8 @@
    itself, after the change (actual and the simulation's prediction), then how closely the simulation tracks reality.
    Part 2: the alternative action and its impact, against the simulation of what actually happened.
    Reads /api/instances/{id}/results (the world module's results_view). */
-import { h, replace, badge, card, errorState, loading, emptyState, fmtMetric, fmtNum, fmtDate } from "../components/ui.js";
+import { h, replace, badge, card, errorState, loading, emptyState, fmtMetric, fmtNum, fmtDate, segmented } from "../components/ui.js";
+import { explorationPanel } from "../components/exploration.js";
 import { chartCard, sweepCharts } from "../components/chart.js";
 import { renderMarkdown } from "../components/markdown.js";
 
@@ -140,9 +141,11 @@ export async function render(root, ctx) {
 
   // ---------- Part 2: the alternative action and its impact
   if (alt) {
-    const p2 = h("section", { class: "section", style: { marginTop: "26px" } });
+    const section = h("section", { class: "section alternative-exploration", style: { marginTop: "26px" } });
+    section.append(h("div", { class: "row", style: { gap: "10px", alignItems: "baseline", marginBottom: "10px" } }, h("span", { class: "part-no alt" }, "2"), h("h2", null, "Explore alternative actions")));
+    const p2 = h("div", { "data-scenario": alt.id });
     const ha = hero.alternative || {};
-    p2.append(h("div", { class: "row", style: { gap: "10px", alignItems: "baseline", marginBottom: "4px" } }, h("span", { class: "part-no alt" }, "2"), h("h2", null, `Alternative action: ${alt.short_title || alt.title}`)),
+    p2.append(h("h3", { style: { marginTop: "14px" } }, alt.short_title || alt.title),
       h("p", { class: "small", style: { maxWidth: "980px", color: "var(--text-2)", lineHeight: "1.5" } }, alt.description || "", " ", h("span", { class: "muted" }, `Both predictions use the same simulation; only the alternative setting changes (${src.alternative?.runs || "?"} runs).`)),
       legend(["baseline", "alternative"]));
     const altChart = chartFor(ha.chart || mainChart, ["baseline", "alternative"]);
@@ -153,7 +156,21 @@ export async function render(root, ctx) {
     p2.append(h("h4", null, "Key metrics: the alternative against the simulation of what actually happened"), metricsTable(["baseline", "alternative"], { highlight: true, delta: "alternative − as happened", foot: "Both columns use matching seeds and time windows. The better simulated value is highlighted; the last column is the alternative's impact." }));
     const otherP2 = (d.charts || []).filter(c => c.id !== (ha.chart || mainChart)).map(c => chartFor(c.id, ["baseline", "alternative"])).filter(c => c && c.series.some(s => s.source === "alternative"));
     if (otherP2.length) p2.append(h("h4", { style: { marginTop: "14px" } }, "More comparisons"), h("div", { class: "grid-2" }, ...otherP2.map(c => chartCard(c))));
-    body.append(p2);
+    const panels = { [alt.id]: p2 };
+    const choices = [{ id: alt.id, label: alt.short_title || alt.title }];
+    for (const view of d.explorations || []) {
+      panels[view.id] = explorationPanel(view, ctx);
+      choices.push({ id: view.id, label: view.title });
+    }
+    const selected = panels[ctx.params?.[0]] ? ctx.params[0] : alt.id;
+    const select = (id) => {
+      for (const [key, panel] of Object.entries(panels)) panel.hidden = key !== id;
+      setTimeout(() => { window.dispatchEvent(new Event("resize")); sweepCharts(); }, 10);
+    };
+    if (choices.length > 1) section.append(segmented(choices, selected, select));
+    section.append(...Object.values(panels));
+    body.append(section);
+    select(selected);
   }
   setTimeout(sweepCharts, 10);
 

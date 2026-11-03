@@ -22,3 +22,5 @@ Business problem, data, what is simulated, protocol and results: [validation](..
 To update labels and comparison methods without changing saved simulation predictions, run `.venv/bin/python scripts/refresh_trip_presentation.py`, then the report and validation-document builders.
 
 Download and installation instructions: [setup and reproduction](../../docs/setup.md).
+
+The second alternative, `ai_assistant`, explores AI-assisted task effort with human review and correction. Configure it in Scenarios and select **Compare with current policy**, or run `uv run orgsim explore trip --scenario ai_assistant`. Results are stored separately in `runs/trip/explorations.json`; the existing accuracy evaluation is unchanged. See [AI modeling boundaries](../../docs/architecture.md#ai-assistance-as-an-exploratory-intervention).

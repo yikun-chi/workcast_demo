@@ -7,6 +7,7 @@ from __future__ import annotations
 from collections import deque
 from dataclasses import dataclass, field
 from typing import Any, Callable
+import math
 
 
 @dataclass
@@ -35,13 +36,21 @@ class CapacityPool:
     def enqueue(self, item: Any, arrived_hour: int) -> None:
         self.queue.append((arrived_hour, item))
 
-    def drain(self, now_hour: int, serve: Callable[[Any, float], None]) -> int:
-        """Serve queued items while capacity remains. serve(item, wait_hours)."""
+    def drain(self, now_hour: int, serve: Callable[[Any, float], None], effort: Callable[[Any], float] | None = None) -> int:
+        """Start queued actions while hourly capacity remains.
+
+        Effort is measured in ordinary-action equivalents. The default retains
+        the existing one-action accounting; assisted tasks can use less or more.
+        As with ordinary tasks, the last action may finish across the hour boundary.
+        """
         n = 0
         while self.queue and self.has_capacity():
+            cost = float(effort(self.queue[0][1])) if effort else 1.0
+            if not math.isfinite(cost) or cost <= 0:
+                raise ValueError("Action effort must be positive and finite")
             arrived, item = self.queue.popleft()
             wait = float(now_hour - arrived)
-            self.used_this_hour += 1
+            self.used_this_hour += cost
             self.total_served += 1
             self.total_wait_hours += wait
             serve(item, wait)

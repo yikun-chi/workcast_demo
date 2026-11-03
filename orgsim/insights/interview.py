@@ -69,6 +69,9 @@ def _wf_facts(tw: dict[str, Any], company: str) -> dict[str, Any]:
          "children": "children at home" in prof, "wfh_pref_z": float(tr.get("wfh_pref_z") or 0.0), "profile": prof,
          "quit_risk_pct": (lambda m: int(m.group(1)) if m else None)(__import__("re").search(r"quit-risk percentile (\d+)", prof))}
     f["sat_delta"] = round(f["sat_end"] - f["sat_base"], 2); f["wlb_delta"] = round(f["wlb_end"] - f["wlb_base"], 2)
+    workload = tw.get("workload") or {}
+    f["ai_assisted"] = bool(tw.get("ai_assisted"))
+    f["hours_released"] = workload.get("unassisted_hours", 0) - workload.get("human_hours", 0)
     return f
 
 
@@ -97,6 +100,10 @@ def _sentiment(score: float, lo: float = 6.0, hi: float = 7.5) -> str:
 
 
 def _wf_template(f: dict[str, Any], metric: str) -> str:
+    if metric == "performance" and f.get("ai_assisted"):
+        hours = f["hours_released"]
+        effort = f"{hours:.1f} hours available for other work" if hours >= 0 else f"{-hours:.1f} additional hours of work"
+        return f"With the assumed AI assistance, review and correction included, my modeled tasks leave {effort} over the period. That is a workload estimate; the model does not assume a change in my performance rating or likelihood of leaving."
     c, days = f["company"], f["wfh_days"]
     commute = f"{f['commute_2way_h']:.1f} hours a day" if f["commute_2way_h"] >= 1.0 else f"about {int(round(f['commute_2way_h'] * 60))} minutes a day"
     if metric == "attrition":
@@ -401,7 +408,7 @@ def build_insights(ctx: InstanceContext, n_per_scenario: int = 24, model: str | 
             out["scenarios"][role] = {"scenario": sid, "title": titles.get(sid, sid), "run_id": None, "error": "no completed run"}
             continue
         alt_mult = None
-        if role == "alternative" and ctx.world_type == "process":
+        if role.startswith("alternative") and ctx.world_type == "process":
             from ..scenarios import load_scenario
             for iv in load_scenario(ctx, sid).get("interventions") or []:
                 if iv.get("type") in ("headcount_shift", "capacity") and iv.get("role", "all") == "all":
