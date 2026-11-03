@@ -6,7 +6,7 @@ other prediction, and simulation prediction → alternative behavior**. Before-p
 data supplies context and calibration; only after-change predictions are scored.
 Interviews describe simulated agents, not statements from real employees.
 
-Trip.com and procurement include two alternatives: its original policy alternative and an AI
+Trip.com and procurement each include two alternatives: the original policy alternative and an AI
 assistant. In Results, use **Explore alternative actions** to switch between them.
 AI assumptions are editable in Scenarios; **Compare with current policy** runs a
 matched comparison. The AI cases estimate workload and operational effects under
@@ -89,6 +89,7 @@ checks and browser smoke tests are described in [setup](docs/setup.md#verificati
 
 ## Documentation
 
+- [Documentation index](docs/README.md): all instance evidence, development guides and supporting tools.
 - [Setup and reproduction](docs/setup.md): installation, data, commands, verification, and GitHub upload.
 - [Validation](docs/validation.md): data boundaries, comparison methods, results, and limitations.
 - [Architecture](docs/architecture.md): simulation kernel, worlds, policies, ontology, and evaluation.
@@ -96,6 +97,12 @@ checks and browser smoke tests are described in [setup](docs/setup.md#verificati
 - [UI guide](docs/ui.md): instance pages and the shared framing.
 - [Foundations](docs/literature/foundations.md): design references and behavioral-prior sources.
 - [Contributor guide](CLAUDE.md): rules and workflows for work on the repository.
+
+The main application lives in `orgsim/`, `instances/` and `ui/`. The authored
+planner example lives in `examples/`. The [board](board/README.md) and
+[value-case tools](value_cases/README.md) are separate supporting workflows;
+neither is required to run the application. Downloaded data and run artifacts stay
+in this checkout and are ignored by Git; no export copy is needed.
 
 ## Data and licensing
 

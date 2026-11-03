@@ -10,13 +10,19 @@ uv run orgsim instances
 uv run --locked --extra dev pytest -m 'not data' -q
 ```
 
-`uv.lock` pins dependencies. Keep the editable checkout: a standalone installation
+`uv.lock` pins dependencies. Commands in this guide run from the repository root.
+Keep the editable checkout: a standalone installation
 of the Python wheel does not include the instance definitions or web UI. No Node
 installation or model API key is required for the default rule policies and
 template interviews. Optional hosted policies read `ANTHROPIC_API_KEY` from the
 environment; local model policies use `LOCAL_MODEL_API_KEY`. No credential file is
 needed for the standard demo. The server is a local development application; its
 editing and run endpoints have no authentication. Keep the default loopback host.
+
+LangGraph is an optional task-planner adapter. To install and exercise it, use the
+[authored workflow guide](../examples/README.md). The eight instances and the rule
+planner work without it. With the extra installed, use `.venv/bin/python` or
+`uv run --extra langgraph` to retain it; a plain `uv sync` selects only base dependencies.
 
 ## Data acquisition
 
@@ -72,13 +78,14 @@ fail verification and can be resumed. Anonymous Stack Exchange quotas may requir
 another day. A fresh snapshot can change results and must be re-evaluated.
 OpenRouter reads `OPENROUTER_API_KEY` or `~/.secrets/openrouter.key`.
 
-For each additional instance, run `orgsim ingest <id>`, `orgsim evaluate <id>`,
-`orgsim insights <id>`, and `python instances/<id>/reports/build_report.py`.
+For each additional instance, run `uv run orgsim demo <id>` after acquiring its
+inputs. Individual steps are `uv run orgsim ingest <id>`, `uv run orgsim evaluate <id>`,
+`uv run orgsim insights <id>`, and `uv run python instances/<id>/reports/build_report.py`.
 The shared Results page uses local evaluations; a committed report is evidence from
 the author's run and does not mean the data is installed here. `so_survey` is a
-feasibility investigation, not a runnable instance. The `board/` publisher is
-separate from the shared application and its machine-specific publishing scripts
-must be configured before use; data download and evaluation do not deploy it.
+feasibility investigation, not a runnable instance. See the [board guide](../board/README.md)
+for the separate ensemble/publisher and its original deployment helpers; data
+download and evaluation do not deploy it.
 
 ## Reproduce the application
 
@@ -119,13 +126,13 @@ Before-period observations are never simulated. Re-ingesting BPI refits
 source control so its identity can be compared with the saved evaluation.
 
 Generated runtime files live in `runs/` and `instances/*/data/` and are ignored by
-Git. Current `reports/report.json` snapshots and `docs/validation.md` are included
+Git. Current `reports/report.json` snapshots and the instance validation pages are included
 as readable results; regenerate them after a new evaluation. UI fixtures under
 `ui/dev/fixtures/` exercise development views and are not validation evidence.
 
 ## Explore AI assistance
 
-Both instances have an `ai_assistant` scenario in addition to their original
+Trip.com and procurement have an `ai_assistant` scenario in addition to their original
 alternative. In Results, switch to the AI alternative under **Explore alternative
 actions**. In Scenarios, adjust coverage, time saved before review, review effort,
 correction rate, and correction effort. Save, then select **Compare with current
@@ -157,17 +164,25 @@ For the modeling boundaries and research context, see
 
 ## Verification
 
-With both datasets normalized and both evaluations present:
+The data-dependent tests use inputs and saved evaluations across the registered
+instances, including O*NET. Download and prepare the relevant instances before
+running the full suite. To include the optional planner checks as well:
 
 ```bash
-uv run --extra dev pytest -q
-uv run python scripts/check_bpi19_results.py
-uv run python scripts/download_data.py --verify-only
+uv sync --locked --extra dev --extra langgraph
+.venv/bin/python -m pytest tests -q
+.venv/bin/python scripts/check_bpi19_results.py
+.venv/bin/python scripts/download_data.py public --verify-only
+.venv/bin/python scripts/download_data.py openrouter --refresh --verify-only
+.venv/bin/python scripts/download_data.py so_chatgpt --refresh --verify-only
 ```
 
 The `data` pytest marker identifies checks that require local inputs or saved
 evaluations. `pytest -m 'not data'` runs the portable checks; the full command above
-does not silently skip missing datasets. GitHub Actions runs the portable subset.
+does not silently skip missing datasets. Without the LangGraph extra, its checks
+are skipped. GitHub Actions tests the portable suite with and without that extra.
+For original API snapshots, omit `--refresh` when verifying; the commands above
+verify explicitly refreshed local snapshots.
 
 With the server running, visit both pages and confirm `DONE errors=0`:
 
@@ -187,25 +202,31 @@ Repeat for `bpi19` and inspect each Results page visually, including the combine
 actual-outcome/prediction table and the alternative scenario section. Restart the
 server after changing Python code; `orgsim serve --reload` can do this during development.
 
-## Upload this repository to GitHub
+## Repository maintenance
 
-Use this `org_simulation/` directory as the repository root. It is the single
+Use the current source checkout as the repository root. It is the single
 working copy of the platform; no export or duplicate application folder is needed.
 
 `.gitignore` excludes credentials, machine settings, virtual environments, caches,
 downloaded datasets, run outputs, and local reading PDFs. Source code, documentation,
 manifests, calibration files, and current report snapshots belong in Git.
 
-From this directory, stage and inspect the changes before committing and pushing:
+The repository is [yikun-chi/workcast_demo](https://github.com/yikun-chi/workcast_demo).
+Keep normal Git operations in this checkout; a separate `dist/` export is not part
+of the workflow. Inspect changes before committing and pushing:
 
 ```bash
-git add --all
-git diff --cached --stat
 git status --short
+git diff --check
+git diff --stat
 ```
 
-Use Git or GitHub Desktop to publish the repository. Ignore rules apply to Git;
+After staging the intended files, inspect `git diff --cached` and commit through
+Git or GitHub Desktop. Ignore rules apply to Git;
 manually dragging the entire directory into a web upload would also include local
-files. Reference PDFs have been removed from Git's index while their local copies
-remain available. Existing commits may still contain those PDFs; history has not
-been rewritten. No code license is added automatically.
+files. Reference PDFs stay local; the bibliography and source manifests stay in
+Git. No code license is added automatically.
+
+Frozen protocols and sealed source snapshots preserve research provenance. Update
+generated documents through their builders and use the
+[documentation index](README.md) to find the current guide for each workflow.

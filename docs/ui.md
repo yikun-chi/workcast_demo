@@ -21,7 +21,7 @@ instance on its Results tab. Nothing about build status.
    changes, the alternative hero, the chart, the key metrics against the simulation of what actually happened with
    the better value highlighted, a link to change and re-run it. Then the report takeaways with the full narrative
    collapsed, the instance's detailed views, and the source notes.
-   The alternative section has a selector for the original alternative and an AI assistant.
+   Trip.com and procurement have a selector for the original alternative and an AI assistant.
    AI comparisons show explicit workload assumptions, matched simulation results, and research context.
    They show no observed AI outcome. Stale comparisons prompt a new run.
 2. **Scenarios.** Cards for the baseline (what actually happened) and each named alternative, with what changes.

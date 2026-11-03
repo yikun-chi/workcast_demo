@@ -15,11 +15,11 @@ Detailed references: `docs/architecture.md` (how it is built), `docs/contracts.m
 
 ## What this is
 
-An organization-simulation platform by Emergent Science (product name WORKCAST). A real company is rebuilt as a
-simulation: its people as digital twins, its work process on an hourly clock. For each **instance** (one company,
-one dataset) the platform runs a **baseline** that reproduces what actually happened, scores it against the real
-outcome, then runs **alternative scenarios** the company did not try, and finally **interviews the simulated
-agents** about the key metrics. The audience is mid to higher management playing out potential decisions, including investor demos. Every first
+An organization-simulation platform by Emergent Science (product name WORKCAST). Each **instance** represents
+a company, market or population using employee states, work queues, demand or adoption dynamics. The
+**baseline** scenario simulates the change that actually occurred; its predictions are scored against observed
+outcomes. **Alternative scenarios** explore changes that were not observed. Simulated interviews explain the
+modeled agents' records. The audience is mid to higher management playing out potential decisions, including investor demos. Every first
 screen must show the actual change, reference condition, observed impact, simulated impact and prediction error.
 Alternatives follow; detailed metrics remain available on selection.
 
@@ -87,7 +87,7 @@ orgsim/                       the platform package (Python 3.12, FastAPI)
   insights/                   interview.py (simulated interviews, topics, sentiment, key insights)
   store/                      run writer/reader (parquet trace, summary/metrics/twins json), run listing
   server/app.py               the API (docstring lists every endpoint) and static UI serving (no-cache headers)
-  cli.py                      orgsim instances|validate|ingest|run|evaluate|explore|insights|demo|serve
+  cli.py                      orgsim instances|validate|ingest|run|evaluate|explore|insights|demo|serve|workflow
 examples/                     authored task workflow and adapter instructions; separate from real-data validation
 ui/                           build-free shell: index.html, theme.css (tokens), app.js (router), api.js,
                               components/ (ui, chart, grid, graph, kpi, markdown), pages/, assets/logo.svg,
@@ -99,6 +99,8 @@ instances/_template/          what a new instance needs
 data/                         shared reference data (O*NET 31.0), manifests/
 runs/<id>/                    run folders per scenario, evaluation.json, insights.json (ignored)
 tests/                       core, fidelity, and repository-tool checks; data marker for local dataset dependencies
+board/                       separate ensemble/publishing tools; author-specific deployment helpers (see its README)
+value_cases/                 financial illustrations from sealed snapshots; see its README for rebuild/refresh
 ```
 
 Rules of thumb: platform code never contains instance logic; if two instances could use it, it belongs in
@@ -115,7 +117,7 @@ Rules of thumb: platform code never contains instance logic; if two instances co
 - **Serve**: `.venv/bin/orgsim serve --port 8000` then http://127.0.0.1:8000. Restart your server after Python changes,
   or use `--reload` during development. Check which process owns the port before stopping it.
   Never put the literal text `orgsim serve` in a command that also runs `pkill -f`/`pgrep -f` (it matches itself).
-- **Add an instance**: copy `instances/_template`, write `instance.yaml` (`company`, `problem`, `situation`,
+- **Add an instance**: follow the checklist in `instances/_template/README.md`, write `instance.yaml` (`company`, `problem`, `situation`,
   `data_used`, `intro`, `scenarios: {baseline, alternative, additional_alternatives?}`, `protocol_line`), an ingest that writes `data/normalized/*` and
   `summary.json`, bindings validated by `orgsim validate <id>`, `calibration/`, `evaluation/protocol.yaml`,
   `scenarios/baseline.yaml` + named alternatives with `short_title`, and a report builder. The UI needs no change.
@@ -134,7 +136,8 @@ Rules of thumb: platform code never contains instance logic; if two instances co
 
 ## How to verify (do all three before saying something works)
 
-1. `.venv/bin/python -m pytest tests -q` (requires normalized data and both evaluations).
+1. `.venv/bin/python -m pytest tests -q` (requires the normalized inputs and saved evaluations used by the data tests
+   across the registered instances; the optional LangGraph checks also require `uv sync --locked --extra dev --extra langgraph`).
    A fresh checkout can run `pytest -m 'not data'`; do not describe that subset as the full suite.
 2. UI smoke harness against the live server (prints `DONE errors=0`):
    `chrome --headless --disable-gpu --no-sandbox --window-size=1400,1000 --virtual-time-budget=120000 --dump-dom
