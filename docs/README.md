@@ -1,19 +1,20 @@
 # Documentation
 
-Start with [setup and reproduction](setup.md) to download data, run an instance and
-open the application. All eight instances use the same framing: observed before,
-the change, actual outcomes alongside other and simulation predictions, then
-alternative actions.
+Start with the [operational quickstart](../README.md) to install and run the application.
+Agents should read [agent.md](../agent.md), the single guide to project context,
+design principles, file placement and verification. This page is the documentation index.
 
 | Topic | Guide |
 |---|---|
-| Installation, data and verification | [Setup](setup.md) |
-| Application services, models and planner adapters | [Architecture](architecture.md) |
+| Installation, keys, data, deployment and verification | [Setup and reproduction](setup.md) |
+| Product framing, instance catalog and evidence scope | [Project overview](overview.md) |
+| Application services and scientific models | [Architecture](architecture.md) |
+| Task-planner architecture, framework adapters and replay | [Task planners](task-planners.md) |
 | Instance files, run artifacts, HTTP and planner interfaces | [Contracts](contracts.md) |
 | Results, scenarios and the other instance tabs | [UI guide](ui.md) |
 | Add an instance | [Instance template](../instances/_template/README.md) |
-| Try or replace a task planner | [Authored workflow example](../examples/README.md) |
-| Contributor rules | [Repository guide](../CLAUDE.md) |
+| Authored runnable inputs | [Examples](../examples/README.md) |
+| Project context, contributor rules and where files belong | [Agent guide](../agent.md) |
 | Behavioral assumptions and sources | [Research foundations](literature/foundations.md) |
 
 ## Instance evidence

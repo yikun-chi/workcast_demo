@@ -22,4 +22,4 @@ the alternative, `orgsim evaluate <id>`, `orgsim insights <id>`, `uv run python 
 Use the existing instance closest to your world type as an example. Preserve the
 shared before/change/outcomes/alternatives framing and document calibration cutoffs
 and source availability. Task-planner framework adapters are a separate extension
-point described in the [authored workflow guide](../../examples/README.md).
+point described in the [task-planner guide](../../docs/task-planners.md).

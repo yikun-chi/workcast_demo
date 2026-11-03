@@ -1,114 +1,116 @@
-# WORKCAST simulation platform
+# WORKCAST quickstart
 
-WORKCAST models how people and work processes respond to organizational changes.
-Each instance follows the same sequence: **observed before → change → actual outcome,
-other prediction, and simulation prediction → alternative behavior**. Before-period
-data supplies context and calibration; only after-change predictions are scored.
-Interviews describe simulated agents, not statements from real employees.
+Run the simulation application from this source checkout. This guide covers setup
+and operation; [docs/](docs/README.md) contains the project overview and technical guides.
+Agents should read [agent.md](agent.md) before making changes.
 
-Trip.com and procurement each include two alternatives: the original policy alternative and an AI
-assistant. In Results, use **Explore alternative actions** to switch between them.
-AI assumptions are editable in Scenarios; **Compare with current policy** runs a
-matched comparison. The AI cases estimate workload and operational effects under
-stated assumptions; they have no observed AI outcome in these datasets.
+## Python and uv
 
-| Instance | Decision or change | Simulation approach | Evidence |
-|---|---|---|---|
-| `trip` | Trip.com hybrid work | Employee states and attrition | [Validation](docs/validation.md) |
-| `bpi19` | Procurement staffing | Work queues, capacity and handoffs | [Validation](docs/validation.md) |
-| `openrouter` | AI token demand and spending | App demand and model routing | [Validation](docs/validation_openrouter.md) |
-| `ctrip` | Ctrip call-centre home working (2010) | Employee output and attrition | [Validation](docs/validation_ctrip.md) |
-| `fedwork` | Federal workforce policy changes | Cohort separation hazards | [Validation](docs/validation_fedwork.md) |
-| `btos_ai` | Business adoption of AI | Sector adoption dynamics | [Validation](docs/validation_btos_ai.md) |
-| `so_chatgpt` | Stack Overflow after ChatGPT | Adoption and displaced question volume | [Validation](docs/validation_so_chatgpt.md) |
-| `aei_tasks` | AI assistant task mix | Occupation-level adoption dynamics | [Validation](docs/validation_aei_tasks.md) |
-
-Trip.com is a retrospective evaluation: neither group's post-change outcomes enter
-the current calibration, but the inherited prior history includes outcome-based
-selection. Procurement predictions use actual incoming orders and the operating
-state at each prediction date. OpenRouter also supplies historical future prices and model launches, so its archived results are conditional market scenarios. These are conditional predictions, not an advance
-prediction of all demand or proof that staffing alone caused the observed changes.
-
-## Set up a source checkout
-
-Use Python 3.12 and [uv](https://docs.astral.sh/uv/getting-started/installation/)
-(0.13.1 was used to generate the lockfile). Run from the repository root:
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then run from
+the repository root:
 
 ```bash
 uv sync --locked --extra dev --python 3.12
-uv run --locked --extra dev pytest -m 'not data' -q
 uv run orgsim instances
 ```
 
-The editable source checkout is required: the application loads `instances/`, `ui/`
-and `data/` beside the Python package. There is no Node build step. The default
-simulation and interview modes need no API key. The browser loads pinned Chart.js,
-Cytoscape and marked libraries from cdnjs, so the full UI requires internet access.
+Use Python 3.12 and the committed `uv.lock`. Keep the editable source checkout:
+`instances/`, `ui/` and `data/` are loaded beside the Python package. A standalone
+wheel is insufficient. No Node installation or frontend build is required.
 
-## Download data and run
+## API keys
+
+| Operation | Required credential |
+|---|---|
+| Default simulations, saved-data evaluation and template interviews | None |
+| Bundled rule and LangGraph task-planner examples | None |
+| Fresh OpenRouter dataset retrieval | `OPENROUTER_API_KEY`, or a key in `~/.secrets/openrouter.key` |
+| Optional Anthropic seat policies or model-written interviews | `ANTHROPIC_API_KEY` |
+| Optional OpenAI seat policy | `OPENAI_API_KEY` |
+| Optional local model server | `LOCAL_MODEL_API_KEY` if the server requires it; otherwise the adapter sends `local` |
+
+Only configure the services you use. Export keys in the shell running the command;
+the application does not automatically load a `.env` file. Keep credentials out of
+Git. See [credential configuration](docs/setup.md#credential-configuration) for
+optional policy settings and the OpenRouter key-file location.
+
+## Download data
+
+For the original Trip.com and procurement examples:
 
 ```bash
-uv run python scripts/download_data.py      # fetch pinned inputs, verify hashes, parse BPI log
-uv run orgsim demo trip                    # normalize, simulate, evaluate, build interviews and reports
-uv run orgsim demo bpi19
-uv run orgsim serve                        # http://127.0.0.1:8000
+uv run python scripts/download_data.py
 ```
 
-Allow several GB of disk space and tens of minutes for the full evaluation; runtime
-depends on the machine. Downloads and runs stay local and are excluded from Git.
-The downloader reuses verified inputs and never silently overwrites a corrupt file.
-The source includes generated report snapshots and validation documentation; the
-interactive results require local data and runs.
-
-For a smaller first run, download `onet` and `trip` separately, then run `orgsim demo trip`.
-Additional public datasets can be selected by instance ID (for example, `download_data.py ctrip`).
-The `openrouter` instance needs a free OpenRouter API key and is fetched separately: see [its README](instances/openrouter/README.md).
-See [setup and reproduction](docs/setup.md) for the full sequence, individual steps,
-data verification, and browser checks.
-
-## Task-planner architecture
-
-The shared application layer uses ports and adapters. A separate authored workflow
-example supports a deterministic planner, an optional LangGraph adapter and external
-planner packages through the same interface. LangGraph is not required by the
-simulation core; a Microsoft Agent Framework adapter can use the external-package
-contract. See [the runnable example](examples/README.md) and
-[architecture](docs/architecture.md#9-extension-design-ports-and-adapters).
-
-## Verification
-
-After the instances required by the data tests have run:
+This fetches O*NET, Trip.com and BPI Challenge 2019, verifies pinned checksums, and
+parses the BPI log. For a smaller Trip.com-only setup, use `onet` and `trip` as
+separate source arguments instead. For the additional datasets:
 
 ```bash
-uv run --extra dev pytest -q
+uv run python scripts/download_data.py public                  # all pinned public inputs
+uv run python scripts/download_data.py so_chatgpt --refresh    # new API snapshot; no key
+uv run python scripts/download_data.py openrouter --refresh    # requires OpenRouter key
+```
+
+Allow several GB of disk space. Inputs and runs remain local and are ignored by
+Git. A fresh API retrieval can differ from the published snapshot; re-evaluate it.
+See [data acquisition](docs/setup.md#data-acquisition) for per-instance paths,
+original snapshot access, quotas and verification options.
+
+## Run and open the application
+
+```bash
+uv run orgsim demo trip
+uv run orgsim demo bpi19
+uv run orgsim serve --port 8000
+```
+
+Open **http://127.0.0.1:8000**. Each `demo` command prepares data, runs the simulation
+and builds evaluation, interviews and reports. Use `orgsim demo <instance-id>` for
+another installed dataset. Full evaluations can take tens of minutes. The browser
+needs internet access for pinned libraries loaded from cdnjs.
+
+After results exist, subsequent visits only require `orgsim serve`. Committed
+reports do not replace the local data and run artifacts needed by the interactive
+UI. See [reproduction](docs/setup.md#reproduce-the-application) for individual steps
+and [AI exploration](docs/setup.md#explore-ai-assistance) for refreshing alternatives.
+
+## Optional dependencies
+
+The task-planner example can also run with the LangGraph extra:
+
+```bash
+uv sync --locked --extra dev --extra langgraph --python 3.12
+uv run --extra langgraph orgsim workflow --planner langgraph
+```
+
+A plain `uv sync` removes unselected extras. Use `.venv/bin/python` with the current
+environment, or repeat the relevant `--extra` options. See the
+[task-planner guide](docs/task-planners.md) for example commands and replay.
+
+## Deployment
+
+The current server is a local development application with editing/run endpoints
+and no authentication. Keep its default loopback address. A public read-only static
+export and automatic site deployment are not implemented yet; the GitHub Actions
+workflow currently runs tests. See [deployment status](docs/setup.md#deployment)
+for the supported setup and what public publishing still requires.
+
+## Verify the installation
+
+Without downloaded data:
+
+```bash
+uv run --locked --extra dev pytest -m 'not data' -q
+```
+
+After preparing the datasets and evaluations required by the full suite:
+
+```bash
+uv run --locked --extra dev pytest -q
 uv run python scripts/check_bpi19_results.py
 ```
 
-GitHub Actions runs the tests that do not require downloaded data. The full dataset
-checks and browser smoke tests are described in [setup](docs/setup.md#verification).
-
-## Documentation
-
-- [Documentation index](docs/README.md): all instance evidence, development guides and supporting tools.
-- [Setup and reproduction](docs/setup.md): installation, data, commands, verification, and GitHub upload.
-- [Validation](docs/validation.md): data boundaries, comparison methods, results, and limitations.
-- [Architecture](docs/architecture.md): simulation kernel, worlds, policies, ontology, and evaluation.
-- [Contracts](docs/contracts.md): instance files, API responses, and UI data shapes.
-- [UI guide](docs/ui.md): instance pages and the shared framing.
-- [Foundations](docs/literature/foundations.md): design references and behavioral-prior sources.
-- [Contributor guide](CLAUDE.md): rules and workflows for work on the repository.
-
-The main application lives in `orgsim/`, `instances/` and `ui/`. The authored
-planner example lives in `examples/`. The [board](board/README.md) and
-[value-case tools](value_cases/README.md) are separate supporting workflows;
-neither is required to run the application. Downloaded data and run artifacts stay
-in this checkout and are ignored by Git; no export copy is needed.
-
-## Data and licensing
-
-Trip.com replication data, BPI Challenge 2019, and O*NET 31.0 are attributed in their
-[Trip.com](instances/trip/manifests/sources.json),
-[BPI](instances/bpi19/manifests/sources.json), and
-[O*NET](data/manifests/onet_31_0.json) manifests, which record CC BY 4.0 terms.
-Source downloads retain their original licenses. Reading PDFs stay local and are
-excluded from Git. A code license has not been selected for this repository.
+For checks including the optional planner and browser UI, see
+[verification](docs/setup.md#verification). Downloaded inputs retain their source
+licenses; see [data attribution](docs/overview.md#data-and-licensing).

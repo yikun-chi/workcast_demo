@@ -270,7 +270,7 @@ is null; the deterministic fixtures explicitly record zero.
 JSON options, returning the same planner contract. This is trusted local CLI
 configuration, not an HTTP code-loading endpoint. A Microsoft Agent Framework
 adapter can be implemented behind it; none is bundled. See
-[the extension example](../examples/README.md).
+[implementing an adapter](task-planners.md#implement-an-adapter).
 
 `DecisionRepository.read(kind, key)` and `write_once(kind, key, value)` persist
 portable JSON. Identical writes are idempotent; different content at an existing

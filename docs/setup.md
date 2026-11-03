@@ -1,5 +1,9 @@
 # Setup and reproduction
 
+Use the [quickstart](../README.md) for the shortest route to a running application.
+This is the detailed operations reference. Architecture and planner design live in
+[architecture](architecture.md) and [task planners](task-planners.md).
+
 ## Installation
 
 From the repository root, with Python 3.12 and uv installed:
@@ -14,15 +18,38 @@ uv run --locked --extra dev pytest -m 'not data' -q
 Keep the editable checkout: a standalone installation
 of the Python wheel does not include the instance definitions or web UI. No Node
 installation or model API key is required for the default rule policies and
-template interviews. Optional hosted policies read `ANTHROPIC_API_KEY` from the
-environment; local model policies use `LOCAL_MODEL_API_KEY`. No credential file is
-needed for the standard demo. The server is a local development application; its
-editing and run endpoints have no authentication. Keep the default loopback host.
+template interviews. No credential file is needed for the standard demo.
 
 LangGraph is an optional task-planner adapter. To install and exercise it, use the
-[authored workflow guide](../examples/README.md). The eight instances and the rule
+[task-planner guide](task-planners.md#run-the-example). The eight instances and the rule
 planner work without it. With the extra installed, use `.venv/bin/python` or
 `uv run --extra langgraph` to retain it; a plain `uv sync` selects only base dependencies.
+
+## Credential configuration
+
+The [quickstart key table](../README.md#api-keys) lists which operations require a
+credential. Set environment variables in the shell that launches `orgsim` or the
+downloader; this application has no automatic `.env` loading.
+
+For OpenRouter retrieval, either export `OPENROUTER_API_KEY` or save only the key
+text in `~/.secrets/openrouter.key` outside the checkout. The environment variable
+takes precedence. Restrict the key file to your user (`chmod 600 ~/.secrets/openrouter.key`).
+This key is for data retrieval; evaluating data already on disk does not require it.
+
+Hosted seat policies are optional and configured in
+`instances/<id>/policies/seats.yaml`: `adapter: llm` reads `ANTHROPIC_API_KEY` and
+`adapter: openai` reads `OPENAI_API_KEY`. Choose a model available to your account.
+The OpenAI adapter also accepts a response `cache`, `max_usd` and `usd_per_mtok`
+configuration; see [seat policies](architecture.md#2-kernel-and-policies).
+Default instance policies use rules. Setting a key alone does not enable a hosted
+seat. Missing credentials or failed calls can fall back to rules; inspect recorded
+fallbacks before describing a run as model-driven.
+
+Optional model-written interviews use `orgsim insights <id> --model <model-id>`
+and `ANTHROPIC_API_KEY`. The default uses templates. Local seats use `adapter: local`,
+`model` and a `base_url` pointing to a chat-completions endpoint; they read
+`LOCAL_MODEL_API_KEY` or send the placeholder `local` for an unauthenticated server.
+Give the model server a different port from the UI server.
 
 ## Data acquisition
 
@@ -41,8 +68,8 @@ The downloader uses the URLs and checksums in the committed manifests:
 | Federal workforce (`fedwork`) | `instances/fedwork/data/raw/opm/` | Verify pinned monthly OPM Parquet files |
 | Business AI adoption (`btos_ai`) | `instances/btos_ai/data/raw/` | Verify Census workbooks and question wording |
 | AI task mix (`aei_tasks`) | `instances/aei_tasks/data/raw/` | Verify Economic Index files from a pinned Hugging Face revision; also needs O*NET |
-| Stack Overflow (`so_chatgpt`) | `instances/so_chatgpt/data/raw/weekly/` | Copy the published snapshot, or explicitly retrieve new API counts |
-| AI demand (`openrouter`) | `instances/openrouter/data/raw/` | Copy the published snapshot, or retrieve with an OpenRouter API key |
+| Stack Overflow (`so_chatgpt`) | `instances/so_chatgpt/data/raw/weekly/` | Use the original snapshot if available, or explicitly retrieve new API counts |
+| AI demand (`openrouter`) | `instances/openrouter/data/raw/` | Use the original snapshot if available, or retrieve with an OpenRouter API key |
 
 The BPI download expands to approximately 729 MB before parsed tables and run traces.
 Allow several GB for the complete workflow. Downloads can be selected individually:
@@ -77,6 +104,12 @@ snapshot; `--refresh --verify-only` checks the local retrieval. Incomplete retri
 fail verification and can be resumed. Anonymous Stack Exchange quotas may require
 another day. A fresh snapshot can change results and must be re-evaluated.
 OpenRouter reads `OPENROUTER_API_KEY` or `~/.secrets/openrouter.key`.
+
+The repository includes manifests, not the original API snapshot files. Without
+`--refresh`, these two sources verify files already on disk; they do not download
+an immutable archive. Access to the original snapshots is tracked in
+[issue #9](https://github.com/yikun-chi/workcast_demo/issues/9). A fresh retrieval
+is the available alternative when the original files cannot be obtained.
 
 For each additional instance, run `uv run orgsim demo <id>` after acquiring its
 inputs. Individual steps are `uv run orgsim ingest <id>`, `uv run orgsim evaluate <id>`,
@@ -161,6 +194,30 @@ failures are recorded in `exploration_status.json`, with server-launched logs in
 
 For the modeling boundaries and research context, see
 [AI assistance](architecture.md#ai-assistance-as-an-exploratory-intervention).
+
+## Deployment
+
+The supported serving command is:
+
+```bash
+uv run orgsim serve --host 127.0.0.1 --port 8000
+```
+
+This starts the local development application. Editing and run endpoints have no
+authentication. Keep the default loopback host. The UI currently fetches `/api/`
+responses from Python; uploading `ui/` alone does not produce a working public site.
+
+A public, read-only static export and a site-deployment workflow have not been
+implemented. The existing [GitHub Actions workflow](../.github/workflows/tests.yml)
+runs tests only. The development fixtures are test inputs, not saved instance results.
+
+To publish the intended static demo, the remaining work is to export curated saved
+results, make the shared UI read those files with run/edit actions disabled, and
+add a build/deploy workflow for the chosen host and domain. Keep one source UI;
+the static bundle should be generated output. Decide explicitly which result data
+is public before exporting it. Local `runs/` and datasets are ignored by Git, so
+rerunning an analysis locally does not by itself update a website: an export must
+be committed or generated by the deployment workflow.
 
 ## Verification
 

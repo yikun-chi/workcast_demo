@@ -1,13 +1,16 @@
 # Architecture
 
-How the WORKCAST simulation platform is built. For file and API shapes see `contracts.md`; for the pages see
-`ui.md`; for the instances and their results see `validation.md`.
+How the WORKCAST simulation platform is built. See [contracts](contracts.md) for
+file/API shapes, [UI](ui.md) for the pages, and the [project overview](overview.md)
+for instances and evidence. The [task-planner guide](task-planners.md) covers
+framework integrations and the authored workflow.
 
 ## 1. One platform, many instances
 
-The platform is the product; an instance is one company turned into a simulated world. The platform never contains
-instance logic. An instance is a folder under `instances/<id>/` holding its data, ontology bindings, seat policies,
-calibration, scenarios, evaluation protocol and report builder. The four world types in use are:
+The platform is the product; an instance represents a company, market or population
+as a simulated world. Its folder under `instances/<id>/` holds data, ontology bindings,
+seat configuration, calibration, scenarios, evaluation protocol and report builder.
+Reusable scientific behavior belongs in the shared world modules. The four world types in use are:
 
 - **workforce** (`orgsim/worlds/workforce.py`): a population of employees, each a digital twin with a fixed trait
   layer and weekly latent states (job satisfaction, work-life balance, commute burden, attachment), reacting to a
@@ -158,79 +161,21 @@ This follows [ports-and-adapters architecture](https://alistair.cockburn.us/hexa
 
 ### Framework-independent task workflow
 
-`orgsim workflow` is a runnable, authored process exploration with a fixed task DAG,
-worker skills, human and AI capacity, review and correction. It is separate from the
-eight real-data instances and makes no observed-accuracy or AI-benefit claim. See
-[the example and runnable commands](../examples/README.md).
-
-```mermaid
-flowchart LR
-  Input[Typed snapshot at cutoff] --> App[Workflow service]
-  App --> Port[TaskPlanner interface]
-  Port --> Rules[Rule adapter]
-  Port --> Graph[Optional LangGraph adapter]
-  Port --> External[External framework adapter]
-  Port --> Plan[Typed proposals]
-  Plan --> Kernel[Validate and simulate]
-  Kernel --> Outcomes[Events and business outcomes]
-  App --> Journal[Independent decision journal]
-```
-
-The planner selects a skilled assignee, human reviewer and human correction worker
-for each visible task. The kernel decomposes these into work, review and, when the
-seeded quality draw requires it, correction. It validates the entire batch, enforces
-task dependencies and resource slots, and computes operating time and effort. The
-fixed DAG and effort/quality assumptions are scenario inputs; a planner cannot
-invent tasks, capacity, effort savings or actual outcomes. Dynamic task generation
-would need an explicit domain contract and kernel validation before being allowed.
-
-The rule and LangGraph adapters use the same deterministic assignment policy by
-default. Their matched outputs therefore test interchangeability, not an advantage
-of either framework. The optional LangGraph adapter uses `Send` fan-out and a local
-SQLite checkpointer; the application sees only portable `Observation` and `Plan`
-objects. See the official [worker pattern](https://docs.langchain.com/oss/python/langgraph/workflows-agents)
-and [checkpoint documentation](https://docs.langchain.com/oss/python/langgraph/persistence).
-No LLM service or key is needed for this example.
+The separate authored workflow uses typed observations, a replaceable planner and
+kernel-validated assignments. The rule and optional LangGraph adapters use the same
+default policy; their agreement checks interchangeability, not an AI benefit.
+See [task-planner architecture](task-planners.md#planning-and-simulation) for its
+flow, domain boundary and runnable example.
 
 ### Switching frameworks
 
-LangGraph is one adapter, not the platform's task-planning foundation. A separately
-installed package can provide `create(*, checkpoint_dir, **options)` returning the
-`TaskPlanner` contract, selected with `--planner package.module:create`. It can use
-Microsoft Agent Framework, another SDK or ordinary Python internally. Microsoft
-provides its own [workflow/executor model](https://learn.microsoft.com/en-us/agent-framework/workflows/workflows);
-that state and its async execution belong inside the adapter. A Microsoft SDK
-adapter is not bundled or claimed to have been tested here. The external-factory
-contract is tested with a substitute package, independently of LangGraph.
-
-An adapter returns stable command IDs, typed assignments, model/prompt identity,
-usage/cost metadata and any fallback. It must change its identity when its policy,
-prompt, model settings or behavior changes. Unknown usage is `null`, never an
-assumed free call. SDK messages, graph nodes, thread IDs and checkpoints are not
-business-domain types. The builtin LangGraph custom-worker hook records its supplied
-worker identity; unknown usage stays null. A production model adapter should gather
-provider usage and populate the complete `Plan` metadata.
+The workflow supports installed `module:factory` adapters independently of LangGraph.
+See [switching frameworks](task-planners.md#switching-frameworks) and
+[implementing an adapter](task-planners.md#implement-an-adapter), including the
+extension path for Microsoft Agent Framework.
 
 ### Time, evidence and recovery
 
-The snapshot rejects missing availability timestamps and filters both effective and
-available dates. An announced future arrival is a scenario input, not later observed
-work. Resource efficiencies and quality rates are authored assumptions. Actual
-outcomes are absent from the planner contract. This boundary applies to the new
-workflow, not retroactively to the legacy market or federal datasets.
-
-Decisions are committed before kernel execution. A restart reuses that decision;
-repeated command IDs with identical payloads apply once, and conflicts fail. Each
-completed run stores its seed, kernel identity, events and outcomes. `--replay`
-recomputes and verifies it without any planner or credentials. SQLite also protects
-against conflicting concurrent journal writes; this local demo is not a distributed
-exactly-once provider-call system. A worker interrupted before its checkpoint may
-be invoked again and must keep external side effects idempotent.
-
-LangGraph resumes unfinished workers from its own durable checkpoint. Its execution
-state is separate from the simulation checkpoint. Tests cover interrupted workers,
-restart after decision commit, persistence across processes, reversed proposals and
-parallel versus serial workers. Framework concurrency never creates staff capacity;
-network latency never becomes business duration. The computed workflow outcomes
-are completed work, throughput, mean elapsed time, staff effort, correction rate
-and assumed AI service cost. Model planning cost is recorded separately.
+Cutoff filtering, durable decisions and planner-free replay are documented in
+[time, evidence and recovery](task-planners.md#time-evidence-and-recovery).
+These workflow guarantees do not repair the legacy instances' data boundaries.
