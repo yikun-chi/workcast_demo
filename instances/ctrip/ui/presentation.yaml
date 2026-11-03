@@ -1,0 +1,18 @@
+primary:
+  story: calls_effect_pct
+  other: literature
+  label: Effect on weekly calls answered
+  unit: '%'
+  subject: the gain in call volume
+caveat: Retrospective comparison. The simulation also substantially underestimates
+  the reduction in resignations.
+alternatives:
+- calls_effect_pct
+- attrition_effect_pp
+cards:
+  baseline:
+    title: Four home days each week
+    summary: The home-working group works at home four days a week.
+  two_days_home:
+    title: Two home days each week
+    summary: Reduce home working from four days to two.

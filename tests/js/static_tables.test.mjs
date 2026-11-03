@@ -51,3 +51,13 @@ test("empty tables retain schema and failed chunks can be retried", async () => 
   await assert.rejects(retry(), /unavailable/);
   assert.equal((await retry()).rows[0].id, "restored");
 });
+
+test('trace filters match exact entities across chunks and invalidate cached positions', async () => {
+  const chunks = [[[0,'p1','first'],[24,'p10','second']],[[48,'p1','third'],[72,'p2','fourth']]];
+  const query=tableReader({name:'trace',columns:['tick','agent_id','activity'],total:4,chunk_size:2,chunks:['a','b']},async n=>chunks[n]);
+  const result=await query({agent:'p1',from_tick:1,to_tick:50,sort:'tick',desc:1});
+  assert.deepEqual(result.rows,[{tick:48,agent_id:'p1',activity:'third'}]);
+  assert.equal((await query({agent:'p2'})).rows[0].tick,72);
+  assert.equal((await query({activity:'first',q:'p1'})).total,1);
+  assert.equal((await query({agent:'p',from_tick:0})).total,0);
+});

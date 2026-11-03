@@ -1,0 +1,16 @@
+primary:
+  story: total
+  other: programme
+  label: Separations across agencies · February–December 2025
+  unit: separations
+  subject: separations
+caveat: Historical rates come from later-revised files; this is a retrospective comparison.
+alternatives:
+- total
+cards:
+  baseline:
+    title: Office return and resignation offer
+    summary: Apply the return-to-office order and resignation offer.
+  no_resignation_offer:
+    title: Office return without the offer
+    summary: Keep the office-return order and remove the resignation offer.

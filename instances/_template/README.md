@@ -13,7 +13,7 @@ This folder contains documentation only; it is not a runnable scaffold.
 - `scenarios/baseline.yaml` and a primary alternative (with `short_title`); additional named alternatives go in `additional_alternatives`. The matched AI exploration currently supports workforce and process workloads. Unnamed files remain CLI-only.
 - `evaluation/protocol.yaml`: what is scored, against what, with which baselines
 - `reports/build_report.py`: builds `report.json` from the evaluation and run outputs
-- `ui/` (optional): detailed views listed in `pages.json`, embedded in Results
+- `ui/` (optional): detailed views listed in `pages.json`, embedded in Insights evidence
 - `data/` (git-ignored): `raw/` as downloaded, `normalized/` as produced by ingest
 
 Then: `orgsim validate <id>`, `orgsim ingest <id>`, `orgsim run <id> --scenario baseline --seeds 1,2,3`, the same for

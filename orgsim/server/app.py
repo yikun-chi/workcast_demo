@@ -8,7 +8,7 @@ Endpoints (all JSON unless noted):
   GET  /api/instances/{id}/ontology?tasks=0|1   bindings graph merged with O*NET subgraphs
   GET  /api/instances/{id}/ontology/schema      the ontology schema itself as a graph
   GET  /api/instances/{id}/ontology/concepts    concept graph as used by this instance: definitions, counts, used flags (Ontology tab, Concepts view)
-  GET  /api/instances/{id}/ontology/bindings    raw bindings.yaml as JSON        PUT to save (Edit page)
+  GET  /api/instances/{id}/ontology/bindings    raw bindings.yaml as JSON        PUT to save (Input tab)
   GET  /api/instances/{id}/summary              instances/<id>/data/normalized/summary.json (company data)
   GET  /api/instances/{id}/tables               list of tables (parquet/csv/json under data/normalized)
   GET  /api/instances/{id}/tables/{name}?offset&limit&q&sort&desc
@@ -26,7 +26,11 @@ Endpoints (all JSON unless noted):
   GET  /api/instances/{id}/runs/{sid}/{run}/agents    per-agent activity counts
   GET  /api/instances/{id}/runs/{sid}/{run}/twins     digital twins (workforce worlds): profile, traits, final states; ?agent= filters one
   GET  /api/instances/{id}/evaluation           runs/<id>/evaluation.json (predicted vs actual vs baselines, charts)
-  GET  /api/instances/{id}/results              Results tab: ground truth, baseline simulated and the alternative side by side (world results_view)
+  GET  /api/instances/{id}/results              evaluation comparisons for Insights (world results_view)
+  GET  /api/instances/{id}/insights-summary     concise comparison punchlines
+  GET  /api/instances/{id}/scenario-results     scenario cards with selected saved runs
+  GET  /api/instances/{id}/runs/{sid}/{run}/history   saved metrics, paths, entities and configuration
+  POST /api/instances/{id}/scenarios            create {id, title, description, extends}; never overwrite
   GET  /api/instances/{id}/insights             runs/<id>/insights.json (simulated interviews, topics, sentiment); POST {n, model} regenerates it
   GET  /api/instances/{id}/report               instances/<id>/reports/report.json
   GET  /instances/{id}/ui/*                     instance plugin static files
@@ -316,7 +320,8 @@ def people_ego(instance_id: str, person_id: str, limit: int = Query(40, le=500))
 
 @app.get("/api/instances/{instance_id}/scenarios")
 def scenarios(instance_id: str) -> list[dict]:
-    return list_scenarios(_ctx(instance_id))
+    from ..evaluation.presentation import presented_scenarios
+    return presented_scenarios(_ctx(instance_id))
 
 
 @app.get("/api/instances/{instance_id}/scenarios/{sid}")
@@ -327,8 +332,37 @@ def scenario(instance_id: str, sid: str) -> dict:
         raise HTTPException(404, f"unknown scenario {sid}")
 
 
+@app.post("/api/instances/{instance_id}/scenarios")
+def create_scenario(instance_id: str, body: dict) -> dict:
+    import re
+    ctx = _ctx(instance_id)
+    sid = str(body.get("id", ""))
+    parent = str(body.get("extends", "baseline"))
+    if not re.fullmatch(r"[a-z][a-z0-9_-]{0,63}", sid) or not re.fullmatch(r"[a-z][a-z0-9_-]{0,63}", parent):
+        raise HTTPException(400, "Use a scenario name with letters, numbers, hyphens or underscores")
+    title = str(body.get("title", "")).strip()
+    if not title:
+        raise HTTPException(400, "Enter a title for the scenario")
+    try:
+        load_scenario(ctx, parent)
+    except FileNotFoundError:
+        raise HTTPException(404, "The starting scenario does not exist")
+    document = {"id": sid, "title": title, "short_title": title, "description": str(body.get("description", "")),
+                "summary": str(body.get("description", "")), "extends": parent, "created_in_ui": True}
+    ctx.scenarios_dir.mkdir(exist_ok=True)
+    try:
+        with (ctx.scenarios_dir / f"{sid}.yaml").open("x") as stream:
+            yaml.safe_dump(document, stream, sort_keys=False, allow_unicode=True)
+    except FileExistsError:
+        raise HTTPException(409, "That scenario already exists; choose another name")
+    return {"created": True, "id": sid}
+
+
 @app.put("/api/instances/{instance_id}/scenarios/{sid}")
 def save_scenario(instance_id: str, sid: str, body: dict) -> dict:
+    import re
+    if not re.fullmatch(r"[a-z][a-z0-9_-]{0,63}", sid):
+        raise HTTPException(400, "Invalid scenario name")
     ctx = _ctx(instance_id)
     ctx.scenarios_dir.mkdir(exist_ok=True)
     body["id"] = sid
@@ -336,7 +370,7 @@ def save_scenario(instance_id: str, sid: str, body: dict) -> dict:
     if parent and parent != sid:
         try:
             base = load_scenario(ctx, parent)
-            body = {k: v for k, v in body.items() if k in ("id", "extends") or base.get(k) != v}
+            body = {k: v for k, v in body.items() if k in ("id", "extends", "created_in_ui", "title", "short_title", "summary", "description") or base.get(k) != v}
         except FileNotFoundError:
             pass
     if any(iv.get("type") == "ai_assist" for iv in body.get("interventions", [])):
@@ -442,8 +476,12 @@ def _reader(instance_id: str, sid: str, run: str) -> RunReader:
 
 @app.get("/api/instances/{instance_id}/runs/{sid}/{run}/{name}")
 def run_file(instance_id: str, sid: str, run: str, name: str, offset: int = 0, limit: int = Query(200, le=5000),
-             agent: str = "", case: str = "", activity: str = "", from_tick: int = -1, to_tick: int = -1, by: str = "activity", bucket: int = 1) -> Any:
+             agent: str = "", case: str = "", activity: str = "", from_tick: int = -1, to_tick: int = -1, by: str = "activity", bucket: int = 1,
+             q: str = "", sort: str = "", desc: int = 0) -> Any:
     r = _reader(instance_id, sid, run)
+    if name == "history":
+        from ..evaluation.history import run_history
+        return run_history(_ctx(instance_id), r)
     if name in ("summary", "config", "metrics"):
         data = r.json(f"{name}.json")
         if data is None:
@@ -451,6 +489,13 @@ def run_file(instance_id: str, sid: str, run: str, name: str, offset: int = 0, l
         return data
     if name == "trace":
         df = _apply_filters(_trace(r), agent, case, activity, from_tick, to_tick)
+        if q:
+            mask = pd.Series(False, index=df.index)
+            for column in df.columns:
+                mask |= df[column].astype(str).str.contains(q, case=False, regex=False, na=False)
+            df = df[mask]
+        if sort in df.columns:
+            df = df.sort_values(sort, ascending=not desc, kind="stable", na_position="last")
         page = df.iloc[offset: offset + limit]
         return {"total": int(len(df)), "offset": offset, "limit": limit, "columns": list(df.columns),
                 "rows": _clean(json.loads(page.to_json(orient="records", date_format="iso")))}
@@ -493,6 +538,22 @@ def results(instance_id: str) -> dict:
         return instance_service(ctx).results()
     except FileNotFoundError as e:
         raise HTTPException(404, f"results need an evaluation and runs: {e}")
+
+
+@app.get("/api/instances/{instance_id}/insights-summary")
+def insights_summary(instance_id: str) -> dict:
+    from ..evaluation.presentation import insights_document
+    ctx = _ctx(instance_id)
+    try:
+        return insights_document(ctx, instance_service(ctx).results())
+    except FileNotFoundError as error:
+        raise HTTPException(404, "Insights needs a saved evaluation and runs") from error
+
+
+@app.get("/api/instances/{instance_id}/scenario-results")
+def scenario_results(instance_id: str) -> list[dict]:
+    from ..evaluation.history import scenario_catalog
+    return scenario_catalog(_ctx(instance_id))
 
 
 @app.get("/api/instances/{instance_id}/insights")

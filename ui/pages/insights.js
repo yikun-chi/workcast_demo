@@ -1,66 +1,49 @@
-/* Insights: simulated interviews with the agents of the baseline and the alternative run, about the key metrics.
-   Topics, sentiment and key insights are extracted from each agent's simulated record. Reads runs/<id>/insights.json. */
-import { h, replace, badge, card, errorState, loading, emptyState, toast, fmtNum, fmtDate, segmented } from "../components/ui.js";
-import { chartCard, sweepCharts } from "../components/chart.js";
+/* The cross-scenario conclusions. Detailed evidence is loaded on demand. */
+import {h, replace, errorState, loading, fmtNum} from '../components/ui.js';
 
+export const value = (v, unit = '') => v == null ? '—' : unit === 'pp' ? `${fmtNum(v,{digits:2})} percentage points` : unit === '$m' ? `$${fmtNum(v, {digits: 1})}m` : `${fmtNum(v, {digits: unit === '%' || unit === 'pp' ? 2 : Math.abs(v) < 10 ? 2 : 0})}${unit === '%' ? '%' : unit ? ` ${unit}` : ''}`;
 export async function render(root, ctx) {
-  const { api, instanceId, href } = ctx;
-  root.append(h("div", { class: "page-head" }, h("div", null, h("h1", null, "Insights"), h("div", { class: "sub" }, "Explore how simulated employees experience each scenario. These are simulated perspectives, not real employee interviews."))));
-  const body = h("div", null, loading("Loading insights")); root.append(body);
-  let d = null;
-  try { d = await api.insights(instanceId); } catch (e) { if (!e.notFound) { replace(body, errorState(e, instanceId, "Insights")); return; } }
-  const st = { role: "baseline" };
-  const selectScenario = () => { st.role = Object.entries(d?.scenarios || {}).find(([, b]) => b?.interviews && !b.error)?.[0] || "baseline"; };
-  selectScenario();
-  const regen = ctx.readOnly ? null : h("button", { class: "btn sm", onClick: async () => { regen.disabled = true; regen.textContent = "Interviewing…"; try { d = await api.buildInsights(instanceId, { n: 24 }); selectScenario(); toast("Insights rebuilt", "good"); draw(); } catch (e) { toast(e.message, "bad"); } regen.disabled = false; regen.textContent = "Re-interview"; } }, d ? "Re-interview" : "Interview the agents");
-  if (!d) { replace(body, emptyState("No interviews yet.", h("span", null, ctx.readOnly ? "No interviews were included in this snapshot." : "Interview the agents of the latest baseline and alternative runs. ", regen))); return; }
-
-  function draw() {
-    const blocks = Object.entries(d.scenarios || {}).filter(([, b]) => b && !b.error && b.interviews);
-    const sel = h("div", { class: "row", style: { justifyContent: "space-between", marginBottom: "12px" } },
-      h("div", { class: "row" }, segmented(Object.entries(d.scenarios || {}).map(([role, b]) => ({ id: role, label: `${role === "baseline" ? "Baseline" : "Alternative"}: ${b.title || b.scenario}` })), st.role, (id) => { st.role = id; draw(); }),
-        badge(d.method === "template" ? "template voice" : d.method, d.method === "template" ? "" : "accent"), d.generated ? h("span", { class: "muted small" }, `generated ${fmtDate(d.generated)}`) : null),
-      regen);
-    const b = d.scenarios[st.role];
-    replace(body, sel);
-    if (!b || b.error || !b.interviews) { body.append(emptyState(`No interviews for the ${st.role}.`, b?.error || "Run the scenario first, then re-interview.")); return; }
-    const runLink = b.run_id && !ctx.readOnly ? h("a", { href: href(instanceId, "runs", b.scenario, b.run_id) }, `run ${b.run_id}`) : null;
-    body.append(h("div", { class: "row small muted", style: { marginBottom: "10px" } }, `${b.n_interviews} interviews from `, runLink, ` · groups: ${Object.entries(b.groups || {}).map(([g, n]) => `${g} ${n}`).join(", ")} · sentiment basis: ${b.sentiment_basis || ""}`));
-
-    // key insights
-    const ins = [...(b.key_insights || []), ...((st.role === "alternative" && d.comparison?.key_insights) || [])];
-    body.append(h("div", { class: "section report", style: { maxWidth: "none" } }, h("h4", null, "Key insights"), ins.length ? h("ol", { class: "takeaways" }, ...ins.map((t, i) => h("li", null, h("span", { class: "n" }, String(i + 1).padStart(2, "0")), h("span", null, t)))) : h("div", { class: "muted small" }, "none")));
-
-    // topics + sentiment charts
-    const groups = Object.values(b.groups || {}).every(n => n >= 3) ? Object.keys(b.groups || {}) : [];
-    const topics = (b.topics || []).slice(0, 12);
-    const topicChart = { id: "topics", type: "hbar", title: "Topics raised, share of interviews", x: topics.map(t => t.label), x_label: "share of interviews", y_label: "",
-      series: groups.length > 1 ? groups.map(g => ({ name: g, y: topics.map(t => t.by_group?.[g] ?? 0) })) : [{ name: "all interviews", y: topics.map(t => t.share) }] };
-    const sent = b.sentiment?.distribution || {};
-    const sentChart = { id: "sentiment", type: "bar", title: "Sentiment", x: ["negative", "neutral", "positive"], x_label: "", y_label: "interviews",
-      series: groups.length > 1 ? groups.map(g => ({ name: g, y: ["negative", "neutral", "positive"].map(k => b.sentiment.by_group?.[g]?.[k] ?? 0) })) : [{ name: "all interviews", y: ["negative", "neutral", "positive"].map(k => sent[k] ?? 0) }] };
-    const cmp = d.comparison && d.comparison.topics ? { id: "topics_cmp", type: "hbar", title: "Topics: baseline vs alternative (share of interviews)", x: d.comparison.topics.map(t => t.label), x_label: "share", y_label: "",
-      series: [{ name: `baseline`, y: d.comparison.topics.map(t => t.baseline) }, { name: `alternative`, y: d.comparison.topics.map(t => t.alternative) }] } : null;
-    const sentVaries = Object.values(sent).filter(v => v > 0).length > 1;
-    body.append(h("details", { class: "disclosure", onToggle: () => window.dispatchEvent(new Event("resize")) }, h("summary", null, "Topics and sentiment"), h("div", { class: "disclosure-body grid-2" }, chartCard(topicChart, { tall: true }), sentVaries ? chartCard(sentChart) : null, cmp ? chartCard(cmp, { tall: true }) : null)));
-    setTimeout(sweepCharts, 10);
-
-    // interviews
-    const list = h("div", { class: "grid", style: { gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))" } });
-    const SHOW = 3; let expanded = false;
-    const moreBtn = b.interviews.length > SHOW ? h("button", { class: "btn sm", onClick: () => { expanded = !expanded; fill(); moreBtn.textContent = expanded ? "Show fewer" : `Show all ${b.interviews.length} interviews`; } }, `Show all ${b.interviews.length} interviews`) : null;
-    function fill() { replace(list); for (const iv of (expanded ? b.interviews : b.interviews.slice(0, SHOW))) list.append(interviewCard(iv, b)); }
-    fill();
-    body.append(h("div", { class: "section" }, h("div", { class: "row", style: { justifyContent: "space-between" } }, h("h4", null, `Interviews (${b.interviews.length})`), moreBtn), list,
-      h("div", { class: "muted small", style: { marginTop: "10px" } }, d.note || "", !ctx.readOnly && d.method === "template" ? " Answers are rendered from each agent's simulated record; a language-model voice over the same facts can be enabled with an API key." : "")));
+  const body = h('div', null, loading('Loading insights')); root.append(body);
+  let d;
+  try { d = await ctx.api.insightsSummary(ctx.instanceId); } catch(e) { replace(body, errorState(e, ctx.instanceId, 'Insights')); return; }
+  const p = d.primary;
+  const diff = Math.abs(p.simulation - p.actual) - Math.abs(p.other - p.actual);
+  const subject=p.subject.charAt(0).toUpperCase()+p.subject.slice(1);
+  let verdict=`${subject}: the prediction is ${p.simulation > p.actual ? 'too high' : 'too low'}.`;
+  let comparison=p.other == null ? '' : Math.abs(diff)<1e-8 ? 'Same prediction as the other method.' : diff<0 ? 'Closer to the actual outcome than the other prediction.' : 'The other prediction is closer to the actual outcome.';
+  if(p.error){
+    const improvement=100*(1-p.error.simulation/p.error.other);
+    verdict=Math.abs(improvement)<0.01 ? `${subject}: no improvement over the other prediction.` : `${subject}: ${Math.abs(improvement).toFixed(0)}% ${improvement>0?'less':'more'} prediction error.`;
+    comparison=`${p.error.scope}: simulation ${value(p.error.simulation,p.error.unit)} vs other prediction ${value(p.error.other,p.error.unit)}.`;
   }
-  function interviewCard(iv, b) {
-    {
-      return h("div", { class: "card" },
-        h("div", { class: "row", style: { justifyContent: "space-between" } }, h("div", { class: "row" }, h("b", { class: "mono" }, iv.agent_id), badge(iv.role || "", "accent"), badge(iv.group || "")), badge(iv.sentiment, iv.sentiment === "negative" ? "warn" : iv.sentiment === "positive" ? "good" : "")),
-        h("div", { class: "muted small", style: { margin: "4px 0 6px", lineHeight: "1.45" } }, iv.profile || "", iv.outcome ? h("span", null, " · ", h("b", null, iv.outcome)) : null),
-        ...iv.qa.map(q => h("div", { class: "quote" }, h("div", { class: "q" }, q.question), h("div", null, q.answer), q.topics?.length ? h("div", { class: "row", style: { gap: "4px", marginTop: "4px" } }, ...q.topics.map(t => badge((b.topics || []).find(x => x.id === t)?.label || t))) : null)));
-    }
-  }
-  draw();
+  const shortOther = p.other_label.split(':')[0].replace(/ \(.*/, '');
+  replace(body, h('div', {class:'page-head'}, h('div', null, h('div', {class:'muted small'}, ctx.instance.company), h('h1', null, 'Insights'), h('div', {class:'sub'}, ctx.instance.problem))),
+    h('section', {class:'card insight-primary'}, h('div', {class:'kicker'}, 'Simulation vs actual outcome'), h('h2', null, verdict), h('p', {class:'small'},comparison), h('p', {class:'muted'}, p.label, p.averaged ? ' · average across prediction dates' : ''),
+      h('div', {class:'insight-values'}, ...[['Actual outcome', p.actual, ''], ['Other prediction', p.other, shortOther], ['Simulation prediction', p.simulation, '']].map(([label,v,note]) => h('div', null, h('div', {class:'small muted'}, label), h('div', {class:'insight-number'}, value(v,p.unit)), h('div', {class:'small muted'}, note)))),
+      h('p', {class:'evidence-note'}, d.caveat)),
+    h('section', {class:'section insight-alternatives'}, h('div', {class:'row'}, h('h2', null, 'What changes under alternatives?'), h('span', {class:'muted small'}, 'Simulation comparisons · unobserved actions')),
+      h('div', {class:'grid-2'}, ...d.alternatives.map(a => h('div', {class:'card'}, h('h3', null, a.title),
+        ...a.metrics.filter(m => !m.reverse_delta || !a.metrics.some(x => x.is_change)).map(m => {
+          const delta = m.is_change ? m.value : (m.value - m.reference) * (m.reverse_delta ? -1 : 1);
+          const unit = m.unit === '%' && !m.is_change ? 'pp' : m.unit;
+          return h('div', {class:'alternative-outcome'}, h('strong', null, Math.abs(delta) < (m.display_threshold || 0.05) ? 'Essentially unchanged' : `${delta > 0 && !m.is_change && !m.reverse_delta ? '+' : ''}${value(delta,unit)}`), h('span', null, m.label));
+        }),
+        h('details', {class:'compact-details'}, h('summary', null, 'Comparison details'), h('p', {class:'small muted'}, a.note), ...a.metrics.map(m => h('p', {class:'small'}, m.reverse_delta ? 'Human effort for the work performed' : m.label, ': ', m.is_change ? value(m.value,m.unit) : `${value(m.reference,m.unit)} → ${value(m.value,m.unit)}`))),
+        a.id === 'ai_assistant' ? h('p',{class:'evidence-note'},'Assumed AI assistance; saved effort is not a measured cash saving.') : null,
+        h('a', {class:'small', href:ctx.href(ctx.instanceId,'scenarios',a.id)}, 'View scenario →'))))));
+  const evidenceBody = h('div', {class:'disclosure-body'});
+  const details = h('details', {class:'disclosure'}, h('summary', null, 'Evidence, methods and all comparisons'), evidenceBody);
+  let loaded = false;
+  details.addEventListener('toggle', async () => {
+    if (!details.open || loaded) return; loaded = true;
+    replace(evidenceBody, loading());
+    try {
+      const mod = await import('./comparison_details.js');
+      replace(evidenceBody);
+      if (p.error) evidenceBody.append(h('p', {class:'small'}, `${p.error.scope}: simulation ${value(p.error.simulation,p.error.unit)}; other prediction ${value(p.error.other,p.error.unit)}. This averages individual errors, rather than comparing the average levels above.`));
+      await mod.render(evidenceBody, ctx);
+    } catch(e) { replace(evidenceBody,errorState(e)); loaded=false; }
+  });
+  body.append(details);
+  if (ctx.params[0]) details.open = true;
 }

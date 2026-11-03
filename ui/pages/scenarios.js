@@ -9,31 +9,37 @@ export async function render(root, ctx) {
   try { list = await api.scenarios(instanceId); } catch (e) { replace(body, errorState(e, instanceId, "Scenarios")); return; }
   const shown = list.filter(s => s.role && s.role !== "other");
   const others = list.filter(s => !s.role || s.role === "other");
+  if (params[0] === "new" && !ctx.readOnly) { replace(body); newScenario(body, ctx, shown); return; }
   if (params[0]) { const s = list.find(x => x.id === params[0]); if (s) { replace(body); await detail(body, ctx, s); return; } }
   replace(body);
   body.append(h("div", { class: "page-head" }, h("div", null, h("h1", null, "Scenarios"), h("div", { class: "sub" }, ctx.readOnly ? "Explore the saved staffing, work policy, and AI assumptions behind each simulation prediction." : "Choose a scenario to adjust staffing, work policy, or AI assistance. Save your assumptions and compare simulation predictions."))));
   if (!shown.length) { body.append(emptyState("No scenarios yet.", h("span", null, "Add ", h("code", null, `instances/${instanceId}/scenarios/baseline.yaml`), " and name it in instance.yaml under scenarios."))); return; }
-  const resolved = await Promise.all(shown.map(s => api.scenario(instanceId, s.id).catch(() => null)));
-  const runs = await api.runs(instanceId).catch(() => []);
-  body.append(h("div", { class: "grid-2" }, ...shown.map((s, i) => heroCard(s, resolved[i], runs.filter(r => r.scenario === s.id), ctx))));
+  body.append(h("div", { class: "grid-2" }, ...shown.map(s => heroCard(s, ctx)),
+    h("div", {class: `card scenario-add ${ctx.readOnly ? "unavailable" : ""}`},
+      h("button", {class:"btn", disabled:ctx.readOnly, onClick:()=>navigate(href(instanceId,"scenarios","new"))}, "+ Add new scenario"),
+      h("p", {class:"small muted"}, ctx.readOnly ? "Available in the interactive app." : "Start from an existing scenario and edit its assumptions."))));
   if (others.length && !ctx.readOnly) body.append(h("details", { class: "muted small", style: { marginTop: "12px" } }, h("summary", null, "Additional scenario files"), `${others.length} more scenario file${others.length === 1 ? "" : "s"} (${others.map(o => o.id).join(", ")}) in instances/${instanceId}/scenarios stay available from the command line: orgsim run ${instanceId} --scenario <id>.`));
 }
 
-function heroCard(s, r, runs, ctx) {
-  const { instanceId, href } = ctx;
-  const isBase = s.role === "baseline";
-  const complete = runs.filter(x => x.complete);
-  const ivs = r?.interventions || [];
-  return h("div", { class: `card instance-card scenario-hero ${isBase ? "" : "alt"}` },
-    h("div", { class: "row", style: { justifyContent: "space-between" } }, badge(isBase ? "baseline: what actually happened" : "alternative", isBase ? "good" : "accent"), h("span", { class: "mono muted small" }, s.id)),
-    h("h2", null, s.short_title || s.title || s.id),
-    h("div", { class: "world" }, s.description || h("span", { class: "muted" }, "no description")),
-    h("div", null, h("h4", null, isBase ? "No interventions" : `What changes (${ivs.length})`),
-      ivs.length ? h("ul", { style: { margin: "4px 0 0", paddingLeft: "18px" }, class: "small" }, ...ivs.map(iv => h("li", null, describeIntervention(iv)))) : h("div", { class: "muted small" }, isBase ? "The reference world: real staffing, real arrivals, real policy." : "none")),
-    h("details", { class: "small" }, h("summary", null, "Simulation details"), r?.horizon_days != null ? badge(`horizon ${r.horizon_days} d`) : null, r?.seeds ? badge(`seeds ${r.seeds.join(", ")}`) : null, badge(`${complete.length} completed run${complete.length === 1 ? "" : "s"}`)),
-    h("div", { class: "row", style: { justifyContent: "space-between", marginTop: "6px" } },
-      h("a", { class: "btn primary", href: href(instanceId, "scenarios", s.id) }, ctx.readOnly ? "View assumptions →" : "Configure scenario →"),
-      h("a", { class: "btn sm", href: href(instanceId, "results") }, "Saved results (precomputed) →")));
+function heroCard(s, ctx) {
+  return h("div", {class:"card scenario-hero"}, badge(s.role === "baseline" ? "Reference scenario" : s.role === "custom" ? "Custom scenario" : "Alternative", s.role === "baseline" ? "good" : "accent"),
+    h("h2", null, s.display_title || s.short_title), h("p", {class:"muted"}, s.card_summary || s.summary),
+    h("a", {class:"btn", href:ctx.href(ctx.instanceId,"scenarios",s.id)}, "View details →"));
+}
+function newScenario(body, ctx, scenarios) {
+  const title=h("input", {class:"input",required:true,maxlength:100,placeholder:"e.g. Three days at home"});
+  const id=h("input", {class:"input",required:true,pattern:"[a-z](?:[a-z0-9_]|-){0,63}",placeholder:"three_days_home"});
+  title.addEventListener("input",()=>{id.value=title.value.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_+|_+$/g,"").slice(0,64);});
+  const parent=h("select", {class:"select"}, ...scenarios.map(s=>h("option",{value:s.id},s.display_title || s.short_title)));
+  const description=h("textarea",{class:"input",rows:2,placeholder:"What changes in this scenario?"});
+  const status=h("div",{role:"status"});
+  const submit=h("button",{class:"btn primary",type:"submit"},"Create and edit scenario");
+  const form=h("form",{class:"card stack",onSubmit:async e=>{
+    e.preventDefault();submit.disabled=true;
+    try { const result=await ctx.api.createScenario(ctx.instanceId,{id:id.value,title:title.value,description:description.value,extends:parent.value});ctx.navigate(ctx.href(ctx.instanceId,"scenarios",result.id)); }
+    catch(error){replace(status,errorState(error));submit.disabled=false;}
+  }},h("label",{class:"stack"},"Title",title),h("label",{class:"stack"},"Scenario name",id),h("label",{class:"stack"},"Start from",parent),h("label",{class:"stack"},"Summary",description),submit,status);
+  body.append(h("a",{href:ctx.href(ctx.instanceId,"scenarios")},"← Scenarios"),h("h1",null,"Add new scenario"),form);
 }
 
 export function describeIntervention(iv) {
@@ -59,14 +65,14 @@ async function detail(body, ctx, s) {
   try { seats = (await api.seats(instanceId)) || {}; } catch { seats = {}; }
   try { bindings = (await api.bindings(instanceId)) || {}; } catch { bindings = {}; }
   body.append(h("div", { class: "page-head" },
-    h("div", null, h("div", { class: "row small", style: { marginBottom: "4px" } }, h("a", { href: href(instanceId, "scenarios") }, "← Scenarios"), badge(isBase ? "baseline" : "alternative", isBase ? "good" : "accent"), h("span", { class: "mono muted" }, s.id)), h("h1", null, s.title || s.id), h("div", { class: "sub" }, s.description || ""))));
+    h("div", null, h("div", { class: "row small", style: { marginBottom: "4px" } }, h("a", { href: href(instanceId, "scenarios") }, "← Scenarios"), badge(isBase ? "Reference scenario" : "Alternative", isBase ? "good" : "accent"), h("span", { class: "mono muted" }, s.id)), h("h1", null, s.title || s.id), h("div", { class: "sub" }, s.description || ""))));
 
   if (ctx.readOnly) {
     body.append(card("Saved assumptions", h("div", { class: "stack" },
       h("p", { class: "small" }, "These settings produced the saved comparison. This public view does not rerun simulations."),
       ...(r.interventions || []).map(iv => h("div", { class: "small" }, describeIntervention(iv))),
       r.exploration?.assumption_basis ? h("p", { class: "muted small" }, r.exploration.assumption_basis) : null,
-      h("a", { class: "btn primary", href: href(instanceId, "results") }, "Explore saved results →"))),
+      h("a", { class: "btn primary", href: href(instanceId, "results", s.id) }, "Explore saved results →"))),
       h("details", null, h("summary", null, "Full saved configuration"), h("pre", { class: "code-block", style: { whiteSpace: "pre-wrap" } }, JSON.stringify(r, null, 2))));
     return;
   }
@@ -184,21 +190,21 @@ async function detail(body, ctx, s) {
         if (found && found.complete) break;
         if (found) replace(status, h("span", { class: "spinner", style: { width: "12px", height: "12px" } }), ` run ${found.run_id} in progress…`);
       }
-      if (found) replace(status, badge(found.complete ? "complete" : "started", found.complete ? "good dot" : "warn dot"), " ", h("a", { href: href(instanceId, "runs", s.id, found.run_id) }, `Open run ${found.run_id} →`));
+      if (found) replace(status, badge(found.complete ? "complete" : "started", found.complete ? "good dot" : "warn dot"), " ", h("a", { href: href(instanceId, "results", s.id, found.run_id) }, `Open run ${found.run_id} →`));
       else replace(status, h("span", { class: "warn-box" }, "No new run appeared within 5 minutes. Check runs/<id>/<scenario>/launch.log."));
     } catch (e) { replace(status, errorState(e)); }
     runBtn.disabled = false;
   } }, "Run ▶");
   const runs = (await api.runs(instanceId).catch(() => [])).filter(x => x.scenario === s.id);
   const compareStatus = h("div", { class: "small muted", role: "status" });
-  const isExploration = !!r?.exploration;
+  const isExploration = !!r?.exploration && s.role !== "custom";
   async function watchComparison(jobId) {
     try {
       while (body.isConnected) {
         const job = await api.explorationStatus(instanceId);
         if (job.job_id !== jobId) { replace(compareStatus, "Another comparison has started. Check the saved results when it finishes."); break; }
         if (job.state === "complete") {
-          replace(compareStatus, badge("Comparison complete", "good"), " ", h("a", { href: href(instanceId, "results", s.id) }, "View AI comparison →"));
+          replace(compareStatus, badge("Comparison complete", "good"), " ", h("a", { href: href(instanceId, "insights", s.id) }, "View AI comparison →"));
           break;
         }
         if (job.state === "failed") { replace(compareStatus, job.error || "Comparison failed. Check your assumptions and retry."); break; }
@@ -219,8 +225,8 @@ async function detail(body, ctx, s) {
     controls,
     h("div", { class: "row" }, saveBtn, isExploration ? compareBtn : runBtn),
     editStatus, isExploration ? compareStatus : status,
-    h("div", { class: "muted small" }, isExploration ? "Compare uses the saved assumptions and matching reference simulations, then updates the AI comparison in Results." : "Run uses the saved configuration. Saving or running does not refresh the precomputed Results report."),
-    h("a", { href: isExploration ? href(instanceId, "results", s.id) : href(instanceId, "results") }, "View saved results →"))));
+    h("div", { class: "muted small" }, isExploration ? "Compare uses the saved assumptions and matching reference simulations, then updates the AI comparison in Insights." : "Run uses the saved configuration. Saving or running does not refresh the evaluation comparisons in Insights."),
+    h("a", { href: isExploration ? href(instanceId, "insights", s.id) : href(instanceId, "results", s.id) }, "View saved results →"))));
   if (isExploration) {
     const job = await api.explorationStatus(instanceId).catch(() => null);
     if (job?.scenario === s.id && ["queued", "running"].includes(job.state)) { compareBtn.disabled = true; watchComparison(job.job_id); }

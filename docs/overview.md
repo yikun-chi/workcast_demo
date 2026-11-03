@@ -7,7 +7,7 @@ data supplies context and calibration; only after-change predictions are scored.
 Interviews describe simulated agents, not statements from real employees.
 
 Trip.com and procurement each include two alternatives: the original policy alternative and an AI
-assistant. In Results, use **Explore alternative actions** to switch between them.
+assistant. In Insights’ expanded evidence, use **Explore alternative actions** to switch between them.
 AI assumptions are editable in Scenarios; **Compare with current policy** runs a
 matched comparison. The AI cases estimate workload and operational effects under
 stated assumptions; they have no observed AI outcome in these datasets.

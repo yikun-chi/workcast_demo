@@ -446,3 +446,30 @@ label.field > .input, label.field > .select { color: var(--text); font-weight: 4
 .record-fields th { width: 40%; white-space: normal; vertical-align: top; overflow-wrap: anywhere; }
 .record-fields td { white-space: pre-wrap; overflow-wrap: anywhere; vertical-align: top; }
 .data-grid tr[tabindex]:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* Shared reading order: conclusion, scenario assumptions, saved-run drilldown. */
+.insight-primary { margin-bottom: 20px; }
+.insight-primary h2 { font-size: clamp(21px, 2.5vw, 30px); margin: 12px 0 8px; }
+.insight-values { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; margin: 20px 0; }
+.insight-number { font-size: clamp(25px,3vw,38px); font-weight: 650; letter-spacing: -.04em; margin: 5px 0; }
+.insight-values > :last-child { color: var(--s1); }
+.evidence-note { font-size: 12px; line-height: 1.55; color: var(--muted); border-left: 2px solid var(--border); padding-left: 10px; }
+.alternative-outcome { display: flex; gap: 12px; align-items: baseline; margin: 12px 0; }
+.alternative-outcome strong { font-size: 21px; }
+.alternative-outcome span { color: var(--text-2); font-size: 13px; }
+.compact-details { margin: 12px 0; font-size: 13px; }
+.scenario-add { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: 180px; border-style: dashed; }
+.scenario-add.unavailable { background: var(--surface); color: var(--muted); }
+.scenario-add.unavailable button { opacity: .55; cursor: not-allowed; }
+.result-metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr)); gap:14px; margin:16px 0; }
+.result-number { font-size: 27px; font-weight:650; margin-top:8px; overflow-wrap:anywhere; }
+.disclosure { margin-top:16px; }
+.disclosure > summary { cursor:pointer; padding:12px 0; font-weight:600; }
+.disclosure-body { padding:12px 0; }
+@media(max-width:600px) {
+  .insight-values { gap:10px; }
+  .insight-values .small { font-size:11px; }
+  .insight-number { font-size:24px; }
+  .alternative-outcome { flex-wrap:wrap; gap:4px 10px; }
+  .select { max-width:100%; }
+}

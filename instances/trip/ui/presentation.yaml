@@ -1,0 +1,20 @@
+primary:
+  story: attrition
+  other: proportional_days
+  label: Attrition among hybrid employees · six months
+  unit: '%'
+  subject: attrition among hybrid employees
+caveat: 'Retrospective comparison: earlier model choices had already been checked
+  against these outcomes.'
+alternatives:
+- attrition_all
+cards:
+  baseline:
+    title: Two home days for selected employees
+    summary: Offer Wednesday and Friday at home to the selected group.
+  hybrid_for_all:
+    title: Hybrid work for everyone
+    summary: Offer the same two home days to every employee.
+  ai_assistant:
+    title: AI assistance for employees
+    summary: Assist selected tasks while keeping the hybrid policy.

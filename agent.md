@@ -29,20 +29,37 @@ in reader-facing labels. A scenario named `baseline` internally represents the
 change that occurred; it is distinct from the non-simulation “Other prediction”.
 Keep internal identifiers stable. Explain a comparison method in ordinary language.
 
-Each instance is self-contained in its tabs; the landing page selects an instance.
-Show the change, reference condition, actual and predicted impact, and prediction
-error together. Do not split the same attrition outcome between competing sections.
-Alternatives follow; supporting metrics open on selection. Model internals have
-three distinct tabs, in this order: **Input** describes input schemas (field names,
-types and missing-value allowance); **Data** browses actual saved records and opens
-every field of a selected employee or other record; **Ontology** shows relations
-between concepts, such as Person → has_role → Role, not individual objects.
-Never substitute schema listings or samples for the Data viewer. Data search and
-sorting cover the whole selected table, not just the visible page or loaded chunk.
-Local bindings/roles/person editors belong under Input; scenario editing stays in
-Scenarios. Object-level relations belong in Data. Keep Input, Data and Ontology
-visible under model internals in both local and public modes. Use scenario `short_title` in tables. Label
-simulated interviews as simulated: no real employee said those statements.
+Each instance has three primary tabs, in this order:
+
+1. **Insights** is the default. Lead with a conclusion readers can grasp in five seconds,
+   showing actual outcome, an understandable other prediction and simulation prediction,
+   followed by concise comparisons of alternative actions. Keep material evidence limits
+   visible. Put methods, before/change context, full comparisons and sources in disclosures.
+2. **Scenarios** shows a title and one-sentence overview per scenario; details open the
+   assumptions/editor. Avoid headcounts, seeds and raw IDs on overview cards. The public
+   site has a visibly disabled **Add new scenario** card; the interactive app opens an
+   editor and saves a new scenario without overwriting an existing one.
+3. **Results** shows scenario cards, then a selected scenario's metrics and trend first.
+   History, entity drilldowns, event records and simulated interviews open on demand.
+   Keep metrics, history and interviews tied to the same saved run; label its population
+   and period, and distinguish a single run from evaluation averages. Never insert
+   cross-scenario comparisons here. Playback shows recorded time steps; do not invent
+   hourly/person histories for models that only save aggregate periods. Support click
+   and keyboard controls; double-click zoom must have a visible button equivalent.
+
+Model internals follow as **Input**, **Data**, **Ontology**. Input describes schemas
+(field names, types, missing-value allowance) and hosts local bindings/role/person
+editors. Data browses actual saved records and opens every field of a selected record;
+search/sort cover the whole table, not a sample or loaded page. Object relations belong
+in Data. Ontology shows concept relations, such as Person → has_role → Role, not
+individual objects. Keep all three visible in local and public modes. Scenario editing
+belongs in Scenarios. Label all interviews as simulated; no real employee said them.
+
+Use scenario `short_title` in detailed comparison tables. Internal `/results` remains
+the evaluation comparison contract and `/insights` remains the interview artifact
+contract; these API names do not define the current tab responsibilities. Federal
+legacy employee-style interviews do not describe the agency separation paths; keep
+them out of the scenario interview view. Do not add separate Overview or Runs tabs. Old URLs redirect to the relevant current tab.
 
 | Instance | Question | Model family |
 |---|---|---|
@@ -166,8 +183,9 @@ a second guide. Update links when moving content.
 | Framework/storage/snapshot adapters and composition | `orgsim/adapters/`, `orgsim/composition.py`; external planners may live in installed packages |
 | Authored task contracts, scheduler and CLI | `orgsim/workflow/` |
 | Shared clock, scheduling and capacity primitives | `orgsim/kernel/` |
-| Scientific model, world-specific metrics and Results presentation | `orgsim/worlds/`; workforce, process, market, adoption and supporting survival code |
+| Scientific model, world-specific metrics and evaluation comparison presentation | `orgsim/worlds/`; workforce, process, market, adoption and supporting survival code |
 | Seat-policy integrations | `orgsim/policies/`; per-instance choices in `instances/<id>/policies/seats.yaml` |
+| Concise comparison summaries, scenario card metadata and saved-run history projections | `orgsim/evaluation/presentation.py`, `history.py`; authored labels in `instances/<id>/ui/presentation.yaml`, computed numbers in artifacts |
 | Shared ontology, scenarios, evaluation, interviews and run storage | Corresponding `orgsim/ontology/`, `scenarios/`, `evaluation/`, `insights/`, `store/` |
 | HTTP routes and shared browser pages | `orgsim/server/app.py`, `ui/`; routing in `ui/app.js`, tokens in `ui/theme.css` |
 | Input schemas, record viewing and concept relations | `ui/pages/input.js`, `ui/pages/data*.js`, `ui/pages/ontology*.js`; existing `data_edit.js` and `ontology_edit.js` editors are hosted by Input |
@@ -202,8 +220,9 @@ do not overwrite user changes. Read [README.md](README.md) for commands and
   bundled task planners require no model API calls.
 - Keep secrets outside tracked files. OpenRouter data retrieval reads
   `OPENROUTER_API_KEY` or `~/.secrets/openrouter.key`; do not print credentials.
-  Check ignore rules and staged changes before sharing. Downloaded data, run traces,
-  local PDFs, virtual environments and caches stay local. No code license is selected.
+  Check ignore rules and staged changes before sharing. Raw downloads, bulk run
+  archives, local PDFs, virtual environments and caches stay local; the curated
+  public snapshot follows the export rules below. No code license is selected.
 - Add instances with the [template checklist](instances/_template/README.md).
   Register new model families in `orgsim/worlds/__init__.py` and add corresponding
   ontology/people and interview handling. Preserve the common Results contract.
@@ -232,7 +251,7 @@ do not overwrite user changes. Read [README.md](README.md) for commands and
   portable subset; report it as such. Do not download or rerun everything when a
   missing-data limitation can be reported clearly.
 - **UI/served-result work:** also run the Trip.com and procurement browser smoke
-  pages, require `DONE errors=0`, and visually inspect the affected Results pages.
+  pages, require `DONE errors=0`, and visually inspect Insights and scenario Results, including entity drilldown.
   Commands are in [setup verification](docs/setup.md#verification). Restart the
   local server after Python changes or use `--reload`; identify the process before
   stopping it. Avoid a process-name search that matches its own shell command.
@@ -249,12 +268,16 @@ The local FastAPI application remains interactive and unauthenticated on loopbac
 
 Static mode is an adapter in the same UI, selected by generated HTML metadata.
 It preserves the common framing and saved alternatives, rejects writes and hides
-run/edit controls. The public Data viewer includes **all normalized input records**,
+run/edit controls, while showing a disabled Add new scenario card. The public Data
+viewer includes **all normalized input records**,
 including the anonymized employee records already present in the released datasets.
 Export these as compressed chunks with checksums; load pages on demand and run
 whole-table searches/sorts in a worker. Input retains schemas and Ontology retains
-concept relations. Do not publish raw source archives, run traces or credentials in
-the website bundle. A static site remains read-only even when viewing detailed data.
+concept relations. Results publishes one selected completed run per named scenario,
+including compressed history and chunked saved event records. Prefer the run referenced
+by saved interviews so those records agree. Bulk ensembles and raw source archives
+belong in release attachments; never publish credentials in the website bundle.
+A static site remains read-only even when viewing detailed data.
 Development fixtures are never published evidence.
 Update snapshots through `scripts/export_site.py`; do not hand-edit their values.
 

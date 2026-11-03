@@ -28,8 +28,8 @@ and `status`.
 | `calibration/*` | yes | the world module; fitted on the training window only, never on scored outcomes |
 | `scenarios/baseline.yaml` + the alternative | yes | `orgsim.scenarios`: `extends:` deep-merges, `seeds:`, `horizon_days`, `short_title`, `world:`, `interventions:` |
 | `evaluation/protocol.yaml` | yes | the world module's `evaluate()` |
-| `reports/build_report.py` -> `report.json` | yes | Results tab narrative (section 6) |
-| `ui/pages.json` + pages | optional | detailed views embedded in Results (section 7) |
+| `reports/build_report.py` -> `report.json` | yes | Insights evidence narrative (section 6) |
+| `ui/pages.json` + pages | optional | detailed views embedded in Insights evidence (section 7) |
 | `data/raw`, `data/normalized` | generated | git-ignored |
 
 An optional integer `order` sets the instance's place on the landing page (lower first; default 100, then by id).
@@ -71,7 +71,7 @@ Companions: `config.json` (scenario + seed), `summary.json` (`RunSummary` with a
 eligible_days, wfh_days, quit_week, final_states, final_quit_hazard_week}]}`). `latest.json` per scenario points at
 the newest run.
 
-## 4. `data/normalized/summary.json` (Overview details)
+## 4. `data/normalized/summary.json` (input context)
 
 ```json
 {"title": "...", "period": "2018-01-01 .. 2019-01-31",
@@ -158,7 +158,7 @@ The story's `reference_actual` is the office-only group observed alongside the h
 
 Optional `story.comparator_explanation` contains `{paragraphs, formula, sources: [{label, url}]}` and explains the other prediction methods beside the comparison. Optional `story.level_comparison` contains `{label, unit, actual, simulated, predictions: [{label, value}]}` to distinguish an overall outcome from the policy impact. Trip.com's historical inputs and calculation are sourced in `manifests/pre_policy.yaml` and `evaluation/comparators.yaml`; `comparators` in its evaluation records the calculated values and provenance.
 
-The Results page displays `level_comparison` and effect comparisons together in one **Actual outcomes and predictions** table. Rows state whether they show a group outcome or the difference between groups; optional metric `effect_label` names the latter. Uncertainty and subgroup cards open inside that same section.
+Insights’ expanded evidence displays `level_comparison` and effect comparisons together in one **Actual outcomes and predictions** table. Rows state whether they show a group outcome or the difference between groups; optional metric `effect_label` names the latter. Uncertainty and subgroup cards open inside that same section.
 
 Reader-facing labels use **Actual outcome**, **Simulation prediction**, and **Other prediction**. Policy impact means the hybrid group's outcome minus the office-only group's outcome during the same period. The words engine, forecast, trial and ITT are reserved for internal identifiers or original source titles, not product labels. Internal API keys remain stable.
 
@@ -187,7 +187,7 @@ charts: [chart id], metrics: [metric id]}], charts: [chart], metrics: [as in eva
 ## 7. Detailed views (`instances/<id>/ui/pages.json`)
 
 `[{"id": "process-map", "title": "Process map", "entry": "process-map.html", "icon": "flow"}]`. Each entry is a
-self-contained page served at `/instances/<id>/ui/<entry>` and embedded in Results as an iframe. It may call the
+self-contained page served at `/instances/<id>/ui/<entry>` and embedded in Insights evidence as an iframe. It may call the
 same API and should load `/ui/theme.css`.
 
 ## 8. Ontology and data endpoints
@@ -307,13 +307,14 @@ the error; no residual quality or calibrated organizational effect is claimed.
 
 ## 11. Public snapshots and release archives
 
-`public-data/index.json` declares `schema_version: 2`, the capture time, source
+`public-data/index.json` declares `schema_version: 3`, the capture time, source
 commit, instance catalog, required O*NET occupations and SHA-256 hashes for each
 `<instance>.json` and compressed table chunk. Each instance document records its evaluation checksum and a
 `responses` mapping keyed by instance-relative GET routes (for example `/results`,
 `/scenarios/baseline`, `/insights` and `/ontology/concepts`). Existing response shapes
 are preserved. `/runs` includes only ID/scenario/completion metadata for scenario
-counts; run traces and people-graph endpoints are not exported. `/tables` keeps
+counts. The `run_data` map includes one selected completed run per named scenario;
+people-graph endpoints are not exported. `/tables` keeps
 `columns` as names and adds `schema: [{name, type, nullable}]` for the Input tab.
 The document's `tables` map holds `{name, columns, total, chunk_size, chunks}` for
 every normalized table. Chunks are gzip-compressed JSON arrays of row arrays in
@@ -325,9 +326,30 @@ Queries search the whole table, sort stably with nulls last and return the same
 `{name, columns, total, offset, limit, rows}` shape as the live API. Plain paging
 loads only needed chunks. The worker verifies each downloaded chunk's checksum.
 
+Additional read-only presentation routes:
+
+- `/insights-summary`: primary actual/other/simulation values, scoped evidence caveat,
+  and alternative metrics with each matched reference; computed from saved artifacts.
+- `/scenario-results`: scenario cards and a selected completed run, with interviews
+  only when their recorded run ID matches. Prefer the interview run, else latest.
+- `/runs/{scenario}/{run}/history`: run identity, period, summary metrics, time series,
+  entities, full metrics and configuration. Series contain saved values at their
+  native resolution. Entity fields preserve full saved profiles/group/app records.
+- `POST /scenarios`: `{id, title, description, extends}` creates a new scenario with
+  an exclusive file write (409 if it exists), then the existing PUT route edits it.
+
+Public `run_data["<scenario>/<run>"]` holds `history` (a gzip JSON path) and `trace`
+(a descriptor shaped like an input table). Paths are
+`runs/<instance>/<scenario>/<run>/history.json.gz` and
+`runs/<instance>/<scenario>/<run>/trace/<chunk-number>.json.gz`.
+Every resource is checksummed. The validator checks run identity, row counts,
+chunk order, path confinement and all referenced files. Static trace queries share
+paging/search/sort with input records and add exact `agent`, `case`, `activity`,
+`from_tick` and `to_tick` filters. Only published runs are accessible in static mode.
+
 `scripts/export_site.py snapshot` reads prepared local application responses and
 rejects stale/missing AI alternatives. `build` verifies the index and copies only
-listed instance snapshots and declared table chunks with the shared UI. It rejects
+listed instance snapshots, history resources and declared record chunks with the shared UI. It rejects
 missing/corrupt chunks, invalid paths, row counts and widths before replacing a
 previous build. Its generated HTML sets
 `<meta name="workcast-mode" content="static">`. The API adapter resolves relative

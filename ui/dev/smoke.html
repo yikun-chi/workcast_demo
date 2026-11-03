@@ -10,7 +10,7 @@
   <style>#log { white-space: pre-wrap; font-family: var(--mono); font-size: 12px; padding: 12px; } .stage { padding: 12px; border-top: 2px dashed var(--border-strong); }</style>
 </head>
 <body>
-  <!-- Open as /ui/dev/smoke.html?fixtures=1 (or without the flag against the live API). Exercises every page's interactive paths and prints SMOKE lines to the console. -->
+  <!-- Open as /ui/dev/smoke.html?instance=trip against the prepared live API. Exercises every page's interactive paths and prints SMOKE lines to the console. -->
   <div id="log"></div>
   <div class="drawer-backdrop" id="drawer-backdrop"></div>
   <aside class="drawer" id="drawer"><div class="drawer-head"><h3 id="drawer-title"></h3><button id="drawer-close">x</button></div><div class="drawer-body" id="drawer-body"></div></aside>
@@ -41,7 +41,6 @@
 
     await run("landing", async () => { const m = await import("/ui/pages/landing.js"); const r = stage("landing"); await m.render(r, { instances, href }); assert(r.querySelectorAll(".instance-card").length === instances.length, "landing cards"); });
 
-    await run("overview", async () => { const m = await import("/ui/pages/overview.js"); const r = stage("overview"); await m.render(r, ctx(primary)); assert(r.querySelector("h1"), "overview rendered"); const link = r.querySelector("table a.mono"); if (link) { link.click(); assert(await until(() => document.querySelector("#drawer-body table tbody tr")), "occupation drawer shows DWAs"); drawer.close(); } });
     await run("ontology/concepts", async () => { const m = await import("/ui/pages/ontology.js"); const r = stage("ontology-concepts"); r.style.height = "700px"; const c = await m.render(r, ctx(primary, ["concepts"])); assert(await until(() => r.querySelectorAll(".concept-table tbody tr").length > 10, 8000), "relations table"); const row = r.querySelector(".concept-table tbody tr"); row.click(); assert(await until(() => r.textContent.includes("Relations out") || r.textContent.includes("Relations in")), "concept selection"); c && c(); });
     await run("input/bindings", async () => { const m = await import("/ui/pages/input.js"); const r = stage("input-bindings"); await m.render(r, ctx(primary, ["bindings"])); const ta = r.querySelector("textarea"); assert(ta && ta.value.trim().startsWith("{"), "bindings JSON editor"); ta.value = "{bad"; ta.dispatchEvent(new Event("input")); assert(await until(() => r.textContent.includes("Invalid JSON")), "invalid JSON flagged"); });
     await run("input/schema", async () => { const m = await import("/ui/pages/input.js"); const r = stage("input-schema"); await m.render(r, ctx(primary)); assert(r.querySelectorAll(".schema-table tbody tr").length > 0, "input field schemas"); assert(!r.querySelector(".data-grid"), "schemas and record viewer are separate"); });
@@ -51,11 +50,23 @@
     await run("input/people", async () => { const m = await import("/ui/pages/input.js"); const r = stage("input-people"); await m.render(r, ctx(primary, ["people"])); const add = [...r.querySelectorAll("button")].find(b => b.textContent.includes("Add role")); if (add) { const n = r.querySelectorAll("table tbody tr").length; add.click(); assert(r.querySelectorAll("table tbody tr").length === n + 1, "add role row"); } else log("skip add role (no bindings)"); });
     await run("scenarios", async () => { const m = await import("/ui/pages/scenarios.js"); const r = stage("scenarios"); await m.render(r, ctx(primary)); const cards = r.querySelectorAll(".scenario-hero"); assert(cards.length >= 1 || r.querySelector(".empty"), "scenario cards " + cards.length); });
     await run("scenarios/detail", async () => { const m = await import("/ui/pages/scenarios.js"); const r = stage("scenarios-detail"); await m.render(r, ctx(primary, ["baseline"])); assert(r.querySelector("textarea") && r.textContent.includes("Seats"), "scenario detail with parameters and seats"); const sel = r.querySelector("table select"); if (sel) { sel.value = "llm"; sel.dispatchEvent(new Event("change")); assert(r.querySelector("table input[list]") && !r.querySelector("table input[list]").disabled, "adapter switch enables model field"); } });
-    await run("runs", async () => { const runs = await api.runs(primary); const m = await import("/ui/pages/runs.js"); const r = stage("runs"); const first = runs.find(x => x.complete); await m.render(r, ctx(primary, first ? [first.scenario, first.run_id] : [])); if (!first) { assert(r.querySelector(".empty"), "runs empty state"); return; } assert(await until(() => r.querySelector("canvas")), "timeline chart"); assert(await until(() => r.querySelectorAll(".data-grid").length >= 2 && r.querySelectorAll(".data-grid table tbody tr").length > 0, 10000), "agents + trace grids"); });
-    await run("results", async () => { const m = await import("/ui/pages/results.js"); const r = stage("results"); await m.render(r, ctx(primary)); assert(await until(() => r.querySelector(".part-no") || r.querySelector(".error-box"), 8000), "results rendered"); assert(r.querySelector(".story-flow") || r.querySelector(".hero-card") || r.querySelector(".error-box"), "ground truth vs simulated block"); });
+    await run("results", async () => {
+      const m = await import("/ui/pages/results.js"); const r = stage("results");
+      await m.render(r, ctx(primary)); assert(r.querySelectorAll(".scenario-result-card").length >= 2, "scenario result cards");
+      const detail=stage("result-detail"); const cleanup=await m.render(detail,ctx(primary,["baseline"]));
+      assert(detail.querySelector(".result-metrics") && detail.querySelector("canvas"), "selected-run metrics and trend");
+      const history=[...detail.querySelectorAll("details")].find(d=>d.querySelector("summary").textContent==="Explore simulation history"); history.open=true;
+      const select=detail.querySelector('[aria-label="History entity"]'); select.selectedIndex=1; select.dispatchEvent(new Event("change"));
+      assert(detail.textContent.includes("Entity details"), "entity history and fields");
+      const events=[...detail.querySelectorAll("details")].find(d=>d.querySelector("summary").textContent.startsWith("Recorded events")); events.open=true;
+      assert(await until(()=>events.querySelector("tbody tr"),20000), "selected entity event records");
+      events.querySelector("tbody tr").click(); assert(document.querySelector("#drawer-body").textContent.includes("attributes"), "complete event drawer");drawer.close();
+      const interviews=[...detail.querySelectorAll("details")].find(d=>d.querySelector("summary").textContent==="Simulated interviews");interviews.open=true;
+      assert(detail.querySelector(".quote"),"simulated interviews belong to selected run");cleanup?.();
+    });
     if (inst.scenarios?.some(s => s.id === "ai_assistant")) {
       await run("AI results selection", async () => {
-        const m = await import("/ui/pages/results.js"); const r = stage("ai-results"); await m.render(r, ctx(primary));
+        const m = await import("/ui/pages/comparison_details.js"); const r = stage("ai-results"); await m.render(r, ctx(primary));
         const panel = r.querySelector('.exploration-panel[data-scenario="ai_assistant"]');
         assert(panel?.hidden, "AI alternative initially follows the existing alternative");
         const button = [...r.querySelectorAll('.alternative-exploration button')].find(b => b.textContent.includes("AI"));
@@ -80,19 +91,23 @@
         assert(launched === 1 && saved.interventions.find(i => i.type === "ai_assist").coverage === 0, "comparison uses saved assumptions");
       });
     }
-    await run("insights", async () => { const m = await import("/ui/pages/insights.js"); const r = stage("insights"); await m.render(r, ctx(primary)); assert(await until(() => r.querySelector(".quote") || r.querySelector(".empty") || r.querySelector(".error-box"), 8000), "insights rendered"); });
-
-    await run("insights/first-generation", async () => {
-      const m = await import("/ui/pages/insights.js"); const r = stage("insights-first-generation");
-      const built = { method: "template", scenarios: { baseline: { title: "Baseline", interviews: [], groups: {}, topics: [], sentiment: {}, n_interviews: 0 } } };
-      await m.render(r, ctx(primary, [], { api: { ...api, insights: async () => null, buildInsights: async () => built } }));
-      r.querySelector("button").click();
-      assert(await until(() => r.textContent.includes("Interviews (0)")), "first generated interviews displayed");
+    await run("insights", async () => {
+      const m=await import("/ui/pages/insights.js");const r=stage("insights");await m.render(r,ctx(primary));
+      assert(r.querySelectorAll(".insight-values > div").length===3,"actual, other and simulation values");
+      assert(r.querySelectorAll(".insight-alternatives .card").length>=2,"alternative punchlines");
+      assert(!r.querySelector(".quote"),"interviews moved to scenario Results");
+    });
+    await run("new scenario editor", async () => {
+      const m=await import("/ui/pages/scenarios.js");const r=stage("new-scenario");let submitted=null;
+      await m.render(r,ctx(primary,["new"],{api:{...api,createScenario:async(_i,body)=>{submitted=body;return {id:body.id};}}}));
+      const fields=r.querySelectorAll("input");fields[0].value="New scenario";fields[0].dispatchEvent(new Event("input"));
+      r.querySelector("form").requestSubmit();assert(await until(()=>submitted?.id==="new_scenario"),"new scenario submits to creation API");
+      const pub=stage("public-scenarios");await m.render(pub,ctx(primary,[],{readOnly:true}));assert(pub.querySelector(".scenario-add button").disabled,"public add card disabled");
     });
 
     // second instance: every page must degrade gracefully
     const other = instances.find(i => i.id !== primary);
-    if (other) for (const [p, params] of [["overview", []], ["ontology", []], ["input", ["bindings"]], ["data", []], ["data", ["graph"]], ["input", ["people"]], ["scenarios", []], ["runs", []], ["results", []], ["insights", []]]) {
+    if (other) for (const [p, params] of [["ontology", []], ["input", ["bindings"]], ["data", []], ["data", ["graph"]], ["input", ["people"]], ["scenarios", []], ["results", []], ["insights", []]]) {
       await run(`${other.id}/${p}`, async () => { const m = await import(`/ui/pages/${p}.js`); const r = stage(`${other.id}-${p}-${params[0] || ""}`); r.style.height = p === "ontology" || params[0] === "graph" ? "500px" : ""; const c = await m.render(r, ctx(other.id, params)); await sleep(600); assert(!r.querySelector(".error-box"), `${other.id}/${p} no error box`); c && c(); });
     }
     log(`DONE errors=${errors.length}`);

@@ -13,8 +13,8 @@ export function tableReader(table, loadChunk) {
     while (cache.size > 8) cache.delete(cache.keys().next().value);
     return result;
   }
-  async function index(q, sort, desc, progress) {
-    const key = JSON.stringify([q, sort, desc]);
+  async function index(q, sort, desc, filters, progress) {
+    const key = JSON.stringify([q, sort, desc, filters]);
     if (indexedKey === key) return indexed;
     const matches = [], sortValues = [];
     const column = table.columns.indexOf(sort);
@@ -22,7 +22,12 @@ export function tableReader(table, loadChunk) {
       const rows = await chunk(c);
       for (let r = 0; r < rows.length; r++) {
         const row = rows[r];
-        if (!q || row.some(v => String(v ?? "").toLowerCase().includes(q))) {
+        const selected = Object.entries(filters).every(([key, value]) => {
+          if (key === "from_tick") return row[table.columns.indexOf("tick")] >= Number(value);
+          if (key === "to_tick") return row[table.columns.indexOf("tick")] <= Number(value);
+          return String(row[table.columns.indexOf({agent: "agent_id", case: "case_id", activity: "activity"}[key])]) === String(value);
+        });
+        if (selected && (!q || row.some(v => String(v ?? "").toLowerCase().includes(q)))) {
           matches.push(c * table.chunk_size + r);
           if (column >= 0) sortValues.push(row[column]);
         }
@@ -49,7 +54,8 @@ export function tableReader(table, loadChunk) {
     const limit = Math.max(1, Math.min(1000, Number(params.limit) || 50));
     const q = String(params.q || "").toLowerCase(), sort = params.sort || "";
     const desc = params.desc === 1 || params.desc === "1" || params.desc === true;
-    const positions = q || sort ? await index(q, sort, desc, progress) : null;
+    const filters = Object.fromEntries(["agent", "case", "activity", "from_tick", "to_tick"].filter(k => params[k] !== undefined && params[k] !== null && params[k] !== "").map(k => [k, params[k]]));
+    const positions = q || sort || Object.keys(filters).length ? await index(q, sort, desc, filters, progress) : null;
     const total = positions ? positions.length : table.total;
     const chosen = positions ? positions.slice(offset, offset + limit) : Array.from({length: Math.max(0, Math.min(limit, total - offset))}, (_, i) => offset + i);
     const chunks = new Map();

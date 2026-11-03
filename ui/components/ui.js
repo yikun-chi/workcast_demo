@@ -130,7 +130,7 @@ export function downloadCsv(filename, columns, rows) {
   const a = h("a", { href: URL.createObjectURL(blob), download: filename }); document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 }
 
-// ---------- O*NET occupation drawer (shared by Overview and Input editors) ----------
+// ---------- O*NET occupation drawer (used by Input editors) ----------
 export async function occupationDrawerBody(api, code) {
   const body = h("div", null, loading("Loading O*NET occupation"));
   api.onetOccupation(code).then(occ => {

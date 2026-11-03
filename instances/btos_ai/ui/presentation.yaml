@@ -1,0 +1,16 @@
+primary:
+  held_out: true
+  label: Average sector AI-use rate · three to six months ahead
+  unit: '%'
+  subject: AI adoption
+caveat: Averages are across scored sectors and periods, not a national firm share.
+alternative_groups:
+- '31'
+- '44'
+cards:
+  baseline:
+    title: AI adoption as recorded
+    summary: Carry sector adoption forward from each prediction date.
+  adoption_programme:
+    title: AI uptake programme
+    summary: Increase assumed uptake in manufacturing and retail.

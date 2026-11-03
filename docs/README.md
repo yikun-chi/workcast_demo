@@ -13,7 +13,7 @@ design principles, file placement and verification. This page is the documentati
 | Application services and scientific models | [Architecture](architecture.md) |
 | Task-planner architecture, framework adapters and replay | [Task planners](task-planners.md) |
 | Instance files, run artifacts, HTTP and planner interfaces | [Contracts](contracts.md) |
-| Results, scenarios and the other instance tabs | [UI guide](ui.md) |
+| Insights, Scenarios, Results and model internals | [UI guide](ui.md) |
 | Add an instance | [Instance template](../instances/_template/README.md) |
 | Authored runnable inputs | [Examples](../examples/README.md) |
 | Project context, contributor rules and where files belong | [Agent guide](../agent.md) |

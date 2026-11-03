@@ -14,7 +14,7 @@ Verify the current result with `.venv/bin/python scripts/check_bpi19_results.py`
   its observed staffing; this uniform multiplier is a scenario assumption)
 - `evaluation/protocol.yaml`: two actual-only windows before the September 2018 expansion and four prediction windows after it, three seeds, 14-day
   horizon, metrics and baselines, the measured change; `reports/build_report.py` -> `report.json`
-- `ui/process-map.html`: detailed view embedded in Results
+- `ui/process-map.html`: detailed view embedded in Insights evidence
 
 Download and installation instructions: [setup and reproduction](../../docs/setup.md).
 

@@ -3,19 +3,16 @@ import { api, FIXTURES, READ_ONLY } from "./api.js";
 import { h, replace, badge, toast, errorState, loading, drawer } from "./components/ui.js";
 import { sweepCharts, restyleCharts } from "./components/chart.js";
 
-/* Model internals: Input defines schemas, Data browses records, Ontology relates concepts. The report, comparison and the
-   instance's detailed views are all under Results; Insights holds the simulated interviews. */
+/* Conclusions → scenario assumptions → one scenario's saved results. */
 export const CORE_PAGES = [
-  { id: "results", label: "Results", mod: "./pages/results.js" },
-  { id: "scenarios", label: "Scenarios", mod: "./pages/scenarios.js" },
   { id: "insights", label: "Insights", mod: "./pages/insights.js" },
-  { id: "overview", label: "Overview", mod: "./pages/overview.js" },
-  ...(!READ_ONLY ? [{ id: "runs", label: "Runs", mod: "./pages/runs.js" }] : []),
+  { id: "scenarios", label: "Scenarios", mod: "./pages/scenarios.js" },
+  { id: "results", label: "Results", mod: "./pages/results.js" },
   { id: "input", label: "Input", mod: "./pages/input.js", internals: true },
   { id: "data", label: "Data", mod: "./pages/data.js", internals: true },
   { id: "ontology", label: "Ontology", mod: "./pages/ontology.js", internals: true },
 ];
-const LEGACY = { edit: "input", report: "results" };
+const LEGACY = { edit: "input", report: "insights", overview: "insights", runs: "results" };
 
 const state = { instances: null, instance: null, instanceId: null, cleanup: null, route: null };
 const mods = new Map();
@@ -32,7 +29,7 @@ function parseRoute() {
   if (parts[2] === "edit" && ["data", "ontology"].includes(parts[1])) {
     return {instanceId: parts[0], page: "input", rest: [parts[1] === "data" ? "people" : "bindings"]};
   }
-  return { instanceId: parts[0], page: parts[1] || "results", rest: parts.slice(2) };
+  return { instanceId: parts[0], page: parts[1] || "insights", rest: parts.slice(2) };
 }
 
 async function getInstances(force) {
@@ -44,7 +41,7 @@ function renderHeader() {
   const host = document.getElementById("header-instance");
   replace(host);
   if (!state.instanceId || !state.instances) return;
-  const sel = h("select", { class: "select sm", title: "Switch instance", onChange: (e) => navigate(href(e.target.value, state.route.page === "landing" ? "results" : state.route.page)) },
+  const sel = h("select", { class: "select sm", title: "Switch instance", onChange: (e) => navigate(href(e.target.value, state.route.page === "landing" ? "insights" : state.route.page)) },
     ...state.instances.map(i => h("option", { value: i.id, selected: i.id === state.instanceId }, i.company || i.title)));
   host.append(h("span", { class: "header-sep" }), h("span", { class: "muted small" }, "Company"), sel,
     state.instance?.world_type ? badge(state.instance.world_type, "accent") : null);
@@ -84,8 +81,7 @@ async function render() {
       renderHeader(); renderTabs();
       document.title = `${state.instance.title} · Workcast`;
       const ctx = { api, readOnly: READ_ONLY, instanceId: route.instanceId, instance: state.instance, instances, params: route.rest, page: route.page, navigate, href, refreshInstance: async () => { state.instance = await api.instance(route.instanceId); renderTabs(); return state.instance; } };
-      if (READ_ONLY && route.page === "runs") { navigate(href(route.instanceId, "results")); return; }
-      if (LEGACY[route.page]) { navigate(href(route.instanceId, LEGACY[route.page])); return; }
+      if (LEGACY[route.page]) { navigate(href(route.instanceId, LEGACY[route.page], ...route.rest)); return; }
       {
         const page = CORE_PAGES.find(p => p.id === route.page);
         if (!page) { replace(main, errorState(new Error(`Unknown page "${route.page}"`))); return; }

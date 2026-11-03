@@ -11155,6 +11155,348 @@
     ]
    }
   },
+  "/insights-summary": {
+   "primary": {
+    "label": "Questions per 13-week period · average across scored periods",
+    "unit": "questions",
+    "subject": "question volume",
+    "actual": 44706.19402985075,
+    "simulation": 47942.09990794798,
+    "other": 53012.42765416625,
+    "other_label": "Damped trend",
+    "error": {
+     "simulation": 5717.870094068422,
+     "other": 9350.449907197088,
+     "unit": "questions",
+     "scope": "Average error across all scored groups and periods"
+    }
+   },
+   "caveat": "Prediction accuracy does not establish how much of the decline ChatGPT caused.",
+   "alternatives": [
+    {
+     "id": "slower_switch",
+     "title": "Slower switching to AI",
+     "metrics": [
+      {
+       "label": "Questions over the next 52 weeks",
+       "unit": "questions",
+       "reference": 8574.875123907903,
+       "value": 12175.530077803538
+      }
+     ],
+     "note": "Simulated alternative, compared with its matched reference runs."
+    }
+   ],
+   "context": "OpenAI released ChatGPT on 30 November 2022. Within a year developers were asking AI assistants the questions they used to post on Stack Overflow, and weekly new questions fell by more than half."
+  },
+  "/scenario-results": [
+   {
+    "scenario": {
+     "id": "baseline",
+     "title": "Stack Overflow as it happened: askers switching to AI assistants from the cutoff",
+     "short_title": "As it happened",
+     "summary": "",
+     "description": "From each cutoff, carry the would-be askers forward for a year: each week askers switch to AI assistants (or come back) with the hazards of the diffusion path calibrated on the weeks before the cutoff, and the questions that reach the site are the pre-launch trend and seasonality times the askers who still post.\n",
+     "extends": null,
+     "file": "baseline.yaml",
+     "role": "baseline",
+     "display_title": "Estimated switching to AI",
+     "card_summary": "Continue the estimated switch from posting questions to AI."
+    },
+    "run": {
+     "scenario": "baseline",
+     "run_id": "20261103T071357-f856",
+     "complete": true,
+     "summary": {
+      "run_id": "20261103T071357-f856",
+      "instance": "so_chatgpt",
+      "scenario": "baseline",
+      "seed": 11,
+      "start": "2026-07-06",
+      "end": "2027-07-05",
+      "ticks": 8736,
+      "events": 0
+     }
+    },
+    "runs_available": 939,
+    "interviews": {
+     "interviews": [
+      {
+       "agent_id": "group:stackoverflow",
+       "role": "group",
+       "group": "Stack Overflow",
+       "outcome": "+1.6 points",
+       "facts": {
+        "name": "Stack Overflow",
+        "group": "stackoverflow",
+        "start_share": 0.9809287144721284,
+        "end_share": 0.996712847803052,
+        "change_pts": 1.5784133330923655,
+        "periods": 52,
+        "cutoff_date": "2026-07-06",
+        "outcome": "displaced",
+        "spec": {
+         "k_level": 4.0,
+         "drift": 1.0,
+         "w": 1.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Stack Overflow: a simulated population of adopters, 98.1% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2026-07-06 about 98.1% of us use it; in the simulation that is 99.7% after 52 periods (+1.6 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      }
+     ],
+     "group_label": "group",
+     "scenario": "baseline",
+     "title": "Stack Overflow as it happened: askers switching to AI assistants from the cutoff",
+     "run_id": "20261103T071357-f856",
+     "questions": [
+      [
+       "adoption",
+       "How many of your group will be using the technology by the end of the horizon?"
+      ],
+      [
+       "drivers",
+       "What drives the change?"
+      ]
+     ],
+     "sentiment_basis": "the group's simulated adoption at the end of the horizon against the cutoff: up half a point or more positive, down half a point or more negative",
+     "topics": [
+      {
+       "id": "imitation",
+       "label": "Following other adopters",
+       "count": 1,
+       "share": 1.0,
+       "by_group": {
+        "Stack Overflow": 1.0
+       }
+      },
+      {
+       "id": "adoption_up",
+       "label": "Adoption rising",
+       "count": 1,
+       "share": 1.0,
+       "by_group": {
+        "Stack Overflow": 1.0
+       }
+      }
+     ],
+     "sentiment": {
+      "distribution": {
+       "negative": 0,
+       "neutral": 0,
+       "positive": 1
+      },
+      "n": 1,
+      "by_group": {
+       "Stack Overflow": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       }
+      }
+     },
+     "groups": {
+      "Stack Overflow": 1
+     },
+     "n_interviews": 1,
+     "key_insights": [
+      "Baseline: 1 of 1 simulated groups gain half a point of adoption or more over the horizon.",
+      "Baseline: the highest simulated adoption at the end of the horizon is Stack Overflow at 99.7%."
+     ]
+    },
+    "interview_method": "template",
+    "interview_note": "Simulated interviews: every answer is rendered from the agent's own simulated record (profile, traits, states, decisions or queue statistics). Nothing here was said by a real person."
+   },
+   {
+    "scenario": {
+     "id": "slower_switch",
+     "title": "What if askers had switched to AI assistants half as fast from the cutoff?",
+     "short_title": "Switch to AI at half speed",
+     "summary": "Askers who still post switch to AI assistants at half the simulated hazard from the cutoff; same cutoffs and seeds.",
+     "description": "A slower switch (for example, if the site had kept more askers with its own AI answers) halves the weekly probability that an asker who still posts on Stack Overflow moves to an AI assistant. The size of the change is authored, not estimated.\n",
+     "extends": "baseline",
+     "file": "slower_switch.yaml",
+     "role": "alternative",
+     "display_title": "Slower switching to AI",
+     "card_summary": "Halve the assumed weekly switching rate."
+    },
+    "run": {
+     "scenario": "slower_switch",
+     "run_id": "20261103T071359-f3d9",
+     "complete": true,
+     "summary": {
+      "run_id": "20261103T071359-f3d9",
+      "instance": "so_chatgpt",
+      "scenario": "slower_switch",
+      "seed": 7,
+      "start": "2026-07-06",
+      "end": "2027-07-05",
+      "ticks": 8736,
+      "events": 0
+     }
+    },
+    "runs_available": 40,
+    "interviews": {
+     "interviews": [
+      {
+       "agent_id": "group:stackoverflow",
+       "role": "group",
+       "group": "Stack Overflow",
+       "outcome": "+1.1 points",
+       "facts": {
+        "name": "Stack Overflow",
+        "group": "stackoverflow",
+        "start_share": 0.9809287144721284,
+        "end_share": 0.9915105702619919,
+        "change_pts": 1.0581855789863481,
+        "periods": 52,
+        "cutoff_date": "2026-07-06",
+        "outcome": "displaced",
+        "spec": {
+         "k_level": 4.0,
+         "drift": 1.0,
+         "w": 1.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": true,
+        "multiplier": 0.5
+       },
+       "profile": "Stack Overflow: a simulated population of adopters, 98.1% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation",
+        "programme"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2026-07-06 about 98.1% of us use it; in the simulation that is 99.2% after 52 periods (+1.1 points).",
+         "topics": [
+          "adoption_up",
+          "imitation",
+          "programme"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population. A programme multiplies our non-users' chance of starting by 0.5.",
+         "topics": [
+          "adoption_up",
+          "imitation",
+          "programme"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      }
+     ],
+     "group_label": "group",
+     "scenario": "slower_switch",
+     "title": "What if askers had switched to AI assistants half as fast from the cutoff?",
+     "run_id": "20261103T071359-f3d9",
+     "questions": [
+      [
+       "adoption",
+       "How many of your group will be using the technology by the end of the horizon?"
+      ],
+      [
+       "drivers",
+       "What drives the change?"
+      ]
+     ],
+     "sentiment_basis": "the group's simulated adoption at the end of the horizon against the cutoff: up half a point or more positive, down half a point or more negative",
+     "topics": [
+      {
+       "id": "programme",
+       "label": "Adoption programme",
+       "count": 1,
+       "share": 1.0,
+       "by_group": {
+        "Stack Overflow": 1.0
+       }
+      },
+      {
+       "id": "imitation",
+       "label": "Following other adopters",
+       "count": 1,
+       "share": 1.0,
+       "by_group": {
+        "Stack Overflow": 1.0
+       }
+      },
+      {
+       "id": "adoption_up",
+       "label": "Adoption rising",
+       "count": 1,
+       "share": 1.0,
+       "by_group": {
+        "Stack Overflow": 1.0
+       }
+      }
+     ],
+     "sentiment": {
+      "distribution": {
+       "negative": 0,
+       "neutral": 0,
+       "positive": 1
+      },
+      "n": 1,
+      "by_group": {
+       "Stack Overflow": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       }
+      }
+     },
+     "groups": {
+      "Stack Overflow": 1
+     },
+     "n_interviews": 1,
+     "key_insights": [
+      "Alternative: 1 of 1 simulated groups gain half a point of adoption or more over the horizon.",
+      "Alternative: the highest simulated adoption at the end of the horizon is Stack Overflow at 99.2%."
+     ]
+    },
+    "interview_method": "template",
+    "interview_note": "Simulated interviews: every answer is rendered from the agent's own simulated record (profile, traits, states, decisions or queue statistics). Nothing here was said by a real person."
+   }
+  ],
   "/report": {
    "title": "A knowledge business after ChatGPT (Stack Overflow)",
    "subtitle": "Can we predict how many questions developers will ask on Stack Overflow in the next three to six months, as AI assistants take over?",
@@ -14973,7 +15315,9 @@
     "description": "From each cutoff, carry the would-be askers forward for a year: each week askers switch to AI assistants (or come back) with the hazards of the diffusion path calibrated on the weeks before the cutoff, and the questions that reach the site are the pre-launch trend and seasonality times the askers who still post.\n",
     "extends": null,
     "file": "baseline.yaml",
-    "role": "baseline"
+    "role": "baseline",
+    "display_title": "Estimated switching to AI",
+    "card_summary": "Continue the estimated switch from posting questions to AI."
    },
    {
     "id": "slower_switch",
@@ -14983,7 +15327,9 @@
     "description": "A slower switch (for example, if the site had kept more askers with its own AI answers) halves the weekly probability that an asker who still posts on Stack Overflow moves to an AI assistant. The size of the change is authored, not estimated.\n",
     "extends": "baseline",
     "file": "slower_switch.yaml",
-    "role": "alternative"
+    "role": "alternative",
+    "display_title": "Slower switching to AI",
+    "card_summary": "Halve the assumed weekly switching rate."
    }
   ],
   "/ontology/concepts": {
@@ -21118,6 +21464,54 @@
    "chunks": [
     "tables/so_chatgpt/0144cb06449c38f3/00000.json.gz"
    ]
+  }
+ },
+ "run_data": {
+  "baseline/20261103T071357-f856": {
+   "history": "runs/so_chatgpt/baseline/20261103T071357-f856/history.json.gz",
+   "trace": {
+    "name": "trace",
+    "columns": [
+     "tick",
+     "sim_time",
+     "agent_id",
+     "role",
+     "org_unit",
+     "case_id",
+     "activity",
+     "action_type",
+     "duration_h",
+     "wait_h",
+     "provenance",
+     "attributes"
+    ],
+    "total": 0,
+    "chunk_size": 10000,
+    "chunks": []
+   }
+  },
+  "slower_switch/20261103T071359-f3d9": {
+   "history": "runs/so_chatgpt/slower_switch/20261103T071359-f3d9/history.json.gz",
+   "trace": {
+    "name": "trace",
+    "columns": [
+     "tick",
+     "sim_time",
+     "agent_id",
+     "role",
+     "org_unit",
+     "case_id",
+     "activity",
+     "action_type",
+     "duration_h",
+     "wait_h",
+     "provenance",
+     "attributes"
+    ],
+    "total": 0,
+    "chunk_size": 10000,
+    "chunks": []
+   }
   }
  }
 }

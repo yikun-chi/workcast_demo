@@ -1,0 +1,15 @@
+primary:
+  held_out: true
+  label: Questions per 13-week period · average across scored periods
+  unit: questions
+  subject: question volume
+caveat: Prediction accuracy does not establish how much of the decline ChatGPT caused.
+alternative_groups:
+- stackoverflow
+cards:
+  baseline:
+    title: Estimated switching to AI
+    summary: Continue the estimated switch from posting questions to AI.
+  slower_switch:
+    title: Slower switching to AI
+    summary: Halve the assumed weekly switching rate.

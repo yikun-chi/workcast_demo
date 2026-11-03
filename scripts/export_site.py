@@ -26,13 +26,13 @@ def write_json(path: Path, value) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, allow_nan=False, indent=1) + "\n")
 
 
-def export_table(path: Path, staging: Path, iid: str, metadata: dict, chunk_size: int = TABLE_CHUNK_SIZE) -> dict:
+def export_table(path: Path, staging: Path, iid: str, metadata: dict, chunk_size: int = TABLE_CHUNK_SIZE, prefix: Path | None = None) -> dict:
     """Stream all normalized rows into deterministic compressed chunks, never a sample."""
     import pandas as pd
     import pyarrow.dataset as ds
 
     name = metadata["name"]
-    prefix = Path("tables") / iid / hashlib.sha256(name.encode()).hexdigest()[:16]
+    prefix = prefix or Path("tables") / iid / hashlib.sha256(name.encode()).hexdigest()[:16]
     if path.suffix == ".csv":
         frame = pd.read_csv(path)
         frames = (frame.iloc[start:start + chunk_size] for start in range(0, len(frame), chunk_size))
@@ -84,7 +84,7 @@ def export_snapshot(destination: Path) -> None:
             for instance in instances:
                 iid = instance["id"]
                 responses = {}
-                for route in ("", "/results", "/evaluation", "/insights", "/report", "/summary", "/tables",
+                for route in ("", "/results", "/evaluation", "/insights", "/insights-summary", "/scenario-results", "/report", "/summary", "/tables",
                               "/scenarios", "/ontology/concepts", "/ontology/bindings", "/seats"):
                     responses[route or "/"] = get(client, f"/instances/{iid}{route}")
                 if any(v.get("state") != "ready" for v in responses["/results"].get("explorations", [])):
@@ -106,18 +106,36 @@ def export_snapshot(destination: Path) -> None:
                     if table.get("error"):
                         raise ValueError(f"{iid}: cannot publish unreadable table {table['name']}")
                     table_data[table["name"]] = export_table(paths[table["name"]], staging, iid, table)
+                run_data = {}
+                import pyarrow.parquet as pq
+                for item in responses["/scenario-results"]:
+                    run = item["run"]
+                    if not run:
+                        continue
+                    sid, rid = run["scenario"], run["run_id"]
+                    prefix = Path("runs") / iid / sid / rid
+                    history = get(client, f"/instances/{iid}/runs/{sid}/{rid}/history")
+                    relative = prefix / "history.json.gz"
+                    target = staging / relative
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(gzip.compress(json.dumps(history, ensure_ascii=False, allow_nan=False, separators=(",", ":")).encode(), compresslevel=6, mtime=0))
+                    trace_path = ROOT / "runs" / iid / sid / rid / "trace.parquet"
+                    trace = pq.ParquetFile(trace_path)
+                    metadata = {"name": "trace", "columns": trace.schema_arrow.names, "rows": trace.metadata.num_rows}
+                    run_data[f"{sid}/{rid}"] = {"history": relative.as_posix(), "trace": export_table(trace_path, staging, iid, metadata, prefix=prefix / "trace")}
                 write_json(staging / f"{iid}.json", {"instance": iid, "evaluation_sha256": digest(evaluation),
-                                                    "responses": responses, "tables": table_data})
+                                                    "responses": responses, "tables": table_data, "run_data": run_data})
                 print(f"Exported {iid}", flush=True)
-        index = {"schema_version": 2, "captured_at": datetime.now(timezone.utc).isoformat(),
+        index = {"schema_version": 3, "captured_at": datetime.now(timezone.utc).isoformat(),
                  "source_commit": source_commit, "source_dirty": source_dirty,
                  "instances": instances, "occupations": occupations,
                  "files": {p.relative_to(staging).as_posix(): digest(p) for p in sorted(staging.rglob("*")) if p.is_file()}}
         write_json(staging / "index.json", index)
         validate_snapshot(staging)
         destination.mkdir(exist_ok=True)
-        if (destination / "tables").exists():
-            shutil.rmtree(destination / "tables")
+        for directory in ("tables", "runs"):
+            if (destination / directory).exists():
+                shutil.rmtree(destination / directory)
         for path in staging.iterdir():
             path.replace(destination / path.name)
         for old in destination.glob("*.json"):
@@ -127,7 +145,7 @@ def export_snapshot(destination: Path) -> None:
 
 def validate_snapshot(source: Path) -> dict:
     index = json.loads((source / "index.json").read_text())
-    if index.get("schema_version") != 2 or not index.get("instances"):
+    if index.get("schema_version") != 3 or not index.get("instances"):
         raise ValueError("Unsupported or empty public snapshot")
     ids = [i["id"] for i in index["instances"]]
     if len(ids) != len(set(ids)):
@@ -141,7 +159,7 @@ def validate_snapshot(source: Path) -> dict:
         if digest(file) != index["files"].get(file.name):
             raise ValueError(f"Snapshot checksum mismatch: {file.name}")
         data = json.loads(file.read_text())
-        for route in ("/", "/results", "/evaluation", "/insights", "/summary", "/scenarios", "/tables", "/ontology/concepts"):
+        for route in ("/", "/results", "/evaluation", "/insights", "/insights-summary", "/scenario-results", "/summary", "/scenarios", "/tables", "/ontology/concepts"):
             if route not in data["responses"]:
                 raise ValueError(f"{iid}: missing {route}")
         metadata = {t["name"]: t for t in data["responses"]["/tables"]}
@@ -166,6 +184,34 @@ def validate_snapshot(source: Path) -> dict:
                 expected_rows = min(size, table["total"] - number * size)
                 if len(rows) != expected_rows or any(not isinstance(row, list) or len(row) != len(table["columns"]) for row in rows):
                     raise ValueError(f"Invalid table rows: {relative}")
+        expected_runs = {f"{r['run']['scenario']}/{r['run']['run_id']}" for r in data["responses"]["/scenario-results"] if r.get("run")}
+        if set(data.get("run_data", {})) != expected_runs:
+            raise ValueError(f"{iid}: missing scenario histories")
+        for key, run in data.get("run_data", {}).items():
+            if not re.fullmatch(r"[a-z][a-z0-9_-]*/[A-Za-z0-9_-]+", key):
+                raise ValueError("Invalid run key")
+            prefix = f"runs/{iid}/{key}"
+            if run["history"] != f"{prefix}/history.json.gz":
+                raise ValueError("Invalid history path")
+            table = run["trace"]
+            size = table["chunk_size"]
+            if size <= 0 or len(table["chunks"]) != (table["total"] + size - 1) // size:
+                raise ValueError("Incomplete trace chunks")
+            for number, relative in enumerate([run["history"], *table["chunks"]]):
+                if number and relative != f"{prefix}/trace/{number-1:05d}.json.gz":
+                    raise ValueError("Invalid trace path")
+                if relative in expected_files:
+                    raise ValueError("Duplicate run resource")
+                expected_files.add(relative)
+                path = source / relative
+                if path.is_symlink() or not path.resolve().is_relative_to(source.resolve()) or digest(path) != index["files"].get(relative):
+                    raise ValueError(f"Snapshot checksum mismatch: {relative}")
+                value = json.loads(gzip.decompress(path.read_bytes()))
+                if number:
+                    if len(value) != min(size, table["total"] - (number-1)*size) or any(not isinstance(row, list) or len(row) != len(table["columns"]) for row in value):
+                        raise ValueError("Invalid trace rows")
+                elif f"{value['scenario']}/{value['run_id']}" != key or value["trace_rows"] != table["total"]:
+                    raise ValueError("History identity or trace count mismatch")
     if set(index["files"]) != expected_files:
         raise ValueError("Unexpected files in public snapshot index")
     return index

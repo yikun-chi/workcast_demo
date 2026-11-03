@@ -114,7 +114,7 @@ is the available alternative when the original files cannot be obtained.
 For each additional instance, run `uv run orgsim demo <id>` after acquiring its
 inputs. Individual steps are `uv run orgsim ingest <id>`, `uv run orgsim evaluate <id>`,
 `uv run orgsim insights <id>`, and `uv run python instances/<id>/reports/build_report.py`.
-The shared Results page uses local evaluations; a committed report is evidence from
+The Insights comparison uses local evaluations; a committed report is evidence from
 the author's run and does not mean the data is installed here. `so_survey` is a
 feasibility investigation, not a runnable instance. See the [board guide](../board/README.md)
 for the separate ensemble/publisher and its original deployment helpers; data
@@ -153,7 +153,7 @@ uv run python scripts/build_validation_docs.py
 
 `evaluate` runs the ensembles specified by each evaluation protocol, including
 matched alternative scenarios. `orgsim run <id> --scenario <name> --seed 1` is a
-single exploratory run; it does not replace the evaluated cohort displayed in Results.
+single exploratory run; it does not replace the evaluated cohort displayed in Insights.
 Before-period observations are never simulated. Re-ingesting BPI refits
 `instances/bpi19/calibration/process.json`; this file is intentionally included in
 source control so its identity can be compared with the saved evaluation.
@@ -166,10 +166,10 @@ as readable results; regenerate them after a new evaluation. UI fixtures under
 ## Explore AI assistance
 
 Trip.com and procurement have an `ai_assistant` scenario in addition to their original
-alternative. In Results, switch to the AI alternative under **Explore alternative
+alternative. In Insights’ expanded evidence, switch to the AI alternative under **Explore alternative
 actions**. In Scenarios, adjust coverage, time saved before review, review effort,
 correction rate, and correction effort. Save, then select **Compare with current
-policy**. The comparison runs in the background and updates the AI Results panel.
+policy**. The comparison runs in the background and updates the AI comparison in Insights.
 
 From the command line, after the reference evaluations exist:
 
@@ -256,16 +256,17 @@ hosts the static bundle, and [GitHub Actions](../.github/workflows/pages.yml) bu
 and deploys it. The GoDaddy DNS record is a CNAME named `workcast` pointing to
 `yikun-chi.github.io`; GitHub Pages is configured with the custom domain and HTTPS.
 
-There is one source UI. Static mode reads committed `public-data/` JSON and exposes
-Results, saved scenario assumptions, simulated Insights, Overview, Input schemas,
-Data records and Ontology concept relations. Data includes all normalized rows,
-whole-table search/sort, pagination and complete details for a selected record.
-Compressed chunks load on demand; large searches show progress in the browser.
-Editing, launching runs and regenerating interviews are unavailable;
-the static API adapter rejects writes. Detailed Trip.com and procurement views use
-the same adapter. Raw source archives, full traces and credentials
-are not part of the website bundle. The downloadable release preserves the full
-research inputs and saved runs separately.
+There is one source UI. Static mode reads committed `public-data/` snapshots:
+Insights compares actual/other/simulation outcomes and alternative actions; Scenarios
+shows saved assumptions; Results opens one scenario's saved metrics, history and
+simulated interviews. Input, Data and Ontology retain schemas, all normalized records
+and concept relations. Search/sort covers the whole selected table, with complete
+record details. Compressed input/history/event resources load on demand.
+Editing, launching runs and regenerating interviews are unavailable. A disabled
+Add new scenario card explains that creation is available in the interactive app.
+The static API rejects writes. One selected completed run per named scenario is
+published for drilldown; bulk ensembles, raw archives and credentials are excluded.
+Release attachments separately preserve full research inputs and saved runs.
 
 After refreshing an analysis locally:
 
@@ -329,7 +330,7 @@ chromium --headless --disable-gpu --window-size=1400,1000 \
   'http://127.0.0.1:8000/ui/dev/smoke.html?instance=trip'
 ```
 
-Repeat for `bpi19` and inspect each Results page visually, including the combined
+Repeat for `bpi19` and inspect Insights and scenario Results visually, including the combined
 actual-outcome/prediction table and the alternative scenario section. Restart the
 server after changing Python code; `orgsim serve --reload` can do this during development.
 

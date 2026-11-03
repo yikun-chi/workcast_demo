@@ -9862,6 +9862,4195 @@
     ]
    }
   },
+  "/insights-summary": {
+   "primary": {
+    "label": "Effect on weekly calls answered",
+    "unit": "%",
+    "subject": "the gain in call volume",
+    "actual": 13.3647,
+    "simulation": 7.6161,
+    "other": 16.586105457608035,
+    "other_label": "Earlier research"
+   },
+   "caveat": "Retrospective comparison. The simulation also substantially underestimates the reduction in resignations.",
+   "alternatives": [
+    {
+     "id": "two_days_home",
+     "title": "Two home days each week",
+     "metrics": [
+      {
+       "label": "Effect of working at home on weekly calls answered",
+       "unit": "%",
+       "reference": 7.8682,
+       "value": 5.1965,
+       "better": "higher"
+      },
+      {
+       "label": "Effect of working at home on quits",
+       "unit": "pp",
+       "reference": -0.964,
+       "value": -0.4426,
+       "better": "lower"
+      }
+     ],
+     "note": "Simulated alternative, compared with its matched reference runs."
+    }
+   ],
+   "context": "In December 2010 Ctrip let 131 of 249 volunteer call-centre employees in Shanghai work from home four days a week for nine months; the other 118 stayed in the office. Who went home was decided by an even or odd birthday, so the two groups are directly comparable."
+  },
+  "/scenario-results": [
+   {
+    "scenario": {
+     "id": "baseline",
+     "title": "The experiment as run: four days a week at home for the home group",
+     "short_title": "The experiment as run",
+     "summary": "",
+     "description": "249 volunteer call-centre employees, 6 Dec 2010 to 19 Aug 2011. The home group (131, assigned by an even or odd birthday) works from home Monday to Thursday and comes in on Friday; the office group (118) works in the office five days a week.\n",
+     "extends": null,
+     "file": "baseline.yaml",
+     "role": "baseline",
+     "display_title": "Four home days each week",
+     "card_summary": "The home-working group works at home four days a week."
+    },
+    "run": {
+     "scenario": "baseline",
+     "run_id": "20261103T071613-85b4",
+     "complete": true,
+     "summary": {
+      "run_id": "20261103T071613-85b4",
+      "instance": "ctrip",
+      "scenario": "baseline",
+      "seed": 1,
+      "start": "2010-12-06T00:00:00",
+      "end": "2011-08-19T00:00:00",
+      "ticks": 6168,
+      "events": 107390
+     }
+    },
+    "runs_available": 1,
+    "interviews": {
+     "interviews": [
+      {
+       "agent_id": "c38898",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "resigned week 12",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 48,
+        "wfh_days": 48,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 12,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 77,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 22, 0.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 77).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 12. What weighed most was I never felt very attached here.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 48 of my 48 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c7488",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "resigned week 27",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 108,
+        "wfh_days": 108,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 27,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 96,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 25, 5.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 96).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 27. What weighed most was I never felt very attached here.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 108 of my 108 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c40336",
+       "role": "order_taker",
+       "group": "not offered",
+       "outcome": "resigned week 9",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 9,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 20,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 25, 0.7 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: high (quit-risk percentile 20).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 9. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c31796",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "resigned week 6",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 24,
+        "wfh_days": 24,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 6,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 88,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 24, 2.0 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 88).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 6. What weighed most was I never felt very attached here.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 24 of my 24 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c38580",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "resigned week 37",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 148,
+        "wfh_days": 148,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 37,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 95,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 22, 0.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 95).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 37. What weighed most was I never felt very attached here.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 148 of my 148 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c40472",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "resigned week 5",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 20,
+        "wfh_days": 20,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 5,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 60,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 25, 0.7 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 60).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 5. What weighed most was I never felt very attached here.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 20 of my 20 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c10794",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "resigned week 25",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 100,
+        "wfh_days": 100,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 25,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 67,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 32, 5.0 years with the company. Has children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 67).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 25. What weighed most was I never felt very attached here.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 100 of my 100 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c32590",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "resigned week 33",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 132,
+        "wfh_days": 132,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 33,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 86,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 28, 1.9 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 86).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 33. What weighed most was I never felt very attached here.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 132 of my 132 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c17160",
+       "role": "order_taker",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 37,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 27, 3.8 years with the company. Has children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 37).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c24146",
+       "role": "other_agent",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 17,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 24, 2.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: high (quit-risk percentile 17).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c39144",
+       "role": "order_taker",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 7,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 18, 0.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: high (quit-risk percentile 7).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c26906",
+       "role": "other_agent",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 15,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 24, 2.5 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: high (quit-risk percentile 15).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c31136",
+       "role": "order_taker",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 23,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 23, 2.0 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: high (quit-risk percentile 23).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c30002",
+       "role": "other_agent",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 7,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 26, 2.1 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: high (quit-risk percentile 7).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c39502",
+       "role": "other_agent",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 38,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 19, 0.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 38).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c42634",
+       "role": "order_taker",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 37,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 20, 0.3 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 37).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c36306",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 148,
+        "wfh_days": 148,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 99,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 26, 1.6 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 99).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 148 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 148 of my 148 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c21710",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 148,
+        "wfh_days": 148,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 88,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 30, 3.1 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 88).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 148 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 148 of my 148 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c17722",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 148,
+        "wfh_days": 148,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 76,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 24, 3.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 76).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 148 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 148 of my 148 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c42618",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 148,
+        "wfh_days": 148,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 98,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 22, 0.3 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 98).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 148 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 148 of my 148 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c33350",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 148,
+        "wfh_days": 148,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 75,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 26, 1.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 75).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 148 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 148 of my 148 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c45238",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 148,
+        "wfh_days": 148,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 80,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 22, 0.2 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 80).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 148 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 148 of my 148 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c31292",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 148,
+        "wfh_days": 148,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 83,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 27, 2.0 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 83).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 148 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 148 of my 148 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c40192",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 148,
+        "wfh_days": 148,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 73,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 23, 0.7 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 73).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 148 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 148 of my 148 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      }
+     ],
+     "group_label": "offer",
+     "scenario": "baseline",
+     "title": "The experiment as run: four days a week at home for the home group",
+     "run_id": "20261103T071613-85b4",
+     "questions": [
+      [
+       "attrition",
+       "Did you think about leaving the company during these months? What weighed most?"
+      ],
+      [
+       "satisfaction",
+       "How has your job satisfaction changed since August?"
+      ],
+      [
+       "work_life_balance",
+       "What did the Wednesday-and-Friday arrangement mean for your week?"
+      ],
+      [
+       "performance",
+       "Did it change how you got your work done?"
+      ]
+     ],
+     "sentiment_basis": "each twin's end-of-period job satisfaction: 6 or below negative, 7.5 or above positive",
+     "topics": [
+      {
+       "id": "satisfaction_stable",
+       "label": "Job satisfaction unchanged",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "offered": 1.0,
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "attachment_weak",
+       "label": "Weak attachment to the firm",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "offered": 1.0,
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "performance_unchanged",
+       "label": "Output unchanged",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "offered": 1.0,
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "family",
+       "label": "Family and children",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "offered": 1.0,
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "commute_saved",
+       "label": "Commute time saved on home days",
+       "count": 15,
+       "share": 0.625,
+       "by_group": {
+        "offered": 1.0,
+        "not offered": 0.0
+       }
+      },
+      {
+       "id": "wfh_days_used",
+       "label": "Uses the home days",
+       "count": 15,
+       "share": 0.625,
+       "by_group": {
+        "offered": 1.0,
+        "not offered": 0.0
+       }
+      },
+      {
+       "id": "resigned",
+       "label": "Resigned during the period",
+       "count": 8,
+       "share": 0.333,
+       "by_group": {
+        "offered": 0.467,
+        "not offered": 0.111
+       }
+      }
+     ],
+     "sentiment": {
+      "distribution": {
+       "negative": 24,
+       "neutral": 0,
+       "positive": 0
+      },
+      "n": 24,
+      "by_group": {
+       "offered": {
+        "negative": 15,
+        "neutral": 0,
+        "positive": 0
+       },
+       "not offered": {
+        "negative": 9,
+        "neutral": 0,
+        "positive": 0
+       }
+      }
+     },
+     "groups": {
+      "offered": 15,
+      "not offered": 9
+     },
+     "n_interviews": 24,
+     "key_insights": [
+      "Baseline: of the 8 interviewed employees who resigned, 0 name a commute of two hours a day or more and 0 name being left in the office while teammates worked from home.",
+      "Baseline: 15 of 15 offered employees use the home days most weeks; 0 of 15 report higher job satisfaction than in August.",
+      "Baseline: 0 of 9 employees not offered the policy bring up the comparison with teammates who were; 0 report lower satisfaction.",
+      "Baseline: sentiment across 24 interviews is 0 positive, 0 neutral, 24 negative (from each twin's end-of-period job satisfaction).",
+      "Baseline: 24 of 24 say the arrangement did not change their output, matching the null performance effect in the experiment."
+     ]
+    },
+    "interview_method": "template",
+    "interview_note": "Simulated interviews: every answer is rendered from the agent's own simulated record (profile, traits, states, decisions or queue statistics). Nothing here was said by a real person."
+   },
+   {
+    "scenario": {
+     "id": "two_days_home",
+     "title": "What if the home group had worked from home two days a week instead of four?",
+     "short_title": "Two home days a week",
+     "summary": "Send the home group home on Wednesdays and Fridays only, the hybrid arrangement Trip.com tested in 2021; the question is how much of the effect on calls and quits remains.",
+     "description": "The home group works from home on Wednesday and Friday and comes in the other three days; the office group is unchanged. Compared with the simulation of the experiment as run.\n",
+     "extends": "baseline",
+     "file": "two_days_home.yaml",
+     "role": "alternative",
+     "display_title": "Two home days each week",
+     "card_summary": "Reduce home working from four days to two."
+    },
+    "run": {
+     "scenario": "two_days_home",
+     "run_id": "20261103T071157-c60e",
+     "complete": true,
+     "summary": {
+      "run_id": "20261103T071157-c60e",
+      "instance": "ctrip",
+      "scenario": "two_days_home",
+      "seed": 20,
+      "start": "2010-12-06T00:00:00",
+      "end": "2011-08-19T00:00:00",
+      "ticks": 6168,
+      "events": 96824
+     }
+    },
+    "runs_available": 20,
+    "interviews": {
+     "interviews": [
+      {
+       "agent_id": "c43534",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "resigned week 21",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 42,
+        "wfh_days": 42,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 21,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 63,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 23, 0.2 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 63).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 21. What weighed most was I never felt very attached here.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 42 of my 42 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c28470",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "resigned week 31",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 62,
+        "wfh_days": 62,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 31,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 93,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 24, 2.2 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 93).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 31. What weighed most was I never felt very attached here.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 62 of my 62 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c44794",
+       "role": "order_taker",
+       "group": "not offered",
+       "outcome": "resigned week 14",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 14,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 13,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 23, 0.2 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: high (quit-risk percentile 13).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 14. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c38052",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "resigned week 21",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 42,
+        "wfh_days": 42,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 21,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 73,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 18, 0.9 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 73).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 21. What weighed most was I never felt very attached here.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 42 of my 42 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c31936",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "resigned week 20",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 40,
+        "wfh_days": 40,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 20,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 86,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 25, 1.9 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 86).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 20. What weighed most was I never felt very attached here.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 40 of my 40 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c40174",
+       "role": "order_taker",
+       "group": "not offered",
+       "outcome": "resigned week 13",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 13,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 46,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 28, 0.7 years with the company. Has children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 46).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 13. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c40322",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "resigned week 1",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 2,
+        "wfh_days": 2,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 1,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 54,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 24, 0.7 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 54).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 1. What weighed most was I never felt very attached here.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 2 of my 2 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c39990",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "resigned week 37",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 74,
+        "wfh_days": 74,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 37,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 72,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 24, 0.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 72).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 37. What weighed most was I never felt very attached here.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 74 of my 74 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c33354",
+       "role": "order_taker",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 36,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 21, 1.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 36).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c8522",
+       "role": "other_agent",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 18,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 30, 5.5 years with the company. Has children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: high (quit-risk percentile 18).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c7076",
+       "role": "other_agent",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 6,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 30, 6.0 years with the company. Has children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: high (quit-risk percentile 6).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c28560",
+       "role": "other_agent",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 16,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 20, 2.2 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: high (quit-risk percentile 16).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c42146",
+       "role": "other_agent",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 23,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 21, 0.4 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: high (quit-risk percentile 23).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c29024",
+       "role": "other_agent",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 6,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 26, 2.2 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: high (quit-risk percentile 6).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c38552",
+       "role": "order_taker",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 38,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 23, 0.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 38).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c15444",
+       "role": "order_taker",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 45,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 27, 4.1 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 45).",
+       "topics": [
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c39530",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 74,
+        "wfh_days": 74,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 89,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 21, 0.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 89).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 74 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 74 of my 74 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c44266",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 74,
+        "wfh_days": 74,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 90,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 19, 0.2 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 90).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 74 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 74 of my 74 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c38898",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 74,
+        "wfh_days": 74,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 77,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 22, 0.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 77).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 74 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 74 of my 74 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c37296",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 74,
+        "wfh_days": 74,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 98,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 29, 1.1 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 98).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 74 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 74 of my 74 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c17722",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 74,
+        "wfh_days": 74,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 76,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 24, 3.8 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 76).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 74 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 74 of my 74 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c16596",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 74,
+        "wfh_days": 74,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 81,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 34, 3.9 years with the company. Has children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 81).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 74 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 74 of my 74 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c30006",
+       "role": "other_agent",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "other_agent",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 74,
+        "wfh_days": 74,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 85,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Other call-centre role in the Shanghai call centre, team . Age 24, 2.1 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: low (quit-risk percentile 85).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 74 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 74 of my 74 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "c43288",
+       "role": "order_taker",
+       "group": "offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "order_taker",
+        "manager": false,
+        "offered": true,
+        "arm": 1,
+        "commute_2way_h": 0.0,
+        "eligible_days": 74,
+        "wfh_days": 74,
+        "take_up": 1.0,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": true,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 75,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Order taker (phone bookings) in the Shanghai call centre, team . Age 21, 0.2 years with the company. No children at home. Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 75).",
+       "topics": [
+        "wfh_days_used",
+        "commute_saved",
+        "satisfaction_stable",
+        "family",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: the 74 home days this autumn made the week workable.",
+         "topics": [
+          "wfh_days_used",
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I used 74 of my 74 eligible days. On those days I got about 0 minutes a day back and my work-life balance moved from 0.0 to 0.0. With the children at home that is the difference between seeing them at dinner and not.",
+         "topics": [
+          "wfh_days_used",
+          "commute_saved",
+          "family"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      }
+     ],
+     "group_label": "offer",
+     "scenario": "two_days_home",
+     "title": "What if the home group had worked from home two days a week instead of four?",
+     "run_id": "20261103T071157-c60e",
+     "questions": [
+      [
+       "attrition",
+       "Did you think about leaving the company during these months? What weighed most?"
+      ],
+      [
+       "satisfaction",
+       "How has your job satisfaction changed since August?"
+      ],
+      [
+       "work_life_balance",
+       "What did the Wednesday-and-Friday arrangement mean for your week?"
+      ],
+      [
+       "performance",
+       "Did it change how you got your work done?"
+      ]
+     ],
+     "sentiment_basis": "each twin's end-of-period job satisfaction: 6 or below negative, 7.5 or above positive",
+     "topics": [
+      {
+       "id": "satisfaction_stable",
+       "label": "Job satisfaction unchanged",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "offered": 1.0,
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "attachment_weak",
+       "label": "Weak attachment to the firm",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "offered": 1.0,
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "performance_unchanged",
+       "label": "Output unchanged",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "offered": 1.0,
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "family",
+       "label": "Family and children",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "offered": 1.0,
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "commute_saved",
+       "label": "Commute time saved on home days",
+       "count": 14,
+       "share": 0.583,
+       "by_group": {
+        "offered": 1.0,
+        "not offered": 0.0
+       }
+      },
+      {
+       "id": "wfh_days_used",
+       "label": "Uses the home days",
+       "count": 14,
+       "share": 0.583,
+       "by_group": {
+        "offered": 1.0,
+        "not offered": 0.0
+       }
+      },
+      {
+       "id": "resigned",
+       "label": "Resigned during the period",
+       "count": 8,
+       "share": 0.333,
+       "by_group": {
+        "offered": 0.429,
+        "not offered": 0.2
+       }
+      }
+     ],
+     "sentiment": {
+      "distribution": {
+       "negative": 24,
+       "neutral": 0,
+       "positive": 0
+      },
+      "n": 24,
+      "by_group": {
+       "offered": {
+        "negative": 14,
+        "neutral": 0,
+        "positive": 0
+       },
+       "not offered": {
+        "negative": 10,
+        "neutral": 0,
+        "positive": 0
+       }
+      }
+     },
+     "groups": {
+      "offered": 14,
+      "not offered": 10
+     },
+     "n_interviews": 24,
+     "key_insights": [
+      "Alternative: of the 8 interviewed employees who resigned, 0 name a commute of two hours a day or more and 0 name being left in the office while teammates worked from home.",
+      "Alternative: 14 of 14 offered employees use the home days most weeks; 0 of 14 report higher job satisfaction than in August.",
+      "Alternative: 0 of 10 employees not offered the policy bring up the comparison with teammates who were; 0 report lower satisfaction.",
+      "Alternative: sentiment across 24 interviews is 0 positive, 0 neutral, 24 negative (from each twin's end-of-period job satisfaction).",
+      "Alternative: 24 of 24 say the arrangement did not change their output, matching the null performance effect in the experiment."
+     ]
+    },
+    "interview_method": "template",
+    "interview_note": "Simulated interviews: every answer is rendered from the agent's own simulated record (profile, traits, states, decisions or queue statistics). Nothing here was said by a real person."
+   }
+  ],
   "/report": {
    "title": "Ctrip work-from-home experiment: simulation against the actual outcome",
    "subtitle": "Bloom, Liang, Roberts & Ying (2015) replication files (authors' copy; Harvard Dataverse doi:10.7910/DVN/PZQOB1); computed by instances/ctrip/ingest/run.py",
@@ -12261,7 +16450,9 @@
     "description": "249 volunteer call-centre employees, 6 Dec 2010 to 19 Aug 2011. The home group (131, assigned by an even or odd birthday) works from home Monday to Thursday and comes in on Friday; the office group (118) works in the office five days a week.\n",
     "extends": null,
     "file": "baseline.yaml",
-    "role": "baseline"
+    "role": "baseline",
+    "display_title": "Four home days each week",
+    "card_summary": "The home-working group works at home four days a week."
    },
    {
     "id": "two_days_home",
@@ -12271,7 +16462,9 @@
     "description": "The home group works from home on Wednesday and Friday and comes in the other three days; the office group is unchanged. Compared with the simulation of the experiment as run.\n",
     "extends": "baseline",
     "file": "two_days_home.yaml",
-    "role": "alternative"
+    "role": "alternative",
+    "display_title": "Two home days each week",
+    "card_summary": "Reduce home working from four days to two."
    },
    {
     "id": "evaluation",
@@ -12281,7 +16474,9 @@
     "description": "Identical to the baseline except that hourly work events are not written, which keeps 50-run scoring small. Used by `orgsim evaluate ctrip` (evaluation/protocol.yaml).\n",
     "extends": "baseline",
     "file": "evaluation.yaml",
-    "role": "other"
+    "role": "other",
+    "display_title": "Evaluation runs (the experiment as run, no hourly work events)",
+    "card_summary": ""
    }
   ],
   "/ontology/concepts": {
@@ -14144,6 +18339,77 @@
    "chunks": [
     "tables/ctrip/b3fb8994ece8bba4/00000.json.gz"
    ]
+  }
+ },
+ "run_data": {
+  "baseline/20261103T071613-85b4": {
+   "history": "runs/ctrip/baseline/20261103T071613-85b4/history.json.gz",
+   "trace": {
+    "name": "trace",
+    "columns": [
+     "tick",
+     "sim_time",
+     "agent_id",
+     "role",
+     "org_unit",
+     "case_id",
+     "activity",
+     "action_type",
+     "duration_h",
+     "wait_h",
+     "provenance",
+     "attributes"
+    ],
+    "total": 107390,
+    "chunk_size": 10000,
+    "chunks": [
+     "runs/ctrip/baseline/20261103T071613-85b4/trace/00000.json.gz",
+     "runs/ctrip/baseline/20261103T071613-85b4/trace/00001.json.gz",
+     "runs/ctrip/baseline/20261103T071613-85b4/trace/00002.json.gz",
+     "runs/ctrip/baseline/20261103T071613-85b4/trace/00003.json.gz",
+     "runs/ctrip/baseline/20261103T071613-85b4/trace/00004.json.gz",
+     "runs/ctrip/baseline/20261103T071613-85b4/trace/00005.json.gz",
+     "runs/ctrip/baseline/20261103T071613-85b4/trace/00006.json.gz",
+     "runs/ctrip/baseline/20261103T071613-85b4/trace/00007.json.gz",
+     "runs/ctrip/baseline/20261103T071613-85b4/trace/00008.json.gz",
+     "runs/ctrip/baseline/20261103T071613-85b4/trace/00009.json.gz",
+     "runs/ctrip/baseline/20261103T071613-85b4/trace/00010.json.gz"
+    ]
+   }
+  },
+  "two_days_home/20261103T071157-c60e": {
+   "history": "runs/ctrip/two_days_home/20261103T071157-c60e/history.json.gz",
+   "trace": {
+    "name": "trace",
+    "columns": [
+     "tick",
+     "sim_time",
+     "agent_id",
+     "role",
+     "org_unit",
+     "case_id",
+     "activity",
+     "action_type",
+     "duration_h",
+     "wait_h",
+     "provenance",
+     "attributes"
+    ],
+    "total": 96824,
+    "chunk_size": 10000,
+    "chunks": [
+     "runs/ctrip/two_days_home/20261103T071157-c60e/trace/00000.json.gz",
+     "runs/ctrip/two_days_home/20261103T071157-c60e/trace/00001.json.gz",
+     "runs/ctrip/two_days_home/20261103T071157-c60e/trace/00002.json.gz",
+     "runs/ctrip/two_days_home/20261103T071157-c60e/trace/00003.json.gz",
+     "runs/ctrip/two_days_home/20261103T071157-c60e/trace/00004.json.gz",
+     "runs/ctrip/two_days_home/20261103T071157-c60e/trace/00005.json.gz",
+     "runs/ctrip/two_days_home/20261103T071157-c60e/trace/00006.json.gz",
+     "runs/ctrip/two_days_home/20261103T071157-c60e/trace/00007.json.gz",
+     "runs/ctrip/two_days_home/20261103T071157-c60e/trace/00008.json.gz",
+     "runs/ctrip/two_days_home/20261103T071157-c60e/trace/00009.json.gz"
+    ]
+   }
   }
  }
 }

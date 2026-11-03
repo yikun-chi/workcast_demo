@@ -1,0 +1,18 @@
+primary:
+  story: top_spend
+  other: damped_trend
+  label: Leading 100 apps’ spending · eight weeks
+  unit: $m
+  subject: AI spending
+caveat: Conditional estimate using later-known prices and model launches; advance
+  prediction is unverified.
+alternatives:
+- coding_spend
+- leader_share
+cards:
+  baseline:
+    title: Published prices and model launches
+    summary: Use the prices and model launches recorded in the data.
+  leader_price_double:
+    title: Double the coding leader’s price
+    summary: Raise the leading paid coding model’s price twofold.

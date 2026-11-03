@@ -52653,6 +52653,5227 @@
     ]
    }
   },
+  "/insights-summary": {
+   "primary": {
+    "label": "Leading 100 apps’ spending · eight weeks",
+    "unit": "$m",
+    "subject": "AI spending",
+    "actual": 66.2637886705352,
+    "simulation": 57.173084158908466,
+    "other": 70.18945397200434,
+    "other_label": "Damped trend: Holt's method on each company's last 12 weeks, growth fading each week (at most 15% a week)",
+    "error": {
+     "simulation": 10.678399293545313,
+     "other": 12.391160215614326,
+     "unit": "$m",
+     "scope": "Average error across prediction dates"
+    },
+    "averaged": true
+   },
+   "caveat": "Conditional estimate using later-known prices and model launches; advance prediction is unverified.",
+   "alternatives": [
+    {
+     "id": "leader_price_double",
+     "title": "Double the coding leader’s price",
+     "metrics": [
+      {
+       "label": "Spend of the coding companies, 8 weeks ($ millions)",
+       "unit": "$m",
+       "reference": 54.10293612102332,
+       "value": 57.066929454248125,
+       "better": "lower"
+      },
+      {
+       "label": "Programming tokens on the repriced model, final week (%)",
+       "unit": "%",
+       "reference": 17.878125,
+       "value": 15.59375,
+       "better": ""
+      }
+     ],
+     "note": "Simulated alternative, compared with its matched reference runs."
+    }
+   ],
+   "context": "OpenRouter routes AI requests from thousands of apps to hundreds of models. Each week new models launch, list prices change, and the apps that build on them grow, switch models or fade."
+  },
+  "/scenario-results": [
+   {
+    "scenario": {
+     "id": "baseline",
+     "title": "The market as it happened: published prices and model launches",
+     "short_title": "As it happened",
+     "summary": "",
+     "description": "From each Monday cutoff, carry the 100 leading apps forward for eight weeks. New models are listed on the dates they first appeared and every model carries the list price published at the time; nothing else after the cutoff is known to the simulation.\n",
+     "extends": null,
+     "file": "baseline.yaml",
+     "role": "baseline",
+     "display_title": "Published prices and model launches",
+     "card_summary": "Use the prices and model launches recorded in the data."
+    },
+    "run": {
+     "scenario": "baseline",
+     "run_id": "20261103T074424-a268",
+     "complete": true,
+     "summary": {
+      "run_id": "20261103T074424-a268",
+      "instance": "openrouter",
+      "scenario": "baseline",
+      "seed": 20,
+      "start": "2026-08-31",
+      "end": "2026-10-26",
+      "ticks": 1344,
+      "events": 824
+     }
+    },
+    "runs_available": 320,
+    "interviews": {
+     "interviews": [
+      {
+       "agent_id": "app:3067167",
+       "role": "market",
+       "group": "general",
+       "outcome": "-59% over eight weeks",
+       "facts": {
+        "name": "Hermes Agent",
+        "segment": "market",
+        "segment_label": "general",
+        "category": "productivity",
+        "subcategory": "personal-agent",
+        "persistence": "steady",
+        "start_tokens_week": 11483117094783.256,
+        "tokens_8w": 96440949096624.8,
+        "growth_pct": -58.8768744425016,
+        "spend_8w": 48372611.0919889,
+        "price_start": 0.5308,
+        "price_end": 0.41573,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.07
+         ],
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.0675
+         ],
+         [
+          "~openai/gpt-terra-latest",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "anthropic/claude-haiku-5.5-20261007",
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "google/gemini-3.8-flash-20260902",
+         "ibm-granite/granite-4.2-8b",
+         "meta/muse-spark-1.3-contributor-20260902",
+         "minimax/minimax-m3.1-flash-20261019",
+         "sakana/fugu-max",
+         "stealth/space-bunny-alpha",
+         "stepfun/step-5-preview-20261008",
+         "upstage/solar-mini4-20260922",
+         "z-ai/glm-5.3-flashx-20260918",
+         "~openai/gpt-astra-latest",
+         "~openai/gpt-sol-latest",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Hermes Agent: personal-agent app, steady traffic, 11,483.1 billion tokens a week at the cutoff.",
+       "topics": [
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 11,483.1 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 96,440.9 billion in total, ending -59% against where we started.",
+         "topics": [
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our general workloads end the period mostly on deepseek-v4-flash-20260731 (7%), mimo-v2.5-20260422 (7%), gpt-terra-latest (6%). Newly listed models that picked up work: claude-haiku-5.5-20261007, deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017.",
+         "topics": [
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $48,372,611 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.53 to $0.42 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:4706207",
+       "role": "market",
+       "group": "general",
+       "outcome": "+428% over eight weeks",
+       "facts": {
+        "name": "DeepSeek Harness",
+        "segment": "market",
+        "segment_label": "general",
+        "category": "other",
+        "subcategory": "other",
+        "persistence": "burst",
+        "start_tokens_week": 822225779575.6266,
+        "tokens_8w": 43317272528106.75,
+        "growth_pct": 427.82468949408326,
+        "spend_8w": 20593874.40716294,
+        "price_start": 0.5308,
+        "price_end": 0.41573,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.07
+         ],
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.0675
+         ],
+         [
+          "~openai/gpt-terra-latest",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "anthropic/claude-haiku-5.5-20261007",
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "google/gemini-3.8-flash-20260902",
+         "ibm-granite/granite-4.2-8b",
+         "meta/muse-spark-1.3-contributor-20260902",
+         "minimax/minimax-m3.1-flash-20261019",
+         "sakana/fugu-max",
+         "stealth/space-bunny-alpha",
+         "stepfun/step-5-preview-20261008",
+         "upstage/solar-mini4-20260922",
+         "z-ai/glm-5.3-flashx-20260918",
+         "~openai/gpt-astra-latest",
+         "~openai/gpt-sol-latest",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "DeepSeek Harness: other app, burst traffic, 822.2 billion tokens a week at the cutoff.",
+       "topics": [
+        "one_off_job",
+        "growing",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We ran as a one-off job: a week or two of heavy traffic, then little. We were using about 822.2 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 43,317.3 billion in total, ending +428% against where we started.",
+         "topics": [
+          "one_off_job",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our general workloads end the period mostly on deepseek-v4-flash-20260731 (7%), mimo-v2.5-20260422 (7%), gpt-terra-latest (6%). Newly listed models that picked up work: claude-haiku-5.5-20261007, deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017.",
+         "topics": [
+          "one_off_job",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $20,593,874 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.53 to $0.42 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "one_off_job",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2627404",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-23% over eight weeks",
+       "facts": {
+        "name": "Claude Code",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 3175215383810.0,
+        "tokens_8w": 23528680373796.004,
+        "growth_pct": -23.086240384057575,
+        "spend_8w": 10944378.25394699,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Claude Code: cli-agent app, steady traffic, 3,175.2 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 3,175.2 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 23,528.7 billion in total, ending -23% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $10,944,378 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2853275",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+95% over eight weeks",
+       "facts": {
+        "name": "pi",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 1253194023747.7488,
+        "tokens_8w": 22292179181466.55,
+        "growth_pct": 95.48335198819512,
+        "spend_8w": 10328723.809696669,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "pi: cli-agent app, steady traffic, 1,253.2 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "growing",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 1,253.2 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 22,292.2 billion in total, ending +95% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $10,328,724 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2262242",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-3% over eight weeks",
+       "facts": {
+        "name": "Kilo Code",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 2145014735437.7512,
+        "tokens_8w": 15332784351638.383,
+        "growth_pct": -3.3510950494054503,
+        "spend_8w": 6973358.588779939,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Kilo Code: cli-agent app, steady traffic, 2,145.0 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "neutral",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 2,145.0 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 15,332.8 billion in total, ending -3% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $6,973,359 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:3682314",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-8% over eight weeks",
+       "facts": {
+        "name": "omp",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 988660975209.9984,
+        "tokens_8w": 9049557708208.35,
+        "growth_pct": -7.762556014659339,
+        "spend_8w": 4169033.795947398,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "omp: cli-agent app, steady traffic, 988.7 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "neutral",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 988.7 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 9,049.6 billion in total, ending -8% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $4,169,034 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:3335353",
+       "role": "market",
+       "group": "general",
+       "outcome": "-43% over eight weeks",
+       "facts": {
+        "name": "Framer",
+        "segment": "market",
+        "segment_label": "general",
+        "category": "other",
+        "subcategory": "other",
+        "persistence": "recurring",
+        "start_tokens_week": 614276049183.0001,
+        "tokens_8w": 8435184985405.843,
+        "growth_pct": -42.724064645101286,
+        "spend_8w": 4161061.481699305,
+        "price_start": 0.5308,
+        "price_end": 0.41573,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.07
+         ],
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.0675
+         ],
+         [
+          "~openai/gpt-terra-latest",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "anthropic/claude-haiku-5.5-20261007",
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "google/gemini-3.8-flash-20260902",
+         "ibm-granite/granite-4.2-8b",
+         "meta/muse-spark-1.3-contributor-20260902",
+         "minimax/minimax-m3.1-flash-20261019",
+         "sakana/fugu-max",
+         "stealth/space-bunny-alpha",
+         "stepfun/step-5-preview-20261008",
+         "upstage/solar-mini4-20260922",
+         "z-ai/glm-5.3-flashx-20260918",
+         "~openai/gpt-astra-latest",
+         "~openai/gpt-sol-latest",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Framer: other app, recurring traffic, 614.3 billion tokens a week at the cutoff.",
+       "topics": [
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "Our traffic comes and goes from week to week. We were using about 614.3 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 8,435.2 billion in total, ending -43% against where we started.",
+         "topics": [
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our general workloads end the period mostly on deepseek-v4-flash-20260731 (7%), mimo-v2.5-20260422 (7%), gpt-terra-latest (6%). Newly listed models that picked up work: claude-haiku-5.5-20261007, deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017.",
+         "topics": [
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $4,161,061 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.53 to $0.42 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2725608",
+       "role": "market",
+       "group": "general",
+       "outcome": "-55% over eight weeks",
+       "facts": {
+        "name": "OpenClaw",
+        "segment": "market",
+        "segment_label": "general",
+        "category": "productivity",
+        "subcategory": "personal-agent",
+        "persistence": "steady",
+        "start_tokens_week": 1070944942809.2512,
+        "tokens_8w": 5242732219615.771,
+        "growth_pct": -54.71370657207544,
+        "spend_8w": 2585983.640909244,
+        "price_start": 0.5308,
+        "price_end": 0.41573,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.07
+         ],
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.0675
+         ],
+         [
+          "~openai/gpt-terra-latest",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "anthropic/claude-haiku-5.5-20261007",
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "google/gemini-3.8-flash-20260902",
+         "ibm-granite/granite-4.2-8b",
+         "meta/muse-spark-1.3-contributor-20260902",
+         "minimax/minimax-m3.1-flash-20261019",
+         "sakana/fugu-max",
+         "stealth/space-bunny-alpha",
+         "stepfun/step-5-preview-20261008",
+         "upstage/solar-mini4-20260922",
+         "z-ai/glm-5.3-flashx-20260918",
+         "~openai/gpt-astra-latest",
+         "~openai/gpt-sol-latest",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "OpenClaw: personal-agent app, steady traffic, 1,070.9 billion tokens a week at the cutoff.",
+       "topics": [
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 1,070.9 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 5,242.7 billion in total, ending -55% against where we started.",
+         "topics": [
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our general workloads end the period mostly on deepseek-v4-flash-20260731 (7%), mimo-v2.5-20260422 (7%), gpt-terra-latest (6%). Newly listed models that picked up work: claude-haiku-5.5-20261007, deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017.",
+         "topics": [
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $2,585,984 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.53 to $0.42 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2699842",
+       "role": "roleplay",
+       "group": "roleplay and creative",
+       "outcome": "+67% over eight weeks",
+       "facts": {
+        "name": "ISEKAI ZERO",
+        "segment": "roleplay",
+        "segment_label": "roleplay and creative",
+        "category": "entertainment",
+        "subcategory": "game",
+        "persistence": "steady",
+        "start_tokens_week": 288357162378.4997,
+        "tokens_8w": 4913855481828.636,
+        "growth_pct": 66.70561325786622,
+        "spend_8w": 1519807.2756708255,
+        "price_start": 0.34034,
+        "price_end": 0.30218,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260423",
+          0.23
+         ],
+         [
+          "sakana/fugu-max",
+          0.0775
+         ],
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.0725
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "inference-net/schematron-v2-small",
+         "sakana/fugu-max"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "ISEKAI ZERO: game app, steady traffic, 288.4 billion tokens a week at the cutoff.",
+       "topics": [
+        "roleplay_workload",
+        "steady_product",
+        "growing",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 288.4 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 4,913.9 billion in total, ending +67% against where we started.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our roleplay and creative workloads end the period mostly on deepseek-v4-flash-20260423 (23%), fugu-max (8%), deepseek-v4-flash-20260731 (7%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017, schematron-v2-small.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $1,519,807 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.34 to $0.30 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2668297",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+64% over eight weeks",
+       "facts": {
+        "name": "Codex",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 554858353669.5006,
+        "tokens_8w": 3827379173641.8135,
+        "growth_pct": 64.15696928735362,
+        "spend_8w": 1696502.5841502242,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Codex: cli-agent app, steady traffic, 554.9 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "growing",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 554.9 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 3,827.4 billion in total, ending +64% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $1,696,503 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:3003505",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+1180% over eight weeks",
+       "facts": {
+        "name": "Strix",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "burst",
+        "start_tokens_week": 74707158269.12502,
+        "tokens_8w": 3733823505158.877,
+        "growth_pct": 1179.7275378532538,
+        "spend_8w": 1619613.582335317,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Strix: cli-agent app, burst traffic, 74.7 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "one_off_job",
+        "growing",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We ran as a one-off job: a week or two of heavy traffic, then little. We were using about 74.7 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 3,733.8 billion in total, ending +1180% against where we started.",
+         "topics": [
+          "coding_workload",
+          "one_off_job",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "one_off_job",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $1,619,614 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "one_off_job",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:190604",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-100% over eight weeks",
+       "facts": {
+        "name": "Cline",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 1684650208718.7493,
+        "tokens_8w": 3554525035891.2026,
+        "growth_pct": -99.81211141659708,
+        "spend_8w": 1696536.6315430233,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Cline: cli-agent app, steady traffic, 1,684.7 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 1,684.7 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 3,554.5 billion in total, ending -100% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $1,696,537 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2823243",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-99% over eight weeks",
+       "facts": {
+        "name": "ZCode",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "programming-app",
+        "persistence": "steady",
+        "start_tokens_week": 301308279626.2496,
+        "tokens_8w": 2827186977698.147,
+        "growth_pct": -98.94949272008647,
+        "spend_8w": 1360051.7861360586,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "ZCode: programming-app app, steady traffic, 301.3 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 301.3 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 2,827.2 billion in total, ending -99% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $1,360,052 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:3178860",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+501% over eight weeks",
+       "facts": {
+        "name": "Ito",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cloud-agent",
+        "persistence": "steady",
+        "start_tokens_week": 104030324675.25005,
+        "tokens_8w": 2574783374057.865,
+        "growth_pct": 501.1660644790121,
+        "spend_8w": 1136047.643088271,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Ito: cloud-agent app, steady traffic, 104.0 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "growing",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 104.0 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 2,574.8 billion in total, ending +501% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $1,136,048 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:189563",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+88% over eight weeks",
+       "facts": {
+        "name": "OpenHands",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 164176483563.2498,
+        "tokens_8w": 2124729275469.025,
+        "growth_pct": 87.55002066853683,
+        "spend_8w": 977793.5426038345,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "OpenHands: cli-agent app, steady traffic, 164.2 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "growing",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 164.2 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 2,124.7 billion in total, ending +88% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $977,794 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:169155",
+       "role": "roleplay",
+       "group": "roleplay and creative",
+       "outcome": "+75% over eight weeks",
+       "facts": {
+        "name": "Janitor AI",
+        "segment": "roleplay",
+        "segment_label": "roleplay and creative",
+        "category": "entertainment",
+        "subcategory": "roleplay",
+        "persistence": "steady",
+        "start_tokens_week": 236202235897.0002,
+        "tokens_8w": 2085511844457.6267,
+        "growth_pct": 74.77859663742,
+        "spend_8w": 636837.1162666121,
+        "price_start": 0.34034,
+        "price_end": 0.30218,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260423",
+          0.23
+         ],
+         [
+          "sakana/fugu-max",
+          0.0775
+         ],
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.0725
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "inference-net/schematron-v2-small",
+         "sakana/fugu-max"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Janitor AI: roleplay app, steady traffic, 236.2 billion tokens a week at the cutoff.",
+       "topics": [
+        "roleplay_workload",
+        "steady_product",
+        "growing",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 236.2 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 2,085.5 billion in total, ending +75% against where we started.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our roleplay and creative workloads end the period mostly on deepseek-v4-flash-20260423 (23%), fugu-max (8%), deepseek-v4-flash-20260731 (7%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017, schematron-v2-small.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $636,837 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.34 to $0.30 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2308106",
+       "role": "roleplay",
+       "group": "roleplay and creative",
+       "outcome": "-49% over eight weeks",
+       "facts": {
+        "name": "Descript",
+        "segment": "roleplay",
+        "segment_label": "roleplay and creative",
+        "category": "creative",
+        "subcategory": "video-gen",
+        "persistence": "steady",
+        "start_tokens_week": 286939128089.2503,
+        "tokens_8w": 1375120439102.319,
+        "growth_pct": -48.59831309761732,
+        "spend_8w": 422204.43443939515,
+        "price_start": 0.34034,
+        "price_end": 0.30218,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260423",
+          0.23
+         ],
+         [
+          "sakana/fugu-max",
+          0.0775
+         ],
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.0725
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "inference-net/schematron-v2-small",
+         "sakana/fugu-max"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Descript: video-gen app, steady traffic, 286.9 billion tokens a week at the cutoff.",
+       "topics": [
+        "roleplay_workload",
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 286.9 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 1,375.1 billion in total, ending -49% against where we started.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our roleplay and creative workloads end the period mostly on deepseek-v4-flash-20260423 (23%), fugu-max (8%), deepseek-v4-flash-20260731 (7%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017, schematron-v2-small.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $422,204 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.34 to $0.30 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2267189",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+20% over eight weeks",
+       "facts": {
+        "name": "Zed Editor",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "programming-app",
+        "persistence": "steady",
+        "start_tokens_week": 135443598127.74977,
+        "tokens_8w": 1333566431184.183,
+        "growth_pct": 19.759987401824763,
+        "spend_8w": 607409.4301052084,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Zed Editor: programming-app app, steady traffic, 135.4 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "growing",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 135.4 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 1,333.6 billion in total, ending +20% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $607,409 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:169295",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+5% over eight weeks",
+       "facts": {
+        "name": "Portkey AI",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "programming-app",
+        "persistence": "steady",
+        "start_tokens_week": 161513358033.24988,
+        "tokens_8w": 1289169080485.7112,
+        "growth_pct": 4.707165476096309,
+        "spend_8w": 592451.4102972335,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Portkey AI: programming-app app, steady traffic, 161.5 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "neutral",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 161.5 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 1,289.2 billion in total, ending +5% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $592,451 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2637375",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-99% over eight weeks",
+       "facts": {
+        "name": "Lemonade",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "programming-app",
+        "persistence": "steady",
+        "start_tokens_week": 246600233575.49942,
+        "tokens_8w": 846995359020.0837,
+        "growth_pct": -98.71643859920071,
+        "spend_8w": 398324.55703710375,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Lemonade: programming-app app, steady traffic, 246.6 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 246.6 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 847.0 billion in total, ending -99% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $398,325 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:4132065",
+       "role": "roleplay",
+       "group": "roleplay and creative",
+       "outcome": "-92% over eight weeks",
+       "facts": {
+        "name": "Hello Minds, powered by Ethoswarm",
+        "segment": "roleplay",
+        "segment_label": "roleplay and creative",
+        "category": "creative",
+        "subcategory": "roleplay",
+        "persistence": "steady",
+        "start_tokens_week": 287192104931.2503,
+        "tokens_8w": 837063019252.0942,
+        "growth_pct": -91.99560925687152,
+        "spend_8w": 265106.42277201026,
+        "price_start": 0.34034,
+        "price_end": 0.30218,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260423",
+          0.23
+         ],
+         [
+          "sakana/fugu-max",
+          0.0775
+         ],
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.0725
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "inference-net/schematron-v2-small",
+         "sakana/fugu-max"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Hello Minds, powered by Ethoswarm: roleplay app, steady traffic, 287.2 billion tokens a week at the cutoff.",
+       "topics": [
+        "roleplay_workload",
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 287.2 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 837.1 billion in total, ending -92% against where we started.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our roleplay and creative workloads end the period mostly on deepseek-v4-flash-20260423 (23%), fugu-max (8%), deepseek-v4-flash-20260731 (7%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017, schematron-v2-small.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $265,106 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.34 to $0.30 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2237546",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-99% over eight weeks",
+       "facts": {
+        "name": "Cursor",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 213286135221.4998,
+        "tokens_8w": 749436223044.8501,
+        "growth_pct": -98.51595350575938,
+        "spend_8w": 358006.27419532806,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Cursor: cli-agent app, steady traffic, 213.3 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 213.3 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 749.4 billion in total, ending -99% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $358,006 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:3909382",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-61% over eight weeks",
+       "facts": {
+        "name": "Command Code",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "personal-agent",
+        "persistence": "steady",
+        "start_tokens_week": 173800385709.25034,
+        "tokens_8w": 665362070732.6292,
+        "growth_pct": -60.87833003462022,
+        "spend_8w": 308001.32286490296,
+        "price_start": 0.47742,
+        "price_end": 0.37358,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.155
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0925
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "xiaomi/mimo-v2.6-pro-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "Command Code: personal-agent app, steady traffic, 173.8 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 173.8 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 665.4 billion in total, ending -61% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (16%), mimo-v2.6-flash-20260921 (9%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $308,001 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.48 to $0.37 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2235775",
+       "role": "roleplay",
+       "group": "roleplay and creative",
+       "outcome": "-16% over eight weeks",
+       "facts": {
+        "name": "shapes.inc ad follow-up context",
+        "segment": "roleplay",
+        "segment_label": "roleplay and creative",
+        "category": "entertainment",
+        "subcategory": "roleplay",
+        "persistence": "steady",
+        "start_tokens_week": 40504670876.999985,
+        "tokens_8w": 562253005693.1615,
+        "growth_pct": -16.37439426044849,
+        "spend_8w": 175473.94978432514,
+        "price_start": 0.34034,
+        "price_end": 0.30218,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260423",
+          0.23
+         ],
+         [
+          "sakana/fugu-max",
+          0.0775
+         ],
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.0725
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "inference-net/schematron-v2-small",
+         "sakana/fugu-max"
+        ],
+        "repriced": [],
+        "t0": "2026-08-31"
+       },
+       "profile": "shapes.inc ad follow-up context: roleplay app, steady traffic, 40.5 billion tokens a week at the cutoff.",
+       "topics": [
+        "roleplay_workload",
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 40.5 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 562.3 billion in total, ending -16% against where we started.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our roleplay and creative workloads end the period mostly on deepseek-v4-flash-20260423 (23%), fugu-max (8%), deepseek-v4-flash-20260731 (7%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017, schematron-v2-small.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $175,474 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.34 to $0.30 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      }
+     ],
+     "group_label": "segment",
+     "scenario": "baseline",
+     "title": "The market as it happened: published prices and model launches",
+     "run_id": "20261103T074424-a268",
+     "questions": [
+      [
+       "tokens",
+       "How will your token use change over the next eight weeks?"
+      ],
+      [
+       "models",
+       "Which models will your workloads run on, and why?"
+      ],
+      [
+       "spend",
+       "What will you spend, and what drives it?"
+      ]
+     ],
+     "sentiment_basis": "the company's simulated weekly tokens at the end of the eight weeks against the start: up 10% or more positive, down 10% or more negative",
+     "topics": [
+      {
+       "id": "price_down",
+       "label": "List prices went down",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "general": 1.0,
+        "coding": 1.0,
+        "roleplay and creative": 1.0
+       }
+      },
+      {
+       "id": "new_models",
+       "label": "Trying newly listed models",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "general": 1.0,
+        "coding": 1.0,
+        "roleplay and creative": 1.0
+       }
+      },
+      {
+       "id": "steady_product",
+       "label": "A steady product with regular traffic",
+       "count": 21,
+       "share": 0.875,
+       "by_group": {
+        "general": 0.5,
+        "coding": 0.933,
+        "roleplay and creative": 1.0
+       }
+      },
+      {
+       "id": "coding_workload",
+       "label": "Coding workloads",
+       "count": 15,
+       "share": 0.625,
+       "by_group": {
+        "general": 0.0,
+        "coding": 1.0,
+        "roleplay and creative": 0.0
+       }
+      },
+      {
+       "id": "fading",
+       "label": "Usage fading",
+       "count": 12,
+       "share": 0.5,
+       "by_group": {
+        "general": 0.75,
+        "coding": 0.4,
+        "roleplay and creative": 0.6
+       }
+      },
+      {
+       "id": "growing",
+       "label": "Usage growing",
+       "count": 9,
+       "share": 0.375,
+       "by_group": {
+        "general": 0.25,
+        "coding": 0.4,
+        "roleplay and creative": 0.4
+       }
+      },
+      {
+       "id": "roleplay_workload",
+       "label": "Roleplay and creative workloads",
+       "count": 5,
+       "share": 0.208,
+       "by_group": {
+        "general": 0.0,
+        "coding": 0.0,
+        "roleplay and creative": 1.0
+       }
+      },
+      {
+       "id": "one_off_job",
+       "label": "A one-off job, not a steady product",
+       "count": 2,
+       "share": 0.083,
+       "by_group": {
+        "general": 0.25,
+        "coding": 0.067,
+        "roleplay and creative": 0.0
+       }
+      }
+     ],
+     "sentiment": {
+      "distribution": {
+       "negative": 12,
+       "neutral": 3,
+       "positive": 9
+      },
+      "n": 24,
+      "by_group": {
+       "general": {
+        "negative": 3,
+        "neutral": 0,
+        "positive": 1
+       },
+       "coding": {
+        "negative": 6,
+        "neutral": 3,
+        "positive": 6
+       },
+       "roleplay and creative": {
+        "negative": 3,
+        "neutral": 0,
+        "positive": 2
+       }
+      }
+     },
+     "groups": {
+      "general": 4,
+      "coding": 15,
+      "roleplay and creative": 5
+     },
+     "n_interviews": 24,
+     "key_insights": [
+      "Baseline: 9 of 24 interviewed companies expect to grow by 10% or more over eight weeks and 12 expect to fall by 10% or more; 2 describe themselves as one-off jobs.",
+      "Baseline: 24 of 24 companies' segments put work on models listed after the cutoff.",
+      "Baseline: the interviewed companies spend $121,899,193 at list prices over the eight weeks in this run."
+     ]
+    },
+    "interview_method": "template",
+    "interview_note": "Simulated interviews: every answer is rendered from the agent's own simulated record (profile, traits, states, decisions or queue statistics). Nothing here was said by a real person."
+   },
+   {
+    "scenario": {
+     "id": "leader_price_double",
+     "title": "What if the leading paid coding model had doubled its price?",
+     "short_title": "Coding leader at 2x price",
+     "summary": "Double the list price of the most used paid model in programming from the cutoff; same companies, launches and seeds.",
+     "description": "The most used paid model in the programming segment at the cutoff doubles its list price for the whole horizon. Coding workloads may move to other models; every company's tokens and spend are re-simulated with the same seeds.\n",
+     "extends": "baseline",
+     "file": "leader_price_double.yaml",
+     "role": "alternative",
+     "display_title": "Double the coding leader’s price",
+     "card_summary": "Raise the leading paid coding model’s price twofold."
+    },
+    "run": {
+     "scenario": "leader_price_double",
+     "run_id": "20261103T074608-a8ce",
+     "complete": true,
+     "summary": {
+      "run_id": "20261103T074608-a8ce",
+      "instance": "openrouter",
+      "scenario": "leader_price_double",
+      "seed": 20,
+      "start": "2026-08-31",
+      "end": "2026-10-26",
+      "ticks": 1344,
+      "events": 824
+     }
+    },
+    "runs_available": 80,
+    "interviews": {
+     "interviews": [
+      {
+       "agent_id": "app:3067167",
+       "role": "market",
+       "group": "general",
+       "outcome": "-60% over eight weeks",
+       "facts": {
+        "name": "Hermes Agent",
+        "segment": "market",
+        "segment_label": "general",
+        "category": "productivity",
+        "subcategory": "personal-agent",
+        "persistence": "steady",
+        "start_tokens_week": 11483117094783.256,
+        "tokens_8w": 95116668304094.69,
+        "growth_pct": -59.970469117944546,
+        "spend_8w": 59849386.1860836,
+        "price_start": 0.62691,
+        "price_end": 0.65148,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.07
+         ],
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.0675
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "anthropic/claude-fable-5.1-20260831",
+         "anthropic/claude-haiku-5.5-20261007",
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "google/gemini-3.8-flash-20260902",
+         "ibm-granite/granite-4.2-8b",
+         "meta/muse-spark-1.3-contributor-20260902",
+         "minimax/minimax-m3.1-flash-20261019",
+         "qwen/qwen3.8-omni-flash-20260918",
+         "sakana/fugu-max",
+         "stealth/space-bunny-alpha",
+         "stepfun/step-5-preview-20261008",
+         "upstage/solar-mini4-20260922",
+         "z-ai/glm-5.3-flashx-20260918",
+         "~openai/gpt-astra-latest",
+         "~openai/gpt-sol-latest",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Hermes Agent: personal-agent app, steady traffic, 11,483.1 billion tokens a week at the cutoff.",
+       "topics": [
+        "steady_product",
+        "fading",
+        "price_up",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 11,483.1 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 95,116.7 billion in total, ending -60% against where we started.",
+         "topics": [
+          "steady_product",
+          "fading",
+          "price_up",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our general workloads end the period mostly on deepseek-v4-flash-20260731 (7%), mimo-v2.5-20260422 (7%), ox-alpha (6%). Newly listed models that picked up work: claude-fable-5.1-20260831, claude-haiku-5.5-20261007, deepseek-v4.1-flash-20260910.",
+         "topics": [
+          "steady_product",
+          "fading",
+          "price_up",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $59,849,386 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.63 to $0.65 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "steady_product",
+          "fading",
+          "price_up",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:4706207",
+       "role": "market",
+       "group": "general",
+       "outcome": "+414% over eight weeks",
+       "facts": {
+        "name": "DeepSeek Harness",
+        "segment": "market",
+        "segment_label": "general",
+        "category": "other",
+        "subcategory": "other",
+        "persistence": "burst",
+        "start_tokens_week": 822225779575.6266,
+        "tokens_8w": 42580335500682.664,
+        "growth_pct": 413.7881525778661,
+        "spend_8w": 26821715.5442626,
+        "price_start": 0.62691,
+        "price_end": 0.65148,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.07
+         ],
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.0675
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "anthropic/claude-fable-5.1-20260831",
+         "anthropic/claude-haiku-5.5-20261007",
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "google/gemini-3.8-flash-20260902",
+         "ibm-granite/granite-4.2-8b",
+         "meta/muse-spark-1.3-contributor-20260902",
+         "minimax/minimax-m3.1-flash-20261019",
+         "qwen/qwen3.8-omni-flash-20260918",
+         "sakana/fugu-max",
+         "stealth/space-bunny-alpha",
+         "stepfun/step-5-preview-20261008",
+         "upstage/solar-mini4-20260922",
+         "z-ai/glm-5.3-flashx-20260918",
+         "~openai/gpt-astra-latest",
+         "~openai/gpt-sol-latest",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "DeepSeek Harness: other app, burst traffic, 822.2 billion tokens a week at the cutoff.",
+       "topics": [
+        "one_off_job",
+        "growing",
+        "price_up",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We ran as a one-off job: a week or two of heavy traffic, then little. We were using about 822.2 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 42,580.3 billion in total, ending +414% against where we started.",
+         "topics": [
+          "one_off_job",
+          "growing",
+          "price_up",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our general workloads end the period mostly on deepseek-v4-flash-20260731 (7%), mimo-v2.5-20260422 (7%), ox-alpha (6%). Newly listed models that picked up work: claude-fable-5.1-20260831, claude-haiku-5.5-20261007, deepseek-v4.1-flash-20260910.",
+         "topics": [
+          "one_off_job",
+          "growing",
+          "price_up",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $26,821,716 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.63 to $0.65 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "one_off_job",
+          "growing",
+          "price_up",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2627404",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-25% over eight weeks",
+       "facts": {
+        "name": "Claude Code",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 3175215383810.0,
+        "tokens_8w": 23382665024146.426,
+        "growth_pct": -24.885985092446006,
+        "spend_8w": 12038046.895160394,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Claude Code: cli-agent app, steady traffic, 3,175.2 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "fading",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 3,175.2 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 23,382.7 billion in total, ending -25% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $12,038,047 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2853275",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+91% over eight weeks",
+       "facts": {
+        "name": "pi",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 1253194023747.7488,
+        "tokens_8w": 22161101535095.12,
+        "growth_pct": 90.90913626820503,
+        "spend_8w": 11299897.467146538,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "pi: cli-agent app, steady traffic, 1,253.2 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "growing",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 1,253.2 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 22,161.1 billion in total, ending +91% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $11,299,897 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2262242",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-6% over eight weeks",
+       "facts": {
+        "name": "Kilo Code",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 2145014735437.7512,
+        "tokens_8w": 15214894977110.45,
+        "growth_pct": -5.612632596457223,
+        "spend_8w": 7844299.657380782,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Kilo Code: cli-agent app, steady traffic, 2,145.0 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "neutral",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 2,145.0 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 15,214.9 billion in total, ending -6% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $7,844,300 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:3682314",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-10% over eight weeks",
+       "facts": {
+        "name": "omp",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 988660975209.9984,
+        "tokens_8w": 8988448853998.52,
+        "growth_pct": -9.920867512586451,
+        "spend_8w": 4622901.952563572,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "omp: cli-agent app, steady traffic, 988.7 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "neutral",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 988.7 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 8,988.4 billion in total, ending -10% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $4,622,902 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:3335353",
+       "role": "market",
+       "group": "general",
+       "outcome": "-44% over eight weeks",
+       "facts": {
+        "name": "Framer",
+        "segment": "market",
+        "segment_label": "general",
+        "category": "other",
+        "subcategory": "other",
+        "persistence": "recurring",
+        "start_tokens_week": 614276049183.0001,
+        "tokens_8w": 8309841983964.746,
+        "growth_pct": -44.24721389715786,
+        "spend_8w": 5240064.248134564,
+        "price_start": 0.62691,
+        "price_end": 0.65148,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.07
+         ],
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.0675
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "anthropic/claude-fable-5.1-20260831",
+         "anthropic/claude-haiku-5.5-20261007",
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "google/gemini-3.8-flash-20260902",
+         "ibm-granite/granite-4.2-8b",
+         "meta/muse-spark-1.3-contributor-20260902",
+         "minimax/minimax-m3.1-flash-20261019",
+         "qwen/qwen3.8-omni-flash-20260918",
+         "sakana/fugu-max",
+         "stealth/space-bunny-alpha",
+         "stepfun/step-5-preview-20261008",
+         "upstage/solar-mini4-20260922",
+         "z-ai/glm-5.3-flashx-20260918",
+         "~openai/gpt-astra-latest",
+         "~openai/gpt-sol-latest",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Framer: other app, recurring traffic, 614.3 billion tokens a week at the cutoff.",
+       "topics": [
+        "fading",
+        "price_up",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "Our traffic comes and goes from week to week. We were using about 614.3 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 8,309.8 billion in total, ending -44% against where we started.",
+         "topics": [
+          "fading",
+          "price_up",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our general workloads end the period mostly on deepseek-v4-flash-20260731 (7%), mimo-v2.5-20260422 (7%), ox-alpha (6%). Newly listed models that picked up work: claude-fable-5.1-20260831, claude-haiku-5.5-20261007, deepseek-v4.1-flash-20260910.",
+         "topics": [
+          "fading",
+          "price_up",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $5,240,064 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.63 to $0.65 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "fading",
+          "price_up",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2725608",
+       "role": "market",
+       "group": "general",
+       "outcome": "-56% over eight weeks",
+       "facts": {
+        "name": "OpenClaw",
+        "segment": "market",
+        "segment_label": "general",
+        "category": "productivity",
+        "subcategory": "personal-agent",
+        "persistence": "steady",
+        "start_tokens_week": 1070944942809.2512,
+        "tokens_8w": 5164160510652.286,
+        "growth_pct": -55.91801311959406,
+        "spend_8w": 3262085.6201758347,
+        "price_start": 0.62691,
+        "price_end": 0.65148,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.07
+         ],
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.0675
+         ],
+         [
+          "stealth/ox-alpha",
+          0.0625
+         ]
+        ],
+        "new_models": [
+         "anthropic/claude-fable-5.1-20260831",
+         "anthropic/claude-haiku-5.5-20261007",
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "google/gemini-3.8-flash-20260902",
+         "ibm-granite/granite-4.2-8b",
+         "meta/muse-spark-1.3-contributor-20260902",
+         "minimax/minimax-m3.1-flash-20261019",
+         "qwen/qwen3.8-omni-flash-20260918",
+         "sakana/fugu-max",
+         "stealth/space-bunny-alpha",
+         "stepfun/step-5-preview-20261008",
+         "upstage/solar-mini4-20260922",
+         "z-ai/glm-5.3-flashx-20260918",
+         "~openai/gpt-astra-latest",
+         "~openai/gpt-sol-latest",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "OpenClaw: personal-agent app, steady traffic, 1,070.9 billion tokens a week at the cutoff.",
+       "topics": [
+        "steady_product",
+        "fading",
+        "price_up",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 1,070.9 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 5,164.2 billion in total, ending -56% against where we started.",
+         "topics": [
+          "steady_product",
+          "fading",
+          "price_up",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our general workloads end the period mostly on deepseek-v4-flash-20260731 (7%), mimo-v2.5-20260422 (7%), ox-alpha (6%). Newly listed models that picked up work: claude-fable-5.1-20260831, claude-haiku-5.5-20261007, deepseek-v4.1-flash-20260910.",
+         "topics": [
+          "steady_product",
+          "fading",
+          "price_up",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $3,262,086 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.63 to $0.65 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "steady_product",
+          "fading",
+          "price_up",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2699842",
+       "role": "roleplay",
+       "group": "roleplay and creative",
+       "outcome": "+66% over eight weeks",
+       "facts": {
+        "name": "ISEKAI ZERO",
+        "segment": "roleplay",
+        "segment_label": "roleplay and creative",
+        "category": "entertainment",
+        "subcategory": "game",
+        "persistence": "steady",
+        "start_tokens_week": 288357162378.4997,
+        "tokens_8w": 4909168904995.143,
+        "growth_pct": 65.82051764130065,
+        "spend_8w": 1543497.7715728611,
+        "price_start": 0.34512,
+        "price_end": 0.33021,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260423",
+          0.2325
+         ],
+         [
+          "sakana/fugu-max",
+          0.08
+         ],
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.07
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "sakana/fugu-max"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "ISEKAI ZERO: game app, steady traffic, 288.4 billion tokens a week at the cutoff.",
+       "topics": [
+        "roleplay_workload",
+        "steady_product",
+        "growing",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 288.4 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 4,909.2 billion in total, ending +66% against where we started.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our roleplay and creative workloads end the period mostly on deepseek-v4-flash-20260423 (23%), fugu-max (8%), deepseek-v4-flash-20260731 (7%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017, fugu-max.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $1,543,498 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.35 to $0.33 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2668297",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+60% over eight weeks",
+       "facts": {
+        "name": "Codex",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 554858353669.5006,
+        "tokens_8w": 3787532528500.6436,
+        "growth_pct": 60.31577574415361,
+        "spend_8w": 1989719.026915052,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Codex: cli-agent app, steady traffic, 554.9 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "growing",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 554.9 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 3,787.5 billion in total, ending +60% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $1,989,719 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:3003505",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+1150% over eight weeks",
+       "facts": {
+        "name": "Strix",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "burst",
+        "start_tokens_week": 74707158269.12502,
+        "tokens_8w": 3690146050441.821,
+        "growth_pct": 1149.7825335272275,
+        "spend_8w": 1938431.7619352397,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Strix: cli-agent app, burst traffic, 74.7 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "one_off_job",
+        "growing",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We ran as a one-off job: a week or two of heavy traffic, then little. We were using about 74.7 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 3,690.1 billion in total, ending +1150% against where we started.",
+         "topics": [
+          "coding_workload",
+          "one_off_job",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "one_off_job",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $1,938,432 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "one_off_job",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:190604",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-100% over eight weeks",
+       "facts": {
+        "name": "Cline",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 1684650208718.7493,
+        "tokens_8w": 3536844200375.19,
+        "growth_pct": -99.81211141659708,
+        "spend_8w": 1835774.4071836513,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Cline: cli-agent app, steady traffic, 1,684.7 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "fading",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 1,684.7 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 3,536.8 billion in total, ending -100% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $1,835,774 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2823243",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-99% over eight weeks",
+       "facts": {
+        "name": "ZCode",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "programming-app",
+        "persistence": "steady",
+        "start_tokens_week": 301308279626.2496,
+        "tokens_8w": 2822362577926.241,
+        "growth_pct": -98.94949272008647,
+        "spend_8w": 1398317.460884815,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "ZCode: programming-app app, steady traffic, 301.3 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "fading",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 301.3 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 2,822.4 billion in total, ending -99% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $1,398,317 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:3178860",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+487% over eight weeks",
+       "facts": {
+        "name": "Ito",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cloud-agent",
+        "persistence": "steady",
+        "start_tokens_week": 104030324675.25005,
+        "tokens_8w": 2548370280693.275,
+        "growth_pct": 487.0990698500753,
+        "spend_8w": 1329043.8523346474,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Ito: cloud-agent app, steady traffic, 104.0 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "growing",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 104.0 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 2,548.4 billion in total, ending +487% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $1,329,044 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:189563",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+83% over eight weeks",
+       "facts": {
+        "name": "OpenHands",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 164176483563.2498,
+        "tokens_8w": 2110108344334.614,
+        "growth_pct": 83.16144105753087,
+        "spend_8w": 1086114.2647170953,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "OpenHands: cli-agent app, steady traffic, 164.2 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "growing",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 164.2 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 2,110.1 billion in total, ending +83% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $1,086,114 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:169155",
+       "role": "roleplay",
+       "group": "roleplay and creative",
+       "outcome": "+74% over eight weeks",
+       "facts": {
+        "name": "Janitor AI",
+        "segment": "roleplay",
+        "segment_label": "roleplay and creative",
+        "category": "entertainment",
+        "subcategory": "roleplay",
+        "persistence": "steady",
+        "start_tokens_week": 236202235897.0002,
+        "tokens_8w": 2081471282549.1807,
+        "growth_pct": 73.85063886365279,
+        "spend_8w": 656810.9013905546,
+        "price_start": 0.34512,
+        "price_end": 0.33021,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260423",
+          0.2325
+         ],
+         [
+          "sakana/fugu-max",
+          0.08
+         ],
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.07
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "sakana/fugu-max"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Janitor AI: roleplay app, steady traffic, 236.2 billion tokens a week at the cutoff.",
+       "topics": [
+        "roleplay_workload",
+        "steady_product",
+        "growing",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 236.2 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 2,081.5 billion in total, ending +74% against where we started.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our roleplay and creative workloads end the period mostly on deepseek-v4-flash-20260423 (23%), fugu-max (8%), deepseek-v4-flash-20260731 (7%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017, fugu-max.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $656,811 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.35 to $0.33 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "growing",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2308106",
+       "role": "roleplay",
+       "group": "roleplay and creative",
+       "outcome": "-49% over eight weeks",
+       "facts": {
+        "name": "Descript",
+        "segment": "roleplay",
+        "segment_label": "roleplay and creative",
+        "category": "creative",
+        "subcategory": "video-gen",
+        "persistence": "steady",
+        "start_tokens_week": 286939128089.2503,
+        "tokens_8w": 1372990267814.0925,
+        "growth_pct": -48.87122177101034,
+        "spend_8w": 432749.490858017,
+        "price_start": 0.34512,
+        "price_end": 0.33021,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260423",
+          0.2325
+         ],
+         [
+          "sakana/fugu-max",
+          0.08
+         ],
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.07
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "sakana/fugu-max"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Descript: video-gen app, steady traffic, 286.9 billion tokens a week at the cutoff.",
+       "topics": [
+        "roleplay_workload",
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 286.9 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 1,373.0 billion in total, ending -49% against where we started.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our roleplay and creative workloads end the period mostly on deepseek-v4-flash-20260423 (23%), fugu-max (8%), deepseek-v4-flash-20260731 (7%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017, fugu-max.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $432,749 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.35 to $0.33 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2267189",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+17% over eight weeks",
+       "facts": {
+        "name": "Zed Editor",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "programming-app",
+        "persistence": "steady",
+        "start_tokens_week": 135443598127.74977,
+        "tokens_8w": 1323157591533.0583,
+        "growth_pct": 16.957661723306995,
+        "spend_8w": 684591.1023264603,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Zed Editor: programming-app app, steady traffic, 135.4 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "growing",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 135.4 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 1,323.2 billion in total, ending +17% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $684,591 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "growing",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:169295",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "+2% over eight weeks",
+       "facts": {
+        "name": "Portkey AI",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "programming-app",
+        "persistence": "steady",
+        "start_tokens_week": 161513358033.24988,
+        "tokens_8w": 1279950956946.3247,
+        "growth_pct": 2.257068537174578,
+        "spend_8w": 661198.009137064,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Portkey AI: programming-app app, steady traffic, 161.5 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "neutral",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 161.5 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 1,280.0 billion in total, ending +2% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $661,198 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "neutral"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2637375",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-99% over eight weeks",
+       "facts": {
+        "name": "Lemonade",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "programming-app",
+        "persistence": "steady",
+        "start_tokens_week": 246600233575.49942,
+        "tokens_8w": 843080913576.8215,
+        "growth_pct": -98.71643859920071,
+        "spend_8w": 428747.97124275804,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Lemonade: programming-app app, steady traffic, 246.6 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "fading",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 246.6 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 843.1 billion in total, ending -99% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $428,748 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:4132065",
+       "role": "roleplay",
+       "group": "roleplay and creative",
+       "outcome": "-92% over eight weeks",
+       "facts": {
+        "name": "Hello Minds, powered by Ethoswarm",
+        "segment": "roleplay",
+        "segment_label": "roleplay and creative",
+        "category": "creative",
+        "subcategory": "roleplay",
+        "persistence": "steady",
+        "start_tokens_week": 287192104931.2503,
+        "tokens_8w": 836477041951.6384,
+        "growth_pct": -92.03810723292385,
+        "spend_8w": 268120.33699233824,
+        "price_start": 0.34512,
+        "price_end": 0.33021,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260423",
+          0.2325
+         ],
+         [
+          "sakana/fugu-max",
+          0.08
+         ],
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.07
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "sakana/fugu-max"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Hello Minds, powered by Ethoswarm: roleplay app, steady traffic, 287.2 billion tokens a week at the cutoff.",
+       "topics": [
+        "roleplay_workload",
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 287.2 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 836.5 billion in total, ending -92% against where we started.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our roleplay and creative workloads end the period mostly on deepseek-v4-flash-20260423 (23%), fugu-max (8%), deepseek-v4-flash-20260731 (7%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017, fugu-max.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $268,120 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.35 to $0.33 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2237546",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-99% over eight weeks",
+       "facts": {
+        "name": "Cursor",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "cli-agent",
+        "persistence": "steady",
+        "start_tokens_week": 213286135221.4998,
+        "tokens_8w": 747033490894.2112,
+        "growth_pct": -98.51595350575938,
+        "spend_8w": 377883.8296507974,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Cursor: cli-agent app, steady traffic, 213.3 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "fading",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 213.3 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 747.0 billion in total, ending -99% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $377,884 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:3909382",
+       "role": "programming",
+       "group": "coding",
+       "outcome": "-62% over eight weeks",
+       "facts": {
+        "name": "Command Code",
+        "segment": "programming",
+        "segment_label": "coding",
+        "category": "coding",
+        "subcategory": "personal-agent",
+        "persistence": "steady",
+        "start_tokens_week": 173800385709.25034,
+        "tokens_8w": 661217922438.4395,
+        "growth_pct": -61.79375815639045,
+        "spend_8w": 338913.5003388619,
+        "price_start": 0.51906,
+        "price_end": 0.55433,
+        "top_models": [
+         [
+          "xiaomi/mimo-v2.5-20260422",
+          0.145
+         ],
+         [
+          "xiaomi/mimo-v2.6-flash-20260921",
+          0.0975
+         ],
+         [
+          "stealth/ox-alpha",
+          0.065
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "inception/mercury-2.5",
+         "moonshotai/kimi-k3.1-pro-20261023",
+         "openai/gpt-6-astra-pro",
+         "openai/gpt-6-luna-20260922",
+         "openai/gpt-6-luna-pro-20260922",
+         "sakana/fugu-max",
+         "unbiased/pareto",
+         "xiaomi/mimo-v2.6-flash-20260921",
+         "z-ai/glm-5.3-flashx-20260918",
+         "z-ai/glm-5.3-prime",
+         "~openai/gpt-terra-latest"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "Command Code: personal-agent app, steady traffic, 173.8 billion tokens a week at the cutoff.",
+       "topics": [
+        "coding_workload",
+        "steady_product",
+        "fading",
+        "price_up",
+        "switched_models",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 173.8 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 661.2 billion in total, ending -62% against where we started.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our coding workloads end the period mostly on mimo-v2.5-20260422 (14%), mimo-v2.6-flash-20260921 (10%), ox-alpha (6%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, mercury-2.5, kimi-k3.1-pro-20261023. The repriced model (mimo-v2.5-20260422) costs twice as much, so some of our coding workloads moved off it.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $338,914 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.52 to $0.55 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "coding_workload",
+          "steady_product",
+          "fading",
+          "price_up",
+          "switched_models",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "app:2235775",
+       "role": "roleplay",
+       "group": "roleplay and creative",
+       "outcome": "-17% over eight weeks",
+       "facts": {
+        "name": "shapes.inc ad follow-up context",
+        "segment": "roleplay",
+        "segment_label": "roleplay and creative",
+        "category": "entertainment",
+        "subcategory": "roleplay",
+        "persistence": "steady",
+        "start_tokens_week": 40504670876.999985,
+        "tokens_8w": 561865219287.4307,
+        "growth_pct": -16.818390450056253,
+        "spend_8w": 177481.87949108295,
+        "price_start": 0.34512,
+        "price_end": 0.33021,
+        "top_models": [
+         [
+          "deepseek/deepseek-v4-flash-20260423",
+          0.2325
+         ],
+         [
+          "sakana/fugu-max",
+          0.08
+         ],
+         [
+          "deepseek/deepseek-v4-flash-20260731",
+          0.07
+         ]
+        ],
+        "new_models": [
+         "deepseek/deepseek-v4.1-flash-20260910",
+         "deepseek/deepseek-v4.1-flash-20261017",
+         "sakana/fugu-max"
+        ],
+        "repriced": [
+         "xiaomi/mimo-v2.5-20260422"
+        ],
+        "t0": "2026-08-31"
+       },
+       "profile": "shapes.inc ad follow-up context: roleplay app, steady traffic, 40.5 billion tokens a week at the cutoff.",
+       "topics": [
+        "roleplay_workload",
+        "steady_product",
+        "fading",
+        "price_down",
+        "new_models"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "tokens",
+         "question": "How will your token use change over the next eight weeks?",
+         "answer": "We are a steady product with traffic every week. We were using about 40.5 billion tokens a week before 2026-08-31; over the next eight weeks the simulation has us at 561.9 billion in total, ending -17% against where we started.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "models",
+         "question": "Which models will your workloads run on, and why?",
+         "answer": "Our roleplay and creative workloads end the period mostly on deepseek-v4-flash-20260423 (23%), fugu-max (8%), deepseek-v4-flash-20260731 (7%). Newly listed models that picked up work: deepseek-v4.1-flash-20260910, deepseek-v4.1-flash-20261017, fugu-max.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "spend",
+         "question": "What will you spend, and what drives it?",
+         "answer": "About $177,482 over eight weeks at list prices; caching and discounts would bring the bill down. The blended list price of our workloads moved from $0.35 to $0.33 per million tokens. Volume, not price, drives most of the change.",
+         "topics": [
+          "roleplay_workload",
+          "steady_product",
+          "fading",
+          "price_down",
+          "new_models"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      }
+     ],
+     "group_label": "segment",
+     "scenario": "leader_price_double",
+     "title": "What if the leading paid coding model had doubled its price?",
+     "run_id": "20261103T074608-a8ce",
+     "questions": [
+      [
+       "tokens",
+       "How will your token use change over the next eight weeks?"
+      ],
+      [
+       "models",
+       "Which models will your workloads run on, and why?"
+      ],
+      [
+       "spend",
+       "What will you spend, and what drives it?"
+      ]
+     ],
+     "sentiment_basis": "the company's simulated weekly tokens at the end of the eight weeks against the start: up 10% or more positive, down 10% or more negative",
+     "topics": [
+      {
+       "id": "new_models",
+       "label": "Trying newly listed models",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "general": 1.0,
+        "coding": 1.0,
+        "roleplay and creative": 1.0
+       }
+      },
+      {
+       "id": "steady_product",
+       "label": "A steady product with regular traffic",
+       "count": 21,
+       "share": 0.875,
+       "by_group": {
+        "general": 0.5,
+        "coding": 0.933,
+        "roleplay and creative": 1.0
+       }
+      },
+      {
+       "id": "price_up",
+       "label": "List prices went up",
+       "count": 19,
+       "share": 0.792,
+       "by_group": {
+        "general": 1.0,
+        "coding": 1.0,
+        "roleplay and creative": 0.0
+       }
+      },
+      {
+       "id": "switched_models",
+       "label": "Moved work to other models",
+       "count": 15,
+       "share": 0.625,
+       "by_group": {
+        "general": 0.0,
+        "coding": 1.0,
+        "roleplay and creative": 0.0
+       }
+      },
+      {
+       "id": "coding_workload",
+       "label": "Coding workloads",
+       "count": 15,
+       "share": 0.625,
+       "by_group": {
+        "general": 0.0,
+        "coding": 1.0,
+        "roleplay and creative": 0.0
+       }
+      },
+      {
+       "id": "fading",
+       "label": "Usage fading",
+       "count": 12,
+       "share": 0.5,
+       "by_group": {
+        "general": 0.75,
+        "coding": 0.4,
+        "roleplay and creative": 0.6
+       }
+      },
+      {
+       "id": "growing",
+       "label": "Usage growing",
+       "count": 9,
+       "share": 0.375,
+       "by_group": {
+        "general": 0.25,
+        "coding": 0.4,
+        "roleplay and creative": 0.4
+       }
+      },
+      {
+       "id": "roleplay_workload",
+       "label": "Roleplay and creative workloads",
+       "count": 5,
+       "share": 0.208,
+       "by_group": {
+        "general": 0.0,
+        "coding": 0.0,
+        "roleplay and creative": 1.0
+       }
+      },
+      {
+       "id": "price_down",
+       "label": "List prices went down",
+       "count": 5,
+       "share": 0.208,
+       "by_group": {
+        "general": 0.0,
+        "coding": 0.0,
+        "roleplay and creative": 1.0
+       }
+      },
+      {
+       "id": "one_off_job",
+       "label": "A one-off job, not a steady product",
+       "count": 2,
+       "share": 0.083,
+       "by_group": {
+        "general": 0.25,
+        "coding": 0.067,
+        "roleplay and creative": 0.0
+       }
+      }
+     ],
+     "sentiment": {
+      "distribution": {
+       "negative": 12,
+       "neutral": 3,
+       "positive": 9
+      },
+      "n": 24,
+      "by_group": {
+       "general": {
+        "negative": 3,
+        "neutral": 0,
+        "positive": 1
+       },
+       "coding": {
+        "negative": 6,
+        "neutral": 3,
+        "positive": 6
+       },
+       "roleplay and creative": {
+        "negative": 3,
+        "neutral": 0,
+        "positive": 2
+       }
+      }
+     },
+     "groups": {
+      "general": 4,
+      "coding": 15,
+      "roleplay and creative": 5
+     },
+     "n_interviews": 24,
+     "key_insights": [
+      "Alternative: 9 of 24 interviewed companies expect to grow by 10% or more over eight weeks and 12 expect to fall by 10% or more; 2 describe themselves as one-off jobs.",
+      "Alternative: 15 coding companies moved some work off the repriced model.",
+      "Alternative: 24 of 24 companies' segments put work on models listed after the cutoff.",
+      "Alternative: the interviewed companies spend $146,125,793 at list prices over the eight weeks in this run."
+     ]
+    },
+    "interview_method": "template",
+    "interview_note": "Simulated interviews: every answer is rendered from the agent's own simulated record (profile, traits, states, decisions or queue statistics). Nothing here was said by a real person."
+   }
+  ],
   "/report": {
    "title": "AI token demand and spend on OpenRouter",
    "subtitle": "1,600 company predictions, 8 weeks ahead",
@@ -53524,7 +58745,9 @@
     "description": "From each Monday cutoff, carry the 100 leading apps forward for eight weeks. New models are listed on the dates they first appeared and every model carries the list price published at the time; nothing else after the cutoff is known to the simulation.\n",
     "extends": null,
     "file": "baseline.yaml",
-    "role": "baseline"
+    "role": "baseline",
+    "display_title": "Published prices and model launches",
+    "card_summary": "Use the prices and model launches recorded in the data."
    },
    {
     "id": "leader_price_double",
@@ -53534,7 +58757,9 @@
     "description": "The most used paid model in the programming segment at the cutoff doubles its list price for the whole horizon. Coding workloads may move to other models; every company's tokens and spend are re-simulated with the same seeds.\n",
     "extends": "baseline",
     "file": "leader_price_double.yaml",
-    "role": "alternative"
+    "role": "alternative",
+    "display_title": "Double the coding leader’s price",
+    "card_summary": "Raise the leading paid coding model’s price twofold."
    }
   ],
   "/ontology/concepts": {
@@ -56969,6 +62194,58 @@
    "chunks": [
     "tables/openrouter/97be9ae4dffe96ef/00000.json.gz"
    ]
+  }
+ },
+ "run_data": {
+  "baseline/20261103T074424-a268": {
+   "history": "runs/openrouter/baseline/20261103T074424-a268/history.json.gz",
+   "trace": {
+    "name": "trace",
+    "columns": [
+     "tick",
+     "sim_time",
+     "agent_id",
+     "role",
+     "org_unit",
+     "case_id",
+     "activity",
+     "action_type",
+     "duration_h",
+     "wait_h",
+     "provenance",
+     "attributes"
+    ],
+    "total": 824,
+    "chunk_size": 10000,
+    "chunks": [
+     "runs/openrouter/baseline/20261103T074424-a268/trace/00000.json.gz"
+    ]
+   }
+  },
+  "leader_price_double/20261103T074608-a8ce": {
+   "history": "runs/openrouter/leader_price_double/20261103T074608-a8ce/history.json.gz",
+   "trace": {
+    "name": "trace",
+    "columns": [
+     "tick",
+     "sim_time",
+     "agent_id",
+     "role",
+     "org_unit",
+     "case_id",
+     "activity",
+     "action_type",
+     "duration_h",
+     "wait_h",
+     "provenance",
+     "attributes"
+    ],
+    "total": 824,
+    "chunk_size": 10000,
+    "chunks": [
+     "runs/openrouter/leader_price_double/20261103T074608-a8ce/trace/00000.json.gz"
+    ]
+   }
   }
  }
 }

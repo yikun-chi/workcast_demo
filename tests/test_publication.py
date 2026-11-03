@@ -79,10 +79,11 @@ def public_fixture(tmp_path):
     module = script("export_site")
     source = tmp_path / "public-data"
     source.mkdir()
-    responses = {route: {} for route in ("/", "/results", "/evaluation", "/insights", "/summary", "/scenarios", "/tables", "/ontology/concepts")}
+    responses = {route: {} for route in ("/", "/results", "/evaluation", "/insights", "/insights-summary", "/scenario-results", "/summary", "/scenarios", "/tables", "/ontology/concepts")}
     responses["/tables"] = []
+    responses["/scenario-results"] = []
     module.write_json(source / "demo.json", {"responses": responses, "tables": {}})
-    module.write_json(source / "index.json", {"schema_version": 2, "instances": [{"id": "demo", "plugins": []}], "files": {"demo.json": module.digest(source / "demo.json")}})
+    module.write_json(source / "index.json", {"schema_version": 3, "instances": [{"id": "demo", "plugins": []}], "files": {"demo.json": module.digest(source / "demo.json")}})
     return module, source
 
 
@@ -190,3 +191,27 @@ def test_invalid_table_snapshot_leaves_previous_site_intact(tmp_path, failure):
     with pytest.raises((ValueError, FileNotFoundError)):
         module.build_site(source, output)
     assert (output / "public-data/demo.json").read_bytes() == before
+
+
+def test_public_history_identity_and_trace_integrity(tmp_path):
+    import pandas as pd
+    module, source = public_fixture(tmp_path)
+    prefix = Path('runs/demo/baseline/run1')
+    history = prefix / 'history.json.gz'
+    (source / prefix).mkdir(parents=True)
+    (source / history).write_bytes(gzip.compress(json.dumps({'scenario':'baseline','run_id':'run1','trace_rows':2}).encode()))
+    path = tmp_path / 'trace.parquet'
+    pd.DataFrame({'agent_id':['p1','p2'],'tick':[0,24]}).to_parquet(path,index=False)
+    trace = module.export_table(path,source,'demo',{'name':'trace','columns':['agent_id','tick'],'rows':2},chunk_size=1,prefix=prefix/'trace')
+    bundle=json.loads((source/'demo.json').read_text())
+    bundle['responses']['/scenario-results']=[{'run':{'scenario':'baseline','run_id':'run1'}}]
+    bundle['run_data']={'baseline/run1':{'history':history.as_posix(),'trace':trace}}
+    module.write_json(source/'demo.json',bundle)
+    index=json.loads((source/'index.json').read_text())
+    index['files']={p.relative_to(source).as_posix():module.digest(p) for p in source.rglob('*') if p.is_file() and p.name!='index.json'}
+    module.write_json(source/'index.json',index)
+    module.validate_snapshot(source)
+    # Corruption in an event chunk is rejected before a new site can be built.
+    (source/trace['chunks'][1]).write_bytes(b'broken')
+    with pytest.raises(ValueError,match='checksum'):
+        module.validate_snapshot(source)

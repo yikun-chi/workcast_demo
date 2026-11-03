@@ -10612,6 +10612,2125 @@
     ]
    }
   },
+  "/insights-summary": {
+   "primary": {
+    "label": "Average sector AI-use rate · three to six months ahead",
+    "unit": "%",
+    "subject": "AI adoption",
+    "actual": 9.247058823529413,
+    "simulation": 8.252072369583615,
+    "other": 8.060041032756688,
+    "other_label": "Adoption curve",
+    "error": {
+     "simulation": 1.3682985551695093,
+     "other": 1.5185101459378931,
+     "unit": "pp",
+     "scope": "Average error across all scored groups and periods"
+    }
+   },
+   "caveat": "Averages are across scored sectors and periods, not a national firm share.",
+   "alternatives": [
+    {
+     "id": "adoption_programme",
+     "title": "AI uptake programme",
+     "metrics": [
+      {
+       "label": "Manufacturing · share at period 13",
+       "unit": "%",
+       "reference": 5.715992080010906,
+       "value": 6.966609031375733
+      },
+      {
+       "label": "Retail Trade · share at period 13",
+       "unit": "%",
+       "reference": 6.783466985332684,
+       "value": 8.086809467024967
+      }
+     ],
+     "note": "Simulated alternative, compared with its matched reference runs."
+    }
+   ],
+   "context": "From September 2023 the Census Bureau asked businesses every two weeks whether they had used AI in producing goods or services in the last two weeks. Use rose in every sector, fastest in information, professional services and finance."
+  },
+  "/scenario-results": [
+   {
+    "scenario": {
+     "id": "baseline",
+     "title": "AI adoption as it happened: every sector carried forward from the cutoff",
+     "short_title": "As it happened",
+     "summary": "",
+     "description": "From each cutoff, carry each sector's firms forward for six months: non-users start using AI and users stop with the hazards of the diffusion path calibrated on the periods before the cutoff. Nothing after the cutoff is known to the simulation.\n",
+     "extends": null,
+     "file": "baseline.yaml",
+     "role": "baseline",
+     "display_title": "AI adoption as recorded",
+     "card_summary": "Carry sector adoption forward from each prediction date."
+    },
+    "run": {
+     "scenario": "baseline",
+     "run_id": "20261103T071428-f63d",
+     "complete": true,
+     "summary": {
+      "run_id": "20261103T071428-f63d",
+      "instance": "btos_ai",
+      "scenario": "baseline",
+      "seed": 6,
+      "start": "2025-06-16",
+      "end": "2025-12-15",
+      "ticks": 4368,
+      "events": 0
+     }
+    },
+    "runs_available": 281,
+    "interviews": {
+     "interviews": [
+      {
+       "agent_id": "group:23",
+       "role": "group",
+       "group": "Construction",
+       "outcome": "+1.4 points",
+       "facts": {
+        "name": "Construction",
+        "group": "23",
+        "start_share": 0.032,
+        "end_share": 0.04612902373778307,
+        "change_pts": 1.4129023737783069,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Construction: a simulated population of adopters, 3.2% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 3.2% of us use it; in the simulation that is 4.6% after 13 periods (+1.4 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:31",
+       "role": "group",
+       "group": "Manufacturing",
+       "outcome": "+1.3 points",
+       "facts": {
+        "name": "Manufacturing",
+        "group": "31",
+        "start_share": 0.047,
+        "end_share": 0.060116948429143766,
+        "change_pts": 1.3116948429143767,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Manufacturing: a simulated population of adopters, 4.7% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 4.7% of us use it; in the simulation that is 6.0% after 13 periods (+1.3 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:42",
+       "role": "group",
+       "group": "Wholesale Trade",
+       "outcome": "+0.7 points",
+       "facts": {
+        "name": "Wholesale Trade",
+        "group": "42",
+        "start_share": 0.06,
+        "end_share": 0.06679318406123286,
+        "change_pts": 0.679318406123286,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Wholesale Trade: a simulated population of adopters, 6.0% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 6.0% of us use it; in the simulation that is 6.7% after 13 periods (+0.7 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:44",
+       "role": "group",
+       "group": "Retail Trade",
+       "outcome": "+1.3 points",
+       "facts": {
+        "name": "Retail Trade",
+        "group": "44",
+        "start_share": 0.059000000000000004,
+        "end_share": 0.07163910610916087,
+        "change_pts": 1.2639106109160865,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Retail Trade: a simulated population of adopters, 5.9% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 5.9% of us use it; in the simulation that is 7.2% after 13 periods (+1.3 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:48",
+       "role": "group",
+       "group": "Transportation and Warehousing",
+       "outcome": "+0.3 points",
+       "facts": {
+        "name": "Transportation and Warehousing",
+        "group": "48",
+        "start_share": 0.032,
+        "end_share": 0.034547866759104456,
+        "change_pts": 0.25478667591044557,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Transportation and Warehousing: a simulated population of adopters, 3.2% using at the cutoff.",
+       "topics": [
+        "adoption_flat",
+        "imitation"
+       ],
+       "sentiment": "neutral",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 3.2% of us use it; in the simulation that is 3.5% after 13 periods (+0.3 points).",
+         "topics": [
+          "adoption_flat",
+          "imitation"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_flat",
+          "imitation"
+         ],
+         "sentiment": "neutral"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:51",
+       "role": "group",
+       "group": "Information",
+       "outcome": "+4.3 points",
+       "facts": {
+        "name": "Information",
+        "group": "51",
+        "start_share": 0.265,
+        "end_share": 0.30794389409310435,
+        "change_pts": 4.294389409310434,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Information: a simulated population of adopters, 26.5% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 26.5% of us use it; in the simulation that is 30.8% after 13 periods (+4.3 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:52",
+       "role": "group",
+       "group": "Finance and Insurance",
+       "outcome": "+3.2 points",
+       "facts": {
+        "name": "Finance and Insurance",
+        "group": "52",
+        "start_share": 0.135,
+        "end_share": 0.16667062394407334,
+        "change_pts": 3.167062394407333,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Finance and Insurance: a simulated population of adopters, 13.5% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 13.5% of us use it; in the simulation that is 16.7% after 13 periods (+3.2 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:53",
+       "role": "group",
+       "group": "Real Estate and Rental and Leasing",
+       "outcome": "+2.2 points",
+       "facts": {
+        "name": "Real Estate and Rental and Leasing",
+        "group": "53",
+        "start_share": 0.13,
+        "end_share": 0.1520912348077332,
+        "change_pts": 2.20912348077332,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Real Estate and Rental and Leasing: a simulated population of adopters, 13.0% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 13.0% of us use it; in the simulation that is 15.2% after 13 periods (+2.2 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:54",
+       "role": "group",
+       "group": "Professional, Scientific, and Technical Services",
+       "outcome": "+3.6 points",
+       "facts": {
+        "name": "Professional, Scientific, and Technical Services",
+        "group": "54",
+        "start_share": 0.221,
+        "end_share": 0.257129616904488,
+        "change_pts": 3.612961690448799,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Professional, Scientific, and Technical Services: a simulated population of adopters, 22.1% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 22.1% of us use it; in the simulation that is 25.7% after 13 periods (+3.6 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:56",
+       "role": "group",
+       "group": "Administrative and Support and Waste Management",
+       "outcome": "+1.6 points",
+       "facts": {
+        "name": "Administrative and Support and Waste Management",
+        "group": "56",
+        "start_share": 0.084,
+        "end_share": 0.09956509150267018,
+        "change_pts": 1.5565091502670172,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Administrative and Support and Waste Management: a simulated population of adopters, 8.4% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 8.4% of us use it; in the simulation that is 10.0% after 13 periods (+1.6 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:61",
+       "role": "group",
+       "group": "Educational Services",
+       "outcome": "+4.9 points",
+       "facts": {
+        "name": "Educational Services",
+        "group": "61",
+        "start_share": 0.147,
+        "end_share": 0.19573245040739098,
+        "change_pts": 4.873245040739099,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Educational Services: a simulated population of adopters, 14.7% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 14.7% of us use it; in the simulation that is 19.6% after 13 periods (+4.9 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:62",
+       "role": "group",
+       "group": "Health Care and Social Assistance",
+       "outcome": "+1.9 points",
+       "facts": {
+        "name": "Health Care and Social Assistance",
+        "group": "62",
+        "start_share": 0.102,
+        "end_share": 0.12080230994731397,
+        "change_pts": 1.880230994731398,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Health Care and Social Assistance: a simulated population of adopters, 10.2% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 10.2% of us use it; in the simulation that is 12.1% after 13 periods (+1.9 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:71",
+       "role": "group",
+       "group": "Arts, Entertainment, and Recreation",
+       "outcome": "+0.7 points",
+       "facts": {
+        "name": "Arts, Entertainment, and Recreation",
+        "group": "71",
+        "start_share": 0.10800000000000001,
+        "end_share": 0.11464882012101789,
+        "change_pts": 0.6648820121017875,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Arts, Entertainment, and Recreation: a simulated population of adopters, 10.8% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 10.8% of us use it; in the simulation that is 11.5% after 13 periods (+0.7 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:72",
+       "role": "group",
+       "group": "Accommodation and Food Services",
+       "outcome": "+0.7 points",
+       "facts": {
+        "name": "Accommodation and Food Services",
+        "group": "72",
+        "start_share": 0.027999999999999997,
+        "end_share": 0.03453065475319375,
+        "change_pts": 0.6530654753193754,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Accommodation and Food Services: a simulated population of adopters, 2.8% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 2.8% of us use it; in the simulation that is 3.5% after 13 periods (+0.7 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:81",
+       "role": "group",
+       "group": "Other Services (except Public Administration)",
+       "outcome": "+1.6 points",
+       "facts": {
+        "name": "Other Services (except Public Administration)",
+        "group": "81",
+        "start_share": 0.036000000000000004,
+        "end_share": 0.05157358487452094,
+        "change_pts": 1.5573584874520936,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Other Services (except Public Administration): a simulated population of adopters, 3.6% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 3.6% of us use it; in the simulation that is 5.2% after 13 periods (+1.6 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      }
+     ],
+     "group_label": "group",
+     "scenario": "baseline",
+     "title": "AI adoption as it happened: every sector carried forward from the cutoff",
+     "run_id": "20261103T071428-f63d",
+     "questions": [
+      [
+       "adoption",
+       "How many of your group will be using the technology by the end of the horizon?"
+      ],
+      [
+       "drivers",
+       "What drives the change?"
+      ]
+     ],
+     "sentiment_basis": "the group's simulated adoption at the end of the horizon against the cutoff: up half a point or more positive, down half a point or more negative",
+     "topics": [
+      {
+       "id": "imitation",
+       "label": "Following other adopters",
+       "count": 15,
+       "share": 1.0,
+       "by_group": {
+        "Construction": 1.0,
+        "Manufacturing": 1.0,
+        "Wholesale Trade": 1.0,
+        "Retail Trade": 1.0,
+        "Transportation and Warehousing": 1.0,
+        "Information": 1.0,
+        "Finance and Insurance": 1.0,
+        "Real Estate and Rental and Leasing": 1.0,
+        "Professional, Scientific, and Technical Services": 1.0,
+        "Administrative and Support and Waste Management": 1.0,
+        "Educational Services": 1.0,
+        "Health Care and Social Assistance": 1.0,
+        "Arts, Entertainment, and Recreation": 1.0,
+        "Accommodation and Food Services": 1.0,
+        "Other Services (except Public Administration)": 1.0
+       }
+      },
+      {
+       "id": "adoption_up",
+       "label": "Adoption rising",
+       "count": 14,
+       "share": 0.933,
+       "by_group": {
+        "Construction": 1.0,
+        "Manufacturing": 1.0,
+        "Wholesale Trade": 1.0,
+        "Retail Trade": 1.0,
+        "Transportation and Warehousing": 0.0,
+        "Information": 1.0,
+        "Finance and Insurance": 1.0,
+        "Real Estate and Rental and Leasing": 1.0,
+        "Professional, Scientific, and Technical Services": 1.0,
+        "Administrative and Support and Waste Management": 1.0,
+        "Educational Services": 1.0,
+        "Health Care and Social Assistance": 1.0,
+        "Arts, Entertainment, and Recreation": 1.0,
+        "Accommodation and Food Services": 1.0,
+        "Other Services (except Public Administration)": 1.0
+       }
+      },
+      {
+       "id": "adoption_flat",
+       "label": "Adoption flat",
+       "count": 1,
+       "share": 0.067,
+       "by_group": {
+        "Construction": 0.0,
+        "Manufacturing": 0.0,
+        "Wholesale Trade": 0.0,
+        "Retail Trade": 0.0,
+        "Transportation and Warehousing": 1.0,
+        "Information": 0.0,
+        "Finance and Insurance": 0.0,
+        "Real Estate and Rental and Leasing": 0.0,
+        "Professional, Scientific, and Technical Services": 0.0,
+        "Administrative and Support and Waste Management": 0.0,
+        "Educational Services": 0.0,
+        "Health Care and Social Assistance": 0.0,
+        "Arts, Entertainment, and Recreation": 0.0,
+        "Accommodation and Food Services": 0.0,
+        "Other Services (except Public Administration)": 0.0
+       }
+      }
+     ],
+     "sentiment": {
+      "distribution": {
+       "negative": 0,
+       "neutral": 1,
+       "positive": 14
+      },
+      "n": 15,
+      "by_group": {
+       "Construction": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Manufacturing": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Wholesale Trade": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Retail Trade": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Transportation and Warehousing": {
+        "negative": 0,
+        "neutral": 1,
+        "positive": 0
+       },
+       "Information": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Finance and Insurance": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Real Estate and Rental and Leasing": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Professional, Scientific, and Technical Services": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Administrative and Support and Waste Management": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Educational Services": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Health Care and Social Assistance": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Arts, Entertainment, and Recreation": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Accommodation and Food Services": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Other Services (except Public Administration)": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       }
+      }
+     },
+     "groups": {
+      "Construction": 1,
+      "Manufacturing": 1,
+      "Wholesale Trade": 1,
+      "Retail Trade": 1,
+      "Transportation and Warehousing": 1,
+      "Information": 1,
+      "Finance and Insurance": 1,
+      "Real Estate and Rental and Leasing": 1,
+      "Professional, Scientific, and Technical Services": 1,
+      "Administrative and Support and Waste Management": 1,
+      "Educational Services": 1,
+      "Health Care and Social Assistance": 1,
+      "Arts, Entertainment, and Recreation": 1,
+      "Accommodation and Food Services": 1,
+      "Other Services (except Public Administration)": 1
+     },
+     "n_interviews": 15,
+     "key_insights": [
+      "Baseline: 14 of 15 simulated groups gain half a point of adoption or more over the horizon.",
+      "Baseline: the highest simulated adoption at the end of the horizon is Information at 30.8%."
+     ]
+    },
+    "interview_method": "template",
+    "interview_note": "Simulated interviews: every answer is rendered from the agent's own simulated record (profile, traits, states, decisions or queue statistics). Nothing here was said by a real person."
+   },
+   {
+    "scenario": {
+     "id": "adoption_programme",
+     "title": "What if an adoption programme had doubled manufacturing and retail firms' hazard of starting to use AI?",
+     "short_title": "Adoption programme in manufacturing and retail",
+     "summary": "Non-using firms in manufacturing and retail trade start using AI at twice the simulated hazard from the cutoff; same cutoffs and seeds.",
+     "description": "A programme (training, subsidised tools) doubles the probability that a non-using manufacturing or retail firm starts using AI in each period. Every other sector, and the firms that already use AI, behave as in the simulation of what happened. The size of the effect is authored, not estimated.\n",
+     "extends": "baseline",
+     "file": "adoption_programme.yaml",
+     "role": "alternative",
+     "display_title": "AI uptake programme",
+     "card_summary": "Increase assumed uptake in manufacturing and retail."
+    },
+    "run": {
+     "scenario": "adoption_programme",
+     "run_id": "20261103T071444-feba",
+     "complete": true,
+     "summary": {
+      "run_id": "20261103T071444-feba",
+      "instance": "btos_ai",
+      "scenario": "adoption_programme",
+      "seed": 20,
+      "start": "2025-06-16",
+      "end": "2025-12-15",
+      "ticks": 4368,
+      "events": 0
+     }
+    },
+    "runs_available": 40,
+    "interviews": {
+     "interviews": [
+      {
+       "agent_id": "group:23",
+       "role": "group",
+       "group": "Construction",
+       "outcome": "+1.4 points",
+       "facts": {
+        "name": "Construction",
+        "group": "23",
+        "start_share": 0.032,
+        "end_share": 0.04612902373778307,
+        "change_pts": 1.4129023737783069,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Construction: a simulated population of adopters, 3.2% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 3.2% of us use it; in the simulation that is 4.6% after 13 periods (+1.4 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:31",
+       "role": "group",
+       "group": "Manufacturing",
+       "outcome": "+2.6 points",
+       "facts": {
+        "name": "Manufacturing",
+        "group": "31",
+        "start_share": 0.047,
+        "end_share": 0.07306775776536466,
+        "change_pts": 2.6067757765364656,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": true,
+        "multiplier": 2.0
+       },
+       "profile": "Manufacturing: a simulated population of adopters, 4.7% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation",
+        "programme"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 4.7% of us use it; in the simulation that is 7.3% after 13 periods (+2.6 points).",
+         "topics": [
+          "adoption_up",
+          "imitation",
+          "programme"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population. A programme multiplies our non-users' chance of starting by 2.0.",
+         "topics": [
+          "adoption_up",
+          "imitation",
+          "programme"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:42",
+       "role": "group",
+       "group": "Wholesale Trade",
+       "outcome": "+0.7 points",
+       "facts": {
+        "name": "Wholesale Trade",
+        "group": "42",
+        "start_share": 0.06,
+        "end_share": 0.06679318406123286,
+        "change_pts": 0.679318406123286,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Wholesale Trade: a simulated population of adopters, 6.0% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 6.0% of us use it; in the simulation that is 6.7% after 13 periods (+0.7 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:44",
+       "role": "group",
+       "group": "Retail Trade",
+       "outcome": "+2.6 points",
+       "facts": {
+        "name": "Retail Trade",
+        "group": "44",
+        "start_share": 0.059000000000000004,
+        "end_share": 0.08484073444829687,
+        "change_pts": 2.584073444829687,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": true,
+        "multiplier": 2.0
+       },
+       "profile": "Retail Trade: a simulated population of adopters, 5.9% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation",
+        "programme"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 5.9% of us use it; in the simulation that is 8.5% after 13 periods (+2.6 points).",
+         "topics": [
+          "adoption_up",
+          "imitation",
+          "programme"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population. A programme multiplies our non-users' chance of starting by 2.0.",
+         "topics": [
+          "adoption_up",
+          "imitation",
+          "programme"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:48",
+       "role": "group",
+       "group": "Transportation and Warehousing",
+       "outcome": "+0.3 points",
+       "facts": {
+        "name": "Transportation and Warehousing",
+        "group": "48",
+        "start_share": 0.032,
+        "end_share": 0.034547866759104456,
+        "change_pts": 0.25478667591044557,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Transportation and Warehousing: a simulated population of adopters, 3.2% using at the cutoff.",
+       "topics": [
+        "adoption_flat",
+        "imitation"
+       ],
+       "sentiment": "neutral",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 3.2% of us use it; in the simulation that is 3.5% after 13 periods (+0.3 points).",
+         "topics": [
+          "adoption_flat",
+          "imitation"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_flat",
+          "imitation"
+         ],
+         "sentiment": "neutral"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:51",
+       "role": "group",
+       "group": "Information",
+       "outcome": "+4.3 points",
+       "facts": {
+        "name": "Information",
+        "group": "51",
+        "start_share": 0.265,
+        "end_share": 0.30794389409310435,
+        "change_pts": 4.294389409310434,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Information: a simulated population of adopters, 26.5% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 26.5% of us use it; in the simulation that is 30.8% after 13 periods (+4.3 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:52",
+       "role": "group",
+       "group": "Finance and Insurance",
+       "outcome": "+3.2 points",
+       "facts": {
+        "name": "Finance and Insurance",
+        "group": "52",
+        "start_share": 0.135,
+        "end_share": 0.16667062394407334,
+        "change_pts": 3.167062394407333,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Finance and Insurance: a simulated population of adopters, 13.5% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 13.5% of us use it; in the simulation that is 16.7% after 13 periods (+3.2 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:53",
+       "role": "group",
+       "group": "Real Estate and Rental and Leasing",
+       "outcome": "+2.2 points",
+       "facts": {
+        "name": "Real Estate and Rental and Leasing",
+        "group": "53",
+        "start_share": 0.13,
+        "end_share": 0.1520912348077332,
+        "change_pts": 2.20912348077332,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Real Estate and Rental and Leasing: a simulated population of adopters, 13.0% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 13.0% of us use it; in the simulation that is 15.2% after 13 periods (+2.2 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:54",
+       "role": "group",
+       "group": "Professional, Scientific, and Technical Services",
+       "outcome": "+3.6 points",
+       "facts": {
+        "name": "Professional, Scientific, and Technical Services",
+        "group": "54",
+        "start_share": 0.221,
+        "end_share": 0.257129616904488,
+        "change_pts": 3.612961690448799,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Professional, Scientific, and Technical Services: a simulated population of adopters, 22.1% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 22.1% of us use it; in the simulation that is 25.7% after 13 periods (+3.6 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:56",
+       "role": "group",
+       "group": "Administrative and Support and Waste Management",
+       "outcome": "+1.6 points",
+       "facts": {
+        "name": "Administrative and Support and Waste Management",
+        "group": "56",
+        "start_share": 0.084,
+        "end_share": 0.09956509150267018,
+        "change_pts": 1.5565091502670172,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Administrative and Support and Waste Management: a simulated population of adopters, 8.4% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 8.4% of us use it; in the simulation that is 10.0% after 13 periods (+1.6 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:61",
+       "role": "group",
+       "group": "Educational Services",
+       "outcome": "+4.9 points",
+       "facts": {
+        "name": "Educational Services",
+        "group": "61",
+        "start_share": 0.147,
+        "end_share": 0.19573245040739098,
+        "change_pts": 4.873245040739099,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Educational Services: a simulated population of adopters, 14.7% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 14.7% of us use it; in the simulation that is 19.6% after 13 periods (+4.9 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:62",
+       "role": "group",
+       "group": "Health Care and Social Assistance",
+       "outcome": "+1.9 points",
+       "facts": {
+        "name": "Health Care and Social Assistance",
+        "group": "62",
+        "start_share": 0.102,
+        "end_share": 0.12080230994731397,
+        "change_pts": 1.880230994731398,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Health Care and Social Assistance: a simulated population of adopters, 10.2% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 10.2% of us use it; in the simulation that is 12.1% after 13 periods (+1.9 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:71",
+       "role": "group",
+       "group": "Arts, Entertainment, and Recreation",
+       "outcome": "+0.7 points",
+       "facts": {
+        "name": "Arts, Entertainment, and Recreation",
+        "group": "71",
+        "start_share": 0.10800000000000001,
+        "end_share": 0.11464882012101789,
+        "change_pts": 0.6648820121017875,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Arts, Entertainment, and Recreation: a simulated population of adopters, 10.8% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 10.8% of us use it; in the simulation that is 11.5% after 13 periods (+0.7 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:72",
+       "role": "group",
+       "group": "Accommodation and Food Services",
+       "outcome": "+0.7 points",
+       "facts": {
+        "name": "Accommodation and Food Services",
+        "group": "72",
+        "start_share": 0.027999999999999997,
+        "end_share": 0.03453065475319375,
+        "change_pts": 0.6530654753193754,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Accommodation and Food Services: a simulated population of adopters, 2.8% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 2.8% of us use it; in the simulation that is 3.5% after 13 periods (+0.7 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "group:81",
+       "role": "group",
+       "group": "Other Services (except Public Administration)",
+       "outcome": "+1.6 points",
+       "facts": {
+        "name": "Other Services (except Public Administration)",
+        "group": "81",
+        "start_share": 0.036000000000000004,
+        "end_share": 0.05157358487452094,
+        "change_pts": 1.5573584874520936,
+        "periods": 13,
+        "cutoff_date": "2025-06-16",
+        "outcome": "share",
+        "spec": {
+         "k_level": 6.0,
+         "drift": 1.0,
+         "w": 0.0,
+         "phi": 1.0,
+         "form": "imitation"
+        },
+        "boosted": false,
+        "multiplier": null
+       },
+       "profile": "Other Services (except Public Administration): a simulated population of adopters, 3.6% using at the cutoff.",
+       "topics": [
+        "adoption_up",
+        "imitation"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "adoption",
+         "question": "How many of your group will be using the technology by the end of the horizon?",
+         "answer": "At 2025-06-16 about 3.6% of us use it; in the simulation that is 5.2% after 13 periods (+1.6 points).",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "drivers",
+         "question": "What drives the change?",
+         "answer": "In the simulation, we follow the others who already use it, in our own group and in the whole population.",
+         "topics": [
+          "adoption_up",
+          "imitation"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      }
+     ],
+     "group_label": "group",
+     "scenario": "adoption_programme",
+     "title": "What if an adoption programme had doubled manufacturing and retail firms' hazard of starting to use AI?",
+     "run_id": "20261103T071444-feba",
+     "questions": [
+      [
+       "adoption",
+       "How many of your group will be using the technology by the end of the horizon?"
+      ],
+      [
+       "drivers",
+       "What drives the change?"
+      ]
+     ],
+     "sentiment_basis": "the group's simulated adoption at the end of the horizon against the cutoff: up half a point or more positive, down half a point or more negative",
+     "topics": [
+      {
+       "id": "imitation",
+       "label": "Following other adopters",
+       "count": 15,
+       "share": 1.0,
+       "by_group": {
+        "Construction": 1.0,
+        "Manufacturing": 1.0,
+        "Wholesale Trade": 1.0,
+        "Retail Trade": 1.0,
+        "Transportation and Warehousing": 1.0,
+        "Information": 1.0,
+        "Finance and Insurance": 1.0,
+        "Real Estate and Rental and Leasing": 1.0,
+        "Professional, Scientific, and Technical Services": 1.0,
+        "Administrative and Support and Waste Management": 1.0,
+        "Educational Services": 1.0,
+        "Health Care and Social Assistance": 1.0,
+        "Arts, Entertainment, and Recreation": 1.0,
+        "Accommodation and Food Services": 1.0,
+        "Other Services (except Public Administration)": 1.0
+       }
+      },
+      {
+       "id": "adoption_up",
+       "label": "Adoption rising",
+       "count": 14,
+       "share": 0.933,
+       "by_group": {
+        "Construction": 1.0,
+        "Manufacturing": 1.0,
+        "Wholesale Trade": 1.0,
+        "Retail Trade": 1.0,
+        "Transportation and Warehousing": 0.0,
+        "Information": 1.0,
+        "Finance and Insurance": 1.0,
+        "Real Estate and Rental and Leasing": 1.0,
+        "Professional, Scientific, and Technical Services": 1.0,
+        "Administrative and Support and Waste Management": 1.0,
+        "Educational Services": 1.0,
+        "Health Care and Social Assistance": 1.0,
+        "Arts, Entertainment, and Recreation": 1.0,
+        "Accommodation and Food Services": 1.0,
+        "Other Services (except Public Administration)": 1.0
+       }
+      },
+      {
+       "id": "programme",
+       "label": "Adoption programme",
+       "count": 2,
+       "share": 0.133,
+       "by_group": {
+        "Construction": 0.0,
+        "Manufacturing": 1.0,
+        "Wholesale Trade": 0.0,
+        "Retail Trade": 1.0,
+        "Transportation and Warehousing": 0.0,
+        "Information": 0.0,
+        "Finance and Insurance": 0.0,
+        "Real Estate and Rental and Leasing": 0.0,
+        "Professional, Scientific, and Technical Services": 0.0,
+        "Administrative and Support and Waste Management": 0.0,
+        "Educational Services": 0.0,
+        "Health Care and Social Assistance": 0.0,
+        "Arts, Entertainment, and Recreation": 0.0,
+        "Accommodation and Food Services": 0.0,
+        "Other Services (except Public Administration)": 0.0
+       }
+      },
+      {
+       "id": "adoption_flat",
+       "label": "Adoption flat",
+       "count": 1,
+       "share": 0.067,
+       "by_group": {
+        "Construction": 0.0,
+        "Manufacturing": 0.0,
+        "Wholesale Trade": 0.0,
+        "Retail Trade": 0.0,
+        "Transportation and Warehousing": 1.0,
+        "Information": 0.0,
+        "Finance and Insurance": 0.0,
+        "Real Estate and Rental and Leasing": 0.0,
+        "Professional, Scientific, and Technical Services": 0.0,
+        "Administrative and Support and Waste Management": 0.0,
+        "Educational Services": 0.0,
+        "Health Care and Social Assistance": 0.0,
+        "Arts, Entertainment, and Recreation": 0.0,
+        "Accommodation and Food Services": 0.0,
+        "Other Services (except Public Administration)": 0.0
+       }
+      }
+     ],
+     "sentiment": {
+      "distribution": {
+       "negative": 0,
+       "neutral": 1,
+       "positive": 14
+      },
+      "n": 15,
+      "by_group": {
+       "Construction": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Manufacturing": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Wholesale Trade": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Retail Trade": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Transportation and Warehousing": {
+        "negative": 0,
+        "neutral": 1,
+        "positive": 0
+       },
+       "Information": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Finance and Insurance": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Real Estate and Rental and Leasing": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Professional, Scientific, and Technical Services": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Administrative and Support and Waste Management": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Educational Services": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Health Care and Social Assistance": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Arts, Entertainment, and Recreation": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Accommodation and Food Services": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Other Services (except Public Administration)": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       }
+      }
+     },
+     "groups": {
+      "Construction": 1,
+      "Manufacturing": 1,
+      "Wholesale Trade": 1,
+      "Retail Trade": 1,
+      "Transportation and Warehousing": 1,
+      "Information": 1,
+      "Finance and Insurance": 1,
+      "Real Estate and Rental and Leasing": 1,
+      "Professional, Scientific, and Technical Services": 1,
+      "Administrative and Support and Waste Management": 1,
+      "Educational Services": 1,
+      "Health Care and Social Assistance": 1,
+      "Arts, Entertainment, and Recreation": 1,
+      "Accommodation and Food Services": 1,
+      "Other Services (except Public Administration)": 1
+     },
+     "n_interviews": 15,
+     "key_insights": [
+      "Alternative: 14 of 15 simulated groups gain half a point of adoption or more over the horizon.",
+      "Alternative: the highest simulated adoption at the end of the horizon is Information at 30.8%."
+     ]
+    },
+    "interview_method": "template",
+    "interview_note": "Simulated interviews: every answer is rendered from the agent's own simulated record (profile, traits, states, decisions or queue statistics). Nothing here was said by a real person."
+   }
+  ],
   "/report": {
    "title": "AI adoption by sector (Census BTOS)",
    "subtitle": "Can we predict what share of businesses in each sector will be using AI three and six months from now?",
@@ -11899,7 +14018,9 @@
     "description": "From each cutoff, carry each sector's firms forward for six months: non-users start using AI and users stop with the hazards of the diffusion path calibrated on the periods before the cutoff. Nothing after the cutoff is known to the simulation.\n",
     "extends": null,
     "file": "baseline.yaml",
-    "role": "baseline"
+    "role": "baseline",
+    "display_title": "AI adoption as recorded",
+    "card_summary": "Carry sector adoption forward from each prediction date."
    },
    {
     "id": "adoption_programme",
@@ -11909,7 +14030,9 @@
     "description": "A programme (training, subsidised tools) doubles the probability that a non-using manufacturing or retail firm starts using AI in each period. Every other sector, and the firms that already use AI, behave as in the simulation of what happened. The size of the effect is authored, not estimated.\n",
     "extends": "baseline",
     "file": "adoption_programme.yaml",
-    "role": "alternative"
+    "role": "alternative",
+    "display_title": "AI uptake programme",
+    "card_summary": "Increase assumed uptake in manufacturing and retail."
    }
   ],
   "/ontology/concepts": {
@@ -14793,6 +16916,54 @@
    "chunks": [
     "tables/btos_ai/0144cb06449c38f3/00000.json.gz"
    ]
+  }
+ },
+ "run_data": {
+  "baseline/20261103T071428-f63d": {
+   "history": "runs/btos_ai/baseline/20261103T071428-f63d/history.json.gz",
+   "trace": {
+    "name": "trace",
+    "columns": [
+     "tick",
+     "sim_time",
+     "agent_id",
+     "role",
+     "org_unit",
+     "case_id",
+     "activity",
+     "action_type",
+     "duration_h",
+     "wait_h",
+     "provenance",
+     "attributes"
+    ],
+    "total": 0,
+    "chunk_size": 10000,
+    "chunks": []
+   }
+  },
+  "adoption_programme/20261103T071444-feba": {
+   "history": "runs/btos_ai/adoption_programme/20261103T071444-feba/history.json.gz",
+   "trace": {
+    "name": "trace",
+    "columns": [
+     "tick",
+     "sim_time",
+     "agent_id",
+     "role",
+     "org_unit",
+     "case_id",
+     "activity",
+     "action_type",
+     "duration_h",
+     "wait_h",
+     "provenance",
+     "attributes"
+    ],
+    "total": 0,
+    "chunk_size": 10000,
+    "chunks": []
+   }
   }
  }
 }

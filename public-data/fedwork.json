@@ -12180,6 +12180,3817 @@
     ]
    }
   },
+  "/insights-summary": {
+   "primary": {
+    "label": "Separations across agencies · February–December 2025",
+    "unit": "separations",
+    "subject": "separations",
+    "actual": 366779.0,
+    "simulation": 245532.0,
+    "other": 295026.0,
+    "other_label": "Programme calculation"
+   },
+   "caveat": "Historical rates come from later-revised files; this is a retrospective comparison.",
+   "alternatives": [
+    {
+     "id": "no_resignation_offer",
+     "title": "Office return without the offer",
+     "metrics": [
+      {
+       "label": "Separations, 2025-02 to 2025-12, all agencies",
+       "unit": "",
+       "reference": 245531.6,
+       "value": 192632.6,
+       "better": "lower"
+      }
+     ],
+     "note": "Simulated alternative, compared with its matched reference runs."
+    }
+   ],
+   "context": "On 20 January 2025 the President ordered federal agencies to end remote work, and on 28 January OPM offered nearly every federal employee a deferred resignation: stop working, stay paid until 30 September 2025, then leave. The offer closed on 12 February."
+  },
+  "/scenario-results": [
+   {
+    "scenario": {
+     "id": "baseline",
+     "title": "2025 as announced: return to the office and the deferred resignation offer",
+     "short_title": "As announced",
+     "summary": "",
+     "description": "Every agency's employees from the December 2024 snapshot, from 1 January to 31 December 2025. The presidential memorandum of 20 January 2025 ends remote work; OPM's offer of 28 January lets full-time employees resign effective 30 September 2025 with pay until then, and closes on 12 February. Only these announced dates enter the simulation.\n",
+     "extends": null,
+     "file": "baseline.yaml",
+     "role": "baseline",
+     "display_title": "Office return and resignation offer",
+     "card_summary": "Apply the return-to-office order and resignation offer."
+    },
+    "run": {
+     "scenario": "baseline",
+     "run_id": "20261103T071939-46d9",
+     "complete": true,
+     "summary": {
+      "run_id": "20261103T071939-46d9",
+      "instance": "fedwork",
+      "scenario": "baseline",
+      "seed": 20,
+      "start": "2025-01-01T00:00:00",
+      "end": "2025-12-31T00:00:00",
+      "ticks": 8760,
+      "events": 10894
+     }
+    },
+    "runs_available": 40,
+    "interviews": {
+     "interviews": [
+      {
+       "agent_id": "cell010848",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 40",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 40,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OM, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 40. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell011480",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 2",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 2,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the SB, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 2. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell004297",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 37",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 37,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 37. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell011067",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 49",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 49,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 49. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell008011",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 7",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 7,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 7. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell007200",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 50",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 50,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 50. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell008843",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 44",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 44,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 44. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell010096",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 7",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 7,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 7. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell013943",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the VA, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell011132",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell010833",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OM, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell011109",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell006340",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell001681",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell008262",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the IN, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell006146",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell001527",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the AR, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell004491",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the ED, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell007125",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the HE, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell009837",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the NN, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell003620",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the DL, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell006658",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell004851",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the EP, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell003904",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the DN, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      }
+     ],
+     "group_label": "offer",
+     "scenario": "baseline",
+     "title": "2025 as announced: return to the office and the deferred resignation offer",
+     "run_id": "20261103T071939-46d9",
+     "questions": [
+      [
+       "attrition",
+       "Did you think about leaving the company during these months? What weighed most?"
+      ],
+      [
+       "satisfaction",
+       "How has your job satisfaction changed since August?"
+      ],
+      [
+       "work_life_balance",
+       "What did the Wednesday-and-Friday arrangement mean for your week?"
+      ],
+      [
+       "performance",
+       "Did it change how you got your work done?"
+      ]
+     ],
+     "sentiment_basis": "each twin's end-of-period job satisfaction: 6 or below negative, 7.5 or above positive",
+     "topics": [
+      {
+       "id": "satisfaction_stable",
+       "label": "Job satisfaction unchanged",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "attachment_weak",
+       "label": "Weak attachment to the firm",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "performance_unchanged",
+       "label": "Output unchanged",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "resigned",
+       "label": "Resigned during the period",
+       "count": 8,
+       "share": 0.333,
+       "by_group": {
+        "not offered": 0.333
+       }
+      }
+     ],
+     "sentiment": {
+      "distribution": {
+       "negative": 24,
+       "neutral": 0,
+       "positive": 0
+      },
+      "n": 24,
+      "by_group": {
+       "not offered": {
+        "negative": 24,
+        "neutral": 0,
+        "positive": 0
+       }
+      }
+     },
+     "groups": {
+      "not offered": 24
+     },
+     "n_interviews": 24,
+     "key_insights": [
+      "Baseline: of the 8 interviewed employees who resigned, 0 name a commute of two hours a day or more and 0 name being left in the office while teammates worked from home.",
+      "Baseline: 0 of 24 employees not offered the policy bring up the comparison with teammates who were; 0 report lower satisfaction.",
+      "Baseline: sentiment across 24 interviews is 0 positive, 0 neutral, 24 negative (from each twin's end-of-period job satisfaction).",
+      "Baseline: 24 of 24 say the arrangement did not change their output, matching the null performance effect in the experiment."
+     ]
+    },
+    "interview_method": "template",
+    "interview_note": "Simulated interviews: every answer is rendered from the agent's own simulated record (profile, traits, states, decisions or queue statistics). Nothing here was said by a real person."
+   },
+   {
+    "scenario": {
+     "id": "no_resignation_offer",
+     "title": "What if agencies had been ordered back to the office without the deferred resignation offer?",
+     "short_title": "No resignation offer",
+     "summary": "Keep the return-to-office order but drop the paid resignation offer; the question is how many separations the offer itself added, and when.",
+     "description": "The return-to-office order of 20 January 2025 stands; the deferred resignation offer is never made. Compared with the simulation of 2025 as announced, with the same seeds.\n",
+     "extends": "baseline",
+     "file": "no_resignation_offer.yaml",
+     "role": "alternative",
+     "display_title": "Office return without the offer",
+     "card_summary": "Keep the office-return order and remove the resignation offer."
+    },
+    "run": {
+     "scenario": "no_resignation_offer",
+     "run_id": "20261103T071825-0fd7",
+     "complete": true,
+     "summary": {
+      "run_id": "20261103T071825-0fd7",
+      "instance": "fedwork",
+      "scenario": "no_resignation_offer",
+      "seed": 20,
+      "start": "2025-01-01T00:00:00",
+      "end": "2025-12-31T00:00:00",
+      "ticks": 8760,
+      "events": 10812
+     }
+    },
+    "runs_available": 20,
+    "interviews": {
+     "interviews": [
+      {
+       "agent_id": "cell013943",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 23",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 23,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the VA, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 23. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell012199",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 28",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 28,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the ST, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 28. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell005051",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 13",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 13,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 13. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell012119",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 16",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 16,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the SM, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 16. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell009236",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 45",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 45,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 45. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell008979",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 42",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 42,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the LP, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 42. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell009418",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 39",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 39,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the NF, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 39. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell011480",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "resigned week 2",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": 2,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the SB, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "resigned",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Yes, and I left in week 2. What weighed most was I never felt very attached here.",
+         "topics": [
+          "attachment_weak",
+          "resigned"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell013856",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the VA, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell011091",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell010667",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OM, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell011018",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell006296",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell001613",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the AR, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell008012",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell006095",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell001487",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the AR, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell004455",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the ED, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell007107",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the HE, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell009679",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the NN, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell003497",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the DJ, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell006642",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the OTHER, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell004839",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the EP, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      },
+      {
+       "agent_id": "cell003830",
+       "role": "federal_employee",
+       "group": "not offered",
+       "outcome": "stayed",
+       "facts": {
+        "role": "federal_employee",
+        "manager": false,
+        "offered": false,
+        "arm": 0,
+        "commute_2way_h": 0.0,
+        "eligible_days": 0,
+        "wfh_days": 0,
+        "take_up": null,
+        "sat_base": 0.0,
+        "sat_end": 0.0,
+        "wlb_base": 0.0,
+        "wlb_end": 0.0,
+        "relative_deprivation": 0.0,
+        "attachment": 0.0,
+        "quit_week": null,
+        "children": false,
+        "wfh_pref_z": 0.0,
+        "quit_risk_pct": 50,
+        "sat_delta": 0.0,
+        "wlb_delta": 0.0,
+        "ai_assisted": false,
+        "hours_released": 0.0
+       },
+       "profile": "Federal civilian employee (cohort twin) in the DN, team . Preference for working from home: above average (percentile 50). Baseline attachment to the job: average (quit-risk percentile 50).",
+       "topics": [
+        "satisfaction_stable",
+        "attachment_weak",
+        "performance_unchanged"
+       ],
+       "sentiment": "negative",
+       "qa": [
+        {
+         "metric": "attrition",
+         "question": "Did you think about leaving the company during these months? What weighed most?",
+         "answer": "Not seriously: I keep an eye on openings.",
+         "topics": [
+          "attachment_weak"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "satisfaction",
+         "question": "How has your job satisfaction changed since August?",
+         "answer": "About the same, around 0.0 out of ten. Nothing in the policy changed what my job is.",
+         "topics": [
+          "satisfaction_stable"
+         ],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "work_life_balance",
+         "question": "What did the Wednesday-and-Friday arrangement mean for your week?",
+         "answer": "I was not offered it, so my week did not change: five days in, about 0 minutes a day on the road.",
+         "topics": [],
+         "sentiment": "negative"
+        },
+        {
+         "metric": "performance",
+         "question": "Did it change how you got your work done?",
+         "answer": "No. The work is the same from home or from the office; my review grade did not move, which is what I expected.",
+         "topics": [
+          "performance_unchanged"
+         ],
+         "sentiment": "negative"
+        }
+       ]
+      }
+     ],
+     "group_label": "offer",
+     "scenario": "no_resignation_offer",
+     "title": "What if agencies had been ordered back to the office without the deferred resignation offer?",
+     "run_id": "20261103T071825-0fd7",
+     "questions": [
+      [
+       "attrition",
+       "Did you think about leaving the company during these months? What weighed most?"
+      ],
+      [
+       "satisfaction",
+       "How has your job satisfaction changed since August?"
+      ],
+      [
+       "work_life_balance",
+       "What did the Wednesday-and-Friday arrangement mean for your week?"
+      ],
+      [
+       "performance",
+       "Did it change how you got your work done?"
+      ]
+     ],
+     "sentiment_basis": "each twin's end-of-period job satisfaction: 6 or below negative, 7.5 or above positive",
+     "topics": [
+      {
+       "id": "satisfaction_stable",
+       "label": "Job satisfaction unchanged",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "attachment_weak",
+       "label": "Weak attachment to the firm",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "performance_unchanged",
+       "label": "Output unchanged",
+       "count": 24,
+       "share": 1.0,
+       "by_group": {
+        "not offered": 1.0
+       }
+      },
+      {
+       "id": "resigned",
+       "label": "Resigned during the period",
+       "count": 8,
+       "share": 0.333,
+       "by_group": {
+        "not offered": 0.333
+       }
+      }
+     ],
+     "sentiment": {
+      "distribution": {
+       "negative": 24,
+       "neutral": 0,
+       "positive": 0
+      },
+      "n": 24,
+      "by_group": {
+       "not offered": {
+        "negative": 24,
+        "neutral": 0,
+        "positive": 0
+       }
+      }
+     },
+     "groups": {
+      "not offered": 24
+     },
+     "n_interviews": 24,
+     "key_insights": [
+      "Alternative: of the 8 interviewed employees who resigned, 0 name a commute of two hours a day or more and 0 name being left in the office while teammates worked from home.",
+      "Alternative: 0 of 24 employees not offered the policy bring up the comparison with teammates who were; 0 report lower satisfaction.",
+      "Alternative: sentiment across 24 interviews is 0 positive, 0 neutral, 24 negative (from each twin's end-of-period job satisfaction).",
+      "Alternative: 24 of 24 say the arrangement did not change their output, matching the null performance effect in the experiment."
+     ]
+    },
+    "interview_method": "template",
+    "interview_note": "Simulated interviews: every answer is rendered from the agent's own simulated record (profile, traits, states, decisions or queue statistics). Nothing here was said by a real person."
+   }
+  ],
   "/report": {
    "title": "Federal workforce separations: simulation against OPM's records",
    "subtitle": "OPM Federal Workforce Data",
@@ -15207,7 +19018,9 @@
     "description": "Every agency's employees from the December 2024 snapshot, from 1 January to 31 December 2025. The presidential memorandum of 20 January 2025 ends remote work; OPM's offer of 28 January lets full-time employees resign effective 30 September 2025 with pay until then, and closes on 12 February. Only these announced dates enter the simulation.\n",
     "extends": null,
     "file": "baseline.yaml",
-    "role": "baseline"
+    "role": "baseline",
+    "display_title": "Office return and resignation offer",
+    "card_summary": "Apply the return-to-office order and resignation offer."
    },
    {
     "id": "no_resignation_offer",
@@ -15217,7 +19030,9 @@
     "description": "The return-to-office order of 20 January 2025 stands; the deferred resignation offer is never made. Compared with the simulation of 2025 as announced, with the same seeds.\n",
     "extends": "baseline",
     "file": "no_resignation_offer.yaml",
-    "role": "alternative"
+    "role": "alternative",
+    "display_title": "Office return without the offer",
+    "card_summary": "Keep the office-return order and remove the resignation offer."
    },
    {
     "id": "development",
@@ -15227,7 +19042,9 @@
     "description": "The same twins and separation rates with no return-to-office order and no resignation offer. Used for the development cutoffs (December 2021, 2022 and 2023), which had no announced change.\n",
     "extends": "baseline",
     "file": "development.yaml",
-    "role": "other"
+    "role": "other",
+    "display_title": "A year with no announced policy change (development cutoffs)",
+    "card_summary": ""
    }
   ],
   "/ontology/concepts": {
@@ -17833,6 +21650,60 @@
     "tables/fedwork/574ccfb9aa1146e7/00000.json.gz",
     "tables/fedwork/574ccfb9aa1146e7/00001.json.gz"
    ]
+  }
+ },
+ "run_data": {
+  "baseline/20261103T071939-46d9": {
+   "history": "runs/fedwork/baseline/20261103T071939-46d9/history.json.gz",
+   "trace": {
+    "name": "trace",
+    "columns": [
+     "tick",
+     "sim_time",
+     "agent_id",
+     "role",
+     "org_unit",
+     "case_id",
+     "activity",
+     "action_type",
+     "duration_h",
+     "wait_h",
+     "provenance",
+     "attributes"
+    ],
+    "total": 10894,
+    "chunk_size": 10000,
+    "chunks": [
+     "runs/fedwork/baseline/20261103T071939-46d9/trace/00000.json.gz",
+     "runs/fedwork/baseline/20261103T071939-46d9/trace/00001.json.gz"
+    ]
+   }
+  },
+  "no_resignation_offer/20261103T071825-0fd7": {
+   "history": "runs/fedwork/no_resignation_offer/20261103T071825-0fd7/history.json.gz",
+   "trace": {
+    "name": "trace",
+    "columns": [
+     "tick",
+     "sim_time",
+     "agent_id",
+     "role",
+     "org_unit",
+     "case_id",
+     "activity",
+     "action_type",
+     "duration_h",
+     "wait_h",
+     "provenance",
+     "attributes"
+    ],
+    "total": 10812,
+    "chunk_size": 10000,
+    "chunks": [
+     "runs/fedwork/no_resignation_offer/20261103T071825-0fd7/trace/00000.json.gz",
+     "runs/fedwork/no_resignation_offer/20261103T071825-0fd7/trace/00001.json.gz"
+    ]
+   }
   }
  }
 }

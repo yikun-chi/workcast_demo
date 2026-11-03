@@ -1,69 +1,75 @@
-# The UI, page by page
+# The shared browser UI
 
-Build-free shell under `ui/` (static HTML, CSS and ES modules), served by `orgsim serve` at `/`. Dark theme by
-default with the Workcast logo and wordmark; the header toggle and `?theme=light|dark` switch themes.
+Build-free HTML, CSS and ES modules under `ui/`, served locally by `orgsim serve`
+and publicly from the same source via GitHub Pages. Dark/light themes share the
+same layout. The landing page selects an instance and opens **Insights**.
 
-## Landing page (instance picker)
+## Reading order
 
-Headline, one paragraph on what the platform does, then one card per instance: the company, the business question
-as the title, three lines (the situation, the data, the alternative explored), and a computed hero (the headline
-numbers next to the ground truth, and the alternative's effect in one sentence). "See the results" opens the
-instance on its Results tab. Nothing about build status.
+1. **Insights** answers “How close was the simulation?” and “What changes under
+   alternatives?” Lead with one outcome, actual/other/simulation values, and a
+   scoped verdict. Alternative cards show changes against their own matched
+   reference runs. Material evidence limits stay visible. Methods, before/change
+   context, all metrics, uncertainty, source notes and detailed comparison views
+   open under **Evidence, methods and all comparisons**. An average prediction
+   level and average per-period error are different statistics; never conflate them.
+2. **Scenarios** shows concise cards: title, one sentence, **View details**. Details
+   hold the assumptions, not the overview cards. In the interactive app, **Add new
+   scenario** opens a form, copies an existing scenario through inheritance and
+   opens the editor. Public mode displays a disabled card with an explanation.
+   Local AI scenarios retain the five assumption controls, effort preview and
+   **Compare with current policy** action; this refreshes the comparison in Insights.
+3. **Results** starts with scenario cards. A selected scenario shows key metrics
+   and a trend for one saved run. Expand **Explore simulation history** to select
+   the whole simulation or an entity, play/step through saved states, select chart
+   points and zoom. A button provides the same zoom action as double-clicking.
+   Recorded events support search, sorting, entity/time filtering and a complete
+   event drawer. Interviews, entity fields, all metrics and configuration are
+   expandable. Comparisons across scenarios belong in Insights.
 
-## Inside an instance (Results is the default)
+Results identifies the run, population and period. Its one-run numbers can differ
+from evaluation averages in Insights. Saved interviews pin the chosen run where
+available; otherwise the latest completed scenario run is selected. Interview text
+is labeled simulated. Workforce runs expose saved people/states, procurement exposes
+workers and events, markets expose apps/weeks, federal cohorts expose agencies/months,
+and adoption models expose group/period paths. Legacy federal employee-style voices
+do not describe the agency separation paths and are excluded from the interview view.
+Playback never interpolates missing
+person or hourly histories. Sampled work events remain labeled as sampled.
 
-1. **Results.** Two numbered parts. *Part 1, actual outcomes and predictions*: observed before, the change,
-   and the results after the change. A combined table compares actual outcomes, other predictions, and simulation
-   predictions. Trip.com includes the hybrid group's attrition rate and policy impact in the same table;
-   impact is the hybrid group's outcome minus the office-only group's outcome during the same period. The
-   historical attrition rate belongs in Before, not in that impact subtraction. Uncertainty and employee-group
-   details open inside the comparison section. *Part 2, the alternative action and its impact*: its description and what
-   changes, the alternative hero, the chart, the key metrics against the simulation of what actually happened with
-   the better value highlighted, a link to change and re-run it. Then the report takeaways with the full narrative
-   collapsed, the instance's detailed views, and the source notes.
-   Trip.com and procurement have a selector for the original alternative and an AI assistant.
-   AI comparisons show explicit workload assumptions, matched simulation results, and research context.
-   They show no observed AI outcome. Stale comparisons prompt a new run.
-2. **Scenarios.** Cards for the baseline (what actually happened) and each named alternative, with what changes.
-   Opening one runs it with a seed, edits its parameters (resolved JSON) and sets which model acts in each seat.
-   AI scenarios provide five plain-language numeric controls and an effort preview. Save, then **Compare with
-   current policy** to refresh the matched AI Results panel. A single run remains available under Run details.
-3. **Insights.** Interviews with the simulated agents of the baseline or the alternative run: key insights,
-   topics raised, sentiment when it varies, baseline-versus-alternative topic comparison, three interviews with a
-   "show all" button, and a footnote stating that everything is simulated.
-4. **Overview.** The company, the business question, the intro, three cards (the simulation, the input data, how it is
-   kept honest), then the details: key facts, org units, roles with O*NET codes, systems, charts.
-5. **Runs.** Runs of all named scenarios: timeline of events per tick, agents (with a digital-twin card in workforce
-   worlds), trace explorer, run configuration.
-6. **Input** (model internals). Input schemas: table names, record counts, field names,
-   types and missing-value allowance, with links to the records. The local application
-   also hosts bindings and role/person editors here; old edit URLs resolve to Input.
-7. **Data** (model internals). Actual normalized records, with search, column sorting,
-   pagination and CSV export. Select a row (or focus it and press Enter) to open every
-   field, with unrounded values and explicit missing values. Employee datasets open
-   on the population table; process datasets open on worker records. Other datasets
-   expose their actual units, such as apps, sectors or workforce cohorts. Local mode
-   also has *Object relations*, showing individual people and their connections.
-8. **Ontology** (model internals). Concept definitions and relations, such as Person
-   → has_role → Role, with usage counts. Individual objects belong in Data.
+## Model internals
 
-The public site uses the same modules with run/edit controls hidden. It includes
-all normalized table rows, not a sample. Default paging loads compressed chunks on
-demand; search/sort examines the entire selected table in a web worker with progress
-feedback. No simulation or backend request runs when browsing records. Raw downloads
-and saved run traces remain in the release archives.
+- **Input:** schemas with field names, types and missing-value allowance; local
+  bindings and role/person editors. No record grid is substituted for the schema.
+- **Data:** all normalized records with whole-table search/sort, paging and CSV
+  export. Click a row, or focus it and press Enter, for every field with unrounded
+  values and explicit missing values. Local Object relations shows individual
+  entities and their links.
+- **Ontology:** concept definitions and relations, such as Person → has_role → Role.
 
-## Files
+## Static browsing
 
-- `index.html`, `theme.css` (design tokens: zinc surfaces, emerald accent, rose for the alternative; shared classes
-  `.card .kpi .badge .btn .table .grid .hero-card .story-flow .story-table .part-no .quote`), `app.js` (hash
-  router, tab order in `CORE_PAGES`, version-stamped module loading), `api.js` (fetch wrapper with a fixture mode).
-- `components/`: `ui.js` (DOM helper, drawer, formatting), `chart.js` (chart contract on Chart.js, bands, points),
-  `grid.js` (paged data grid), `graph.js` (Cytoscape viewer, type colors), `kpi.js`, `markdown.js`.
-- `pages/`: `landing`, `results`, `scenarios`, `insights`, `overview`, `runs`, `input`,
-  `data` (+ `data_tables`, `data_graph`), `ontology` (+ `ontology_concepts`). Input
-  hosts the existing `data_edit` and `ontology_edit` modules in local mode.
-- `data/`: static table client, worker and shared query logic; tests in `tests/js/`.
-- `assets/logo.svg`: the Workcast mark, also the favicon.
-- `dev/smoke.html?instance=<id>`: exercises every page against the live API and prints `DONE errors=N`;
-  `?fixtures=1` runs against `dev/fixtures/*.json`.
+The public site rejects mutations and hides run/edit controls. All normalized input
+records and one selected run per named scenario are exported as checksummed gzip
+resources. Paging loads only needed chunks; whole-table searches/sorts run in a
+worker with progress. Expanding a history loads saved outputs; it never reruns a
+simulation. Bulk ensembles and raw download archives remain release attachments.
+
+## File ownership
+
+- `app.js`: routes and tab order. Old Overview/report URLs redirect to Insights;
+  Runs URLs redirect to scenario Results. Old model-edit URLs redirect to Input.
+- `api.js`: local, fixture and public adapters. `/results` is still the evaluation
+  comparison payload; `/insights` is still the saved interview payload.
+- `pages/insights.js`, `comparison_details.js`: concise conclusions and lazy evidence.
+- `pages/scenarios.js`: overview cards, creation and scenario editing.
+- `pages/results.js`, `components/scenario_interviews.js`: selected-run exploration.
+- `pages/input.js`, `data*.js`, `ontology*.js`: model internals; Input hosts the
+  existing `data_edit` and `ontology_edit` modules.
+- `components/`: shared DOM, drawers, grids, charts, graphs and Markdown.
+- `data/`: static queries, client and worker; verification in `tests/js/`.
+- `orgsim/evaluation/presentation.py`, `history.py`: read-only artifact projections.
+  `instances/<id>/ui/presentation.yaml` owns authored labels and metric selection,
+  never manually entered result values.
+- `dev/smoke.html?instance=<id>`: live-browser checks; require `DONE errors=0`.
+  Fixture data is only for development, never published evidence.

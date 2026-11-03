@@ -8115,6 +8115,1820 @@
     ]
    }
   },
+  "/insights-summary": {
+   "primary": {
+    "label": "Orders completed within 14 days",
+    "unit": "%",
+    "subject": "order completion",
+    "actual": 13.144,
+    "simulation": 11.793,
+    "other": 11.149322942498614,
+    "other_label": "Pre-policy historical average (January-August 2018)",
+    "error": {
+     "simulation": 1.350757147577374,
+     "other": 2.467356577223268,
+     "unit": "pp",
+     "scope": "Average error across prediction dates"
+    },
+    "averaged": true
+   },
+   "caveat": "Conditional on the incoming orders recorded in the data.",
+   "alternatives": [
+    {
+     "id": "no_expansion",
+     "title": "No workforce expansion",
+     "metrics": [
+      {
+       "label": "Live cases completed within 14 days",
+       "unit": "%",
+       "reference": 11.793193290044677,
+       "value": 11.78,
+       "better": "higher"
+      },
+      {
+       "label": "Utilization, AP invoice clerks",
+       "unit": "%",
+       "reference": 29.4,
+       "value": 46.9,
+       "better": "lower"
+      }
+     ],
+     "note": "Simulated alternative, compared with its matched reference runs."
+    },
+    {
+     "id": "ai_assistant",
+     "title": "AI assistance for invoice work",
+     "metrics": [
+      {
+       "label": "Modeled human hours saved",
+       "unit": "hours",
+       "reference": 3103.6780196801487,
+       "value": 3066.2325771985284,
+       "better": "lower",
+       "is_change": false,
+       "reverse_delta": true,
+       "display_threshold": 0.005
+      },
+      {
+       "label": "Live items completed in 14 days",
+       "unit": "%",
+       "reference": 11.792500000000002,
+       "value": 11.799999999999999,
+       "better": "higher",
+       "is_change": false,
+       "reverse_delta": false,
+       "display_threshold": 0.1
+      }
+     ],
+     "note": "Assumption-based AI scenario; released staff time is not a measured cash saving."
+    }
+   ],
+   "context": "A multinational's purchase-to-pay operation: purchase-order items are ordered, received, invoiced and cleared in the payment run. In September 2018 the active workforce expanded, and the order mix shifted towards requisition-first items."
+  },
+  "/scenario-results": [
+   {
+    "scenario": {
+     "id": "baseline",
+     "title": "Baseline, as operated in September 2018",
+     "short_title": "As operated",
+     "summary": "",
+     "description": "Continue the real operation from Monday 3 September 2018 for 14 days. Every purchase-order line item that was live at that moment is rebuilt from its history; the 10,000 or so items created during the two weeks arrive exactly when they did in reality, but all of their subsequent steps are chosen by the simulated roles. Staffing is the workforce actually active in the two weeks before the cutoff. No interventions.\n",
+     "extends": null,
+     "file": "baseline.yaml",
+     "role": "baseline",
+     "display_title": "Recorded workforce expansion",
+     "card_summary": "Use the workforce observed after the expansion."
+    },
+    "run": {
+     "scenario": "baseline",
+     "run_id": "20261103T073155-aa30",
+     "complete": true,
+     "summary": {
+      "run_id": "20261103T073155-aa30",
+      "instance": "bpi19",
+      "scenario": "baseline",
+      "seed": 3,
+      "start": "2018-10-15T00:00:00",
+      "end": "2018-10-29T00:00:00",
+      "ticks": 336,
+      "events": 373911
+     }
+    },
+    "runs_available": 28,
+    "interviews": {
+     "interviews": [
+      {
+       "agent_id": "purchasing_clerk",
+       "role": "purchasing_clerk",
+       "group": "Purchasing clerk",
+       "outcome": "utilization 14%",
+       "facts": {
+        "role": "purchasing_clerk",
+        "label": "Purchasing clerk",
+        "utilization": 0.1373,
+        "active_headcount": 92.0,
+        "headcount_simulated": 92.0,
+        "actions_per_hour": 6.93,
+        "mean_wait_h": 6.25,
+        "p90_wait_h": 17.0,
+        "queued_actions_end": 3165,
+        "backlog_end": 48241,
+        "completion_rate_14d": 13.94,
+        "median_cycle_hours": 1687.1,
+        "exception_rate": 4.79,
+        "handoffs_per_case": 0.785,
+        "arrivals": 10026,
+        "events": 50561,
+        "headcount_mult": null
+       },
+       "profile": "Purchasing clerk: 92 people simulated (92 active before the cutoff), 6.9 actions per active hour.",
+       "topics": [
+        "batch_automation",
+        "rework_exceptions",
+        "capacity_slack",
+        "hand_off_dependency"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "The order side is quick; 13.9% of live items completed within the two weeks, and almost all of the remaining time is the invoice side waiting for receipts and the payment run.",
+         "topics": [],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 14%. The 48,241 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. which changes little when the wait is structural.",
+         "topics": [
+          "capacity_slack"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Price and quantity changes after the order is placed, and deleted lines. About 4.8% of items hit an exception in the two weeks; each one sends the item back through a change step before the receipt or invoice can match.",
+         "topics": [
+          "rework_exceptions"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for buyers release the requisition before I can create the line; goods receipt and accounts payable wait for me. An active item changes hands about 0.8 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "batch_automation",
+          "hand_off_dependency"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "buyer",
+       "role": "buyer",
+       "group": "Buyer / requisitioner",
+       "outcome": "utilization 4%",
+       "facts": {
+        "role": "buyer",
+        "label": "Buyer / requisitioner",
+        "utilization": 0.0373,
+        "active_headcount": 118.0,
+        "headcount_simulated": 118.0,
+        "actions_per_hour": 8.09,
+        "mean_wait_h": 6.25,
+        "p90_wait_h": 17.0,
+        "queued_actions_end": 3165,
+        "backlog_end": 48241,
+        "completion_rate_14d": 13.94,
+        "median_cycle_hours": 1687.1,
+        "exception_rate": 4.79,
+        "handoffs_per_case": 0.785,
+        "arrivals": 10026,
+        "events": 50561,
+        "headcount_mult": null
+       },
+       "profile": "Buyer / requisitioner: 118 people simulated (118 active before the cutoff), 8.1 actions per active hour.",
+       "topics": [
+        "batch_automation",
+        "rework_exceptions",
+        "capacity_slack",
+        "hand_off_dependency"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "The order side is quick; 13.9% of live items completed within the two weeks, and almost all of the remaining time is the invoice side waiting for receipts and the payment run.",
+         "topics": [],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 4%. The 48,241 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. which changes little when the wait is structural.",
+         "topics": [
+          "capacity_slack"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Price and quantity changes after the order is placed, and deleted lines. About 4.8% of items hit an exception in the two weeks; each one sends the item back through a change step before the receipt or invoice can match.",
+         "topics": [
+          "rework_exceptions"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for the SRM batch transfer; purchasing clerks wait for my release. An active item changes hands about 0.8 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "batch_automation",
+          "hand_off_dependency"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "goods_receipt",
+       "role": "goods_receipt",
+       "group": "Goods receipt clerk",
+       "outcome": "utilization 6%",
+       "facts": {
+        "role": "goods_receipt",
+        "label": "Goods receipt clerk",
+        "utilization": 0.0624,
+        "active_headcount": 107.0,
+        "headcount_simulated": 107.0,
+        "actions_per_hour": 7.08,
+        "mean_wait_h": 6.25,
+        "p90_wait_h": 17.0,
+        "queued_actions_end": 3165,
+        "backlog_end": 48241,
+        "completion_rate_14d": 13.94,
+        "median_cycle_hours": 1687.1,
+        "exception_rate": 4.79,
+        "handoffs_per_case": 0.785,
+        "arrivals": 10026,
+        "events": 50561,
+        "headcount_mult": null
+       },
+       "profile": "Goods receipt clerk: 107 people simulated (107 active before the cutoff), 7.1 actions per active hour.",
+       "topics": [
+        "hand_off_dependency",
+        "vendor_timing",
+        "capacity_slack",
+        "rework_exceptions"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "We post the receipt when the goods arrive; what comes before (the order) and after (the invoice match and the payment run) sets the cycle time. Our utilization is 6%.",
+         "topics": [
+          "vendor_timing"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 6%. The 48,241 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. which changes little when the wait is structural.",
+         "topics": [
+          "capacity_slack"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Cancelled receipts when the delivery does not match the order line; 4.8% of items had an exception.",
+         "topics": [
+          "rework_exceptions"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for the vendor's delivery; the invoice clerks wait for my receipt. An active item changes hands about 0.8 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "hand_off_dependency"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "ap_invoice",
+       "role": "ap_invoice",
+       "group": "AP invoice clerk",
+       "outcome": "utilization 28%",
+       "facts": {
+        "role": "ap_invoice",
+        "label": "AP invoice clerk",
+        "utilization": 0.2779,
+        "active_headcount": 9.0,
+        "headcount_simulated": 9.0,
+        "actions_per_hour": 17.87,
+        "mean_wait_h": 6.25,
+        "p90_wait_h": 17.0,
+        "queued_actions_end": 3165,
+        "backlog_end": 48241,
+        "completion_rate_14d": 13.94,
+        "median_cycle_hours": 1687.1,
+        "exception_rate": 4.79,
+        "handoffs_per_case": 0.785,
+        "arrivals": 10026,
+        "events": 50561,
+        "headcount_mult": null
+       },
+       "profile": "AP invoice clerk: 9 people simulated (9 active before the cutoff), 17.9 actions per active hour.",
+       "topics": [
+        "waiting_for_goods_receipt",
+        "payment_blocks",
+        "vendor_timing",
+        "rework_exceptions",
+        "hand_off_dependency"
+       ],
+       "sentiment": "neutral",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "Most of the time is not in our hands: an invoice cannot be cleared until the goods receipt is posted and the amounts match, and many vendors invoice before the goods arrive. We are at 28% of capacity, so the queue is not the bottleneck; the match is.",
+         "topics": [
+          "waiting_for_goods_receipt",
+          "vendor_timing"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 28%. The 48,241 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. which changes little when the wait is structural.",
+         "topics": [],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Cancelled invoice receipts and subsequent invoices: 4.8% of items had an exception. Most come from the vendor invoicing before the goods receipt exists, so we record, block, and re-record.",
+         "topics": [
+          "payment_blocks",
+          "rework_exceptions"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for the goods receipt and the vendor's invoice; the payment specialists wait for my record. An active item changes hands about 0.8 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "hand_off_dependency"
+         ],
+         "sentiment": "neutral"
+        }
+       ]
+      },
+      {
+       "agent_id": "ap_payment",
+       "role": "ap_payment",
+       "group": "AP payment specialist",
+       "outcome": "utilization 7%",
+       "facts": {
+        "role": "ap_payment",
+        "label": "AP payment specialist",
+        "utilization": 0.0675,
+        "active_headcount": 7.0,
+        "headcount_simulated": 7.0,
+        "actions_per_hour": 177.68,
+        "mean_wait_h": 6.25,
+        "p90_wait_h": 17.0,
+        "queued_actions_end": 3165,
+        "backlog_end": 48241,
+        "completion_rate_14d": 13.94,
+        "median_cycle_hours": 1687.1,
+        "exception_rate": 4.79,
+        "handoffs_per_case": 0.785,
+        "arrivals": 10026,
+        "events": 50561,
+        "headcount_mult": null
+       },
+       "profile": "AP payment specialist: 7 people simulated (7 active before the cutoff), 177.7 actions per active hour.",
+       "topics": [
+        "payment_run_cadence",
+        "payment_blocks",
+        "capacity_slack",
+        "rework_exceptions",
+        "hand_off_dependency"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "Clearing only happens in the payment run, so an invoice that is ready on a Tuesday waits for the next run whatever we do. Of the items live at the cutoff, 13.9% cleared within two weeks; the median completed item had been open 70 days. but the calendar did not change.",
+         "topics": [
+          "payment_run_cadence"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 7%. The 48,241 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. which changes little when the wait is structural.",
+         "topics": [
+          "payment_run_cadence",
+          "capacity_slack"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Payment blocks. We set and remove them when the match fails; 4.8% of items had at least one exception, and a block costs the item at least one payment-run cycle.",
+         "topics": [
+          "payment_blocks",
+          "rework_exceptions"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for the invoice clerks' record and the removal of any block; the vendor waits for me. An active item changes hands about 0.8 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "hand_off_dependency"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      }
+     ],
+     "group_label": "role",
+     "scenario": "baseline",
+     "title": "Baseline, as operated in September 2018",
+     "run_id": "20261103T073155-aa30",
+     "questions": [
+      [
+       "completion",
+       "Why do purchase-order items take as long as they do to clear?"
+      ],
+      [
+       "backlog",
+       "What is sitting in your queue right now, and why?"
+      ],
+      [
+       "exceptions",
+       "Where does rework come from in your step?"
+      ],
+      [
+       "handoffs",
+       "Whose work do you wait for, and who waits for you?"
+      ]
+     ],
+     "sentiment_basis": "role utilization in the run: 60% or more negative (strained), 25% or less positive (spare capacity)",
+     "topics": [
+      {
+       "id": "rework_exceptions",
+       "label": "Rework and exceptions",
+       "count": 5,
+       "share": 1.0,
+       "by_group": {
+        "Purchasing clerk": 1.0,
+        "Buyer / requisitioner": 1.0,
+        "Goods receipt clerk": 1.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 1.0
+       }
+      },
+      {
+       "id": "hand_off_dependency",
+       "label": "Depends on another role's step",
+       "count": 5,
+       "share": 1.0,
+       "by_group": {
+        "Purchasing clerk": 1.0,
+        "Buyer / requisitioner": 1.0,
+        "Goods receipt clerk": 1.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 1.0
+       }
+      },
+      {
+       "id": "capacity_slack",
+       "label": "Spare capacity in the role",
+       "count": 4,
+       "share": 0.8,
+       "by_group": {
+        "Purchasing clerk": 1.0,
+        "Buyer / requisitioner": 1.0,
+        "Goods receipt clerk": 1.0,
+        "AP invoice clerk": 0.0,
+        "AP payment specialist": 1.0
+       }
+      },
+      {
+       "id": "batch_automation",
+       "label": "Batch jobs do the routine steps",
+       "count": 2,
+       "share": 0.4,
+       "by_group": {
+        "Purchasing clerk": 1.0,
+        "Buyer / requisitioner": 1.0,
+        "Goods receipt clerk": 0.0,
+        "AP invoice clerk": 0.0,
+        "AP payment specialist": 0.0
+       }
+      },
+      {
+       "id": "vendor_timing",
+       "label": "Vendor invoice timing",
+       "count": 2,
+       "share": 0.4,
+       "by_group": {
+        "Purchasing clerk": 0.0,
+        "Buyer / requisitioner": 0.0,
+        "Goods receipt clerk": 1.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 0.0
+       }
+      },
+      {
+       "id": "payment_blocks",
+       "label": "Payment blocks hold invoices",
+       "count": 2,
+       "share": 0.4,
+       "by_group": {
+        "Purchasing clerk": 0.0,
+        "Buyer / requisitioner": 0.0,
+        "Goods receipt clerk": 0.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 1.0
+       }
+      },
+      {
+       "id": "waiting_for_goods_receipt",
+       "label": "Waiting for the goods receipt",
+       "count": 1,
+       "share": 0.2,
+       "by_group": {
+        "Purchasing clerk": 0.0,
+        "Buyer / requisitioner": 0.0,
+        "Goods receipt clerk": 0.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 0.0
+       }
+      },
+      {
+       "id": "payment_run_cadence",
+       "label": "Payment-run cadence sets the clearing time",
+       "count": 1,
+       "share": 0.2,
+       "by_group": {
+        "Purchasing clerk": 0.0,
+        "Buyer / requisitioner": 0.0,
+        "Goods receipt clerk": 0.0,
+        "AP invoice clerk": 0.0,
+        "AP payment specialist": 1.0
+       }
+      }
+     ],
+     "sentiment": {
+      "distribution": {
+       "negative": 0,
+       "neutral": 1,
+       "positive": 4
+      },
+      "n": 5,
+      "by_group": {
+       "Purchasing clerk": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Buyer / requisitioner": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Goods receipt clerk": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "AP invoice clerk": {
+        "negative": 0,
+        "neutral": 1,
+        "positive": 0
+       },
+       "AP payment specialist": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       }
+      }
+     },
+     "groups": {
+      "Purchasing clerk": 1,
+      "Buyer / requisitioner": 1,
+      "Goods receipt clerk": 1,
+      "AP invoice clerk": 1,
+      "AP payment specialist": 1
+     },
+     "n_interviews": 5,
+     "key_insights": [
+      "Baseline: Purchasing clerk, Buyer / requisitioner, Goods receipt clerk, AP payment specialist report spare capacity (utilization at or below 25%); the waiting is structural, not a staffing shortage.",
+      "Baseline: the payment specialists point at the payment-run calendar as the clock behind clearing: 13.9% of live items cleared within 14 days, median completed cycle 70 days.",
+      "Baseline: 5 of 5 roles describe rework (price and quantity changes, cancelled receipts, payment blocks) as the source of repeated steps."
+     ]
+    },
+    "interview_method": "template",
+    "interview_note": "Simulated interviews: every answer is rendered from the agent's own simulated record (profile, traits, states, decisions or queue statistics). Nothing here was said by a real person."
+   },
+   {
+    "scenario": {
+     "id": "no_expansion",
+     "title": "What if the company had not expanded its workforce?",
+     "short_title": "No expansion",
+     "summary": "Approximate foregoing the expansion by staffing every human role at 62.5% of its observed level; explore the effect on completion and utilization.",
+     "description": "This scenario approximates foregoing the expansion by staffing every human role at 62.5% of the workforce observed before each prediction period. It uses the same incoming orders, process constraints and payment-run calendar. The uniform staffing multiplier is a scenario assumption; the simulation estimates how completion, waiting and utilization respond to that assumption.\n",
+     "extends": "baseline",
+     "file": "no_expansion.yaml",
+     "role": "alternative",
+     "display_title": "No workforce expansion",
+     "card_summary": "Keep staffing at the assumed earlier level."
+    },
+    "run": {
+     "scenario": "no_expansion",
+     "run_id": "20261026T053139-b1c5",
+     "complete": true,
+     "summary": {
+      "run_id": "20261026T053139-b1c5",
+      "instance": "bpi19",
+      "scenario": "no_expansion",
+      "seed": 3,
+      "start": "2018-10-15T00:00:00",
+      "end": "2018-10-29T00:00:00",
+      "ticks": 336,
+      "events": 375199
+     }
+    },
+    "runs_available": 12,
+    "interviews": {
+     "interviews": [
+      {
+       "agent_id": "purchasing_clerk",
+       "role": "purchasing_clerk",
+       "group": "Purchasing clerk",
+       "outcome": "utilization 22%",
+       "facts": {
+        "role": "purchasing_clerk",
+        "label": "Purchasing clerk",
+        "utilization": 0.2222,
+        "active_headcount": 92.0,
+        "headcount_simulated": 57.5,
+        "actions_per_hour": 6.93,
+        "mean_wait_h": 7.49,
+        "p90_wait_h": 20.0,
+        "queued_actions_end": 3216,
+        "backlog_end": 48212,
+        "completion_rate_14d": 13.93,
+        "median_cycle_hours": 1702.3,
+        "exception_rate": 4.609372547788694,
+        "handoffs_per_case": 0.4592289801959264,
+        "arrivals": 10026,
+        "events": 49646,
+        "headcount_mult": 0.625
+       },
+       "profile": "Purchasing clerk: 58 people simulated (92 active before the cutoff), 6.9 actions per active hour.",
+       "topics": [
+        "batch_automation",
+        "rework_exceptions",
+        "capacity_slack",
+        "hand_off_dependency",
+        "fewer_people_same_queue"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "The order side is quick; 13.9% of live items completed within the two weeks, and almost all of the remaining time is the invoice side waiting for receipts and the payment run.",
+         "topics": [
+          "fewer_people_same_queue"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 22%. The 48,212 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. There are 58 of us now instead of 92, which changes little when the wait is structural.",
+         "topics": [
+          "capacity_slack",
+          "fewer_people_same_queue"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Price and quantity changes after the order is placed, and deleted lines. About 4.6% of items hit an exception in the two weeks; each one sends the item back through a change step before the receipt or invoice can match.",
+         "topics": [
+          "rework_exceptions"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for buyers release the requisition before I can create the line; goods receipt and accounts payable wait for me. An active item changes hands about 0.5 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "batch_automation",
+          "hand_off_dependency"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "buyer",
+       "role": "buyer",
+       "group": "Buyer / requisitioner",
+       "outcome": "utilization 6%",
+       "facts": {
+        "role": "buyer",
+        "label": "Buyer / requisitioner",
+        "utilization": 0.0598,
+        "active_headcount": 118.0,
+        "headcount_simulated": 73.75,
+        "actions_per_hour": 8.09,
+        "mean_wait_h": 7.49,
+        "p90_wait_h": 20.0,
+        "queued_actions_end": 3216,
+        "backlog_end": 48212,
+        "completion_rate_14d": 13.93,
+        "median_cycle_hours": 1702.3,
+        "exception_rate": 4.609372547788694,
+        "handoffs_per_case": 0.4592289801959264,
+        "arrivals": 10026,
+        "events": 49646,
+        "headcount_mult": 0.625
+       },
+       "profile": "Buyer / requisitioner: 74 people simulated (118 active before the cutoff), 8.1 actions per active hour.",
+       "topics": [
+        "batch_automation",
+        "rework_exceptions",
+        "capacity_slack",
+        "hand_off_dependency",
+        "fewer_people_same_queue"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "The order side is quick; 13.9% of live items completed within the two weeks, and almost all of the remaining time is the invoice side waiting for receipts and the payment run.",
+         "topics": [
+          "fewer_people_same_queue"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 6%. The 48,212 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. There are 74 of us now instead of 118, which changes little when the wait is structural.",
+         "topics": [
+          "capacity_slack",
+          "fewer_people_same_queue"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Price and quantity changes after the order is placed, and deleted lines. About 4.6% of items hit an exception in the two weeks; each one sends the item back through a change step before the receipt or invoice can match.",
+         "topics": [
+          "rework_exceptions"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for the SRM batch transfer; purchasing clerks wait for my release. An active item changes hands about 0.5 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "batch_automation",
+          "hand_off_dependency"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "goods_receipt",
+       "role": "goods_receipt",
+       "group": "Goods receipt clerk",
+       "outcome": "utilization 10%",
+       "facts": {
+        "role": "goods_receipt",
+        "label": "Goods receipt clerk",
+        "utilization": 0.1033,
+        "active_headcount": 107.0,
+        "headcount_simulated": 66.88,
+        "actions_per_hour": 7.08,
+        "mean_wait_h": 7.49,
+        "p90_wait_h": 20.0,
+        "queued_actions_end": 3216,
+        "backlog_end": 48212,
+        "completion_rate_14d": 13.93,
+        "median_cycle_hours": 1702.3,
+        "exception_rate": 4.609372547788694,
+        "handoffs_per_case": 0.4592289801959264,
+        "arrivals": 10026,
+        "events": 49646,
+        "headcount_mult": 0.625
+       },
+       "profile": "Goods receipt clerk: 67 people simulated (107 active before the cutoff), 7.1 actions per active hour.",
+       "topics": [
+        "hand_off_dependency",
+        "vendor_timing",
+        "capacity_slack",
+        "rework_exceptions",
+        "fewer_people_same_queue"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "We post the receipt when the goods arrive; what comes before (the order) and after (the invoice match and the payment run) sets the cycle time. Our utilization is 10%.",
+         "topics": [
+          "vendor_timing",
+          "fewer_people_same_queue"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 10%. The 48,212 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. There are 67 of us now instead of 107, which changes little when the wait is structural.",
+         "topics": [
+          "capacity_slack",
+          "fewer_people_same_queue"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Cancelled receipts when the delivery does not match the order line; 4.6% of items had an exception.",
+         "topics": [
+          "rework_exceptions"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for the vendor's delivery; the invoice clerks wait for my receipt. An active item changes hands about 0.5 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "hand_off_dependency"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "ap_invoice",
+       "role": "ap_invoice",
+       "group": "AP invoice clerk",
+       "outcome": "utilization 44%",
+       "facts": {
+        "role": "ap_invoice",
+        "label": "AP invoice clerk",
+        "utilization": 0.4416,
+        "active_headcount": 9.0,
+        "headcount_simulated": 5.62,
+        "actions_per_hour": 17.87,
+        "mean_wait_h": 7.49,
+        "p90_wait_h": 20.0,
+        "queued_actions_end": 3216,
+        "backlog_end": 48212,
+        "completion_rate_14d": 13.93,
+        "median_cycle_hours": 1702.3,
+        "exception_rate": 4.609372547788694,
+        "handoffs_per_case": 0.4592289801959264,
+        "arrivals": 10026,
+        "events": 49646,
+        "headcount_mult": 0.625
+       },
+       "profile": "AP invoice clerk: 6 people simulated (9 active before the cutoff), 17.9 actions per active hour.",
+       "topics": [
+        "waiting_for_goods_receipt",
+        "payment_blocks",
+        "vendor_timing",
+        "rework_exceptions",
+        "hand_off_dependency",
+        "fewer_people_same_queue"
+       ],
+       "sentiment": "neutral",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "Most of the time is not in our hands: an invoice cannot be cleared until the goods receipt is posted and the amounts match, and many vendors invoice before the goods arrive. We are at 44% of capacity, so the queue is not the bottleneck; the match is.",
+         "topics": [
+          "waiting_for_goods_receipt",
+          "vendor_timing",
+          "fewer_people_same_queue"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 44%. The 48,212 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. There are 6 of us now instead of 9, which changes little when the wait is structural.",
+         "topics": [
+          "fewer_people_same_queue"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Cancelled invoice receipts and subsequent invoices: 4.6% of items had an exception. Most come from the vendor invoicing before the goods receipt exists, so we record, block, and re-record.",
+         "topics": [
+          "payment_blocks",
+          "rework_exceptions"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for the goods receipt and the vendor's invoice; the payment specialists wait for my record. An active item changes hands about 0.5 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "hand_off_dependency"
+         ],
+         "sentiment": "neutral"
+        }
+       ]
+      },
+      {
+       "agent_id": "ap_payment",
+       "role": "ap_payment",
+       "group": "AP payment specialist",
+       "outcome": "utilization 11%",
+       "facts": {
+        "role": "ap_payment",
+        "label": "AP payment specialist",
+        "utilization": 0.108,
+        "active_headcount": 7.0,
+        "headcount_simulated": 4.38,
+        "actions_per_hour": 177.68,
+        "mean_wait_h": 7.49,
+        "p90_wait_h": 20.0,
+        "queued_actions_end": 3216,
+        "backlog_end": 48212,
+        "completion_rate_14d": 13.93,
+        "median_cycle_hours": 1702.3,
+        "exception_rate": 4.609372547788694,
+        "handoffs_per_case": 0.4592289801959264,
+        "arrivals": 10026,
+        "events": 49646,
+        "headcount_mult": 0.625
+       },
+       "profile": "AP payment specialist: 4 people simulated (7 active before the cutoff), 177.7 actions per active hour.",
+       "topics": [
+        "payment_run_cadence",
+        "payment_blocks",
+        "capacity_slack",
+        "rework_exceptions",
+        "hand_off_dependency",
+        "fewer_people_same_queue"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "Clearing only happens in the payment run, so an invoice that is ready on a Tuesday waits for the next run whatever we do. Of the items live at the cutoff, 13.9% cleared within two weeks; the median completed item had been open 71 days. There are 4 of us now instead of 7, but the calendar did not change.",
+         "topics": [
+          "payment_run_cadence",
+          "fewer_people_same_queue"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 11%. The 48,212 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. There are 4 of us now instead of 7, which changes little when the wait is structural.",
+         "topics": [
+          "payment_run_cadence",
+          "capacity_slack",
+          "fewer_people_same_queue"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Payment blocks. We set and remove them when the match fails; 4.6% of items had at least one exception, and a block costs the item at least one payment-run cycle.",
+         "topics": [
+          "payment_blocks",
+          "rework_exceptions"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for the invoice clerks' record and the removal of any block; the vendor waits for me. An active item changes hands about 0.5 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "hand_off_dependency"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      }
+     ],
+     "group_label": "role",
+     "scenario": "no_expansion",
+     "title": "What if the company had not expanded its workforce?",
+     "run_id": "20261026T053139-b1c5",
+     "questions": [
+      [
+       "completion",
+       "Why do purchase-order items take as long as they do to clear?"
+      ],
+      [
+       "backlog",
+       "What is sitting in your queue right now, and why?"
+      ],
+      [
+       "exceptions",
+       "Where does rework come from in your step?"
+      ],
+      [
+       "handoffs",
+       "Whose work do you wait for, and who waits for you?"
+      ]
+     ],
+     "sentiment_basis": "role utilization in the run: 60% or more negative (strained), 25% or less positive (spare capacity)",
+     "topics": [
+      {
+       "id": "fewer_people_same_queue",
+       "label": "Fewer people, same queue",
+       "count": 5,
+       "share": 1.0,
+       "by_group": {
+        "Purchasing clerk": 1.0,
+        "Buyer / requisitioner": 1.0,
+        "Goods receipt clerk": 1.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 1.0
+       }
+      },
+      {
+       "id": "hand_off_dependency",
+       "label": "Depends on another role's step",
+       "count": 5,
+       "share": 1.0,
+       "by_group": {
+        "Purchasing clerk": 1.0,
+        "Buyer / requisitioner": 1.0,
+        "Goods receipt clerk": 1.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 1.0
+       }
+      },
+      {
+       "id": "rework_exceptions",
+       "label": "Rework and exceptions",
+       "count": 5,
+       "share": 1.0,
+       "by_group": {
+        "Purchasing clerk": 1.0,
+        "Buyer / requisitioner": 1.0,
+        "Goods receipt clerk": 1.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 1.0
+       }
+      },
+      {
+       "id": "capacity_slack",
+       "label": "Spare capacity in the role",
+       "count": 4,
+       "share": 0.8,
+       "by_group": {
+        "Purchasing clerk": 1.0,
+        "Buyer / requisitioner": 1.0,
+        "Goods receipt clerk": 1.0,
+        "AP invoice clerk": 0.0,
+        "AP payment specialist": 1.0
+       }
+      },
+      {
+       "id": "batch_automation",
+       "label": "Batch jobs do the routine steps",
+       "count": 2,
+       "share": 0.4,
+       "by_group": {
+        "Purchasing clerk": 1.0,
+        "Buyer / requisitioner": 1.0,
+        "Goods receipt clerk": 0.0,
+        "AP invoice clerk": 0.0,
+        "AP payment specialist": 0.0
+       }
+      },
+      {
+       "id": "vendor_timing",
+       "label": "Vendor invoice timing",
+       "count": 2,
+       "share": 0.4,
+       "by_group": {
+        "Purchasing clerk": 0.0,
+        "Buyer / requisitioner": 0.0,
+        "Goods receipt clerk": 1.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 0.0
+       }
+      },
+      {
+       "id": "payment_blocks",
+       "label": "Payment blocks hold invoices",
+       "count": 2,
+       "share": 0.4,
+       "by_group": {
+        "Purchasing clerk": 0.0,
+        "Buyer / requisitioner": 0.0,
+        "Goods receipt clerk": 0.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 1.0
+       }
+      },
+      {
+       "id": "waiting_for_goods_receipt",
+       "label": "Waiting for the goods receipt",
+       "count": 1,
+       "share": 0.2,
+       "by_group": {
+        "Purchasing clerk": 0.0,
+        "Buyer / requisitioner": 0.0,
+        "Goods receipt clerk": 0.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 0.0
+       }
+      },
+      {
+       "id": "payment_run_cadence",
+       "label": "Payment-run cadence sets the clearing time",
+       "count": 1,
+       "share": 0.2,
+       "by_group": {
+        "Purchasing clerk": 0.0,
+        "Buyer / requisitioner": 0.0,
+        "Goods receipt clerk": 0.0,
+        "AP invoice clerk": 0.0,
+        "AP payment specialist": 1.0
+       }
+      }
+     ],
+     "sentiment": {
+      "distribution": {
+       "negative": 0,
+       "neutral": 1,
+       "positive": 4
+      },
+      "n": 5,
+      "by_group": {
+       "Purchasing clerk": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Buyer / requisitioner": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Goods receipt clerk": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "AP invoice clerk": {
+        "negative": 0,
+        "neutral": 1,
+        "positive": 0
+       },
+       "AP payment specialist": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       }
+      }
+     },
+     "groups": {
+      "Purchasing clerk": 1,
+      "Buyer / requisitioner": 1,
+      "Goods receipt clerk": 1,
+      "AP invoice clerk": 1,
+      "AP payment specialist": 1
+     },
+     "n_interviews": 5,
+     "key_insights": [
+      "Alternative: Purchasing clerk, Buyer / requisitioner, Goods receipt clerk, AP payment specialist report spare capacity (utilization at or below 25%); the waiting is structural, not a staffing shortage.",
+      "Alternative: the payment specialists point at the payment-run calendar as the clock behind clearing: 13.9% of live items cleared within 14 days, median completed cycle 71 days.",
+      "Alternative: with the pre-expansion staffing the roles report fuller days but the same completion rate, because the match and the payment run, not hands, set the pace.",
+      "Alternative: 5 of 5 roles describe rework (price and quantity changes, cancelled receipts, payment blocks) as the source of repeated steps."
+     ]
+    },
+    "interview_method": "template",
+    "interview_note": "Simulated interviews: every answer is rendered from the agent's own simulated record (profile, traits, states, decisions or queue statistics). Nothing here was said by a real person."
+   },
+   {
+    "scenario": {
+     "id": "ai_assistant",
+     "title": "What if invoice clerks used an AI assistant?",
+     "short_title": "AI invoice assistant",
+     "summary": "Assist invoice entry while people review the output; explore handling effort, queueing, and completion.",
+     "description": "Use AI to extract invoice details and suggest entries, with human review and correction. Keep observed staffing, incoming orders, matching rules, and payment dates. Assistance changes the human effort needed for invoice entry; the simulation then follows the effect on queues and completion. These are exploratory assumptions applied to the historical operation, not measured AI results from this company.\n",
+     "extends": "baseline",
+     "file": "ai_assistant.yaml",
+     "role": "alternative_2",
+     "display_title": "AI assistance for invoice work",
+     "card_summary": "Assist invoice entry with human review."
+    },
+    "run": {
+     "scenario": "ai_assistant",
+     "run_id": "20261103T073315-632b",
+     "complete": true,
+     "summary": {
+      "run_id": "20261103T073315-632b",
+      "instance": "bpi19",
+      "scenario": "ai_assistant",
+      "seed": 3,
+      "start": "2018-10-15T00:00:00",
+      "end": "2018-10-29T00:00:00",
+      "ticks": 336,
+      "events": 373756
+     }
+    },
+    "runs_available": 12,
+    "interviews": {
+     "interviews": [
+      {
+       "agent_id": "purchasing_clerk",
+       "role": "purchasing_clerk",
+       "group": "Purchasing clerk",
+       "outcome": "utilization 14%",
+       "facts": {
+        "role": "purchasing_clerk",
+        "label": "Purchasing clerk",
+        "utilization": 0.1377,
+        "active_headcount": 92.0,
+        "headcount_simulated": 92.0,
+        "actions_per_hour": 6.93,
+        "mean_wait_h": 6.15,
+        "p90_wait_h": 17.0,
+        "queued_actions_end": 3166,
+        "backlog_end": 48263,
+        "completion_rate_14d": 13.93,
+        "median_cycle_hours": 1686.5,
+        "exception_rate": 4.7,
+        "handoffs_per_case": 0.784,
+        "arrivals": 10026,
+        "events": 50534,
+        "headcount_mult": null
+       },
+       "profile": "Purchasing clerk: 92 people simulated (92 active before the cutoff), 6.9 actions per active hour.",
+       "topics": [
+        "batch_automation",
+        "rework_exceptions",
+        "capacity_slack",
+        "hand_off_dependency"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "The order side is quick; 13.9% of live items completed within the two weeks, and almost all of the remaining time is the invoice side waiting for receipts and the payment run.",
+         "topics": [],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 14%. The 48,263 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. which changes little when the wait is structural.",
+         "topics": [
+          "capacity_slack"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Price and quantity changes after the order is placed, and deleted lines. About 4.7% of items hit an exception in the two weeks; each one sends the item back through a change step before the receipt or invoice can match.",
+         "topics": [
+          "rework_exceptions"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for buyers release the requisition before I can create the line; goods receipt and accounts payable wait for me. An active item changes hands about 0.8 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "batch_automation",
+          "hand_off_dependency"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "buyer",
+       "role": "buyer",
+       "group": "Buyer / requisitioner",
+       "outcome": "utilization 4%",
+       "facts": {
+        "role": "buyer",
+        "label": "Buyer / requisitioner",
+        "utilization": 0.0372,
+        "active_headcount": 118.0,
+        "headcount_simulated": 118.0,
+        "actions_per_hour": 8.09,
+        "mean_wait_h": 6.15,
+        "p90_wait_h": 17.0,
+        "queued_actions_end": 3166,
+        "backlog_end": 48263,
+        "completion_rate_14d": 13.93,
+        "median_cycle_hours": 1686.5,
+        "exception_rate": 4.7,
+        "handoffs_per_case": 0.784,
+        "arrivals": 10026,
+        "events": 50534,
+        "headcount_mult": null
+       },
+       "profile": "Buyer / requisitioner: 118 people simulated (118 active before the cutoff), 8.1 actions per active hour.",
+       "topics": [
+        "batch_automation",
+        "rework_exceptions",
+        "capacity_slack",
+        "hand_off_dependency"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "The order side is quick; 13.9% of live items completed within the two weeks, and almost all of the remaining time is the invoice side waiting for receipts and the payment run.",
+         "topics": [],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 4%. The 48,263 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. which changes little when the wait is structural.",
+         "topics": [
+          "capacity_slack"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Price and quantity changes after the order is placed, and deleted lines. About 4.7% of items hit an exception in the two weeks; each one sends the item back through a change step before the receipt or invoice can match.",
+         "topics": [
+          "rework_exceptions"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for the SRM batch transfer; purchasing clerks wait for my release. An active item changes hands about 0.8 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "batch_automation",
+          "hand_off_dependency"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "goods_receipt",
+       "role": "goods_receipt",
+       "group": "Goods receipt clerk",
+       "outcome": "utilization 6%",
+       "facts": {
+        "role": "goods_receipt",
+        "label": "Goods receipt clerk",
+        "utilization": 0.0619,
+        "active_headcount": 107.0,
+        "headcount_simulated": 107.0,
+        "actions_per_hour": 7.08,
+        "mean_wait_h": 6.15,
+        "p90_wait_h": 17.0,
+        "queued_actions_end": 3166,
+        "backlog_end": 48263,
+        "completion_rate_14d": 13.93,
+        "median_cycle_hours": 1686.5,
+        "exception_rate": 4.7,
+        "handoffs_per_case": 0.784,
+        "arrivals": 10026,
+        "events": 50534,
+        "headcount_mult": null
+       },
+       "profile": "Goods receipt clerk: 107 people simulated (107 active before the cutoff), 7.1 actions per active hour.",
+       "topics": [
+        "hand_off_dependency",
+        "vendor_timing",
+        "capacity_slack",
+        "rework_exceptions"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "We post the receipt when the goods arrive; what comes before (the order) and after (the invoice match and the payment run) sets the cycle time. Our utilization is 6%.",
+         "topics": [
+          "vendor_timing"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 6%. The 48,263 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. which changes little when the wait is structural.",
+         "topics": [
+          "capacity_slack"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Cancelled receipts when the delivery does not match the order line; 4.7% of items had an exception.",
+         "topics": [
+          "rework_exceptions"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for the vendor's delivery; the invoice clerks wait for my receipt. An active item changes hands about 0.8 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "hand_off_dependency"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      },
+      {
+       "agent_id": "ap_invoice",
+       "role": "ap_invoice",
+       "group": "AP invoice clerk",
+       "outcome": "utilization 26%",
+       "facts": {
+        "role": "ap_invoice",
+        "label": "AP invoice clerk",
+        "utilization": 0.2553,
+        "active_headcount": 9.0,
+        "headcount_simulated": 9.0,
+        "actions_per_hour": 17.87,
+        "mean_wait_h": 6.15,
+        "p90_wait_h": 17.0,
+        "queued_actions_end": 3166,
+        "backlog_end": 48263,
+        "completion_rate_14d": 13.93,
+        "median_cycle_hours": 1686.5,
+        "exception_rate": 4.7,
+        "handoffs_per_case": 0.784,
+        "arrivals": 10026,
+        "events": 50534,
+        "headcount_mult": null
+       },
+       "profile": "AP invoice clerk: 9 people simulated (9 active before the cutoff), 17.9 actions per active hour.",
+       "topics": [
+        "waiting_for_goods_receipt",
+        "payment_blocks",
+        "vendor_timing",
+        "rework_exceptions",
+        "hand_off_dependency"
+       ],
+       "sentiment": "neutral",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "Most of the time is not in our hands: an invoice cannot be cleared until the goods receipt is posted and the amounts match, and many vendors invoice before the goods arrive. We are at 26% of capacity, so the queue is not the bottleneck; the match is.",
+         "topics": [
+          "waiting_for_goods_receipt",
+          "vendor_timing"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 26%. The 48,263 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. which changes little when the wait is structural.",
+         "topics": [],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Cancelled invoice receipts and subsequent invoices: 4.7% of items had an exception. Most come from the vendor invoicing before the goods receipt exists, so we record, block, and re-record.",
+         "topics": [
+          "payment_blocks",
+          "rework_exceptions"
+         ],
+         "sentiment": "neutral"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for the goods receipt and the vendor's invoice; the payment specialists wait for my record. An active item changes hands about 0.8 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "hand_off_dependency"
+         ],
+         "sentiment": "neutral"
+        }
+       ]
+      },
+      {
+       "agent_id": "ap_payment",
+       "role": "ap_payment",
+       "group": "AP payment specialist",
+       "outcome": "utilization 7%",
+       "facts": {
+        "role": "ap_payment",
+        "label": "AP payment specialist",
+        "utilization": 0.0672,
+        "active_headcount": 7.0,
+        "headcount_simulated": 7.0,
+        "actions_per_hour": 177.68,
+        "mean_wait_h": 6.15,
+        "p90_wait_h": 17.0,
+        "queued_actions_end": 3166,
+        "backlog_end": 48263,
+        "completion_rate_14d": 13.93,
+        "median_cycle_hours": 1686.5,
+        "exception_rate": 4.7,
+        "handoffs_per_case": 0.784,
+        "arrivals": 10026,
+        "events": 50534,
+        "headcount_mult": null
+       },
+       "profile": "AP payment specialist: 7 people simulated (7 active before the cutoff), 177.7 actions per active hour.",
+       "topics": [
+        "payment_run_cadence",
+        "payment_blocks",
+        "capacity_slack",
+        "rework_exceptions",
+        "hand_off_dependency"
+       ],
+       "sentiment": "positive",
+       "qa": [
+        {
+         "metric": "completion",
+         "question": "Why do purchase-order items take as long as they do to clear?",
+         "answer": "Clearing only happens in the payment run, so an invoice that is ready on a Tuesday waits for the next run whatever we do. Of the items live at the cutoff, 13.9% cleared within two weeks; the median completed item had been open 70 days. but the calendar did not change.",
+         "topics": [
+          "payment_run_cadence"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "backlog",
+         "question": "What is sitting in your queue right now, and why?",
+         "answer": "Not much that is ours: utilization is 7%. The 48,263 open items are mostly waiting for a prerequisite step or for the next payment run, not for a free pair of hands. which changes little when the wait is structural.",
+         "topics": [
+          "payment_run_cadence",
+          "capacity_slack"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "exceptions",
+         "question": "Where does rework come from in your step?",
+         "answer": "Payment blocks. We set and remove them when the match fails; 4.7% of items had at least one exception, and a block costs the item at least one payment-run cycle.",
+         "topics": [
+          "payment_blocks",
+          "rework_exceptions"
+         ],
+         "sentiment": "positive"
+        },
+        {
+         "metric": "handoffs",
+         "question": "Whose work do you wait for, and who waits for you?",
+         "answer": "I wait for the invoice clerks' record and the removal of any block; the vendor waits for me. An active item changes hands about 0.8 times in two weeks, and the batch jobs do the routine transfers in between.",
+         "topics": [
+          "hand_off_dependency"
+         ],
+         "sentiment": "positive"
+        }
+       ]
+      }
+     ],
+     "group_label": "role",
+     "scenario": "ai_assistant",
+     "title": "What if invoice clerks used an AI assistant?",
+     "run_id": "20261103T073315-632b",
+     "questions": [
+      [
+       "completion",
+       "Why do purchase-order items take as long as they do to clear?"
+      ],
+      [
+       "backlog",
+       "What is sitting in your queue right now, and why?"
+      ],
+      [
+       "exceptions",
+       "Where does rework come from in your step?"
+      ],
+      [
+       "handoffs",
+       "Whose work do you wait for, and who waits for you?"
+      ]
+     ],
+     "sentiment_basis": "role utilization in the run: 60% or more negative (strained), 25% or less positive (spare capacity)",
+     "topics": [
+      {
+       "id": "rework_exceptions",
+       "label": "Rework and exceptions",
+       "count": 5,
+       "share": 1.0,
+       "by_group": {
+        "Purchasing clerk": 1.0,
+        "Buyer / requisitioner": 1.0,
+        "Goods receipt clerk": 1.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 1.0
+       }
+      },
+      {
+       "id": "hand_off_dependency",
+       "label": "Depends on another role's step",
+       "count": 5,
+       "share": 1.0,
+       "by_group": {
+        "Purchasing clerk": 1.0,
+        "Buyer / requisitioner": 1.0,
+        "Goods receipt clerk": 1.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 1.0
+       }
+      },
+      {
+       "id": "capacity_slack",
+       "label": "Spare capacity in the role",
+       "count": 4,
+       "share": 0.8,
+       "by_group": {
+        "Purchasing clerk": 1.0,
+        "Buyer / requisitioner": 1.0,
+        "Goods receipt clerk": 1.0,
+        "AP invoice clerk": 0.0,
+        "AP payment specialist": 1.0
+       }
+      },
+      {
+       "id": "batch_automation",
+       "label": "Batch jobs do the routine steps",
+       "count": 2,
+       "share": 0.4,
+       "by_group": {
+        "Purchasing clerk": 1.0,
+        "Buyer / requisitioner": 1.0,
+        "Goods receipt clerk": 0.0,
+        "AP invoice clerk": 0.0,
+        "AP payment specialist": 0.0
+       }
+      },
+      {
+       "id": "vendor_timing",
+       "label": "Vendor invoice timing",
+       "count": 2,
+       "share": 0.4,
+       "by_group": {
+        "Purchasing clerk": 0.0,
+        "Buyer / requisitioner": 0.0,
+        "Goods receipt clerk": 1.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 0.0
+       }
+      },
+      {
+       "id": "payment_blocks",
+       "label": "Payment blocks hold invoices",
+       "count": 2,
+       "share": 0.4,
+       "by_group": {
+        "Purchasing clerk": 0.0,
+        "Buyer / requisitioner": 0.0,
+        "Goods receipt clerk": 0.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 1.0
+       }
+      },
+      {
+       "id": "waiting_for_goods_receipt",
+       "label": "Waiting for the goods receipt",
+       "count": 1,
+       "share": 0.2,
+       "by_group": {
+        "Purchasing clerk": 0.0,
+        "Buyer / requisitioner": 0.0,
+        "Goods receipt clerk": 0.0,
+        "AP invoice clerk": 1.0,
+        "AP payment specialist": 0.0
+       }
+      },
+      {
+       "id": "payment_run_cadence",
+       "label": "Payment-run cadence sets the clearing time",
+       "count": 1,
+       "share": 0.2,
+       "by_group": {
+        "Purchasing clerk": 0.0,
+        "Buyer / requisitioner": 0.0,
+        "Goods receipt clerk": 0.0,
+        "AP invoice clerk": 0.0,
+        "AP payment specialist": 1.0
+       }
+      }
+     ],
+     "sentiment": {
+      "distribution": {
+       "negative": 0,
+       "neutral": 1,
+       "positive": 4
+      },
+      "n": 5,
+      "by_group": {
+       "Purchasing clerk": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Buyer / requisitioner": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "Goods receipt clerk": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       },
+       "AP invoice clerk": {
+        "negative": 0,
+        "neutral": 1,
+        "positive": 0
+       },
+       "AP payment specialist": {
+        "negative": 0,
+        "neutral": 0,
+        "positive": 1
+       }
+      }
+     },
+     "groups": {
+      "Purchasing clerk": 1,
+      "Buyer / requisitioner": 1,
+      "Goods receipt clerk": 1,
+      "AP invoice clerk": 1,
+      "AP payment specialist": 1
+     },
+     "n_interviews": 5,
+     "key_insights": [
+      "Alternative_2: Purchasing clerk, Buyer / requisitioner, Goods receipt clerk, AP payment specialist report spare capacity (utilization at or below 25%); the waiting is structural, not a staffing shortage.",
+      "Alternative_2: the payment specialists point at the payment-run calendar as the clock behind clearing: 13.9% of live items cleared within 14 days, median completed cycle 70 days.",
+      "Alternative_2: 5 of 5 roles describe rework (price and quantity changes, cancelled receipts, payment blocks) as the source of repeated steps."
+     ]
+    },
+    "interview_method": "template",
+    "interview_note": "Simulated interviews: every answer is rendered from the agent's own simulated record (profile, traits, states, decisions or queue statistics). Nothing here was said by a real person."
+   }
+  ],
   "/report": {
    "title": "Purchase-to-pay, simulated against the real operation",
    "subtitle": "BPI Challenge 2019 procurement log: 251,734 purchase-order items, 607 people, 42 activities. Refitted on January-August 2018, scored on September-October 2018.",
@@ -9651,7 +11465,9 @@
     "description": "Continue the real operation from Monday 3 September 2018 for 14 days. Every purchase-order line item that was live at that moment is rebuilt from its history; the 10,000 or so items created during the two weeks arrive exactly when they did in reality, but all of their subsequent steps are chosen by the simulated roles. Staffing is the workforce actually active in the two weeks before the cutoff. No interventions.\n",
     "extends": null,
     "file": "baseline.yaml",
-    "role": "baseline"
+    "role": "baseline",
+    "display_title": "Recorded workforce expansion",
+    "card_summary": "Use the workforce observed after the expansion."
    },
    {
     "id": "no_expansion",
@@ -9661,7 +11477,9 @@
     "description": "This scenario approximates foregoing the expansion by staffing every human role at 62.5% of the workforce observed before each prediction period. It uses the same incoming orders, process constraints and payment-run calendar. The uniform staffing multiplier is a scenario assumption; the simulation estimates how completion, waiting and utilization respond to that assumption.\n",
     "extends": "baseline",
     "file": "no_expansion.yaml",
-    "role": "alternative"
+    "role": "alternative",
+    "display_title": "No workforce expansion",
+    "card_summary": "Keep staffing at the assumed earlier level."
    },
    {
     "id": "ai_assistant",
@@ -9671,7 +11489,9 @@
     "description": "Use AI to extract invoice details and suggest entries, with human review and correction. Keep observed staffing, incoming orders, matching rules, and payment dates. Assistance changes the human effort needed for invoice entry; the simulation then follows the effect on queues and completion. These are exploratory assumptions applied to the historical operation, not measured AI results from this company.\n",
     "extends": "baseline",
     "file": "ai_assistant.yaml",
-    "role": "alternative_2"
+    "role": "alternative_2",
+    "display_title": "AI assistance for invoice work",
+    "card_summary": "Assist invoice entry with human review."
    }
   ],
   "/ontology/concepts": {
@@ -12527,6 +14347,194 @@
    "chunks": [
     "tables/bpi19/3fcd883f5375394f/00000.json.gz"
    ]
+  }
+ },
+ "run_data": {
+  "baseline/20261103T073155-aa30": {
+   "history": "runs/bpi19/baseline/20261103T073155-aa30/history.json.gz",
+   "trace": {
+    "name": "trace",
+    "columns": [
+     "tick",
+     "sim_time",
+     "agent_id",
+     "role",
+     "org_unit",
+     "case_id",
+     "activity",
+     "action_type",
+     "duration_h",
+     "wait_h",
+     "provenance",
+     "attributes"
+    ],
+    "total": 373911,
+    "chunk_size": 10000,
+    "chunks": [
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00000.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00001.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00002.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00003.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00004.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00005.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00006.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00007.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00008.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00009.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00010.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00011.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00012.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00013.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00014.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00015.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00016.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00017.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00018.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00019.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00020.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00021.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00022.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00023.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00024.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00025.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00026.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00027.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00028.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00029.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00030.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00031.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00032.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00033.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00034.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00035.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00036.json.gz",
+     "runs/bpi19/baseline/20261103T073155-aa30/trace/00037.json.gz"
+    ]
+   }
+  },
+  "no_expansion/20261026T053139-b1c5": {
+   "history": "runs/bpi19/no_expansion/20261026T053139-b1c5/history.json.gz",
+   "trace": {
+    "name": "trace",
+    "columns": [
+     "tick",
+     "sim_time",
+     "agent_id",
+     "role",
+     "org_unit",
+     "case_id",
+     "activity",
+     "action_type",
+     "duration_h",
+     "wait_h",
+     "provenance",
+     "attributes"
+    ],
+    "total": 375199,
+    "chunk_size": 10000,
+    "chunks": [
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00000.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00001.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00002.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00003.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00004.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00005.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00006.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00007.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00008.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00009.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00010.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00011.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00012.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00013.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00014.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00015.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00016.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00017.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00018.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00019.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00020.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00021.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00022.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00023.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00024.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00025.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00026.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00027.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00028.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00029.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00030.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00031.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00032.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00033.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00034.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00035.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00036.json.gz",
+     "runs/bpi19/no_expansion/20261026T053139-b1c5/trace/00037.json.gz"
+    ]
+   }
+  },
+  "ai_assistant/20261103T073315-632b": {
+   "history": "runs/bpi19/ai_assistant/20261103T073315-632b/history.json.gz",
+   "trace": {
+    "name": "trace",
+    "columns": [
+     "tick",
+     "sim_time",
+     "agent_id",
+     "role",
+     "org_unit",
+     "case_id",
+     "activity",
+     "action_type",
+     "duration_h",
+     "wait_h",
+     "provenance",
+     "attributes"
+    ],
+    "total": 373756,
+    "chunk_size": 10000,
+    "chunks": [
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00000.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00001.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00002.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00003.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00004.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00005.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00006.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00007.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00008.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00009.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00010.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00011.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00012.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00013.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00014.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00015.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00016.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00017.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00018.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00019.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00020.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00021.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00022.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00023.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00024.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00025.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00026.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00027.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00028.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00029.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00030.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00031.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00032.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00033.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00034.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00035.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00036.json.gz",
+     "runs/bpi19/ai_assistant/20261103T073315-632b/trace/00037.json.gz"
+    ]
+   }
   }
  }
 }

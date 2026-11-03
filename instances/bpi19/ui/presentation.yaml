@@ -1,0 +1,20 @@
+primary:
+  story: completion_14d
+  other: training_average
+  label: Orders completed within 14 days
+  unit: '%'
+  subject: order completion
+caveat: Conditional on the incoming orders recorded in the data.
+alternatives:
+- completion_14d
+- util_ap_invoice
+cards:
+  baseline:
+    title: Recorded workforce expansion
+    summary: Use the workforce observed after the expansion.
+  no_expansion:
+    title: No workforce expansion
+    summary: Keep staffing at the assumed earlier level.
+  ai_assistant:
+    title: AI assistance for invoice work
+    summary: Assist invoice entry with human review.

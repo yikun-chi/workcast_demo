@@ -157,6 +157,25 @@ async function staticFetch(path, opts = {}) {
     const match = route.match(/^\/instances\/([^/]+)(.*)$/);
     if (match && index.instances.some(i => i.id === match[1])) {
       const snapshot = await snapshotFile(match[1]);
+      const runMatch = match[2].match(/^\/runs\/([^/]+)\/([^/]+)\/(history|trace)$/);
+      if (runMatch) {
+        const run = snapshot.run_data?.[`${runMatch[1]}/${runMatch[2]}`];
+        if (!run) throw new ApiError(404, "This run is not included in the public snapshot. Choose a published scenario run.", path);
+        if (runMatch[3] === "trace") {
+          const {queryTable} = await import("./data/client.js");
+          return queryTable(run.trace, Object.fromEntries(url.searchParams), assetUrl("public-data/"), index.files, opts.onProgress);
+        }
+        const resource = assetUrl(`public-data/${run.history}`);
+        if (!staticCache.has(resource)) staticCache.set(resource, (async () => {
+          const response = await fetch(resource);
+          if (!response.ok) throw new ApiError(response.status, "Cannot load saved history", resource);
+          const bytes = await response.arrayBuffer();
+          const hash = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))].map(x => x.toString(16).padStart(2, "0")).join("");
+          if (hash !== index.files[run.history]) throw new Error("The saved history changed. Reload the page.");
+          return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"))).json();
+        })().catch(e => { staticCache.delete(resource); throw e; }));
+        return structuredClone(await staticCache.get(resource));
+      }
       if (match[2].startsWith("/tables/")) {
         const name = decodeURIComponent(match[2].slice("/tables/".length));
         const table = snapshot.tables?.[name];
@@ -199,15 +218,20 @@ export const api = {
   scenarios: (id) => api.get(`/instances/${id}/scenarios`),
   scenario: (id, sid) => api.get(`/instances/${id}/scenarios/${sid}`),
   saveScenario: (id, sid, body) => api.put(`/instances/${id}/scenarios/${sid}`, body),
+  createScenario: (id, body) => api.post(`/instances/${id}/scenarios`, body),
   seats: (id) => api.get(`/instances/${id}/seats`),
   saveSeats: (id, body) => api.put(`/instances/${id}/seats`, body),
   runs: (id) => api.get(`/instances/${id}/runs`),
   launchRun: (id, scenario, seed) => api.post(`/instances/${id}/runs`, { scenario, seed }),
   exploreScenario: (id, scenario) => api.post(`/instances/${id}/explorations`, { scenario }),
   explorationStatus: (id) => api.get(`/instances/${id}/exploration-status`),
-  runFile: (id, sid, run, name, params) => api.get(`/instances/${id}/runs/${sid}/${run}/${name}`, params),
+  runFile: (id, sid, run, name, params = {}) => READ_ONLY
+    ? staticFetch(`/api/instances/${id}/runs/${sid}/${run}/${name}${qs(Object.fromEntries(Object.entries(params).filter(([k]) => k !== "onProgress")))}`, {onProgress: params.onProgress})
+    : api.get(`/instances/${id}/runs/${sid}/${run}/${name}`, Object.fromEntries(Object.entries(params).filter(([k]) => k !== "onProgress"))),
   evaluation: (id) => api.get(`/instances/${id}/evaluation`),
   results: (id) => api.get(`/instances/${id}/results`),
+  insightsSummary: (id) => api.get(`/instances/${id}/insights-summary`),
+  scenarioResults: (id) => api.get(`/instances/${id}/scenario-results`),
   insights: (id) => api.get(`/instances/${id}/insights`),
   buildInsights: (id, body) => api.post(`/instances/${id}/insights`, body || {}),
   report: (id) => api.get(`/instances/${id}/report`),

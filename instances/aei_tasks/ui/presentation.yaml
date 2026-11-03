@@ -1,0 +1,16 @@
+primary:
+  held_out: true
+  group: '43'
+  label: Office/admin share of conversations · next release
+  unit: '%'
+  subject: office/admin share
+caveat: Conversation share measures assistant usage, not productivity.
+alternative_groups:
+- '43'
+cards:
+  baseline:
+    title: Occupation mix as recorded
+    summary: Carry the occupation mix forward to the next release.
+  office_uptake:
+    title: Faster office and admin uptake
+    summary: Double assumed uptake in office and administrative work.

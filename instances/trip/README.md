@@ -13,7 +13,7 @@ Business problem, data, what is simulated, protocol and results: [validation](..
 - `scenarios/`: `baseline` (the experiment as run), `hybrid_for_all` (the alternative), and the `evaluation` scenario the
   scoring protocol uses (the baseline with a 10% sample of hourly work events, to keep 50-seed runs small)
 - `evaluation/protocol.yaml`: 50 seeds, primary outcomes, baselines; `reports/build_report.py` -> `report.json`
-- `ui/treatment-vs-control.html`: detailed view embedded in Results
+- `ui/treatment-vs-control.html`: detailed view embedded in Insights evidence
 
 `manifests/pre_policy.yaml` records the paper's 9.8% attrition rate for the Airfare and IT divisions in the preceding six months. This aggregate is distinct from the later office-only group's outcome. The download contains no individual pre-period departure history.
 
