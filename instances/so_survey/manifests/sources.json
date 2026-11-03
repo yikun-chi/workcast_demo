@@ -1,0 +1,70 @@
+{
+ "sources": [
+  {
+   "id": "so_developer_survey",
+   "url": "https://survey.stackoverflow.co/",
+   "license": "Open Database License (ODbL) 1.0; cell contents Database Contents License (DbCL) 1.0",
+   "attribution": "Stack Overflow Developer Survey (Stack Exchange, Inc.), https://survey.stackoverflow.co/"
+  }
+ ],
+ "n_files": 8,
+ "total_bytes": 581606520,
+ "files": [
+  {
+   "path": "data/raw/2023/results.csv",
+   "url": "https://media.githubusercontent.com/media/StackExchange/Survey/main/packages/archive/2023/results.csv",
+   "bytes": 158626799,
+   "sha256": "828874a3cf0fa1bbb4c3da6a87e5822b8563bbc04b21f9869479480dbcff410c",
+   "retrieved": "2026-10-28T15:28:37+00:00"
+  },
+  {
+   "path": "data/raw/2023/schema.csv",
+   "url": "https://media.githubusercontent.com/media/StackExchange/Survey/main/packages/archive/2023/schema.csv",
+   "bytes": 16442,
+   "sha256": "43ceb5126b9622bd863b366093c5373c1c0a0e65a3b8f640947b70524c94c1ec",
+   "retrieved": "2026-10-28T15:28:37+00:00"
+  },
+  {
+   "path": "data/raw/2024/results.csv",
+   "url": "https://media.githubusercontent.com/media/StackExchange/Survey/main/packages/archive/2024/results.csv",
+   "bytes": 159525875,
+   "sha256": "7f2c2dbf6989d00b80a7351de4bb3af4b52b21cc52d5c947891bbc4f4e5cbe49",
+   "retrieved": "2026-10-28T15:28:57+00:00"
+  },
+  {
+   "path": "data/raw/2024/schema.csv",
+   "url": "https://media.githubusercontent.com/media/StackExchange/Survey/main/packages/archive/2024/schema.csv",
+   "bytes": 12503,
+   "sha256": "d9c03fd43949dd9b0fea4847894c4011a6fe3c4390d5d8c48e078a8bfe623833",
+   "retrieved": "2026-10-28T15:28:57+00:00"
+  },
+  {
+   "path": "data/raw/2025/results.csv",
+   "url": "https://media.githubusercontent.com/media/StackExchange/Survey/main/packages/archive/2025/results.csv",
+   "bytes": 140893245,
+   "sha256": "2d1f65308877282edfb4470520eabbc08cb499118432a3dcec6a66c086aa2baa",
+   "retrieved": "2026-10-28T15:29:14+00:00"
+  },
+  {
+   "path": "data/raw/2025/schema.csv",
+   "url": "https://media.githubusercontent.com/media/StackExchange/Survey/main/packages/archive/2025/schema.csv",
+   "bytes": 30403,
+   "sha256": "1d24951e04eab46c6f9fecef6ce8e6b32a0a14a3f0eecdcf62f70833a74b3ff8",
+   "retrieved": "2026-10-28T15:29:14+00:00"
+  },
+  {
+   "path": "data/raw/2026/survey_results_public.csv",
+   "url": "https://media.githubusercontent.com/media/StackExchange/Survey/main/packages/archive/2026/survey_results_public.csv",
+   "bytes": 122407316,
+   "sha256": "ad520b4d5d71f240141e63f0d6f81a3b1898cbdc69efe9ea985496533b15fc2c",
+   "retrieved": "2026-10-28T15:29:27+00:00"
+  },
+  {
+   "path": "data/raw/2026/survey_results_schema.csv",
+   "url": "https://media.githubusercontent.com/media/StackExchange/Survey/main/packages/archive/2026/survey_results_schema.csv",
+   "bytes": 93937,
+   "sha256": "0892967cacdac5cdd1a7668de6f5edd8947bcc0ab204b7ec3e2d81084eb00b63",
+   "retrieved": "2026-10-28T15:29:28+00:00"
+  }
+ ]
+}

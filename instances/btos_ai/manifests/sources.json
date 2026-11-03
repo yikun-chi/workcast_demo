@@ -1,0 +1,36 @@
+{
+ "sources": [
+  {
+   "id": "census_btos",
+   "url": "https://www.census.gov/hfp/btos/data_downloads",
+   "license": "Public domain (U.S. Census Bureau, a federal government work)",
+   "attribution": "U.S. Census Bureau, Business Trends and Outlook Survey",
+   "note": "AI use questions changed wording on 2025-11-17 with a level shift (AI Question Wording Updates.pdf); the original-wording series (AI Core Questions.xlsx) is the one scored."
+  }
+ ],
+ "n_files": 3,
+ "total_bytes": 3323118,
+ "files": [
+  {
+   "path": "data/raw/2026-10-28/AI Core Questions.xlsx",
+   "url": "https://www.census.gov/hfp/btos/downloads/AI%20Core%20Questions.xlsx",
+   "bytes": 1109824,
+   "sha256": "e058a098af64427b0cf0c1455435023aeb9a84142a55175d322687e61a3da3ce",
+   "retrieved": "2026-10-28T15:01:21+00:00"
+  },
+  {
+   "path": "data/raw/2026-10-28/AI Question Wording Updates.pdf",
+   "url": "https://www.census.gov/hfp/btos/downloads/AI%20Question%20Wording%20Updates.pdf",
+   "bytes": 491343,
+   "sha256": "91b018352b693d500258cb649b7c8b1747d5fbfb5f065eeb8969276dd1068c28",
+   "retrieved": "2026-10-28T15:01:22+00:00"
+  },
+  {
+   "path": "data/raw/2026-10-28/Sector.xlsx",
+   "url": "https://www.census.gov/hfp/btos/downloads/Sector.xlsx",
+   "bytes": 1721951,
+   "sha256": "5e83d18cfd20408e5055dadbe5a32626f280192d993cc7df2b0c20a292194649",
+   "retrieved": "2026-10-28T15:01:22+00:00"
+  }
+ ]
+}

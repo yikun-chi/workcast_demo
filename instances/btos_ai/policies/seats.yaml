@@ -1,0 +1,7 @@
+# Seat -> policy adapter. Each simulated firm is offered "start" (non-users) or "stop" (users) with the kernel's
+# hazards; the rule draws from those weights. A language-model seat is a configuration change (not evaluated).
+default:
+  adapter: rule
+seats:
+  adopter:
+    adapter: rule

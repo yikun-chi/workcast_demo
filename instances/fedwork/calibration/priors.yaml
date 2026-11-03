@@ -1,0 +1,28 @@
+# Priors for the federal workforce world. RULE: nothing here is fitted on separations after the cutoff, and every source
+# was public before 20 January 2025. One value per parameter is drawn per seed (triangular, mode at the central value).
+# The separation rates themselves are fitted per twin by the ingest on records published by each cutoff.
+sampling: triangular
+revision_log:
+  - frozen: 2026-10-28
+    note: "Initial priors, set before 2025 was scored."
+parameters:
+  rto_mult:
+    central: 1.14
+    range: [1.07, 1.21]
+    source: "Employee turnover rose about 14% after return-to-office mandates at 54 large S&P 500 technology and financial firms (2020-2023), from about 3 million LinkedIn employment histories: Ding, Jin, Ma, Xing & Yang, 'Return-to-office mandates and brain drain' (working paper, reported by Fortune on 11 December 2024; the authors' summary gives 13-14%). Applied to quits and retirements from the presidential memorandum of 20 January 2025. The range is half to one and a half times the effect (authored), because federal employees face different outside options than private technology staff."
+  drp_window_mult:
+    central: 1.89
+    range: [1.61, 1.89]
+    source: "A one-year early-retirement window roughly doubled departures among eligible employees at a Fortune 500 firm: simulated retirements of 91.0 without the window, 146.7 with a six-month bonus and 171.8 with a twelve-month bonus; the retirement hazard at age 60 rose from .193 to .364 (ratio 1.89). Lumsdaine, Stock & Wise (1990), 'Efficient windows and labor force reduction', Journal of Public Economics 43(2), 131-159 (NBER Working Paper 3369). Range: the six-month (1.61) to twelve-month (1.89) plans."
+  drp_window_months:
+    central: 7.5
+    range: [7.5, 12]
+    source: "The offer paid employees until 30 September 2025, 7.5 months after it closed on 12 February 2025 (OPM, 'Fork in the road' email of 28 January 2025). Upper end: the twelve-month window of Lumsdaine, Stock & Wise (1990). Months of normal voluntary leaving that the offer can capture."
+  drp_capture:
+    central: 0.5
+    range: [0.0, 1.0]
+    source: "Authored: the share of employees who would have left voluntarily within the window anyway and take the paid offer instead, leaving on 30 September rather than at their planned date. It moves departures in time and does not change their total, which the window multiplier sets. No published estimate; the full range is used."
+  drp_reach:
+    central: 1.0
+    range: [0.8, 1.0]
+    source: "Authored: share of full-time employees to whom the offer applied. OPM's email of 28 January 2025 offered deferred resignation 'to all full-time federal employees except for military personnel of the armed forces, employees of the U.S. Postal Service, those in positions related to immigration enforcement and national security, and those in any other positions specifically excluded by your employing agency'; no count of excluded positions was published when the offer was made. The scenario offers it to full-time twins only."

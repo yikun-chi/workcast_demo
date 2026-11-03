@@ -46,6 +46,9 @@ TOPIC_LABELS = {
     "price_up": "List prices went up", "price_down": "List prices went down", "switched_models": "Moved work to other models", "new_models": "Trying newly listed models",
     "coding_workload": "Coding workloads", "roleplay_workload": "Roleplay and creative workloads",
     "more_people_same_queue": "More people, same queue", "fewer_people_same_queue": "Fewer people, same queue", "throughput_up": "Throughput went up", "throughput_down": "Throughput went down",
+    # adoption
+    "adoption_up": "Adoption rising", "adoption_down": "Adoption falling", "adoption_flat": "Adoption flat", "imitation": "Following other adopters",
+    "external_influence": "Steady outside pressure to adopt", "programme": "Adoption programme",
 }
 
 
@@ -383,6 +386,67 @@ def _mk_insights(block: dict[str, Any], title: str) -> list[str]:
     return out
 
 
+# ----------------------------------------------------------------------------- adoption interviews (groups of adopters)
+
+AD_QUESTIONS = [
+    ("adoption", "How many of your group will be using the technology by the end of the horizon?"),
+    ("drivers", "What drives the change?"),
+]
+
+
+def _ad_facts(g: dict[str, Any], head: dict[str, Any]) -> dict[str, Any]:
+    cs = g.get("central_share") or []
+    start = float(g.get("start_share") or 0.0)
+    end = float(cs[-1]) if cs else start
+    mult = head.get("hazard_multipliers") or {}
+    return {"name": g["label"], "group": g["group"], "start_share": start, "end_share": end, "change_pts": (end - start) * 100, "periods": head.get("horizon_periods"),
+            "cutoff_date": head.get("cutoff_date"), "outcome": head.get("outcome"), "spec": (head.get("calibration") or {}).get("spec") or {},
+            "boosted": g["group"] in mult, "multiplier": mult.get(g["group"])}
+
+
+def _ad_topics(f: dict[str, Any]) -> list[str]:
+    t = ["adoption_up" if f["change_pts"] >= 0.5 else "adoption_down" if f["change_pts"] <= -0.5 else "adoption_flat"]
+    t.append("imitation" if f["spec"].get("form") == "imitation" else "external_influence")
+    if f["boosted"]:
+        t.append("programme")
+    return t
+
+
+def _ad_template(f: dict[str, Any], metric: str) -> str:
+    if metric == "adoption":
+        return (f"At {f['cutoff_date']} about {f['start_share'] * 100:.1f}% of us use it; in the simulation that is {f['end_share'] * 100:.1f}% after "
+                f"{f['periods']} periods ({f['change_pts']:+.1f} points).")
+    form = ("we follow the others who already use it, in our own group and in the whole population" if f["spec"].get("form") == "imitation"
+            else "outside pressure moves a steady fraction of the remaining non-users each period")
+    extra = f" A programme multiplies our non-users' chance of starting by {f['multiplier']:.1f}." if f["boosted"] else ""
+    return f"In the simulation, {form}.{extra}"
+
+
+def interview_adoption(ctx: InstanceContext, scenario_id: str, run_id: str, n: int, voice, company: str) -> dict[str, Any]:
+    reader = RunReader(ctx.id, scenario_id, run_id)
+    head = json.loads((reader.dir / "summary.json").read_text()).get("headline") or {}
+    interviews = []
+    for g in (head.get("groups") or [])[:n]:
+        f = _ad_facts(g, head)
+        topics = _ad_topics(f)
+        sent = "positive" if f["change_pts"] >= 0.5 else "negative" if f["change_pts"] <= -0.5 else "neutral"
+        qa = [{"metric": m, "question": q, "answer": voice(f, m, q, _ad_template(f, m)), "topics": topics, "sentiment": sent} for m, q in AD_QUESTIONS]
+        interviews.append({"agent_id": f"group:{g['group']}", "role": "group", "group": g["label"], "outcome": f"{f['change_pts']:+.1f} points",
+                           "facts": f, "profile": f"{g['label']}: a simulated population of adopters, {f['start_share'] * 100:.1f}% using at the cutoff.",
+                           "topics": topics, "sentiment": sent, "qa": qa})
+    return {"interviews": interviews, "group_label": "group"}
+
+
+def _ad_insights(block: dict[str, Any], title: str) -> list[str]:
+    iv = block["interviews"]; n = len(iv)
+    up = sum(1 for i in iv if "adoption_up" in i["topics"])
+    out = [f"{title}: {up} of {n} simulated groups gain half a point of adoption or more over the horizon."]
+    if iv:
+        top = max(iv, key=lambda i: i["facts"]["end_share"])
+        out.append(f"{title}: the highest simulated adoption at the end of the horizon is {top['group']} at {top['facts']['end_share'] * 100:.1f}%.")
+    return out
+
+
 # ----------------------------------------------------------------------------- voices
 
 def template_voice(facts: dict[str, Any], metric: str, question: str, rendered: str) -> str:
@@ -505,18 +569,21 @@ def build_insights(ctx: InstanceContext, n_per_scenario: int = 24, model: str | 
                 block = interview_workforce(ctx, sid, rid, n_per_scenario, voice, company)
             elif ctx.world_type == "market":
                 block = interview_market(ctx, sid, rid, n_per_scenario, voice, company)
+            elif ctx.world_type == "adoption":
+                block = interview_adoption(ctx, sid, rid, n_per_scenario, voice, company)
             else:
                 block = interview_process(ctx, sid, rid, n_per_scenario, voice, company, alt_mult)
         except FileNotFoundError as e:
             out["scenarios"][role] = {"scenario": sid, "title": titles.get(sid, sid), "run_id": rid, "error": str(e)}
             continue
-        questions = {"workforce": WF_QUESTIONS, "market": MK_QUESTIONS}.get(ctx.world_type, PR_QUESTIONS)
+        questions = {"workforce": WF_QUESTIONS, "market": MK_QUESTIONS, "adoption": AD_QUESTIONS}.get(ctx.world_type, PR_QUESTIONS)
         basis = {"workforce": "each twin's end-of-period job satisfaction: 6 or below negative, 7.5 or above positive",
-                 "market": "the company's simulated weekly tokens at the end of the eight weeks against the start: up 10% or more positive, down 10% or more negative"}.get(
+                 "market": "the company's simulated weekly tokens at the end of the eight weeks against the start: up 10% or more positive, down 10% or more negative",
+                 "adoption": "the group's simulated adoption at the end of the horizon against the cutoff: up half a point or more positive, down half a point or more negative"}.get(
                      ctx.world_type, "role utilization in the run: 60% or more negative (strained), 25% or less positive (spare capacity)")
         block.update({"scenario": sid, "title": titles.get(sid, sid), "run_id": rid, "questions": questions, "sentiment_basis": basis})
         _aggregate(block)
-        block["key_insights"] = {"workforce": _wf_insights, "market": _mk_insights}.get(ctx.world_type, _pr_insights)(block, role.capitalize())
+        block["key_insights"] = {"workforce": _wf_insights, "market": _mk_insights, "adoption": _ad_insights}.get(ctx.world_type, _pr_insights)(block, role.capitalize())
         out["scenarios"][role] = block
     # cross-scenario comparison on sentiment and the most frequent topics
     b, a = out["scenarios"].get("baseline"), out["scenarios"].get("alternative")

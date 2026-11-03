@@ -1,0 +1,11 @@
+id: development
+title: A year with no announced policy change (development cutoffs)
+description: >
+  The same twins and separation rates with no return-to-office order and no resignation offer. Used for the
+  development cutoffs (December 2021, 2022 and 2023), which had no announced change.
+extends: baseline
+world:
+  events:
+    rto: {start: "2100-01-01"}
+    drp_window: {start: "2100-01-01"}
+  offers: []

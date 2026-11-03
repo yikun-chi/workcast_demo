@@ -1,0 +1,49 @@
+# Twin dynamics for the Ctrip workforce world (orgsim/worlds/workforce.py). Structure is authored here; magnitudes come
+# from priors.yaml (sourced, published before February 2013) and from fit.json (computed by the ingest from 2010 weeks
+# only). Gender is in the population table for display and enters no expression below.
+
+constants:                         # fitted on 2010 weeks (calibration/fit.json)
+  h0_week: {file: calibration/fit.json, path: exit_hazard.weekly}
+  perf_sd_between: {file: calibration/fit.json, path: perform1.sd_between}
+  perf_sd_within: {file: calibration/fit.json, path: perform1.sd_within}
+  calls_sd_between: {file: calibration/fit.json, path: log_calls.sd_between}
+  calls_sd_within: {file: calibration/fit.json, path: log_calls.sd_within}
+
+series:                            # 2011 week w borrows the 2010 week-w deviation of all staff from the level window
+  perf_season: {file: calibration/fit.json, path: season.perform1, key: year_week, default: 0}
+  calls_season: {file: calibration/fit.json, path: season.log_calls, key: year_week, default: 0}
+
+covariates:
+  calls_level: mean                # order takers without a 2010 call week; other roles have no call record (masked)
+
+derived:
+  takeup_propensity: "1"           # the treatment group was assigned to work at home on its home days
+  horizon_weeks: "38"
+  p0_horizon: "1 - (1 - h0_week) ** horizon_weeks"
+  z_tenure: "(tenure_years - mean(tenure_years)) / std(tenure_years)"
+  z_age: "(age - mean(age)) / std(age)"
+  quit_liability_0: "ndtri(p0_horizon) + rho_tenure_quit * z_tenure + rho_age_quit * z_age"
+
+states:
+  intensity:                       # 1 for four or more home days a week; the two-day alternative uses the sourced share
+    weekly: "offered * where(days_offered >= 2.5, 1.0, intensity_share_2d)"
+  home_share:
+    weekly: "where(workdays_week > 0, wfh_days_week / maximum(workdays_week, 1), 0)"
+    report: true
+
+hazards:
+  quit:                            # weekly hazard from the twin's liability over the experiment horizon
+    weekly: "1 - (1 - ndtr(quit_liability_0 + rho_intent_quit * d_turnover_intent * intensity)) ** (1 / horizon_weeks)"
+
+takeup:
+  propensity: takeup_propensity
+
+measures:                          # weekly output of each active twin (measurement noise from 2010 within-person spread)
+  perform1:
+    expr: "perf_level + perf_season + d_perf * perf_sd_between * intensity + normal(perf_sd_within)"
+  log_calls:
+    expr: "calls_level + calls_season + d_perf * calls_sd_between * intensity + normal(calls_sd_within)"
+    mask: "order_taker"
+  calls:
+    expr: "exp(calls_level + calls_season + d_perf * calls_sd_between * intensity + normal(calls_sd_within))"
+    mask: "order_taker"

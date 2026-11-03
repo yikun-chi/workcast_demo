@@ -1,0 +1,35 @@
+id: so_chatgpt
+order: 21
+title: A knowledge business after ChatGPT (Stack Overflow)
+company: Stack Overflow, the question-and-answer site for programmers
+problem: "Can we predict how many questions developers will ask on Stack Overflow in the next three to six months, as AI assistants take over?"
+protocol_line: "Every prediction is made from weeks before its cutoff and scored on the 26 weeks after it; the design was frozen on the first quarter of the cutoffs."
+situation: "OpenAI released ChatGPT on 30 November 2022. Within a year developers were asking AI assistants the questions they used to post on Stack Overflow, and weekly new questions fell by more than half."
+data_used: "Weekly counts of new Stack Overflow questions from March 2021 to October 2026, from the public Stack Exchange API (content CC BY-SA; counts exclude deleted questions)."
+intro: >
+  Rebuilds Stack Overflow's question flow as a population of would-be askers. Each week every asker who still posts
+  questions may switch to an AI assistant, and some switch back, with hazards that follow a diffusion curve calibrated
+  on the weeks before the cutoff; the questions that reach the site are the pre-ChatGPT trend and seasonality times the
+  askers who have not switched. Predictions are scored against the questions actually posted in the 13 and 26 weeks
+  after each cutoff, and from the launch week itself. The alternative asks how many questions the site would have
+  kept if the switch to AI assistants had gone half as fast.
+world_type: adoption
+world: >
+  Stack Overflow's would-be askers as one population of 1,000 simulated developers who post their questions on the site
+  or ask an AI assistant instead; the question volume without AI comes from the trend and seasonality before the launch.
+source: "manifests/sources.json (Stack Exchange API v2.3, question counts; content CC BY-SA)"
+data:
+  raw: instances/so_chatgpt/data/raw/
+  normalized: instances/so_chatgpt/data/normalized/
+clock:
+  tick: 1h
+  step: 168h
+  coverage: "2021-03-08 .. 2026-10-25"
+evaluation:
+  cutoffs: "the launch week (2022-11-28) and 46 Mondays four weeks apart from 2023-01-23 to 2026-07-06"
+  horizons: "weeks 1-13 and 14-26 after the cutoff; from the launch week also weeks 27-52"
+  calibration: "at each cutoff, backtests whose targets fall before it; the no-AI baseline from weeks before the launch"
+scenarios:
+  baseline: baseline
+  alternative: slower_switch
+status: "ready: ingest, bindings, baseline, alternative, evaluation and report"

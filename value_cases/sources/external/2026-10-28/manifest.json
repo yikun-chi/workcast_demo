@@ -1,0 +1,30 @@
+[
+ {
+  "file": "gallup_replacement_cost.html",
+  "url": "https://www.gallup.com/workplace/247391/fixable-problem-costs-businesses-trillion.aspx",
+  "retrieved_utc": "2026-10-28T14:37:20+00:00",
+  "bytes": 127281,
+  "sha256": "4dca17552f48785b0b4a11cb473fdf9ec3e6cc057ebd55c9b644de9fd3a3c783"
+ },
+ {
+  "file": "bls_oews_433031_median.json",
+  "url": "https://api.bls.gov/publicAPI/v1/timeseries/data/OEUN000000000000043303113",
+  "retrieved_utc": "2026-10-28T14:37:20+00:00",
+  "bytes": 374,
+  "sha256": "f1be50aad75e372b1faa9acabb9304139c83f3421e7a312e2aa330aa6300b17b"
+ },
+ {
+  "file": "microsoft_copilot_pricing_announcement.html",
+  "url": "https://blogs.microsoft.com/blog/2023/07/18/furthering-our-ai-ambitions-announcing-bing-chat-enterprise-and-microsoft-365-copilot-pricing/",
+  "retrieved_utc": "2026-10-28T14:37:20+00:00",
+  "bytes": 146231,
+  "sha256": "0e8ffde42a4f75a2121bcfa12f8a372d9429bf8f0f3322e485a45aaf6d26adfb"
+ },
+ {
+  "file": "microsoft_learn_ptu_reservations.html",
+  "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/reservations/azure-openai",
+  "retrieved_utc": "2026-10-28T14:37:20+00:00",
+  "bytes": 70116,
+  "sha256": "3c2cb762134a3d85be74b77247105662821a07045bdbb489e262a444bf105249"
+ }
+]

@@ -1,0 +1,7 @@
+# Seat -> policy adapter. The world offers each twin its options (home or office on a home day; stay or quit weekly)
+# with prior-driven weights; the seat's policy chooses. Swapping a seat to a language model is a configuration change.
+default:
+  adapter: rule
+seats:
+  employee:
+    adapter: rule

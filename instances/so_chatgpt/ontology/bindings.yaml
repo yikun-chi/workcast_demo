@@ -1,0 +1,45 @@
+# Bindings for the adoption world. Stack Overflow's would-be askers are one population; each week an asker posts a
+# question on the site or asks an AI assistant instead.
+organization:
+  id: org:stackoverflow
+  label: Stack Overflow (Stack Exchange network)
+  properties:
+    source: Stack Exchange API v2.3 (content CC BY-SA)
+    period: 2021-03-08 .. 2026-10-25
+org_units:
+- {id: "ou:stackoverflow", label: Stack Overflow askers}
+roles:
+- id: asker
+  label: Developer with a programming question
+  onet_code: 15-1252.00
+  org_unit: "ou:stackoverflow"
+  properties: {description: "One per simulated would-be asker: posts on Stack Overflow or asks an AI assistant"}
+activities:
+- id: ask_question
+  label: Post a question on Stack Overflow
+  roles: [asker]
+  system: sys:stackoverflow
+- id: ask_assistant
+  label: Ask an AI assistant instead
+  roles: [asker]
+  system: sys:ai_assistant
+systems:
+- id: sys:stackoverflow
+  label: Stack Overflow question and answer site
+  capabilities:
+  - {id: cap:qa, label: Community answers to programming questions}
+- id: sys:ai_assistant
+  label: AI chat assistants (ChatGPT and successors)
+  capabilities:
+  - {id: cap:assistant, label: Generated answers to programming questions}
+external_actors:
+- id: ext:openai
+  label: OpenAI and other AI assistant providers
+  interacts_with: [ask_assistant]
+policies:
+- id: pol:chatgpt_launch
+  label: ChatGPT released on 30 November 2022
+  affects: [ask_assistant]
+latent_states:
+- id: ls:switched
+  label: Whether the asker now takes questions to an AI assistant

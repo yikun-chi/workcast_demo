@@ -1,0 +1,8 @@
+id: evaluation
+title: Evaluation runs (the experiment as run, no hourly work events)
+description: >
+  Identical to the baseline except that hourly work events are not written, which keeps 50-run scoring small.
+  Used by `orgsim evaluate ctrip` (evaluation/protocol.yaml).
+extends: baseline
+world:
+  work_events: none

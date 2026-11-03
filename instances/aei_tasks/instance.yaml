@@ -1,0 +1,34 @@
+id: aei_tasks
+order: 22
+title: Which occupations' work goes to AI next (Anthropic Economic Index)
+company: Claude.ai conversations classified by occupation in the Anthropic Economic Index
+problem: "Can we predict each occupation group's share of AI conversations in the next Economic Index release?"
+protocol_line: "Every prediction is made from earlier releases only and scored on the next release; the design was frozen on the first two cutoffs."
+situation: "Anthropic publishes the share of Claude.ai conversations that perform each O*NET task, release by release since February 2025. Computer and mathematical work led from the start; education, arts and media, office and sales work have taken larger shares since."
+data_used: "Six Anthropic Economic Index releases from February 2025 to June 2026 (Hugging Face Anthropic/EconomicIndex at a pinned revision; data CC BY, card metadata MIT): the global share of Claude.ai conversations by O*NET task, mapped to the 22 SOC major occupation groups."
+intro: >
+  Rebuilds Claude.ai use as 22 occupation groups, each a population of simulated workers whose use of the assistant
+  follows a diffusion path; each group's share of conversations is its use relative to every other group's. From each
+  release the simulation predicts every group's share in the next release, and is scored against what the next release
+  reported. The alternative asks how the mix would shift if office and administrative workers took up the assistant
+  twice as fast.
+world_type: adoption
+world: >
+  The 22 SOC major occupation groups, each a population of 1,000 simulated workers; the groups' shares of
+  conversations are rescaled to sum to 100% at every release.
+source: "manifests/sources.json (Anthropic Economic Index, Hugging Face Anthropic/EconomicIndex, pinned revision)"
+data:
+  raw: instances/aei_tasks/data/raw/
+  normalized: instances/aei_tasks/data/normalized/
+clock:
+  tick: 1h
+  step: 2184h
+  coverage: "releases 2025-02-10 .. 2026-06-26"
+evaluation:
+  cutoffs: "4 cutoffs: the releases of 2025-09-15, 2026-01-15, 2026-03-24 and 2026-06-26, each predicted from the releases before it"
+  horizons: "the next release"
+  calibration: "at each cutoff, backtests on earlier releases"
+scenarios:
+  baseline: baseline
+  alternative: office_uptake
+status: "ready: ingest, bindings, baseline, alternative, evaluation and report"
