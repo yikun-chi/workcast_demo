@@ -25,7 +25,7 @@ export function tableReader(table, loadChunk) {
         const selected = Object.entries(filters).every(([key, value]) => {
           if (key === "from_tick") return row[table.columns.indexOf("tick")] >= Number(value);
           if (key === "to_tick") return row[table.columns.indexOf("tick")] <= Number(value);
-          return String(row[table.columns.indexOf({agent: "agent_id", case: "case_id", activity: "activity", action: "action_type"}[key])]) === String(value);
+          return String(row[table.columns.indexOf({agent: "agent_id", case: "case_id", activity: "activity", action: "action_type", org_unit: "org_unit", role: "role"}[key])]) === String(value);
         });
         if (selected && (!q || row.some(v => String(v ?? "").toLowerCase().includes(q)))) {
           matches.push(c * table.chunk_size + r);
@@ -54,7 +54,7 @@ export function tableReader(table, loadChunk) {
     const limit = Math.max(1, Math.min(1000, Number(params.limit) || 50));
     const q = String(params.q || "").toLowerCase(), sort = params.sort || "";
     const desc = params.desc === 1 || params.desc === "1" || params.desc === true;
-    const filters = Object.fromEntries(["agent", "case", "activity", "action", "from_tick", "to_tick"].filter(k => params[k] !== undefined && params[k] !== null && params[k] !== "").map(k => [k, params[k]]));
+    const filters = Object.fromEntries(["agent", "case", "activity", "action", "org_unit", "role", "from_tick", "to_tick"].filter(k => params[k] !== undefined && params[k] !== null && params[k] !== "").map(k => [k, params[k]]));
     const positions = q || sort || Object.keys(filters).length ? await index(q, sort, desc, filters, progress) : null;
     const total = positions ? positions.length : table.total;
     const chosen = positions ? positions.slice(offset, offset + limit) : Array.from({length: Math.max(0, Math.min(limit, total - offset))}, (_, i) => offset + i);

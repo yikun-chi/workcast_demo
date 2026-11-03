@@ -21,7 +21,7 @@ Endpoints (all JSON unless noted):
   POST /api/instances/{id}/explorations         {scenario} launches a matched alternative comparison
   GET  /api/instances/{id}/exploration-status   background comparison status
   GET  /api/instances/{id}/runs/{sid}/{run}/summary|config|metrics
-  GET  /api/instances/{id}/runs/{sid}/{run}/trace?offset&limit&agent&case&activity&action&from_tick&to_tick
+  GET  /api/instances/{id}/runs/{sid}/{run}/trace?offset&limit&agent&org_unit&role&case&activity&action&from_tick&to_tick
   GET  /api/instances/{id}/runs/{sid}/{run}/timeline?by=activity|role|action_type&bucket=1  (counts per tick bucket)
   GET  /api/instances/{id}/runs/{sid}/{run}/agents    per-agent activity counts
   GET  /api/instances/{id}/runs/{sid}/{run}/twins     digital twins (workforce worlds): profile, traits, final states; ?agent= filters one
@@ -30,7 +30,7 @@ Endpoints (all JSON unless noted):
   GET  /api/instances/{id}/insights-summary     concise comparison punchlines
   GET  /api/instances/{id}/scenario-results     scenario cards with selected saved runs
   GET  /api/instances/{id}/runs/{sid}/{run}/history   saved metrics, paths, entities and configuration
-  GET  /api/instances/{id}/runs/{sid}/{run}/replay?agent   ordered saved-event frames; no simulation
+  GET  /api/instances/{id}/runs/{sid}/{run}/replay?agent&org_unit&role   ordered saved-event frames; no simulation
   POST /api/instances/{id}/scenarios            create {id, title, description, extends}; never overwrite
   GET  /api/instances/{id}/insights             runs/<id>/insights.json (simulated interviews, topics, sentiment); POST {n, model} regenerates it
   GET  /api/instances/{id}/report               instances/<id>/reports/report.json
@@ -478,11 +478,11 @@ def _reader(instance_id: str, sid: str, run: str) -> RunReader:
 @app.get("/api/instances/{instance_id}/runs/{sid}/{run}/{name}")
 def run_file(instance_id: str, sid: str, run: str, name: str, offset: int = 0, limit: int = Query(200, le=5000),
              agent: str = "", case: str = "", activity: str = "", from_tick: int = -1, to_tick: int = -1, by: str = "activity", bucket: int = 1,
-             q: str = "", sort: str = "", desc: int = 0, action: str = "") -> Any:
+             q: str = "", sort: str = "", desc: int = 0, action: str = "", org_unit: str = "", role: str = "") -> Any:
     r = _reader(instance_id, sid, run)
     if name == "replay":
         from ..evaluation.replay import event_replay
-        return event_replay(r, agent)
+        return event_replay(r, agent, org_unit, role)
     if name == "history":
         from ..evaluation.history import run_history
         return run_history(_ctx(instance_id), r)
@@ -495,6 +495,9 @@ def run_file(instance_id: str, sid: str, run: str, name: str, offset: int = 0, l
         df = _apply_filters(_trace(r), agent, case, activity, from_tick, to_tick)
         if action:
             df = df[df.action_type == action]
+        for field, value in (("org_unit", org_unit), ("role", role)):
+            if value:
+                df = df[df[field] == value]
         if q:
             mask = pd.Series(False, index=df.index)
             for column in df.columns:

@@ -203,7 +203,7 @@ def validate_snapshot(source: Path) -> dict:
                 if path.is_symlink() or not path.resolve().is_relative_to(source.resolve()) or digest(path) != index["files"].get(relative):
                     raise ValueError(f"Snapshot checksum mismatch: {relative}")
                 replay = json.loads(gzip.decompress(path.read_bytes()))
-                if f"{replay['scenario']}/{replay['run_id']}" != key or replay.get("agent") or replay["total"] != run["trace"]["total"]:
+                if f"{replay['scenario']}/{replay['run_id']}" != key or any(replay.get(k) for k in ("agent", "org_unit", "role")) or replay["total"] != run["trace"]["total"]:
                     raise ValueError("Replay identity or event count mismatch")
                 frames = replay["frames"]
                 if sum(f["total"] for f in frames) != replay["total"] or any(sum(a["count"] for a in f["activities"]) != f["total"] for f in frames):

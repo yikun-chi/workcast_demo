@@ -43,3 +43,32 @@ def test_live_trace_activity_link_filters_action_type(tmp_path, monkeypatch):
     page=server.run_file('demo','baseline','recorded','trace',limit=50,activity='Invoice',action='complete',from_tick=0,to_tick=0)
     assert page['total']==1
     assert page['rows'][0]['action_type']=='complete'
+
+
+def test_scopes_match_exact_event_membership_in_replay_and_trace(tmp_path, monkeypatch):
+    store=importlib.import_module('orgsim.store.runs')
+    monkeypatch.setattr(store,'RUNS_DIR',tmp_path)
+    writer=RunWriter('demo','baseline','scoped')
+    rows=[]
+    for tick,who,unit,role in [(0,'p1','IT','Engineer'),(1,'p1','IT','Manager'),
+                                (2,'p1','Airfare','Engineer'),(0,'p10','IT Ops','Engineer'),
+                                (0,'','IT','Engineer')]:
+        rows.append(dict(tick=tick,sim_time=pd.Timestamp('2020-01-01')+pd.Timedelta(hours=tick),
+                         agent_id=who,role=role,org_unit=unit,case_id='',activity='Work',
+                         action_type='complete',duration_h=1.,wait_h=0.,provenance='simulated',attributes='{}'))
+    frame=pd.DataFrame(rows)
+    writer.write_rows(frame);writer.close({})
+    reader=RunReader('demo','baseline','scoped')
+    replay=event_replay(reader,org_unit='IT',role='Engineer')
+    assert replay['total']==2
+    assert replay['frames'][0]['entities']==1  # anonymous activity is counted, not a person
+    assert event_replay(reader,agent='p1',org_unit='IT',role='Engineer')['total']==1
+    assert event_replay(reader,agent='p10',org_unit='IT')['total']==0
+    server=importlib.import_module('orgsim.server.app')
+    monkeypatch.setattr(server,'_reader',lambda *args:reader)
+    monkeypatch.setattr(server,'_trace',lambda _:frame)
+    page=server.run_file('demo','baseline','scoped','trace',limit=50,org_unit='IT',role='Engineer')
+    assert page['total']==replay['total']
+    response=server.run_file('demo','baseline','scoped','replay',agent='p1',org_unit='IT',role='Manager')
+    assert response['total']==1
+    assert response['frames'][0]['tick']==1

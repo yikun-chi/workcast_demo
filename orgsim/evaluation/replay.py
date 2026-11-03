@@ -5,8 +5,10 @@ from datetime import datetime
 import pandas as pd
 
 
-def event_replay(reader, agent: str = "") -> dict:
-    trace = reader.trace(filters=[("agent_id", "=", agent)] if agent else None)
+def event_replay(reader, agent: str = "", org_unit: str = "", role: str = "") -> dict:
+    filters = [(field, "=", value) for field, value in
+               (("agent_id", agent), ("org_unit", org_unit), ("role", role)) if value]
+    trace = reader.trace(filters=filters or None)
     columns = list(trace.columns)
     index = {key: i for i, key in enumerate(columns)}
     frames = {}
@@ -32,6 +34,6 @@ def event_replay(reader, agent: str = "") -> dict:
         output.append({"tick": int(tick), "time": scalar(frame["time"]), "total": frame["total"], "entities": len(frame["entities"]),
                        "activities": [{k: g[k] for k in ("activity", "action_type", "count")} for g in groups],
                        "samples": [{key: scalar(value) for key, value in zip(columns, g["sample"])} for g in groups[:8]]})
-    return {"run_id": reader.run_id, "scenario": reader.scenario, "agent": agent,
+    return {"run_id": reader.run_id, "scenario": reader.scenario, "agent": agent, "org_unit": org_unit, "role": role,
             "total": len(trace), "frames": output,
             "note": "Each step is a recorded simulation time. Quiet gaps are skipped; pulses summarize events, not individual people. Preview cards are examples; counts include every matching saved event."}

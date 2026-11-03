@@ -46,8 +46,14 @@ Each instance has three primary tabs, in this order:
    cross-scenario comparisons here. Playback shows recorded time steps; do not invent
    hourly/person histories for models that only save aggregate periods. Recorded events
    default to Animation, paused until Play: show exact saved timestamps, counts and
-   bounded event examples, with an Event table switch. Keep the entity scope
-   consistent; activity selection passes exact time/activity/action filters to
+   bounded event examples, with an Event table switch. Make focus visible: department
+   (category for apps), role and searchable individual selection, plus a whole-simulation
+   reset. Only offer group dimensions supported by saved event membership. Match
+   department/role on each event, not a person's final profile. Animation and table
+   share the same exact filters. Pause on a focus change and retain the recorded time
+   where possible; never show overall state trends as group-specific values. Event
+   details offer shortcuts to follow their entity or department. Activity selection
+   passes exact time/activity/action filters to
    the table. Manual table filters apply to that view. Pause on tab/view changes,
    hidden pages and navigation; respect reduced motion. Quiet gaps are skipped explicitly, never
    filled with invented events. Empty or single-time logs must say so. Support click
@@ -195,8 +201,9 @@ a second guide. Update links when moving content.
 | Shared ontology, scenarios, evaluation, interviews and run storage | Corresponding `orgsim/ontology/`, `scenarios/`, `evaluation/`, `insights/`, `store/` |
 | HTTP routes and shared browser pages | `orgsim/server/app.py`, `ui/`; routing in `ui/app.js`, tokens in `ui/theme.css` |
 | Input schemas, record viewing and concept relations | `ui/pages/input.js`, `ui/pages/data*.js`, `ui/pages/ontology*.js`; existing `data_edit.js` and `ontology_edit.js` editors are hosted by Input |
-| Static table paging/search/sort, entity replay aggregation and worker | `ui/data/`; align with live trace/replay APIs and verify in `tests/js/` |
+| Static table paging/search/sort, scoped replay aggregation and worker | `ui/data/`; align with live trace/replay APIs and verify in `tests/js/` |
 | Recorded-event Animation/Table component | `ui/components/event_viewer.js`; view-only playback, no simulation calls or invented transitions |
+| History focus controls and event-time membership matching | `ui/components/history_focus.js`, `ui/data/scopes.js`; membership tuples in the saved history projection |
 | Instance metadata, sources, ingest, bindings, calibration, scenarios and report builder | `instances/<id>/`; checklist in `instances/_template/README.md` |
 | Repository acquisition and report-generation tools | `scripts/`; avoid workstation-specific paths in normal workflows |
 | Verification | `tests/`; dataset-dependent checks carry the `data` marker |
@@ -282,7 +289,7 @@ Export these as compressed chunks with checksums; load pages on demand and run
 whole-table searches/sorts in a worker. Input retains schemas and Ontology retains
 concept relations. Results publishes one selected completed run per named scenario,
 including compressed history, overview replay frames and chunked saved event records.
-Entity replay is derived from those same records in a worker. Prefer the run referenced
+Group and entity replay are derived from those same records in a worker. Prefer the run referenced
 by saved interviews so those records agree. Bulk ensembles and raw source archives
 belong in release attachments; never publish credentials in the website bundle.
 A static site remains read-only even when viewing detailed data.

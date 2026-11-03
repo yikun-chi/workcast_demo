@@ -165,7 +165,7 @@ async function staticFetch(path, opts = {}) {
           const {queryTable} = await import("./data/client.js");
           return queryTable(run.trace, Object.fromEntries(url.searchParams), assetUrl("public-data/"), index.files, opts.onProgress);
         }
-        if (runMatch[3] === "replay" && (url.searchParams.get("agent") || !run.replay)) {
+        if (runMatch[3] === "replay" && (["agent", "org_unit", "role"].some(key => url.searchParams.get(key)) || !run.replay)) {
           const {queryReplay} = await import("./data/client.js");
           const replay = await queryReplay(run.trace, Object.fromEntries(url.searchParams), assetUrl("public-data/"), index.files, opts.onProgress);
           return {...replay, scenario: runMatch[1], run_id: runMatch[2], note: "Saved events at recorded times. Quiet gaps are skipped; preview cards are examples and counts include all matching events."};

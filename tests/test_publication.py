@@ -236,6 +236,12 @@ def test_public_replay_rejects_wrong_totals_and_escaping_paths(tmp_path):
         index['files']={p.relative_to(source).as_posix():module.digest(p) for p in source.rglob('*') if p.is_file() and p.name!='index.json'}
         module.write_json(source/'index.json',index)
     save();module.validate_snapshot(source)
+    replay['role']='Manager'
+    (source/replay_path).write_bytes(gzip.compress(json.dumps(replay).encode()))
+    save()
+    with pytest.raises(ValueError,match='Replay identity or event count'):
+        module.validate_snapshot(source)
+    replay.pop('role')
     replay['total']=1
     (source/replay_path).write_bytes(gzip.compress(json.dumps(replay).encode()))
     save()

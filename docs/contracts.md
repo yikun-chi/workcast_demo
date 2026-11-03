@@ -335,6 +335,10 @@ Additional read-only presentation routes:
 - `/runs/{scenario}/{run}/history`: run identity, period, summary metrics, time series,
   entities, full metrics and configuration. Series contain saved values at their
   native resolution. Entity fields preserve full saved profiles/group/app records.
+  `event_scopes` lists distinct `{agent_id, org_unit, role}` tuples from the whole
+  saved trace, including anonymous/system events. These describe event-time
+  membership; no membership is inferred from current/final profiles. Older snapshots
+  without this optional field retain individual selection without group filters.
 - `POST /scenarios`: `{id, title, description, extends}` creates a new scenario with
   an exclusive file write (409 if it exists), then the existing PUT route edits it.
 
@@ -345,10 +349,12 @@ Public `run_data["<scenario>/<run>"]` holds `history` (a gzip JSON path) and `tr
 Every resource is checksummed. The validator checks run identity, row counts,
 chunk order, path confinement and all referenced files. Static trace queries share
 paging/search/sort with input records and add exact `agent`, `case`, `activity`,
-`action` (action type), `from_tick` and `to_tick` filters. Only published runs are accessible in static mode.
+`action` (action type), `org_unit`, `role`, `from_tick` and `to_tick` filters.
+Only published runs are accessible in static mode.
 
-Recorded-event playback uses `/runs/{scenario}/{run}/replay?agent=<exact-id>`.
-Its shape is `{run_id, scenario, agent, total, frames, note}`, where each ordered
+Recorded-event playback uses `/runs/{scenario}/{run}/replay` with optional exact
+`agent`, `org_unit` and `role` filters. Multiple filters intersect on the same event.
+Its shape is `{run_id, scenario, agent, org_unit, role, total, frames, note}`, where each ordered
 frame has `{tick, time, total, entities, activities, samples}`. Activities contain
 `{activity, action_type, count}`. Counts cover every matching saved event; `entities`
 counts distinct nonempty agent IDs. Up to eight samples preserve full records, one
@@ -358,10 +364,10 @@ in activity counts sort by activity then action. Empty logs have `frames: []`.
 Public schema 3 optionally adds `run_data[key].replay`, a checksummed
 `runs/<instance>/<scenario>/<run>/replay.json.gz` overview resource. Newly exported
 snapshots include it. The validator checks identity, event totals, frame ordering
-and activity counts. For an entity filter (or an older snapshot without this
+and activity counts. For any scope filter (or an older snapshot without this
 resource), the browser worker streams the saved trace chunks and builds the same
 frames. This fallback never calls a backend or runs a simulation. The Animation
-view and table use the same entity scope. Clicking an activity passes its exact
+view and table use the same department/role/entity scope. Clicking an activity passes its exact
 time/activity/action filters into the table; manual table filters apply only to
 the table. Display speed changes wall-clock playback only, not saved simulation
 time or event counts.

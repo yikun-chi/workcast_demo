@@ -9,8 +9,8 @@ const formatTime=time=>String(time || '').replace('T',' ').slice(0,16);
 const fields=row=>{const out={...row};try{out.attributes=JSON.parse(out.attributes);}catch{}return out;};
 let viewerId=0;
 
-export function eventViewer({api,instanceId,run,emptyNote,onPlay}) {
-  let entity=null, replayData=null, position=0, playing=false, timer=null, active=false, destroyed=false, generation=0, mode='animation';
+export function eventViewer({api,instanceId,run,emptyNote,onPlay,onFocus,entityName,entityLabel='Entity',unitLabel='Department'}) {
+  let filters={}, scopeLabel='Whole simulation', anchorTick=null, replayData=null, position=0, playing=false, timer=null, active=false, destroyed=false, generation=0, mode='animation';
   const cache=new Map();
   const id=`event-viewer-${++viewerId}`;
   const root=h('div',{class:'event-viewer'}), content=h('div',{id,role:'tabpanel'}), status=h('div',{class:'small muted',role:'status'});
@@ -65,7 +65,14 @@ export function eventViewer({api,instanceId,run,emptyNote,onPlay}) {
     playing=true;play.textContent='❚❚ Pause';root.classList.add('is-playing');status.setAttribute('aria-live','off');drawFrame(true);schedule();
   }
   function seek(value){position=Math.max(0,Math.min((replayData?.frames.length || 1)-1,value));pause();drawFrame(false);}
-  function openRecord(row){pause();drawer.open('Recorded event',h('pre',{class:'code-block',style:{whiteSpace:'pre-wrap',overflowWrap:'anywhere'}},JSON.stringify(fields(row),null,2)));}
+  function openRecord(row){
+    pause();
+    const focusButton=(label,value)=>h('button',{class:'btn sm',onClick:()=>{onFocus?.(value);drawer.close();if(mode!=='animation')setMode('animation');}},label);
+    drawer.open('Recorded event',h('div',{class:'stack'},onFocus?h('div',{class:'row'},
+      row.agent_id?focusButton(`Follow this ${entityName?.(row.agent_id) || entityLabel.toLowerCase()}`,{agent:row.agent_id}):null,
+      row.org_unit&&!['Agency','Group'].includes(entityLabel)?focusButton(`Focus this ${unitLabel.toLowerCase()}`,{org_unit:row.org_unit}):null):null,
+      h('pre',{class:'code-block',style:{whiteSpace:'pre-wrap',overflowWrap:'anywhere'}},JSON.stringify(fields(row),null,2))));
+  }
   function drawTimeline(){
     const ns='http://www.w3.org/2000/svg',svg=globalThis.document.createElementNS(ns,'svg');
     svg.setAttribute('viewBox','0 0 1000 48');svg.setAttribute('preserveAspectRatio','none');svg.setAttribute('aria-hidden','true');
@@ -97,11 +104,11 @@ export function eventViewer({api,instanceId,run,emptyNote,onPlay}) {
       return h('button',{class:'replay-event',style:{animationDelay:`${i*35}ms`},onClick:()=>openRecord(row)},h('span',{class:'replay-event-dot','aria-hidden':'true'}),
         h('span',null,h('strong',null,nice(row.activity)),h('span',{class:'small muted'},`${row.agent_id || 'System'} · ${ACTIONS[row.action_type] || nice(row.action_type)}`),summary?h('span',{class:'small'},summary):null));
     }));
-    replace(status,`${fmtNum(frame.total)} ${frame.total===1?'event':'events'} at this time · showing ${frame.samples.length} ${frame.samples.length===1?'example':'examples'}. ${entity?'Filtered to the selected entity.':''}`);
+    replace(status,`${fmtNum(frame.total)} ${frame.total===1?'event':'events'} at this time · showing ${frame.samples.length} ${frame.samples.length===1?'example':'examples'}.${replayData.frames.length===1?' This selection has only one recorded time.':''}`);
   }
   function drawTable(){
-    replace(tableScope,`${entity?`Events for ${entity.label}`:'Events across the whole simulation'}${activity?` · ${nice(activity)} · ${ACTIONS[action] || nice(action)}`:''}.`);
-    replace(tableBody,dataGrid({fetchPage:params=>api.runFile(instanceId,run.scenario,run.run_id,'trace',{...params,agent:entity?.id,from_tick:from.value,to_tick:to.value,activity,action}),pageSize:25,maxHeight:'480px',onRowClick:openRecord}));
+    replace(tableScope,`${scopeLabel}${activity?` · ${nice(activity)} · ${ACTIONS[action] || nice(action)}`:''}.`);
+    replace(tableBody,dataGrid({fetchPage:params=>api.runFile(instanceId,run.scenario,run.run_id,'trace',{...params,...filters,from_tick:from.value,to_tick:to.value,activity,action}),pageSize:25,maxHeight:'480px',onRowClick:openRecord}));
   }
   function setMode(nextMode){
     pause();mode=nextMode;
@@ -114,13 +121,14 @@ export function eventViewer({api,instanceId,run,emptyNote,onPlay}) {
     const current=++generation;pause();replayData=null;position=0;
     play.disabled=true;previous.disabled=true;next.disabled=true;restart.disabled=true;slider.disabled=true;
     stage.hidden=true;feed.parentElement.hidden=true;replace(status,loading('Preparing recorded events'));
-    const key=entity?.id || '';
+    const key=JSON.stringify([filters.agent || '',filters.org_unit || '',filters.role || '']);
     try{
-      const result=cache.get(key) || await api.runFile(instanceId,run.scenario,run.run_id,'replay',{agent:key,onProgress:message=>{if(current===generation)replace(status,loading(message));}});
+      const result=cache.get(key) || await api.runFile(instanceId,run.scenario,run.run_id,'replay',{...filters,onProgress:message=>{if(current===generation)replace(status,loading(message));}});
       if(destroyed || current!==generation)return;
       cache.set(key,result);while(cache.size>3)cache.delete(cache.keys().next().value);
       replayData=result;
-      if(!result.frames.length){replace(status,emptyState('No recorded events for this selection.',emptyNote || 'This run saves aggregate state paths. Explore those in State trends below.'));return;}
+      if(!result.frames.length){replace(status,emptyState('No recorded events for this selection.',emptyNote || 'Try another focus, or choose Show whole simulation.'));return;}
+      if(anchorTick!=null){const at=result.frames.findIndex(f=>f.tick>=anchorTick);position=at<0?result.frames.length-1:at;}
       stage.hidden=false;feed.parentElement.hidden=false;play.disabled=result.frames.length<2;
       drawTimeline();drawFrame(false);
       if(result.frames.length===1)replace(status,`${fmtNum(result.total)} saved events at one recorded time. There are no later events to animate.`);
@@ -131,7 +139,11 @@ export function eventViewer({api,instanceId,run,emptyNote,onPlay}) {
   setMode('animation');
   return {root,pause,
     activate(){if(!active){active=true;if(mode==='animation')load();else drawTable();}},
-    setEntity(value){entity=value;replace(scope,entity?entity.label:'Overall simulation');generation++;pause();replayData=null;from.value='';to.value='';activity='';action='';if(active){if(mode==='animation')load();else drawTable();}},
+    setScope(value){
+      anchorTick=replayData?.frames[position]?.tick ?? anchorTick;filters={...value.filters};scopeLabel=value.label;replace(scope,scopeLabel);
+      generation++;pause();replayData=null;from.value='';to.value='';activity='';action='';
+      if(active){if(mode==='animation')load();else drawTable();}
+    },
     destroy(){destroyed=true;generation++;pause();globalThis.document.removeEventListener('visibilitychange',visibility);cache.clear();}
   };
 }

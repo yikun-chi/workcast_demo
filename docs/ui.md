@@ -21,16 +21,24 @@ same layout. The landing page selects an instance and opens **Insights**.
    **Compare with current policy** action; this refreshes the comparison in Insights.
 3. **Results** starts with scenario cards. A selected scenario shows key metrics
    and a trend for one saved run. Expand **Explore simulation history** to select
-   the whole simulation or one entity. **Recorded events** opens in **Animation**,
+   a **Zoom in** panel: department, role and a searchable person/worker selector.
+   Apps and aggregate workloads use category and app type; agency/group models
+   retain their own entity labels.
+   Only dimensions present in saved events are offered. **Show whole simulation**
+   clears the focus. **Recorded events** opens in **Animation**,
    paused until Play. The clock, timeline cursor, activity pulses and event examples
    advance through saved timestamps. Play/Pause, speed, previous/next, restart and
    scrubbing work without running a simulation. Click an activity to open its exact
-   time/activity/action rows in **Event table**; click an example for every field.
-   The table retains full search, sorting and time filtering. **State trends and
-   snapshots** separately shows the model's saved state paths, with trend playback,
+   time/activity/action rows in **Event table**; click an example for every field
+   and shortcuts to follow its entity or department. Animation and table share
+   the same department/role/entity focus. The table retains full search, sorting
+   and time filtering. Changing focus pauses playback and selects the first matching
+   saved time at or after the current tick (or the last saved time if none follows).
+   **State trends and snapshots** separately shows the model's saved state paths, with trend playback,
    point selection and zoom. A button also provides double-click zoom. Interviews,
    entity fields, all metrics and configuration are expandable. Comparisons across
-   scenarios belong in Insights.
+   scenarios belong in Insights. A department/role selection has no invented state
+   averages: select one entity for its saved states, or reset for overall trends.
 
 Results identifies the run, population and period. Its one-run numbers can differ
 from evaluation averages in Insights. Saved interviews pin the chosen run where
@@ -64,7 +72,10 @@ The public site rejects mutations and hides run/edit controls. All normalized in
 records and one selected run per named scenario are exported as checksummed gzip
 resources. Paging loads only needed chunks; whole-table searches/sorts run in a
 worker with progress. Overview replay frames are precomputed for fast loading;
-entity replays aggregate the same checksummed event chunks in the worker. Expanding
+group and entity replays aggregate the same checksummed event chunks in the worker.
+Department/role filters match event-time fields, including changes in membership;
+anonymous events remain in group counts. Entity choices come from exact membership
+tuples, so a role held in another department does not create a false match. Expanding
 a history loads saved outputs; it never reruns a
 simulation. Bulk ensembles and raw download archives remain release attachments.
 
@@ -78,12 +89,14 @@ simulation. Bulk ensembles and raw download archives remain release attachments.
 - `pages/scenarios.js`: overview cards, creation and scenario editing.
 - `pages/results.js`, `components/scenario_interviews.js`: selected-run exploration.
 - `components/event_viewer.js`: Animation/Table views, playback and lifecycle cleanup.
+- `components/history_focus.js`, `data/scopes.js`: focus controls, search and exact
+  event-membership choices shared by history and replay.
 - `pages/input.js`, `data*.js`, `ontology*.js`: model internals; Input hosts the
   existing `data_edit` and `ontology_edit` modules.
 - `components/`: shared DOM, drawers, grids, charts, graphs and Markdown.
 - `data/`: static queries, client and worker; verification in `tests/js/`.
 - `orgsim/evaluation/presentation.py`, `history.py`, `replay.py`: read-only artifact
-  projections. `ui/data/replay.js` matches replay aggregation for static entity filters.
+  projections. `ui/data/replay.js` matches replay aggregation for static scope filters.
   `instances/<id>/ui/presentation.yaml` owns authored labels and metric selection,
   never manually entered result values.
 - `dev/smoke.html?instance=<id>`: live-browser checks; require `DONE errors=0`.

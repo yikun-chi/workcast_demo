@@ -15,9 +15,9 @@ self.onmessage = async ({data:{id,table,params,base,checksums,operation='query'}
     };
     let result;
     if(operation==='replay'){
-      const replayKey=key+JSON.stringify([params.agent || '',checksums]);
+      const replayKey=key+JSON.stringify([params.agent || '',params.org_unit || '',params.role || '',checksums]);
       if(!replays.has(replayKey)){
-        const builder=replayBuilder(table.columns,params.agent);
+        const builder=replayBuilder(table.columns,params);
         for(let c=0;c<table.chunks.length;c++){
           builder.add(await loadChunk(c));
           self.postMessage({id,progress:`Preparing recorded events: ${Math.round((c+1)/table.chunks.length*100)}%`});

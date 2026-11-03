@@ -1,12 +1,14 @@
 /* Build exact, ordered playback frames while streaming a saved trace. */
 const compare = (a,b) => a < b ? -1 : a > b ? 1 : 0;
-export function replayBuilder(columns, agent = '') {
+export function replayBuilder(columns, {agent = '', org_unit = '', role = ''} = {}) {
   const index = Object.fromEntries(columns.map((key,i)=>[key,i]));
   const frames = new Map(); let total=0;
   return {
     add(rows) {
       for (const row of rows) {
         if(agent && row[index.agent_id] !== agent) continue;
+        if(org_unit && row[index.org_unit] !== org_unit) continue;
+        if(role && row[index.role] !== role) continue;
         const tick=row[index.tick], time=row[index.sim_time], who=row[index.agent_id];
         if(!frames.has(tick)) frames.set(tick,{tick,time,total:0,entities:new Set(),groups:new Map()});
         const frame=frames.get(tick);frame.total++;total++;
@@ -18,7 +20,7 @@ export function replayBuilder(columns, agent = '') {
       }
     },
     finish() {
-      return {agent,total,frames:[...frames.values()].sort((a,b)=>a.tick-b.tick).map(frame=>{
+      return {agent,org_unit,role,total,frames:[...frames.values()].sort((a,b)=>a.tick-b.tick).map(frame=>{
         const groups=[...frame.groups.values()].sort((a,b)=>b.count-a.count || compare(a.activity,b.activity) || compare(a.action_type,b.action_type));
         return {tick:frame.tick,time:frame.time,total:frame.total,entities:frame.entities.size,
           activities:groups.map(({sample,...group})=>group),

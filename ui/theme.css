@@ -475,6 +475,12 @@ label.field > .input, label.field > .select { color: var(--text); font-weight: 4
 }
 
 /* Recorded-event replay: motion encodes activity at one saved time, not people. */
+.history-focus { padding:18px; border:1px solid var(--border); border-radius:12px; background:var(--surface); }
+.history-focus h4 { margin:0; }
+.focus-fields { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr)); gap:14px; margin:16px 0; }
+.focus-fields label { gap:7px; min-width:0; font-size:12px; color:var(--muted); }
+.focus-fields select,.focus-fields input { width:100%; min-width:0; box-sizing:border-box; color:var(--text); }
+.focus-summary { display:flex; flex-wrap:wrap; gap:6px 16px; align-items:baseline; overflow-wrap:anywhere; }
 .event-viewer { min-width:0; }
 .event-viewer-tabs { margin-bottom:14px; gap:0; }
 .event-viewer-tabs .btn:first-child { border-radius:8px 0 0 8px; }

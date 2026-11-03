@@ -57,6 +57,9 @@
       assert(detail.querySelector(".result-metrics") && detail.querySelector("canvas"), "selected-run metrics and trend");
       const history=[...detail.querySelectorAll("details")].find(d=>d.querySelector("summary").textContent==="Explore simulation history"); history.open=true;
       const state=[...detail.querySelectorAll("details")].find(d=>d.querySelector("summary").textContent==="State trends and snapshots");state.open=true;
+      const department=detail.querySelector('[aria-label="Department"]');
+      assert(department?.options.length>1,"department focus is available");department.selectedIndex=1;department.dispatchEvent(new Event("change"));
+      assert(detail.textContent.includes("State trends were not saved for this group"),"group focus does not substitute overall state values");
       const select=detail.querySelector('[aria-label="History entity"]'); select.selectedIndex=1; select.dispatchEvent(new Event("change"));
       assert(detail.textContent.includes("Entity details"), "entity history and fields");
       const events=[...detail.querySelectorAll("details")].find(d=>d.querySelector("summary").textContent.startsWith("Recorded events")); events.open=true;

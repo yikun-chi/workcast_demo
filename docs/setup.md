@@ -260,7 +260,8 @@ There is one source UI. Static mode reads committed `public-data/` snapshots:
 Insights compares actual/other/simulation outcomes and alternative actions; Scenarios
 shows saved assumptions; Results opens one scenario's saved metrics, history and
 simulated interviews. Recorded events default to an animated saved replay with an
-Event table switch; Play changes only the display. Input, Data and Ontology retain
+Event table switch; Play changes only the display. The Zoom in controls filter
+saved events by department, role or individual where recorded. Input, Data and Ontology retain
 schemas, all normalized records and concept relations. Search/sort covers the whole
 selected table, with complete
 record details. Compressed input/history/event resources load on demand.

@@ -53,6 +53,9 @@ def run_history(ctx, reader):
            "seed": summary.get("seed"), "trace_rows": len(trace), "metrics": [], "series": [], "entities": [],
            "raw_metrics": metrics, "configuration": reader.json("config.json"),
            "note": "One saved simulation run. Insights compares evaluation averages, which can differ from this run."}
+    # Membership comes from event-time fields, not a person's final profile.
+    out["event_scopes"] = [] if trace.empty else trace[["agent_id", "org_unit", "role"]].fillna("").drop_duplicates().sort_values(
+        ["org_unit", "role", "agent_id"]).to_dict(orient="records")
 
     if head.get("groups"):
         # Adoption worlds store complete group paths even when event traces are empty.

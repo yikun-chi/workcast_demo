@@ -2,6 +2,7 @@
 import {h, replace, badge, loading, errorState, emptyState, kv} from '../components/ui.js';
 import {chartCard, sweepCharts} from '../components/chart.js';
 import {eventViewer} from '../components/event_viewer.js';
+import {historyFocus} from '../components/history_focus.js';
 import {scenarioInterviews} from '../components/scenario_interviews.js';
 import {value} from './insights.js';
 
@@ -35,14 +36,14 @@ export async function render(root, ctx) {
   try {d=await ctx.api.runFile(ctx.instanceId,run.scenario,run.run_id,'history');}catch(e){replace(pending,errorState(e));return;}
   pending.remove();
   body.append(h('p',{class:'small muted'},`${String(d.start || '').slice(0,10)} → ${String(d.end || '').slice(0,10)}. ${d.note}`),metrics(d.metrics));
-  let timer=null, selected=null, step=0, zoom=false;
+  let timer=null, selected=null, focusedGroup=false, step=0, zoom=false;
   const history=h('div',{class:'stack'}), historySection=disclosure('Explore simulation history',history);
   const entityView=h('div',{class:'stack'}), trendHost=h('div'), snapshot=h('div',{role:'status','aria-live':'polite'});
-  const choose=h('select',{class:'select','aria-label':'History entity'},h('option',{value:''},'Overall simulation'),...d.entities.map(e=>h('option',{value:e.id},`${e.label}${e.role ? ` · ${e.role}` : ''}`)));
+  const focus=historyFocus({entities:d.entities,memberships:d.event_scopes,onChange:select});
   const slider=h('input',{type:'range',min:0,max:0,value:0,'aria-label':'Simulation time',style:{width:'100%'}});
   const play=h('button',{class:'btn sm'},'Play trend');
   const zoomButton=h('button',{class:'btn sm'},'Zoom around selected step');
-  function paths(){return selected?.series || d.series;}
+  function paths(){return selected?.series || (focusedGroup?[]:d.series);}
   function stop(){clearInterval(timer);timer=null;play.textContent='Play trend';}
   function visibility(){if(document.hidden)stop();}
   document.addEventListener('visibilitychange',visibility);
@@ -63,22 +64,25 @@ export async function render(root, ctx) {
       chart.addEventListener('dblclick',()=>{zoom=true;zoomButton.textContent='Show full history';drawTrends();});
       return chart;
     }));
-    if(!paths().length) trendHost.append(h('p',{class:'muted'},'No state series was saved for this entity. Inspect its recorded events above.'));
+    if(!paths().length) trendHost.append(h('p',{class:'muted'},focusedGroup&&!selected?'State trends were not saved for this group. Choose one entity above to inspect its saved states, or use the event animation for this group.':'No state series was saved for this entity. Inspect its recorded events above.'));
     showStep();sweepCharts();
   }
-  function select(id){
-    stop(); selected=d.entities.find(e=>e.id===id || e.id===`group:${id}`) || null;choose.value=selected?.id || '';step=0;zoom=false;zoomButton.textContent='Zoom around selected step';
+  function select(scope){
+    stop();selected=scope.entity;focusedGroup=Boolean(scope.filters.org_unit || scope.filters.role);step=0;zoom=false;zoomButton.textContent='Zoom around selected step';
     slider.max=Math.max(0,(paths()[0]?.times.length || 1)-1);slider.disabled=!paths().length;play.disabled=Number(slider.max)===0;zoomButton.disabled=Number(slider.max)<2;
     replace(entityView,selected?metrics(selected.metrics):null, selected?disclosure('Entity details · all saved fields',json(selected.details)):null);
     showStep();drawTrends();
-    replay.setEntity(selected);
+    replay.setScope(scope);
   }
-  choose.addEventListener('change',()=>select(choose.value));
   slider.addEventListener('input',()=>{stop();step=+slider.value;showStep();if(zoom)drawTrends();});
   play.addEventListener('click',()=>{replay.pause();if(timer){stop();return;}if(step>=Number(slider.max))step=0;play.textContent='Pause trend';timer=setInterval(()=>{if(!historySection.open || !historySection.isConnected || step>=Number(slider.max)){stop();return;}step++;showStep();if(zoom)drawTrends();},700);});
   zoomButton.addEventListener('click',()=>{zoom=!zoom;zoomButton.textContent=zoom?'Show full history':'Zoom around selected step';drawTrends();});
-  history.append(h('p',{class:'small muted'},'Replay recorded activity for the whole simulation or choose one entity.'),h('label',{class:'stack'},'Entity',choose),entityView);
+  history.append(focus.root,entityView);
   const replay=eventViewer({api:ctx.api,instanceId:ctx.instanceId,run,onPlay:stop,
+    entityName:id=>{const kind=focus.catalog.entities.find(e=>e.id===id)?.kind;return kind==='Recorded entity'?'entity':kind?.toLowerCase();},
+    entityLabel:focus.entityLabel,unitLabel:focus.unitLabel,onFocus:value=>{
+      if(value.agent)focus.selectEntity(value.agent);else focus.set(value);
+    },
     emptyNote:d.trace_rows===0?'This run saves group-level paths rather than an event log. Explore the saved paths in State trends below.':undefined});
   const events=disclosure(`Recorded events · ${d.trace_rows.toLocaleString()} across the full run`,replay.root);events.open=true;
   const stateDetails=disclosure('State trends and snapshots',h('div',{class:'stack'},h('p',{class:'small muted'},'Saved state values at the model’s recorded resolution. Click a chart point to select it, or double-click to zoom.'),h('div',{class:'row'},play,zoomButton),slider,snapshot,trendHost));
@@ -88,15 +92,15 @@ export async function render(root, ctx) {
   stateDetails.addEventListener('toggle',()=>{if(!stateDetails.open)stop();});
   // The first trend is visible immediately, with drilldown kept one click away.
   if(d.series[0]){
-    const overview=plot(d.series[0],i=>{historySection.open=true;stateDetails.open=true;select('');step=i;showStep();stateDetails.scrollIntoView({behavior:'smooth',block:'start'});});
+    const overview=plot(d.series[0],i=>{historySection.open=true;stateDetails.open=true;focus.set({});step=i;showStep();stateDetails.scrollIntoView({behavior:'smooth',block:'start'});});
     overview.append(h('button',{class:'btn sm',onClick:()=>{historySection.open=true;historySection.scrollIntoView({behavior:'smooth',block:'start'});}},'Explore time and entities →'));
     body.append(overview);
   }
-  body.append(historySection);select('');
+  body.append(historySection);focus.set({});
   const matching=d.raw_metrics?.separations
     ? {...item,interviews:null,interview_note:'Employee interviews are unavailable for this agency-level model. The saved legacy cohort voices do not describe the agency separation paths shown here.'}
     : item.run?.run_id===run.run_id?item:{...item,interviews:null,interview_note:'No simulated interviews were saved for this run.'};
-  body.append(disclosure('Simulated interviews',scenarioInterviews(matching,id=>{historySection.open=true;select(id);historySection.scrollIntoView({behavior:'smooth',block:'start'});},id=>d.entities.some(e=>e.id===id || e.id===`group:${id}`))),
+  body.append(disclosure('Simulated interviews',scenarioInterviews(matching,id=>{historySection.open=true;focus.selectEntity(id);historySection.scrollIntoView({behavior:'smooth',block:'start'});},id=>d.entities.some(e=>e.id===id || e.id===`group:${id}`))),
     disclosure('All metrics and saved configuration',h('div',{class:'stack'},kv({run:run.run_id,seed:d.seed}),disclosure('Metrics',json(d.raw_metrics)),disclosure('Configuration',json(d.configuration)))),
     h('p',{class:'small'},h('a',{href:ctx.href(ctx.instanceId,'scenarios',item.scenario.id)},'View scenario assumptions →')));
   return ()=>{stop();document.removeEventListener('visibilitychange',visibility);replay.destroy();sweepCharts();};
