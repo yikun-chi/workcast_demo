@@ -8,6 +8,7 @@
   orgsim insights <instance> [--n 24] [--model claude-sonnet-5-5]   # simulated interviews -> runs/<id>/insights.json
   orgsim demo [<instance>]                       # ingest + run every scenario + evaluate (what the demo needs)
   orgsim serve [--host 127.0.0.1] [--port 8000]
+  orgsim workflow [--planner rule|langgraph|module:factory] [--spec examples/task_workflow.json]
 """
 from __future__ import annotations
 
@@ -20,7 +21,7 @@ from pathlib import Path
 
 from .instances import get_instance, list_instances
 from .scenarios import list_scenarios, load_scenario
-from .store import RunWriter
+from .composition import instance_service
 
 
 def _ingest(ctx) -> None:
@@ -34,26 +35,16 @@ def _ingest(ctx) -> None:
 
 
 def _run(ctx, scenario_id: str, seed: int) -> dict:
-    from .worlds import world_class
     scenario = load_scenario(ctx, scenario_id)
-    writer = RunWriter(ctx.id, scenario_id, config={"instance": ctx.id, "scenario": scenario, "seed": seed})
     t = time.time()
-    world = world_class(ctx).from_instance(ctx, scenario, seed)
-    summary = world.run(writer)
-    writer.close(summary.to_json() if hasattr(summary, "to_json") else summary)
-    print(f"[{ctx.id}] {scenario_id} seed={seed} -> {writer.run_id} ({writer.n_events} events, {time.time()-t:.1f}s)")
-    return {"run_id": writer.run_id, "scenario": scenario_id, "seed": seed}
+    result = instance_service(ctx).run(scenario, seed)
+    print(f"[{ctx.id}] {scenario_id} seed={seed} -> {result.run_id} ({result.n_events} events, {time.time()-t:.1f}s)")
+    return {"run_id": result.run_id, "scenario": scenario_id, "seed": seed}
 
 
 def _evaluate(ctx, scenario_ids: list[str]) -> dict:
-    from .worlds import world_module
     t = time.time()
-    additional = (ctx.meta.get("scenarios") or {}).get("additional_alternatives", [])
-    result = world_module(ctx).evaluate(ctx, [sid for sid in scenario_ids if sid not in additional])
-    from .evaluation.exploration import build_exploration
-    for sid in additional:
-        if sid in scenario_ids:
-            build_exploration(ctx, sid)
+    result = instance_service(ctx).evaluate(scenario_ids)
     print(f"[{ctx.id}] evaluation written ({time.time()-t:.1f}s)")
     return result
 
@@ -70,7 +61,17 @@ def main(argv: list[str] | None = None) -> int:
     s = sub.add_parser("insights"); s.add_argument("instance"); s.add_argument("--n", type=int, default=24); s.add_argument("--model", default="")
     s = sub.add_parser("demo"); s.add_argument("instance", nargs="?"); s.add_argument("--skip-ingest", action="store_true")
     s = sub.add_parser("serve"); s.add_argument("--host", default="127.0.0.1"); s.add_argument("--port", type=int, default=8000); s.add_argument("--reload", action="store_true")
+    s = sub.add_parser("workflow", help="authored task exploration, separate from instance validation")
+    s.add_argument("--spec", default="examples/task_workflow.json")
+    s.add_argument("--planner", default="rule", help="rule, langgraph, or an installed module:factory")
+    s.add_argument("--planner-options", default="{}", help="JSON options for the selected adapter")
+    s.add_argument("--output", default="runs/workflow")
+    s.add_argument("--replay", default=None, metavar="RUN_KEY")
     a = ap.parse_args(argv)
+
+    if a.cmd == "workflow":
+        from .workflow.cli import run_cli
+        return run_cli(a)
 
     if a.cmd == "instances":
         for i in list_instances():

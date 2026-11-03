@@ -1,0 +1,14 @@
+{
+  "as_of": "2025-01-01T00:00:00Z",
+  "horizon_h": 8,
+  "seed": 17,
+  "resources": [
+    {"id": "analyst", "kind": "human", "skills": ["invoice"], "capacity": 1, "speed": 1},
+    {"id": "assistant", "kind": "ai", "skills": ["invoice"], "capacity": 2, "speed": 3, "hourly_cost": 0.2, "error_multiplier": 1.5}
+  ],
+  "records": [
+    {"effective_at": "2024-12-31T00:00:00Z", "available_at": "2024-12-31T00:00:00Z", "task": {"id": "invoice-a", "skill": "invoice", "arrival_h": 0, "work_h": 3, "review_h": 0.5, "rework_h": 1, "error_probability": 0.2}},
+    {"effective_at": "2024-12-31T00:00:00Z", "available_at": "2024-12-31T00:00:00Z", "task": {"id": "invoice-b", "skill": "invoice", "arrival_h": 0, "work_h": 3, "review_h": 0.5, "rework_h": 1, "error_probability": 0.2}},
+    {"effective_at": "2024-12-31T00:00:00Z", "available_at": "2024-12-31T00:00:00Z", "task": {"id": "reconcile", "skill": "invoice", "arrival_h": 1, "work_h": 2, "review_h": 0.5, "rework_h": 1, "error_probability": 0.2, "depends_on": ["invoice-a", "invoice-b"]}}
+  ]
+}

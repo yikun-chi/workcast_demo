@@ -18,7 +18,7 @@ from .. import REPO_ROOT
 from ..instances import get_instance
 from ..scenarios import load_scenario
 from ..scenarios.assistance import assistance_by_activity
-from ..store import RunWriter
+from ..composition import instance_service
 
 
 def _hash(value) -> str:
@@ -56,14 +56,10 @@ def _save(path: Path, value: dict) -> None:
 
 
 def _run_one(instance: str, scenario: dict, seed: int) -> dict:
-    from ..worlds import world_class
     ctx = get_instance(instance)
-    writer = RunWriter(instance, scenario["id"], config={"instance": instance, "scenario": scenario, "seed": seed, "purpose": "exploration"})
-    world = world_class(ctx).from_instance(ctx, scenario, seed)
-    summary = world.run(writer)
-    writer.close(summary.to_json())
-    print(f"[{instance}] exploration {scenario['id']} seed={seed} -> {writer.run_id}", flush=True)
-    return {"scenario": scenario["id"], "run_id": writer.run_id, "seed": seed, "headline": summary.headline}
+    result = instance_service(ctx).run(scenario, seed, metadata={"purpose": "exploration"})
+    print(f"[{instance}] exploration {scenario['id']} seed={seed} -> {result.run_id}", flush=True)
+    return {"scenario": scenario["id"], "run_id": result.run_id, "seed": seed, "headline": result.summary["headline"]}
 
 
 def _pair_job(job: dict) -> dict:

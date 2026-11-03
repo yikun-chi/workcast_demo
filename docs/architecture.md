@@ -132,57 +132,105 @@ traces, JSON for run summaries and documents, YAML for everything a person edits
 
 ## 9. Extension design: ports and adapters
 
-This is a proposed incremental extension, not a claim that the current package has
-complete hexagonal isolation or a LangGraph adapter. Today `World` and `Policy`
-already define useful interfaces, but worlds read `InstanceContext` files directly,
-and model execution, evaluation and presentation share modules.
+The application boundary is implemented in `orgsim/application/`. CLI runs,
+CLI evaluation, HTTP Results and alternative-action execution use
+`SimulationService`; `orgsim/composition.py` binds it to existing world adapters.
+The four scientific models retain their equations and data formats. Their internal
+batch evaluators still read instance files and create runs: these compatibility
+adapters are an incremental extraction, not complete isolation of every legacy IO
+operation. They do not resolve the instance data/claim questions tracked in issues
+[#4–#9](https://github.com/yikun-chi/workcast_demo/issues?q=is%3Aissue+assignee%3Asumervaid).
 
-Keep the common instance framing and separate these responsibilities behind ports:
-
-| Port | Responsibility | Existing or proposed adapter |
+| Port | Responsibility | Implemented adapter |
 |---|---|---|
-| DataSnapshot | Supply observations and their availability dates at a cutoff; expose truth only to scoring | Manifest-backed files now; database/API adapters later |
-| SimulationModel | Advance the simulated world and emit outcomes and events | Workforce, process, market, adoption |
-| TaskPlanner | Propose assignments, decomposition and review from an allowed observation | Rule planner; optional LangGraph orchestrator and workers |
-| RunRepository | Persist configuration, input hashes, events, checkpoints and results | Local Parquet/JSON now; object storage later |
-| OutcomeScorer | Compare frozen predictions and alternatives on matched windows and populations | Experiment, process and time-series scoring |
-| ResultsPresenter | Produce the common before/change/comparison/alternatives document | Shared web UI; separate board publisher |
+| `DataSnapshot[T]` | Return a typed observation at a cutoff | `RecordSnapshot`: effective and availability timestamps, latest available task vintage |
+| `SimulationModel` | Run a configured model, emitting events and outcomes | `InstanceModel`: workforce, process, market and adoption |
+| `TaskPlanner[Observation, Plan]` | Propose assignments from an allowed observation | Deterministic rule, optional LangGraph, external `module:factory` |
+| `RunRepository` / `RunSink` | Begin, write, complete or abort a model run | Local Parquet/JSON with existing artifact shapes |
+| `OutcomeScorer` | Coordinate the existing instance evaluation | `InstanceScorer`: same scoring and matched alternatives |
+| `ResultsPresenter` | Supply before/change/comparison/alternatives | `InstancePresenter`: existing Results documents |
+| `DecisionRepository` | Durably store accepted decisions and completed workflow checkpoints | SQLite write-once journal, independently of framework checkpoints |
 
-The application service coordinates these ports. CLI and HTTP are inbound adapters;
-model services, files and LangGraph are outbound adapters. A world should depend on
-the ports it needs, without importing FastAPI, LangGraph or a storage client. The
-ports express business operations rather than one generic plugin with arbitrary
-callbacks. This follows [Cockburn's ports-and-adapters architecture](https://alistair.cockburn.us/hexagonal-architecture).
+The core ports import no agent SDK, web framework, world implementation or storage
+client. `tests/test_architecture.py` checks the dependency direction, all eight
+instance bindings, failure cleanup and numerical parity on real workforce twins.
+This follows [ports-and-adapters architecture](https://alistair.cockburn.us/hexagonal-architecture).
 
-### Next demo: task assignment with LangGraph
+### Framework-independent task workflow
 
-A process-world demo can represent incoming tasks, skills, employee and AI capacity,
-review, corrections and completion. A LangGraph adapter can decompose a task, assign
-workers with `Send`, collect their proposed results and request review. LangGraph
-supports this [orchestrator-worker pattern](https://docs.langchain.com/oss/python/langgraph/workflows-agents).
-The adapter returns typed proposals containing task IDs, dependencies, assignees,
-effort estimates and provenance. The kernel validates those proposals, applies
-capacity constraints and advances simulation time. Graph concurrency does not create
-staff capacity, and model response latency is not a task's business duration.
+`orgsim workflow` is a runnable, authored process exploration with a fixed task DAG,
+worker skills, human and AI capacity, review and correction. It is separate from the
+eight real-data instances and makes no observed-accuracy or AI-benefit claim. See
+[the example and runnable commands](../examples/README.md).
 
-Distinguish two uses: LangGraph may organize the software's execution, or it may be
-the decision policy being evaluated inside the simulated organization. Only the
-second is a modeled organizational intervention. Neither replaces a validated model
-of task effort, quality, review cost or employee behavior.
+```mermaid
+flowchart LR
+  Input[Typed snapshot at cutoff] --> App[Workflow service]
+  App --> Port[TaskPlanner interface]
+  Port --> Rules[Rule adapter]
+  Port --> Graph[Optional LangGraph adapter]
+  Port --> External[External framework adapter]
+  Port --> Plan[Typed proposals]
+  Plan --> Kernel[Validate and simulate]
+  Kernel --> Outcomes[Events and business outcomes]
+  App --> Journal[Independent decision journal]
+```
 
-Start with one workflow and two interchangeable planners: a deterministic rule
-planner and LangGraph. Hold arrivals, starting state, resources and seeds fixed;
-score completed work, elapsed time, staff effort, correction rate and service cost.
-Compare with the current process and a simple non-simulation estimate. Label assumed
-AI effects as exploration unless observed outcomes exist.
+The planner selects a skilled assignee, human reviewer and human correction worker
+for each visible task. The kernel decomposes these into work, review and, when the
+seeded quality draw requires it, correction. It validates the entire batch, enforces
+task dependencies and resource slots, and computes operating time and effort. The
+fixed DAG and effort/quality assumptions are scenario inputs; a planner cannot
+invent tasks, capacity, effort savings or actual outcomes. Dynamic task generation
+would need an explicit domain contract and kernel validation before being allowed.
 
-Use stable task/command IDs and cached proposals for replay; record model/prompt
-versions, inputs, token cost, fallbacks and decision history. A graph checkpoint is
-execution state, not the simulation's source of truth. Use an appropriate persistent
-[LangGraph checkpointer](https://docs.langchain.com/oss/python/langgraph/persistence)
-and make command application idempotent. Test crash recovery and invariance to worker
-completion order before allowing concurrent graph execution to mutate a run.
+The rule and LangGraph adapters use the same deterministic assignment policy by
+default. Their matched outputs therefore test interchangeability, not an advantage
+of either framework. The optional LangGraph adapter uses `Send` fan-out and a local
+SQLite checkpointer; the application sees only portable `Observation` and `Plan`
+objects. See the official [worker pattern](https://docs.langchain.com/oss/python/langgraph/workflows-agents)
+and [checkpoint documentation](https://docs.langchain.com/oss/python/langgraph/persistence).
+No LLM service or key is needed for this example.
 
-Extract these boundaries one at a time, keeping existing instance outputs stable.
-Add LangGraph as an optional dependency when that vertical slice is implemented;
-there is no need to rewrite all four simulation models or maintain a second platform.
+### Switching frameworks
+
+LangGraph is one adapter, not the platform's task-planning foundation. A separately
+installed package can provide `create(*, checkpoint_dir, **options)` returning the
+`TaskPlanner` contract, selected with `--planner package.module:create`. It can use
+Microsoft Agent Framework, another SDK or ordinary Python internally. Microsoft
+provides its own [workflow/executor model](https://learn.microsoft.com/en-us/agent-framework/workflows/workflows);
+that state and its async execution belong inside the adapter. A Microsoft SDK
+adapter is not bundled or claimed to have been tested here. The external-factory
+contract is tested with a substitute package, independently of LangGraph.
+
+An adapter returns stable command IDs, typed assignments, model/prompt identity,
+usage/cost metadata and any fallback. It must change its identity when its policy,
+prompt, model settings or behavior changes. Unknown usage is `null`, never an
+assumed free call. SDK messages, graph nodes, thread IDs and checkpoints are not
+business-domain types. The builtin LangGraph custom-worker hook records its supplied
+worker identity; unknown usage stays null. A production model adapter should gather
+provider usage and populate the complete `Plan` metadata.
+
+### Time, evidence and recovery
+
+The snapshot rejects missing availability timestamps and filters both effective and
+available dates. An announced future arrival is a scenario input, not later observed
+work. Resource efficiencies and quality rates are authored assumptions. Actual
+outcomes are absent from the planner contract. This boundary applies to the new
+workflow, not retroactively to the legacy market or federal datasets.
+
+Decisions are committed before kernel execution. A restart reuses that decision;
+repeated command IDs with identical payloads apply once, and conflicts fail. Each
+completed run stores its seed, kernel identity, events and outcomes. `--replay`
+recomputes and verifies it without any planner or credentials. SQLite also protects
+against conflicting concurrent journal writes; this local demo is not a distributed
+exactly-once provider-call system. A worker interrupted before its checkpoint may
+be invoked again and must keep external side effects idempotent.
+
+LangGraph resumes unfinished workers from its own durable checkpoint. Its execution
+state is separate from the simulation checkpoint. Tests cover interrupted workers,
+restart after decision commit, persistence across processes, reversed proposals and
+parallel versus serial workers. Framework concurrency never creates staff capacity;
+network latency never becomes business duration. The computed workflow outcomes
+are completed work, throughput, mean elapsed time, staff effort, correction rate
+and assumed AI service cost. Model planning cost is recorded separately.

@@ -66,6 +66,15 @@ The `openrouter` instance needs a free OpenRouter API key and is fetched separat
 See [setup and reproduction](docs/setup.md) for the full sequence, individual steps,
 data verification, and browser checks.
 
+## Task-planner architecture
+
+The shared application layer uses ports and adapters. A separate authored workflow
+example supports a deterministic planner, an optional LangGraph adapter and external
+planner packages through the same interface. LangGraph is not required by the
+simulation core; a Microsoft Agent Framework adapter can use the external-package
+contract. See [the runnable example](examples/README.md) and
+[architecture](docs/architecture.md#9-extension-design-ports-and-adapters).
+
 ## Verification
 
 After the instances required by the data tests have run:

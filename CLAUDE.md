@@ -71,6 +71,10 @@ CLAUDE.md, README.md          this guide; product summary and quickstart
 docs/                         setup, architecture, contracts, ui, validation; literature/foundations.md
 orgsim/                       the platform package (Python 3.12, FastAPI)
   instances.py                instance discovery (InstanceContext: paths, meta, yaml())
+  application/                framework-independent ports, simulation and workflow services
+  adapters/                   existing-instance adapters, snapshots, durable journal, optional task planners
+  composition.py              binds instance services to their adapters
+  workflow/                   typed authored task contracts, capacity/review/correction kernel and CLI
   kernel/                     clock (hourly ticks), scheduler, capacity pools, World protocol
   ontology/                   schema.py (concepts + relations with definitions), bindings.py (instance bindings -> graph),
                               onet.py (O*NET 31.0 loader), people.py (data graph: people and connections),
@@ -84,6 +88,7 @@ orgsim/                       the platform package (Python 3.12, FastAPI)
   store/                      run writer/reader (parquet trace, summary/metrics/twins json), run listing
   server/app.py               the API (docstring lists every endpoint) and static UI serving (no-cache headers)
   cli.py                      orgsim instances|validate|ingest|run|evaluate|explore|insights|demo|serve
+examples/                     authored task workflow and adapter instructions; separate from real-data validation
 ui/                           build-free shell: index.html, theme.css (tokens), app.js (router), api.js,
                               components/ (ui, chart, grid, graph, kpi, markdown), pages/, assets/logo.svg,
                               dev/smoke.html (+ fixtures)
@@ -121,6 +126,11 @@ Rules of thumb: platform code never contains instance logic; if two instances co
   in `ui/theme.css` (dark by default, zinc + emerald, logo and wordmark in `index.html`). No build step, no node.
   The server stamps module URLs with a version and sends no-cache headers, so edits show after a normal reload.
 - **Change a contract** (file shape, endpoint): update `docs/contracts.md` in the same change.
+- **Add a task planner**: implement `TaskPlanner[Observation, Plan]` in an adapter, selected through
+  `orgsim workflow --planner package.module:factory`. Keep LangGraph, Microsoft Agent Framework and other
+  SDK types out of `application/` and the workflow kernel. See `examples/README.md`; the optional LangGraph
+  adapter is a reference implementation, not the only supported architecture. The eight instance models
+  retain their existing seat policies and numerical behavior.
 
 ## How to verify (do all three before saying something works)
 

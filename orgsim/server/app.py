@@ -54,7 +54,7 @@ from ..ontology.bindings import build_graph, validate
 from ..ontology.schema import schema_graph
 from ..ontology.system import instance_concepts
 from ..scenarios import list_scenarios, load_scenario, scenario_roles
-from ..worlds import world_module
+from ..composition import instance_service
 from ..store import RunReader, list_runs
 
 app = FastAPI(title="orgsim", version="0.1.0")
@@ -139,7 +139,7 @@ def instances() -> list[dict]:
         runs = list_runs(i.id)
         hero = None
         try:
-            hero = world_module(i).results_view(i).get("hero")
+            hero = instance_service(i).results().get("hero")
         except Exception:  # noqa: BLE001  (no evaluation yet: the card shows the problem and the intro only)
             hero = None
         scenarios = list_scenarios(i)
@@ -487,7 +487,7 @@ def evaluation(instance_id: str) -> Any:
 def results(instance_id: str) -> dict:
     ctx = _ctx(instance_id)
     try:
-        return world_module(ctx).results_view(ctx)
+        return instance_service(ctx).results()
     except FileNotFoundError as e:
         raise HTTPException(404, f"results need an evaluation and runs: {e}")
 

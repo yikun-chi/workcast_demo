@@ -3,6 +3,9 @@
 The agreements between the platform package `orgsim/`, the instances under `instances/` and the UI under `ui/`.
 Change a contract here in the same change that alters it.
 
+Application and planner extension contracts are in section 10. Existing instance
+files and HTTP response shapes are unchanged by the application-service boundary.
+
 ## 1. Instance folder
 
 `instances/<id>/instance.yaml` must include `id`, `title`, `company`, `problem` (the business question, one
@@ -217,3 +220,84 @@ same API and should load `/ui/theme.css`.
   by_group}], sentiment: {distribution, by_group}, key_insights}}, comparison: {sentiment, topics, key_insights}}`.
 
 The full endpoint list is the docstring of `orgsim/server/app.py`; interactive docs at `/docs` when serving.
+
+
+## 10. Application ports and task-planner extensions
+
+`orgsim/application/ports.py` defines structural Python protocols. The composition
+root binds `SimulationService` to a `SimulationModel`, `RunRepository`,
+`OutcomeScorer` and `ResultsPresenter`. A run begins with `RunRepository.begin`,
+passes its sink to `SimulationModel.run`, then publishes the summary on success or
+calls `abort` on failure. Existing world modules remain supported through
+`orgsim/adapters/instances.py`, including their internal batch evaluators. CLI,
+HTTP Results and alternative execution use this service without changing their
+existing file/API shapes.
+
+The separate authored workflow uses `DataSnapshot[Observation]`,
+`TaskPlanner[Observation, Plan]` and `DecisionRepository`. SDK types do not appear in
+these contracts. JSON models in `orgsim/workflow/contracts.py` forbid unknown
+fields, non-finite floats and invalid ranges; timestamps require a timezone.
+
+| Object | Required information |
+|---|---|
+| `WorkflowSpec` | `as_of`, `records`, `resources`, `horizon_h`; integer `seed` defaults to 1 |
+| `TaskRecord` | `task`, `effective_at`, `available_at`; neither timestamp is inferred |
+| `Task` | `id`, `skill`, positive `work_h`, `review_h`, `rework_h`; optional `arrival_h`, `error_probability`, `depends_on` |
+| `Resource` | `id`, `kind` (`human` or `ai`), `skills`; positive integer `capacity`, positive `speed`, nonnegative `hourly_cost`, `error_multiplier` |
+| `Observation` | `as_of`, visible `tasks`, scenario `resources`, `horizon_h`; no actual outcomes or realized quality draws |
+| `Proposal` | `command_id`, `task_id`, `assignee_id`, `reviewer_id`, `correction_assignee_id`; optional `rationale` |
+| `Plan` | `proposals`, `model`, `prompt_version`; optional `input_tokens`, `output_tokens`, `planning_cost`, `fallback` |
+
+`RecordSnapshot.read(as_of)` admits only records whose effective **and** availability
+times are at or before the cutoff. For a task with multiple versions, it selects the
+latest available version, breaking ties by effective time; conflicting versions
+with identical timestamps fail. Missing dependencies and dependency cycles fail.
+Resources and future announced arrival hours are explicit scenario assumptions.
+This contract does not automatically repair availability issues in legacy datasets.
+
+A planner exposes `identity: dict[str, str]` and
+`plan(observation: Observation) -> Plan`. Identity must describe the adapter,
+policy/model/prompt/settings that determine behavior. `command_id(observation,
+task_id)` supplies the stable ID. The kernel requires exactly one assignment for
+every visible task, qualified workers and human review/correction. Identical
+repeated commands are deduplicated; conflicting reuse, incomplete coverage and
+assignments for a different snapshot fail before scheduling. Planners cannot
+change task effort, dependencies or resource capacity. Unknown planning usage/cost
+is null; the deterministic fixtures explicitly record zero.
+
+`load_planner` supports `rule`, optional `langgraph`, and an installed
+`module:factory`. An external factory receives `checkpoint_dir: Path` and its
+JSON options, returning the same planner contract. This is trusted local CLI
+configuration, not an HTTP code-loading endpoint. A Microsoft Agent Framework
+adapter can be implemented behind it; none is bundled. See
+[the extension example](../examples/README.md).
+
+`DecisionRepository.read(kind, key)` and `write_once(kind, key, value)` persist
+portable JSON. Identical writes are idempotent; different content at an existing
+key is an error. The local SQLite schema stores:
+
+- `decision`: observation, planner identity and accepted plan, keyed by their
+  observation/identity digest; committed before simulation execution.
+- `run`: run key, decision key and deterministic kernel result (seed, kernel
+  identity, applied command IDs, events and outcomes). Its key includes decision,
+  seed and kernel identity.
+
+`runs/workflow/decisions.sqlite` owns this journal. `langgraph.sqlite` holds only
+framework execution checkpoints. A completed run also has `<run-key>.json` with
+its authored-exploration label, planner identity and kernel result. These paths
+are ignored by Git. No existing instance's evaluation or artifacts are overwritten.
+`orgsim workflow --replay <run-key>` recomputes the stored decision and checks exact
+result equality without loading a planner. Concurrent conflicting decisions fail;
+exactly-once execution of external provider calls is not guaranteed.
+
+Kernel event fields are `operation_id`, `task_id`, `stage` (work/review/correction),
+`resource_id`, `slot`, `start_h`, `end_h`, `performed_h`, `wait_h`, and `complete`.
+Time is continuous operating hours. `end_h` may exceed the horizon, but
+`performed_h` and costs are limited to work actually performed within it.
+Outcome fields are `completed_tasks`, `throughput_per_hour`, `mean_elapsed_h`,
+`staff_effort_h`, `correction_rate`, and `service_cost`. Mean elapsed time is among
+completed tasks; correction rate is among reviewed tasks; both are null with no
+eligible observations. Service cost uses assumed AI resource rates; human payroll
+and planning API cost are not included. Planning usage remains in the decision
+metadata. Every realized correction consumes human effort and is assumed to fix
+the error; no residual quality or calibrated organizational effect is claimed.
