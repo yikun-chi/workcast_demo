@@ -146,6 +146,8 @@ def main() -> None:
     lines += ["- Retrospective in part: the world type and the comparators were written with these series visible. The held-out cutoffs were run "
               "once after the design was frozen on the development cutoffs; no design choice was made on them.", ""]
     out = ROOT / "docs" / f"validation_{ctx.id}.md"
+    if (ctx.root / "data/sources.local.json").exists():
+        lines[2:2] = [f"These local results use a fresh API retrieval verified against `instances/{ctx.id}/data/sources.local.json`. The committed source manifest preserves the author's original snapshot; this is not its exact reproduction.", ""]
     out.write_text("\n".join(lines))
     # value inputs: the headline figures with their exact paths inside evaluation.json
     figs = []

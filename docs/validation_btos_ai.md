@@ -25,7 +25,7 @@ Accuracy, 100 x (1 - error / mean actual):
 | Outcome | Mean actual (pp) | Simulation | No change | Recent average | Linear trend | Damped trend | Bass diffusion |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | 3 months ahead (6 periods) | 8.83 | 87.4% | 86.0% | 82.5% | 85.0% | 86.2% | 86.5% |
-| 6 months ahead (13 periods) | 9.84 | 82.4% | 73.4% | 69.4% | 77.9% | 75.3% | 79.8% |
+| 6 months ahead (13 periods) | 9.84 | 82.4% | 73.4% | 69.4% | 77.9% | 75.3% | 79.9% |
 | Headline | 9.25 | 85.2% | 80.5% | 76.8% | 81.9% | 81.4% | 83.6% |
 
 The simulation's 90% range contained the actual outcome in 82% of predictions 3 months ahead (6 periods), 73% of predictions 6 months ahead (13 periods).
@@ -43,7 +43,7 @@ Accuracy, 100 x (1 - error / mean actual):
 | Outcome | Mean actual (pp) | Simulation | No change | Recent average | Linear trend | Damped trend | Bass diffusion |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | 3 months ahead (6 periods) | 8.18 | 87.0% | 85.4% | 82.1% | 85.3% | 85.5% | 86.2% |
-| 6 months ahead (13 periods) | 8.86 | 83.2% | 75.2% | 71.1% | 79.7% | 76.6% | 80.5% |
+| 6 months ahead (13 periods) | 8.86 | 83.2% | 75.2% | 71.1% | 79.7% | 76.6% | 80.4% |
 | Headline | 8.48 | 85.2% | 80.7% | 77.1% | 82.7% | 81.4% | 83.5% |
 
 ## Development cutoffs

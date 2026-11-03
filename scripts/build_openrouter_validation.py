@@ -189,6 +189,8 @@ def build() -> None:
              "providers count tokens with different tokenizers; spend is at list prices, and caching and discounts make realised spend lower. "
              "The alternative's size depends on an authored price sensitivity (`calibration/market.yaml`). A language-model buyer seat that judges new "
              "models is available as a configuration change; its measured result is in `docs/plans/buyer_seat_protocol.md`.", ""]
+    if (ROOT / "instances/openrouter/data/sources.local.json").exists():
+        text[2:2] = ["These local results use a fresh API retrieval verified against `instances/openrouter/data/sources.local.json`. The committed source manifest preserves the author's original snapshot; this is not its exact reproduction.", ""]
     (ROOT / "docs/validation_openrouter.md").write_text("\n".join(text))
     print("wrote docs/validation_openrouter.md")
 

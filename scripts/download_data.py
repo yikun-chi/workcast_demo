@@ -186,7 +186,17 @@ def snapshot_instance(name: str, verify_only: bool, refresh: bool) -> None:
             verify(safe_path(root, entry["path"]), entry["sha256"])
         except FileNotFoundError as exc:
             raise FileNotFoundError(f"{exc}. Obtain the original snapshot, or use --refresh for a new retrieval.") from exc
-    missing = {e["path"] for e in pinned["files"]} - {e["path"] for e in manifest["files"]}
+    expected = {e["path"] for e in pinned["files"]}
+    present = {e["path"] for e in manifest["files"]}
+    if refresh and name == "openrouter":
+        # These are retrieval-date snapshots, so a fresh retrieval has new names.
+        # Historical app/ranking windows and archived model captures stay required.
+        dynamic = ("data/raw/probe/", "data/raw/session_cost/", "data/raw/wayback/cdx_")
+        expected = {p for p in expected if not p.startswith(dynamic)}
+        for prefix in dynamic:
+            if not any(p.startswith(prefix) for p in present):
+                raise RuntimeError(f"{name}: local retrieval incomplete (missing {prefix}); rerun --refresh")
+    missing = expected - present
     if missing:
         raise RuntimeError(f"{name}: local retrieval incomplete ({len(missing)} pinned paths absent); rerun --refresh")
     mode = "new local snapshot (re-evaluate; not exact reproduction)" if refresh else "published snapshot"

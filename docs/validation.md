@@ -78,6 +78,29 @@ Task shares are authored in the role definitions; hours are modeled from schedul
 
 [Noy & Zhang (2023): AI assistance on professional writing tasks](https://doi.org/10.1126/science.adh2586). Motivates a task-time assumption; does not identify effects on these employees. [Brynjolfsson, Li & Raymond (2025): AI assistance in customer support](https://doi.org/10.1093/qje/qjae044). Evidence from a different employer; effects varied by experience. No retention effect is transferred.
 
+## bpi19: Exploratory alternative: AI invoice assistant
+
+Use AI to extract invoice details and suggest entries, with human review and correction. Keep observed staffing, incoming orders, matching rules, and payment dates. Assistance changes the human effort needed for invoice entry; the simulation then follows the effect on queues and completion. These are exploratory assumptions applied to the historical operation, not measured AI results from this company.
+
+
+12 matched simulation comparisons. No observed AI outcome is available.
+
+| Outcome | Current policy | AI alternative | Difference |
+|---|---:|---:|---:|
+| Human effort for the work performed | 3103.68 hours | 3066.23 hours | -37.45 hours |
+| Live items completed in 14 days | 11.79 % | 11.80 % | +0.01 pp |
+| Median cycle time of completed items | 1715.75 hours | 1716.72 hours | +0.97 hours |
+| Mean wait for human capacity | 6.01 hours | 5.99 hours | -0.02 hours |
+| Invoice clerk capacity used | 29.39 % | 26.84 % | -2.55 pp |
+
+All five settings below are editable scenario assumptions, not estimates fitted to procurement outcomes.
+Coverage 60%; time saved before review 40%; review effort 15%; correction rate 10%; correction effort 100% of the task's ordinary effort.
+
+Human review and correction are included as expected effort. The model assumes errors are corrected before an entry completes; residual errors, AI operating costs, and training costs are not estimated. It does not shorten vendor delays or payment calendars. Human hours are modeled effort inferred from event throughput, not measured time sheets.
+
+
+[Noy & Zhang (2023): AI assistance on professional writing tasks](https://doi.org/10.1126/science.adh2586). Motivates a task-time assumption; does not estimate invoice-processing effects.
+
 ## Reproduction
 
 Install dependencies and download the pinned inputs first; see [setup](setup.md). These commands normalize the data, regenerate both evaluations and reports, and verify the results.

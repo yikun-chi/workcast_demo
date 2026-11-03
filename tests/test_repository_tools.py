@@ -62,3 +62,26 @@ def test_fresh_snapshot_keeps_published_hashes_and_rejects_incomplete_retrieval(
     local.write_text(json.dumps({"files": entries[:1]}))
     with pytest.raises(RuntimeError, match="incomplete"):
         module.snapshot_instance("so_chatgpt", verify_only=True, refresh=True)
+
+
+def test_openrouter_refresh_accepts_new_retrieval_dates_but_requires_history(tmp_path, monkeypatch):
+    module = script("download_data")
+    monkeypatch.setattr(module, "ROOT", tmp_path)
+    root = tmp_path / "instances/openrouter"
+    (root / "manifests").mkdir(parents=True)
+    stable = "data/raw/apps/weekly/2025-01-06_o0.json"
+    old = [stable, "data/raw/probe/latest_2026-10-27.json", "data/raw/session_cost/2026-10-27/o0.json",
+           "data/raw/wayback/cdx_2026-10-27.json"]
+    (root / "manifests/sources.json").write_text(json.dumps({"files": [{"path": p} for p in old]}))
+    files = []
+    for path in (stable, *(p.replace("2026-10-27", "2026-11-03") for p in old[1:])):
+        target = root / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text('{}')
+        files.append({"path": path, "sha256": module.digest(target)})
+    local = root / "data/sources.local.json"
+    local.write_text(json.dumps({"files": files}))
+    module.snapshot_instance("openrouter", verify_only=True, refresh=True)
+    local.write_text(json.dumps({"files": files[1:]}))
+    with pytest.raises(RuntimeError, match="incomplete"):
+        module.snapshot_instance("openrouter", verify_only=True, refresh=True)
