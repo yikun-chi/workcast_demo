@@ -204,6 +204,15 @@ do not overwrite user changes. Read [README.md](README.md) for commands and
 - Model, input and calibration changes can invalidate saved AI comparisons through
   fingerprints. Re-evaluate affected behavior as needed; do not remove staleness
   checks to make an old result appear current.
+- **Run-folder cleanup:** preserve runs referenced by current evaluations,
+  explorations, insights, validation records, reports and latest pointers, plus the
+  latest completed run per scenario. Resolve IDs across scenario folders: federal
+  evaluations also reference `development` runs. Remove only unreferenced obsolete
+  or abandoned runs after checking for active jobs; compare retained file hashes
+  and served Results/Insights before and after. Preserve workflow replay journals.
+  [Issue #11](https://github.com/yikun-chi/workcast_demo/issues/11) records existing
+  Stack Overflow run-ID collisions; deleting duplicate references does not repair
+  overwritten artifacts.
 - **Documentation-only work:** check local links/anchors, example paths and CLI
   flags, search for stale references and run `git diff --check`. Do not add tests
   that merely mirror prose or claim unchanged runtime behavior was retested.
