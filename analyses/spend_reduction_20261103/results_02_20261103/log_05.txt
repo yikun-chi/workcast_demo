@@ -1,0 +1,23 @@
+/Volumes/PsychDynamicsData/workcast_spend/spend_reduction_20261103/05_version_lag_lever.py:45: FutureWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  by = ok.groupby('family').apply(lambda g: pd.Series({
+                                                                            0
+weeks                                                2026-09-28 to 2026-10-19
+family_tokens_share_of_market                                        0.455962
+lagged_token_share_within_families                                    0.36306
+lagged_spend_share_within_families                                   0.222807
+spend_change_all_families                                            0.039063
+spend_change_on_lagged_tokens                                        0.175324
+spend_change_families_where_newest_is_cheaper                        0.039063
+spend_change_on_lagged_tokens_cheaper_families_only                 -0.156426
+           family                                newest       tokens  lagged_token_share        spend     cf_spend  spend_change  lagged_spend_change
+      claude-opus    anthropic/claude-opus-5.5-20260921 2.489502e+13               0.119 1.271526e+14 1.234793e+14        -0.029               -0.200
+    claude-sonnet  anthropic/claude-sonnet-5.5-20260928 1.134503e+13               0.285 2.847021e+13 2.813568e+13        -0.012               -0.040
+deepseek-v4-flash deepseek/deepseek-v4.1-flash-20261017 1.026348e+14               0.637 1.112798e+13 1.816636e+13         0.632                1.554
+  deepseek-v4-pro     deepseek/deepseek-v4-pro-20260813 6.684654e+12               0.413 3.294950e+12 4.520139e+12         0.372                2.004
+     gemini-flash      google/gemini-3.8-flash-20260902 1.222484e+13               0.382 1.075099e+13 1.187706e+13         0.105                0.330
+            glm-5                 z-ai/glm-5.3-20260816 2.185375e+13               0.223 1.006537e+13 1.043339e+13         0.037                0.143
+         gpt-luna            openai/gpt-6-luna-20260922 3.744094e+13               0.257 5.950756e+12 4.642677e+12        -0.220               -0.523
+          gpt-sol           openai/gpt-6.1-sol-20260929 1.379123e+13               0.450 3.597251e+13 3.420226e+13        -0.049               -0.103
+       minimax-m3   minimax/minimax-m3.1-flash-20261019 2.135315e+12               0.655 6.255531e+11 3.779508e+11        -0.396               -0.500
+       tencent-hy          tencent/hy4-preview-20260827 4.206214e+13               0.256 2.736981e+13 3.535819e+13         0.292                7.635
+      xiaomi-mimo       xiaomi/mimo-v2.6-flash-20260921 3.944650e+13               0.060 5.850635e+12 5.853861e+12         0.001                0.009

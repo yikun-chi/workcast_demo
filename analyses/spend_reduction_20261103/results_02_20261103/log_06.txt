@@ -1,0 +1,6 @@
+               expensive                     cheap  battles              note
+  claude-opus-4-20250514  claude-sonnet-4-20250514      351 under 500 battles
+claude-sonnet-4-20250514 claude-3-5-haiku-20241022      192 under 500 battles
+          gemini-2.5-pro          gemini-2.5-flash      308 under 500 battles
+           o3-2025-04-16        o4-mini-2025-04-16      212 under 500 battles
+      gpt-4.1-2025-04-14   gpt-4.1-mini-2025-04-14      135 under 500 battles

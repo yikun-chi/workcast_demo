@@ -1,0 +1,17 @@
+primary (Sonnet 5.5, agent mix, 0.60 -> 0.88): saving 57.6%, $1.149 -> $0.487 per million tokens
+start                          0.44          0.60          0.70       
+end                            0.88   0.90   0.88   0.90   0.88   0.90
+model                                                                 
+anthropic/claude-fable-5.1    0.706  0.706  0.604  0.604  0.494  0.494
+anthropic/claude-opus-5.5     0.682  0.682  0.576  0.576  0.466  0.466
+anthropic/claude-sonnet-5.5   0.682  0.682  0.576  0.576  0.466  0.466
+deepseek/deepseek-v4.1-flash  0.408  0.408  0.304  0.304  0.219  0.219
+google/gemini-3.8-flash       0.603  0.603  0.491  0.491  0.383  0.383
+openai/gpt-6-luna             0.635  0.635  0.525  0.525  0.415  0.415
+openai/gpt-6.1-sol            0.682  0.682  0.576  0.576  0.466  0.466
+session growth slopes by app (median over models):
+app
+claude-code     1.11
+codex           1.08
+hermes-agent    1.31
+kilo-code       1.47

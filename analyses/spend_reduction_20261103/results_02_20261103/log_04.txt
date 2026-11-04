@@ -1,0 +1,55 @@
+  benchmark ref_effort  count  median  min   max
+cursorbench       high     15   0.000  0.0 0.229
+cursorbench        max     12   0.000  0.0 0.704
+cursorbench     medium     15   0.000  0.0 0.250
+cursorbench      xhigh     13   0.000  0.0 0.431
+    deepswe       high     10   0.000  0.0 0.216
+    deepswe        max      8   0.463  0.0 0.590
+    deepswe     medium     10   0.000  0.0 0.000
+    deepswe      xhigh     10   0.311  0.0 0.465
+  benchmark                    model ref_effort chosen_effort  ref_score  chosen_score  saving
+cursorbench         claude-fable-5-1        max         xhigh      0.518         0.516   0.247
+cursorbench         claude-fable-5-1       high          high      0.492         0.492   0.000
+cursorbench         claude-haiku-5-5        max           max      0.484         0.484   0.000
+cursorbench         claude-haiku-5-5       high          high      0.423         0.423   0.000
+cursorbench            claude-opus-5        max          high      0.466         0.447   0.247
+cursorbench            claude-opus-5       high        medium      0.447         0.433   0.229
+cursorbench          claude-opus-5-5        max          high      0.578         0.560   0.704
+cursorbench          claude-opus-5-5       high          high      0.560         0.560   0.000
+cursorbench          claude-sonnet-5        max           max      0.341         0.341   0.000
+cursorbench          claude-sonnet-5       high          high      0.308         0.308   0.000
+cursorbench        claude-sonnet-5-5        max           max      0.555         0.555   0.000
+cursorbench        claude-sonnet-5-5       high          high      0.478         0.478   0.000
+cursorbench deepseek-v4.1-flash-1017        max        medium      0.477         0.463   0.184
+cursorbench deepseek-v4.1-flash-1017       high           low      0.456         0.449   0.221
+cursorbench           gemini-4-argon       high        medium      0.529         0.528   0.039
+cursorbench             gpt-5.6-luna        max           max      0.359         0.359   0.000
+cursorbench             gpt-5.6-luna       high          high      0.294         0.294   0.000
+cursorbench              gpt-5.6-sol        max           max      0.417         0.417   0.000
+cursorbench              gpt-5.6-sol       high          high      0.357         0.357   0.000
+cursorbench            gpt-5.6-terra        max           max      0.413         0.413   0.000
+cursorbench            gpt-5.6-terra       high          high      0.307         0.307   0.000
+cursorbench                 grok-4.6       high          high      0.404         0.404   0.000
+cursorbench                 grok-4.7       high          high      0.439         0.439   0.000
+cursorbench           muse-spark-1.3        max           max      0.416         0.416   0.000
+cursorbench           muse-spark-1.3       high        medium      0.334         0.326   0.102
+cursorbench          muse-wonder-1.0        max           max      0.504         0.504   0.000
+cursorbench          muse-wonder-1.0       high        medium      0.461         0.452   0.197
+    deepswe           claude-fable-5        max          high      0.697         0.686   0.576
+    deepswe           claude-fable-5       high          high      0.686         0.686   0.000
+    deepswe          claude-opus-4-8        max           max      0.590         0.590   0.000
+    deepswe          claude-opus-4-8       high        medium      0.518         0.487   0.196
+    deepswe            claude-opus-5        max          high      0.736         0.728   0.487
+    deepswe            claude-opus-5       high          high      0.728         0.728   0.000
+    deepswe          claude-sonnet-5        max         xhigh      0.538         0.497   0.550
+    deepswe          claude-sonnet-5       high          high      0.482         0.482   0.000
+    deepswe                  gpt-5.5       high          high      0.644         0.644   0.000
+    deepswe             gpt-5.6-luna        max           max      0.672         0.672   0.000
+    deepswe             gpt-5.6-luna       high          high      0.442         0.442   0.000
+    deepswe              gpt-5.6-sol        max         xhigh      0.727         0.707   0.439
+    deepswe              gpt-5.6-sol       high          high      0.694         0.694   0.000
+    deepswe            gpt-5.6-terra        max           max      0.696         0.696   0.000
+    deepswe            gpt-5.6-terra       high          high      0.538         0.538   0.000
+    deepswe              gpt-6-astra        max        medium      0.732         0.728   0.590
+    deepswe              gpt-6-astra       high        medium      0.732         0.728   0.216
+    deepswe                 grok-4.6       high        medium      0.652         0.675   0.213
