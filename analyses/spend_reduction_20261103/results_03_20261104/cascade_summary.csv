@@ -1,0 +1,5 @@
+verifier_accuracy,pairs_total,pairs_no_resolve_loss,pairs_saving_50_no_loss,median_saving_no_loss,best_pair,best_pair_saving,best_pair_resolve_change,chains_saving_50_no_loss,best_chain,best_chain_saving,best_chain_resolve_change
+1.0,55,55,6,0.09970499410951339,minimax-2-5-high -> claude-4-5-sonnet-high,0.5952388185807069,0.08400000000000007,7,gpt-5-mini -> minimax-2-5-high -> claude-4-5-sonnet-high,0.5950593230091585,0.09600000000000009
+0.95,55,55,4,0.09583995618499852,minimax-2-5-high -> claude-4-5-sonnet-high,0.5745748883985852,0.07779999999999998,12,gpt-5-mini -> minimax-2-5-high -> claude-4-5-sonnet-high,0.6067511754490287,0.07837000000000005
+0.9,55,53,3,0.09197491826048376,minimax-2-5-high -> claude-4-5-sonnet-high,0.5539109582164633,0.07160000000000022,12,gpt-5-mini -> minimax-2-5-high -> claude-4-5-sonnet-high,0.616455833445427,0.06108000000000002
+0.8,55,44,2,-0.052312621177833196,minimax-2-5-high -> claude-4-5-sonnet-high,0.5125830978522197,0.05920000000000003,11,gpt-5-mini -> minimax-2-5-high -> claude-4-5-sonnet-high,0.6299035661078083,0.02751999999999999

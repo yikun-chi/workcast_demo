@@ -1,0 +1,12 @@
+model,name,instances,resolved_pct_published,resolved_pct_file,mean_cost
+gpt-5-mini,GPT 5 mini,500,56.2,56.2,0.0472012191
+minimax-2-5-high,MiniMax M2.5 (high),500,75.8,75.8,0.073289987844
+kimi-k2-5-high,Kimi K2.5 (high),500,70.8,70.8,0.146553740744
+claude-4-5-haiku-high,Claude 4.5 Haiku (high),500,66.6,66.60000000000001,0.3309244361
+gemini-3-flash-high,Gemini 3 Flash (high),500,75.8,75.8,0.3559641308
+deepseek-3-2-high,DeepSeek V3.2 (high),500,70.0,70.0,0.4478464965000001
+gpt-5-2-high,GPT 5.2 (high),500,72.8,72.8,0.4735670176999999
+glm-5-high,GLM 5 (high),500,72.8,72.8,0.53438913622
+claude-4-6-opus,Claude 4.6 Opus,500,75.6,75.6,0.5515226445000001
+claude-4-5-sonnet-high,Claude 4.5 Sonnet (high),500,71.4,71.39999999999999,0.6578964984
+claude-4-5-opus-high,Claude 4.5 Opus (high),500,76.8,76.8,0.753907997
